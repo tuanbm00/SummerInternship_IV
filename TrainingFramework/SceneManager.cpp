@@ -3,10 +3,10 @@
 #include "ResourceManager.h"
 #include "Camera.h"
 #include "defines.h"
-#include <Collision/Shapes/b2CircleShape.h>
-#include <Dynamics/b2World.h>
 #include <iostream>
-#include <Box2D/Dynamics/b2Body.h>
+#include"box2d/b2_world.h"
+#include"box2d/b2_body.h"
+#include"box2d/b2_circle_shape.h"
 
 
 SceneManager::SceneManager(char* fileSM)
@@ -88,14 +88,26 @@ void SceneManager::ReadFile(FILE* f_SM)
 	fscanf(f_SM, "#Objects: %d\n", &numOfObjects);
 	for (register int i = 0; i < numOfObjects; i++) {
 		int ID, model, Textures, cubeTextures, texture, shader;
+		char type[128];
 		Vector3 Position, Rotation, Scale;
 
 		fscanf(f_SM, "ID %d\n", &ID);
 		std::cout << "ID: " << ID << std::endl;
-		fscanf(f_SM, "MODEL %d\n", &model);
-		std::cout << "Models: " << model << std::endl;
+		fscanf(f_SM, "TYPE %s\n", type);
+		Model* pModel;
+		if (strcmp(type, "SPRITE") == 0) {
+			float x, y, w, h, tw, th;
+			fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
+			pModel = new Model;
+			pModel->InitSprite(x, y, w, h, tw, th);
+		}
+		else {
+			fscanf(f_SM, "MODEL %d\n", &model);
+			std::cout << "Models: " << model << std::endl;
+			pModel = ResourceManager::GetInstance()->GetModelAtID(model);
+		}
 		fscanf(f_SM, "SHADER %d\n", &shader);
-		std::shared_ptr<Object> obj = std::make_shared<Object>(ID, (ResourceManager::GetInstance()->GetShaderAtID(shader)), ResourceManager::GetInstance()->GetModelAtID(model));
+		std::shared_ptr<Object> obj = std::make_shared<Object>(ID, (ResourceManager::GetInstance()->GetShaderAtID(shader)), pModel);
 
 		fscanf(f_SM, "TEXTURES %d\n", &Textures);
 		for (register int j = 0; j < Textures; j++) {

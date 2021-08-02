@@ -29,7 +29,7 @@ public:
 	float m_Horizontal, m_Vertical, m_Speed = 1.0f, m_rSpeed = 1.0f;
 	float m_rHorizontal, m_rVertical;
 	static Camera* GetInstance();
-
+	int i_state;
 	Matrix GetPerspective();
 	Matrix GetOrthographic();
 	Matrix GetViewMatrix();

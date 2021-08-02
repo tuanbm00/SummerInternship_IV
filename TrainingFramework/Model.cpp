@@ -5,6 +5,10 @@
 #include <iostream>
 
 
+Model::Model()
+{
+}
+
 Model::Model(int ID, char* srcModel) {
 	m_Id = ID;
 	strcpy(m_srcModel, srcModel);
@@ -20,6 +24,36 @@ Model::~Model() {
 int Model::Init() {
 	LoadModel();
 	return 0;
+}
+
+void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
+{
+	m_NumberOfVertices = 4;
+	verticesData = new Vertex[m_NumberOfVertices];
+	Vector2 origin = Vector2((spriteX+spriteW)/2, (spriteY+spriteH)/2);
+	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
+	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
+	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-(float)spriteW / 2, (float)spriteH / 2, 0.0f) - delta;
+	verticesData[3].pos = Vector3((float)spriteW / 2, (float)spriteH / 2, 0.0f) - delta;
+	verticesData[0].uv = Vector2((float)spriteX / textureW, (float)(spriteY + spriteH) / textureH);
+	verticesData[1].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)(spriteY + spriteH) / textureH);
+	verticesData[2].uv = Vector2((float)spriteX / textureW, (float)spriteY / textureH);
+	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
+
+	for (int i = 0; i < m_NumberOfVertices; i++) {
+		printf("%f %f %f\n", verticesData[i].pos.x, verticesData[i].pos.y, verticesData[i].pos.z);
+	}
+
+	indices = new int[6];
+	indices[0] = 0;
+	indices[1] = 3;
+	indices[2] = 1;
+	indices[3] = 0;
+	indices[4] = 2;
+	indices[5] = 3;
+	
+	m_NumberOfIndices = 6;
 }
 
 

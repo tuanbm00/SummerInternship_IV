@@ -21,6 +21,7 @@ public:
 	Model(int ID, char* srcModel);
 	~Model();
 	int Init();
+	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH);
 	int LoadModel();
 
 	int GetNumberofVertices() {

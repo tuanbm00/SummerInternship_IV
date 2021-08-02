@@ -38,8 +38,14 @@ int Object::Init() {
 
 	glGenBuffers(1, &iboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * m_Model->GetNumberofIndices(), m_Model->GetIndices(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Model->GetNumberofIndices() * sizeof(int), m_Model->GetIndices(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	
+	for (int i = 0; i < 4; i++) {
+		Vector4 v = Vector4(m_Model->GetVertices()[i].pos, 1.0) * m_WVP;
+		printf("%f %f %f %f\n", v.x, v.y, v.z, v.w);
+	}
 
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
@@ -112,18 +118,18 @@ void Object::Draw() {
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
 			if (m_Shader->m_uTextures[i] != -1) {
-				glUniform1i(m_Shader->m_uTextures[i], i);
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, TEXTURE0 + i);
+				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}
 	}
 
 	if (m_isCubeTexture) {
 		if (m_Shader->m_uCubeTexture != -1) {
-			glUniform1i(m_Shader->m_uCubeTexture, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, textureId[0]);
+			glUniform1i(m_Shader->m_uCubeTexture, 0);
 		}
 	}
 
@@ -158,8 +164,8 @@ void Object::UpdateWVP() {
 	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
 	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
-	//m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	if(Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	else if(Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::CleanUp() {

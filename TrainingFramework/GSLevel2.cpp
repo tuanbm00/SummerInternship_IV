@@ -1,6 +1,7 @@
 #include "GSLevel2.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "Camera.h"
 
 GSLevel2::GSLevel2() {
 	char* SM = "../Resources/Managers/SM2.txt";
@@ -17,6 +18,7 @@ void GSLevel2::Init() {
 }
 
 void GSLevel2::Draw() {
+	Camera::GetInstance()->i_state = 2;
 	m_SM->Draw();
 }
 

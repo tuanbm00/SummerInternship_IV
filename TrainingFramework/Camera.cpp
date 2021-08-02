@@ -11,6 +11,7 @@ Camera::Camera(void)
 	m_ViewMatrix.SetZero();
 	m_WorldMatrix.SetZero();
 	m_bIsChange = true;
+	i_state = 0;
 }
 
 Camera* Camera::GetInstance()
@@ -328,51 +329,32 @@ Matrix Camera::GetPerspective() {
 }
 
 Matrix Camera::GetOrthographic() {
-	Matrix S, T, P;
-	float left = m_Target.x - Globals::screenWidth / 2.0f, right = m_Target.x + Globals::screenWidth / 2.0f, top = m_Target.y - Globals::screenHeight / 2.0f, bottom = m_Target.y + Globals::screenHeight / 2.0f, nearc = m_Near, farc = m_Far;
-	S.m[0][0] = float(2) / (right - left);
-	S.m[0][1] = 0;
-	S.m[0][2] = 0;
-	S.m[0][3] = 0;
+	Matrix Omatrix;
+	float left = m_Target.x - (float)Globals::screenWidth / 2.0f;
+	float right = m_Target.x + (float)Globals::screenWidth / 2.0f;
+	float top = m_Target.y - (float)Globals::screenHeight / 2.0f;
+	float bottom = m_Target.y + (float)Globals::screenHeight / 2.0f;
+	float cfar = m_Far, cnear = m_Near;
+	Omatrix.m[0][0] = 2 / (right - left);
+	Omatrix.m[0][1] = 0;
+	Omatrix.m[0][2] = 0;
+	Omatrix.m[0][3] = -(right + left) / (right - left);
 
-	S.m[1][0] = 0;
-	S.m[1][1] = float(2) / (top - bottom);
-	S.m[1][2] = 0;
-	S.m[1][3] = 0;
+	Omatrix.m[1][0] = 0;
+	Omatrix.m[1][1] = 2 / (top - bottom);
+	Omatrix.m[1][2] = 0;
+	Omatrix.m[1][3] = -(top + bottom) / (top - bottom);
 
-	S.m[2][0] = 0;
-	S.m[2][1] = 0;
-	S.m[2][2] = float(-2) / (farc - nearc);
-	S.m[2][3] = 0;
+	Omatrix.m[2][0] = 0;
+	Omatrix.m[2][1] = 0;
+	Omatrix.m[2][2] = -2 / (cfar - cnear);
+	Omatrix.m[2][3] = -(cfar + cnear) / (cfar - cnear);
 
-	S.m[3][0] = 0;
-	S.m[3][1] = 0;
-	S.m[3][2] = 0;
-	S.m[3][3] = 1;
-
-	T.m[0][0] = 1;
-	T.m[0][1] = 0;
-	T.m[0][2] = 0;
-	T.m[0][3] = -(left + right) / 2;
-
-	T.m[1][0] = 0;
-	T.m[1][1] = 1;
-	T.m[1][2] = 0;
-	T.m[1][3] = -(top + bottom) / 2;
-
-	T.m[2][0] = 0;
-	T.m[2][1] = 0;
-	T.m[2][2] = -1;
-	T.m[2][3] = -(farc + nearc) / 2;
-
-	T.m[3][0] = 0;
-	T.m[3][1] = 0;
-	T.m[3][2] = 0;
-	T.m[3][3] = 1;
-
-	P = S * T;
-
-	return P;
+	Omatrix.m[3][0] = 0;
+	Omatrix.m[3][1] = 0;
+	Omatrix.m[3][2] = 0;
+	Omatrix.m[3][3] = 1;
+	return Omatrix;
 }
 
 Matrix Camera::RotationMatrixAroundY(float Angle) {
