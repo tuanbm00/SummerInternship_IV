@@ -26,11 +26,12 @@ void GSLevel1::Update(float deltaTime) {
 
 void GSLevel1::CleanUp() {
 	m_SM->CleanUp();
-	ResourceManager::GetInstance()->StopAllSound();
 }
 
 void GSLevel1::Resume() {
-	Init();
+	//Init();
+	ResourceManager::GetInstance()->StopAllSound();
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
 }
 
 void GSLevel1::Pause() {

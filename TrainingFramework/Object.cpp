@@ -158,7 +158,8 @@ void Object::UpdateWVP() {
 	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
 	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective()/* Camera::GetInstance()->GetOrthagraphic()*/;
+	//m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::CleanUp() {

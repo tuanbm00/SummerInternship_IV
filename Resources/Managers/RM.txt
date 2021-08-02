@@ -1,4 +1,4 @@
-#Models: 6
+#Models: 7
 ID 0
 FILE ../Resources/Models/Woman1.nfg
 ID 1
@@ -9,10 +9,12 @@ ID 3
 FILE ../Resources/Models/Train.nfg
 ID 4
 FILE ../Resources/Models/fire.nfg
+ID 5
+FILE ../Resources/Models/Sprite2D.nfg
 ID 999
 FILE ../Resources/Models/Terrain.nfg
 
-#2D Textures: 11
+#2D Textures: 12
 ID 0
 FILE ../Resources/Textures/Woman1.tga
 ID 1
@@ -25,6 +27,8 @@ ID 4
 FILE ../Resources/Textures/fire_mask.tga
 ID 5
 FILE ../Resources/Textures/DisplacementMap.tga
+ID 6
+FILE ../Resources/Textures/sprite_pinball.tga
 ID 9991
 FILE ..//Resources//Textures//Grass.tga
 ID 9992

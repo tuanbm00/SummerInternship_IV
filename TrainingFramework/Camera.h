@@ -31,7 +31,7 @@ public:
 	static Camera* GetInstance();
 
 	Matrix GetPerspective();
-	Matrix GetOrthagraphic();
+	Matrix GetOrthographic();
 	Matrix GetViewMatrix();
 
 	void Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed);
