@@ -70,7 +70,7 @@ void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 }
 
 void GSLevel2::OnMouseMoving(int X, int Y) {
-	printf("GSLevel2 - Mouse At: %d - %d!\n", X, Y);
+	//printf("GSLevel2 - Mouse At: %d - %d!\n", X, Y);
 }
 
 void GSLevel2::OnMouseButtonDown(int X, int Y, char Button) {

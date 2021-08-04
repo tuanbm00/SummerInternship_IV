@@ -1,10 +1,10 @@
 #Cameras: 1
 ID 0
-POSITION 0 0 1
-TARGET 0 0 0
+POSITION 1 0 5
+TARGET 1 0 0
 UP 0 1 0
 FOVY 1.0
-NEAR -0.1
+NEAR -1
 FAR 8
 MOVE_SPEED 10
 ROTATE_SPEED 3
@@ -20,14 +20,31 @@ TYPE POINT
 POS_DIR -20 2 20
 COLOR 1 0 0
 
-#Objects: 1
+#Objects: 2
 ID 0
 TYPE SPRITE
-COORD 0 0 480 854 480 854
+COORD 0 0 70 105 515 315
+ANIMATIONS 3
+animation ../Resources/Animation/Idle.txt speed 0.1
+animation ../Resources/Animation/RunFW.txt speed 0.05
+animation ../Resources/Animation/RunBW.txt speed 0.05
 SHADER 0
 TEXTURES 1
 TEXTURE 6
 CUBETEXTURES 0
 POSITION 0 0 0
 ROTATION 0 0 0
-SCALE 1 1 1
+SCALE 5 5 5
+
+ID 1
+TYPE SPRITE
+COORD 0 0 70 105 515 315
+ANIMATIONS 1 
+animation ../Resources/Animation/Idle.txt speed 0.2
+SHADER 0
+TEXTURES 1
+TEXTURE 6
+CUBETEXTURES 0
+POSITION 800 0 0
+ROTATION 0 0 0
+SCALE 5 5 5

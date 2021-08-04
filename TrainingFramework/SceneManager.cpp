@@ -96,15 +96,26 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf(f_SM, "TYPE %s\n", type);
 		Model* pModel;
 		if (strcmp(type, "SPRITE") == 0) {
-			float x, y, w, h, tw, th;
+			float x, y, w, h, tw, th, speed; char aniFile[128];
 			fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
-			pModel = new Model;
+			pModel = new Model();
 			pModel->InitSprite(x, y, w, h, tw, th);
+			int num_anim;
+			fscanf(f_SM, "ANIMATIONS %d\n", &num_anim);
+			if (num_anim > 0) {
+				for (int i = 0; i < num_anim; i++) {
+					fscanf(f_SM, "animation %s speed %f\n", aniFile, &speed);
+					Animation* anim = new Animation(aniFile);
+					anim->setAnimationSpeed(speed);
+					pModel->addAnimation(anim);
+				}
+			}
 		}
 		else {
 			fscanf(f_SM, "MODEL %d\n", &model);
 			std::cout << "Models: " << model << std::endl;
 			pModel = ResourceManager::GetInstance()->GetModelAtID(model);
+			pModel->b_IsAnimation = false;
 		}
 		fscanf(f_SM, "SHADER %d\n", &shader);
 		std::shared_ptr<Object> obj = std::make_shared<Object>(ID, (ResourceManager::GetInstance()->GetShaderAtID(shader)), pModel);
@@ -131,6 +142,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		obj->SetPosition(Position);
 		obj->SetScale(Scale);
 		obj->SetRotation(Rotation);
+		obj->InitWVP();
 		AddObject(obj);
 
 	}

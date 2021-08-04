@@ -30,6 +30,7 @@ public:
 	float m_rHorizontal, m_rVertical;
 	static Camera* GetInstance();
 	int i_state;
+	int getKeyPressed();
 	Matrix GetPerspective();
 	Matrix GetOrthographic();
 	Matrix GetViewMatrix();
@@ -41,7 +42,7 @@ public:
 	void Key(unsigned char key, bool isPressed);
 	void CheckMovement();
 	void MoveForward(float deltaTime);
-	void MoveRight(float deltaTime);
+	void MoveRight(float dis, int r);
 	void LookUp(float deltaTime);
 	void LookAround(float deltaTime);
 	Matrix RotationMatrixAroundX(float Angle);

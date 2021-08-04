@@ -44,7 +44,7 @@ void Camera::Update(float deltaTime) {
 	if (keyPressed) {
 		//Move
 		MoveForward(deltaTime);
-		MoveRight(deltaTime);
+		//MoveRight(deltaTime);
 
 		//Look
 		LookAround(deltaTime);
@@ -60,12 +60,7 @@ void Camera::CheckMovement() {
 	if (keyPressed & MOVE_BACKWARD) {
 		m_Vertical = -1;
 	}
-	if (keyPressed & MOVE_RIGHT) {
-		m_Horizontal = 1;
-	}
-	if (keyPressed & MOVE_LEFT) {
-		m_Horizontal = -1;
-	}
+	
 	if (keyPressed & ROTATE_UP) {
 		m_rVertical = 1;
 	}
@@ -164,17 +159,9 @@ void Camera::Key(unsigned char key, bool bIsPressed) {
 	}
 }
 
-void Camera::MoveRight(float deltaTime) {
-	if (m_Horizontal != 0) {
-		m_bIsChange = true;
-
-		Vector3 deltaMove = (m_Up.Cross((m_Position - m_Target).Normalize())).Normalize() * m_Speed * deltaTime * m_Horizontal;
-		m_Position += deltaMove;
-		m_Target += deltaMove;
-
-		//TPS
-		//m_TargetPosition += deltaMove;
-	}
+void Camera::MoveRight(float dis, int r) {
+	m_Position.x += dis*r;
+	m_Target.x = m_Position.x;
 }
 
 void Camera::MoveForward(float deltaTime) {
@@ -319,6 +306,11 @@ Matrix Camera::GetViewMatrix() {
 	//return m_iWorldMatrix;
 }
 
+int Camera::getKeyPressed()
+{
+	return keyPressed;
+}
+
 Matrix Camera::GetPerspective() {
 	if (m_bIsChangePers) {
 		float aspect = Globals::screenWidth / Globals::screenHeight;
@@ -330,10 +322,10 @@ Matrix Camera::GetPerspective() {
 
 Matrix Camera::GetOrthographic() {
 	Matrix Omatrix;
-	float left = m_Target.x - (float)Globals::screenWidth / 2.0f;
-	float right = m_Target.x + (float)Globals::screenWidth / 2.0f;
-	float top = m_Target.y - (float)Globals::screenHeight / 2.0f;
-	float bottom = m_Target.y + (float)Globals::screenHeight / 2.0f;
+	float left = -960.0f;
+	float right = 960.0f;
+	float top = -720.0f;
+	float bottom = 720.0f;
 	float cfar = m_Far, cnear = m_Near;
 	Omatrix.m[0][0] = 2 / (right - left);
 	Omatrix.m[0][1] = 0;

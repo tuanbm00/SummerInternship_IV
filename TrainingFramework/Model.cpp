@@ -7,9 +7,12 @@
 
 Model::Model()
 {
+	b_IsAnimation = true;
 }
 
+
 Model::Model(int ID, char* srcModel) {
+	b_IsAnimation = false;
 	m_Id = ID;
 	strcpy(m_srcModel, srcModel);
 	this->Init();
@@ -28,9 +31,10 @@ int Model::Init() {
 
 void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
 {
+	m_textureH = textureH; m_textureW = textureW;
 	m_NumberOfVertices = 4;
 	verticesData = new Vertex[m_NumberOfVertices];
-	Vector2 origin = Vector2((spriteX+spriteW)/2, (spriteY+spriteH)/2);
+	origin = Vector2((spriteX+spriteW)/2, (spriteY+spriteH)/2);
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
@@ -42,18 +46,27 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
 
 	for (int i = 0; i < m_NumberOfVertices; i++) {
-		printf("%f %f %f\n", verticesData[i].pos.x, verticesData[i].pos.y, verticesData[i].pos.z);
+		printf("first uv pos %f %f\n", verticesData[i].uv.x, verticesData[i].uv.y);
 	}
 
 	indices = new int[6];
 	indices[0] = 0;
-	indices[1] = 3;
-	indices[2] = 1;
+	indices[1] = 1;
+	indices[2] = 3;
 	indices[3] = 0;
 	indices[4] = 2;
 	indices[5] = 3;
 	
 	m_NumberOfIndices = 6;
+	glGenBuffers(1, &vboId);
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_NumberOfIndices * sizeof(int), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
@@ -95,53 +108,29 @@ int Model::LoadModel()
 
 	m_NumberOfIndices = numberOfIndices;
 	fclose(f_M);
-
-	/*FILE* f_M;
-	f_M = fopen(m_srcModel, "r+");
-	if (f_M == NULL) {
-		return false;
-	}
-
 	glGenBuffers(1, &vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	int numberOfVertices;
-	fscanf(f_M, "NrVertices: %d\n", &numberOfVertices);
-	if (numberOfVertices <= 0)
-		return false;
-
-	Vertex* verticesData = new Vertex[numberOfVertices];
-
-	for (int i = 0; i < numberOfVertices; ++i)
-	{
-		fscanf(f_M, "  %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n",
-			&verticesData[i].pos.x, &verticesData[i].pos.y, &verticesData[i].pos.z,
-			&verticesData[i].uv.x, &verticesData[i].uv.y);
-	}
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, verticesData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	delete[] verticesData;
 
 	glGenBuffers(1, &iboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	int numberOfIndices;
-	fscanf(f_M, "NrIndices: %d\n", &numberOfIndices);
-	if (numberOfIndices <= 0)
-	{
-		return 0;
-	}
-	int* indices = new int[numberOfIndices];
-	for (int i = 0; i < numberOfIndices; i += 3)
-	{
-		fscanf(f_M, "   %*d.    %d,    %d,    %d\n", &indices[i], &indices[i + 1], &indices[i + 2]);
-	}
-
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * numberOfIndices, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_NumberOfIndices * sizeof(int), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	delete[] indices;
+}
 
-	m_NumberOfIndices = numberOfIndices;
+void Model::setOrigin(Vector2 ori)
+{
+	origin = ori;
+}
 
-	fclose(f_M);*/
+void Model::addAnimation(Animation* anm)
+{
+	m_anim.push_back(anm);
+}
+
+void Model::updateAnimation(float deltaTime, AnimationType type)
+{
+	m_anim[type]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
 }
 

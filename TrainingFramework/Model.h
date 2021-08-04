@@ -2,6 +2,8 @@
 #include <fstream>
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Vertex.h";
+#include "Animation.h"
+#include <vector>
 
 class Model
 {
@@ -11,19 +13,24 @@ private:
 	
 	Vertex* verticesData;
 	int* indices;
-
+	std::vector<Animation*> m_anim;;
 	int m_Id;
 	char m_srcModel[250];
+	float m_textureW, m_textureH;
+	Vector2 origin;
 	
 public:
-	
+	GLuint vboId, iboId;
+	bool b_IsAnimation;
 	Model();
 	Model(int ID, char* srcModel);
 	~Model();
 	int Init();
 	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH);
 	int LoadModel();
-
+	void setOrigin(Vector2 ori);
+	void addAnimation(Animation* anm);
+	void updateAnimation(float deltaTime, AnimationType type);
 	int GetNumberofVertices() {
 		return m_NumberOfVertices;
 	}
@@ -34,5 +41,8 @@ public:
 	Vertex* GetVertices() { return verticesData; }
 	int GetID() { return m_Id; }
 	char* GetSource() { return m_srcModel; }
+	Vector2 getOrigin() {
+		return origin;
+	}
 };
 

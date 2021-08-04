@@ -93,6 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeTextures.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeTextures.h" />
@@ -203,6 +205,19 @@
     <Media Include="..\Resources\Sounds\laser2.mp3" />
     <Media Include="..\Resources\Sounds\shoot.wav" />
     <Media Include="..\Resources\Sounds\victory.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resources\Animation\bazoka.txt" />
+    <Text Include="..\Resources\Animation\Idle.txt" />
+    <Text Include="..\Resources\Animation\jump.txt" />
+    <Text Include="..\Resources\Animation\miku.txt" />
+    <Text Include="..\Resources\Animation\RunBW.txt" />
+    <Text Include="..\Resources\Animation\RunFW.txt" />
+    <Text Include="..\Resources\Animation\shot2.txt" />
+    <Text Include="..\Resources\Animation\sprites (2).txt" />
+    <Text Include="..\Resources\Managers\RM.txt" />
+    <Text Include="..\Resources\Managers\SM1.txt" />
+    <Text Include="..\Resources\Managers\SM2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

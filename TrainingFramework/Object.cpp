@@ -31,22 +31,6 @@ Object::~Object() {
 int Object::Init() {
 	m_CurrentTime = 0;
 
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_Model->GetNumberofVertices(), m_Model->GetVertices(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glGenBuffers(1, &iboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Model->GetNumberofIndices() * sizeof(int), m_Model->GetIndices(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	
-	for (int i = 0; i < 4; i++) {
-		Vector4 v = Vector4(m_Model->GetVertices()[i].pos, 1.0) * m_WVP;
-		printf("%f %f %f %f\n", v.x, v.y, v.z, v.w);
-	}
-
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
 			glGenTextures(1, &textureId[i]);
@@ -68,6 +52,20 @@ int Object::Init() {
 	return m_Shader->Init();
 }
 
+void Object::InitWVP()
+{
+	m_Model->setOrigin(Vector2(m_Position.x, m_Position.y));
+	Matrix Rx, Ry, Rz;
+	Matrix translationMatrix, scaleMatrix, rotationMatrix;
+	translationMatrix.SetTranslation(m_Position);
+	scaleMatrix.SetScale(m_Scale);
+	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
+	m_WorldMatrix = scaleMatrix * translationMatrix;
+
+	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+}
+
 void Object::Draw() {
 
 	glUseProgram(m_Shader->program);
@@ -78,13 +76,13 @@ void Object::Draw() {
 	if (m_Shader->m_Depth_Test != 0) {
 		glEnable(GL_DEPTH_TEST);
 	}else glDisable(GL_DEPTH_TEST);
-	if (m_Shader->m_Blend != 0) {
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	} else glDisable(GL_BLEND);
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -150,6 +148,35 @@ void Object::Draw() {
 
 void Object::Update(float deltaTime) {
 	m_CurrentTime += deltaTime;
+	AnimationType typ = Idle;
+	if (m_ObjectID == 0) {
+		int key = Camera::GetInstance()->getKeyPressed();
+		float dis = 500 * deltaTime;
+		if (key & MOVE_RIGHT) {
+			typ = RunFW;
+			m_Position.x += dis;
+			Matrix Rx, Ry, Rz;
+			Matrix translationMatrix, scaleMatrix, rotationMatrix;
+			translationMatrix.SetTranslation(m_Position);
+			scaleMatrix.SetScale(m_Scale);
+			rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
+			m_WorldMatrix = scaleMatrix * translationMatrix;
+			Camera::GetInstance()->MoveRight(dis, 1);
+		}
+		if (key & MOVE_LEFT) {
+			typ = RunBW;
+			m_Position.x -= dis;
+			Matrix Rx, Ry, Rz;
+			Matrix translationMatrix, scaleMatrix, rotationMatrix;
+			translationMatrix.SetTranslation(m_Position);
+			scaleMatrix.SetScale(m_Scale);
+			m_WorldMatrix = scaleMatrix * translationMatrix;
+			Camera::GetInstance()->MoveRight(dis, -1);
+		}
+	}
+	if (m_Model->b_IsAnimation == true) {
+		m_Model->updateAnimation(deltaTime, typ);
+	}
 	if (m_bIsTarget) {
 		SetPosition(Camera::GetInstance()->GetTarget());
 	}
@@ -157,15 +184,8 @@ void Object::Update(float deltaTime) {
 }
 
 void Object::UpdateWVP() {
-	Matrix Rx, Ry, Rz;
-	Matrix translationMatrix, scaleMatrix, rotationMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
-	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-
-	if(Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
-	else if(Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::CleanUp() {

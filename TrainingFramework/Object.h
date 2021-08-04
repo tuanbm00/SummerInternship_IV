@@ -33,6 +33,7 @@ public:
 	Object(int ID, Shaders* Shader, Model* Model);
 	~Object();
 	int Init();
+	void InitWVP();
 	void Draw();
 	void Update(float deltaTime);
 	void CleanUp();

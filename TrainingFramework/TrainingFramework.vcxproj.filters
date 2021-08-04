@@ -40,6 +40,9 @@
     <Filter Include="Source Files\GameStates">
       <UniqueIdentifier>{179fb3a7-71f1-45e3-bfdd-2696c9e88e9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Managers">
+      <UniqueIdentifier>{cffde45e-2a50-4668-9d5a-47a29ef27119}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrainingFramework.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="GSLevel2.cpp">
       <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GSLevel2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -336,5 +345,16 @@
     <Media Include="..\Resources\Sounds\victory.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resources\Managers\RM.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM1.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM2.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
   </ItemGroup>
 </Project>
