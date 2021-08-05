@@ -95,13 +95,17 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeTextures.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GSLevel1.cpp" />
     <ClCompile Include="GSLevel2.cpp" />
+    <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -113,15 +117,19 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeTextures.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="GSLevel1.h" />
     <ClInclude Include="GSLevel2.h" />
+    <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />

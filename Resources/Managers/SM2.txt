@@ -1,7 +1,7 @@
 #Cameras: 1
 ID 0
-POSITION 1 0 5
-TARGET 1 0 0
+POSITION 0 0 5
+TARGET 0 0 0
 UP 0 1 0
 FOVY 1.0
 NEAR -1
@@ -22,7 +22,7 @@ COLOR 1 0 0
 
 #Objects: 2
 ID 0
-TYPE SPRITE
+TYPE MAIN
 COORD 0 0 70 105 515 315
 ANIMATIONS 3
 animation ../Resources/Animation/Idle.txt speed 0.1
@@ -37,14 +37,14 @@ ROTATION 0 0 0
 SCALE 5 5 5
 
 ID 1
-TYPE SPRITE
+TYPE NPC
 COORD 0 0 70 105 515 315
-ANIMATIONS 1 
-animation ../Resources/Animation/Idle.txt speed 0.2
+ANIMATIONS 1
+animation ../Resources/Animation/Idle.txt speed 0.1
 SHADER 0
 TEXTURES 1
 TEXTURE 6
 CUBETEXTURES 0
-POSITION 800 0 0
+POSITION 2300 0 0
 ROTATION 0 0 0
 SCALE 5 5 5

@@ -61,18 +61,7 @@ void Camera::CheckMovement() {
 		m_Vertical = -1;
 	}
 	
-	if (keyPressed & ROTATE_UP) {
-		m_rVertical = 1;
-	}
-	if (keyPressed & ROTATE_DOWN) {
-		m_rVertical = -1;
-	}
-	if (keyPressed & ROTATE_RIGHT) {
-		m_rHorizontal = 1;
-	}
-	if (keyPressed & ROTATE_LEFT) {
-		m_rHorizontal = -1;
-	}
+	
 }
 
 void Camera::Key(unsigned char key, bool bIsPressed) {

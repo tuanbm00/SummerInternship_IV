@@ -6,10 +6,8 @@
 #include "defines.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
-Object::Object(int ID, Shaders *shader, Model *model) {
+Object::Object(int ID) {
 	m_ObjectID = ID;
-	m_Model = model;
-	m_Shader = shader;
 }
 
 void Object::SetTexture(Texture* texture) {
@@ -148,38 +146,13 @@ void Object::Draw() {
 
 void Object::Update(float deltaTime) {
 	m_CurrentTime += deltaTime;
-	AnimationType typ = Idle;
-	if (m_ObjectID == 0) {
-		int key = Camera::GetInstance()->getKeyPressed();
-		float dis = 500 * deltaTime;
-		if (key & MOVE_RIGHT) {
-			typ = RunFW;
-			m_Position.x += dis;
-			Matrix Rx, Ry, Rz;
-			Matrix translationMatrix, scaleMatrix, rotationMatrix;
-			translationMatrix.SetTranslation(m_Position);
-			scaleMatrix.SetScale(m_Scale);
-			rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
-			m_WorldMatrix = scaleMatrix * translationMatrix;
-			Camera::GetInstance()->MoveRight(dis, 1);
-		}
-		if (key & MOVE_LEFT) {
-			typ = RunBW;
-			m_Position.x -= dis;
-			Matrix Rx, Ry, Rz;
-			Matrix translationMatrix, scaleMatrix, rotationMatrix;
-			translationMatrix.SetTranslation(m_Position);
-			scaleMatrix.SetScale(m_Scale);
-			m_WorldMatrix = scaleMatrix * translationMatrix;
-			Camera::GetInstance()->MoveRight(dis, -1);
-		}
-	}
-	if (m_Model->b_IsAnimation == true) {
-		m_Model->updateAnimation(deltaTime, typ);
-	}
 	if (m_bIsTarget) {
 		SetPosition(Camera::GetInstance()->GetTarget());
 	}
+	Matrix translationMatrix, scaleMatrix;
+	translationMatrix.SetTranslation(m_Position);
+	scaleMatrix.SetScale(m_Scale);
+	m_WorldMatrix = scaleMatrix * translationMatrix;
 	UpdateWVP();
 }
 
@@ -200,8 +173,19 @@ void Object::CleanUp() {
 	glDisable(GL_BLEND);
 }
 
+void Object::setModel(Model* mmodel)
+{
+	m_Model = mmodel;
+}
+
+void Object::setShader(Shaders* mshader)
+{
+	m_Shader = mshader;
+}
+
 void Object::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
+	printf("set position %f %f\n", m_Position.x, m_Position.y);
 }
 
 void Object::SetPosition(Vector3 Position) {

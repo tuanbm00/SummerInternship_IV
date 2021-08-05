@@ -34,7 +34,7 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	m_textureH = textureH; m_textureW = textureW;
 	m_NumberOfVertices = 4;
 	verticesData = new Vertex[m_NumberOfVertices];
-	origin = Vector2((spriteX+spriteW)/2, (spriteY+spriteH)/2);
+	origin = Vector2(0,0);
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
@@ -121,7 +121,7 @@ int Model::LoadModel()
 
 void Model::setOrigin(Vector2 ori)
 {
-	origin = ori;
+	origin = Vector2(0,0);
 }
 
 void Model::addAnimation(Animation* anm)

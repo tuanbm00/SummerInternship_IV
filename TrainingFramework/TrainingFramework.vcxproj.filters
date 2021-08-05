@@ -43,6 +43,9 @@
     <Filter Include="Resources\Managers">
       <UniqueIdentifier>{cffde45e-2a50-4668-9d5a-47a29ef27119}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Animation">
+      <UniqueIdentifier>{5c349ce2-0119-4cc0-9378-e435c850d9fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrainingFramework.cpp">
@@ -90,7 +93,19 @@
     <ClCompile Include="GSLevel2.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCharacter.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
     <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +171,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -355,6 +382,30 @@
     </Text>
     <Text Include="..\Resources\Managers\SM2.txt">
       <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\bazoka.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Idle.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\jump.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\miku.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\RunBW.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\RunFW.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\shot2.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\sprites (2).txt">
+      <Filter>Resources\Animation</Filter>
     </Text>
   </ItemGroup>
 </Project>
