@@ -15,7 +15,7 @@ GSLevel2::~GSLevel2() {
 void GSLevel2::Init() {
 	m_SM->SetFileManager("../Resources/Managers/SM2.txt");
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 
 	auto bullet = std::make_shared<Bullet>(1);
 	m_ListBullet.push_back(bullet);
