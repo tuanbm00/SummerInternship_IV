@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Camera.h"
 #include "Globals.h"
-#include "defines.h"
+#include "define.h"
 
 Camera* Camera::s_Instance = NULL;
 
@@ -54,12 +54,12 @@ void Camera::Update(float deltaTime) {
 }
 
 void Camera::CheckMovement() {
-	if (keyPressed & MOVE_FORWARD) {
-		m_Vertical = 1;
-	}
-	if (keyPressed & MOVE_BACKWARD) {
-		m_Vertical = -1;
-	}
+	//if (keyPressed & MOVE_FORWARD) {
+	//	m_Vertical = 1;
+	//}
+	//if (keyPressed & MOVE_BACKWARD) {
+	//	m_Vertical = -1;
+	//}
 	
 	
 }
@@ -68,14 +68,6 @@ void Camera::Key(unsigned char key, bool bIsPressed) {
 	if (bIsPressed) {
 		switch (key)
 		{
-		case 'W':
-		case 'w':
-			keyPressed = keyPressed | MOVE_FORWARD;
-			break;
-		case 'S':
-		case 's':
-			keyPressed = keyPressed | MOVE_BACKWARD;
-			break;
 		case 'A':
 		case 'a':
 			keyPressed = keyPressed | MOVE_LEFT;
@@ -88,35 +80,11 @@ void Camera::Key(unsigned char key, bool bIsPressed) {
 		case 'k':
 			m_TargetPosition = m_Target;
 			break;
-
-		case LEFT_ARROW:
-			keyPressed = keyPressed | ROTATE_LEFT;
-			break;
-		case UP_ARROW:
-			keyPressed = keyPressed | ROTATE_UP;
-			break;
-		case RIGHT_ARROW:
-			
-			keyPressed = keyPressed | ROTATE_RIGHT;
-			break;
-		case DOWN_ARROW:
-			keyPressed = keyPressed | ROTATE_DOWN;
-			break;
 		}
 	}
 	else {
 		switch (key)
 		{
-		case 'W':
-		case 'w':
-			keyPressed = keyPressed ^ MOVE_FORWARD;
-			m_Vertical = 0;
-			break;
-		case 'S':
-		case 's':
-			keyPressed = keyPressed ^ MOVE_BACKWARD;
-			m_Vertical = 0;
-			break;
 		case 'A':
 		case 'a':
 			keyPressed = keyPressed ^ MOVE_LEFT;
@@ -126,23 +94,6 @@ void Camera::Key(unsigned char key, bool bIsPressed) {
 		case 'd':
 			keyPressed = keyPressed ^ MOVE_RIGHT;
 			m_Horizontal = 0;
-			break;
-
-		case LEFT_ARROW:
-			keyPressed = keyPressed ^ ROTATE_LEFT;
-			m_rHorizontal = 0;
-			break;
-		case UP_ARROW:
-			keyPressed = keyPressed ^ ROTATE_UP;
-			m_rVertical = 0;
-			break;					
-		case RIGHT_ARROW:			
-			keyPressed = keyPressed ^ ROTATE_RIGHT;
-			m_rHorizontal = 0;
-			break;					
-		case DOWN_ARROW:			
-			keyPressed = keyPressed ^ ROTATE_DOWN;
-			m_rVertical = 0;
 			break;
 		}
 	}

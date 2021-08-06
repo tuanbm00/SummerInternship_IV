@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
-#include "defines.h"
+#include "define.h"
 #include <iostream>
 
 

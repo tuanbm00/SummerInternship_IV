@@ -1,6 +1,6 @@
 #include "MainCharacter.h"
 #include "Camera.h"
-#include "defines.h"
+#include "define.h"
 
 void MainCharacter::Update(float deltaTime)
 {

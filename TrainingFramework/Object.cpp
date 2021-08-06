@@ -3,7 +3,7 @@
 #include "Object.h"
 #include "Vertex.h"
 #include "Camera.h"
-#include "defines.h"
+#include "define.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
 Object::Object(int ID) {
@@ -115,7 +115,7 @@ void Object::Draw() {
 		for (register int i = 0; i < textureId.size(); i++) {
 			if (m_Shader->m_uTextures[i] != -1) {
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, textureId[i]);
 				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}

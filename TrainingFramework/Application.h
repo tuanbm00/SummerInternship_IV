@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include "defines.h"
+#include "define.h"
 
 
 class Application : public Singleton<Application>
