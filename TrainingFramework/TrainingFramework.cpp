@@ -78,7 +78,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	esInitContext(&esContext);
 
-	esCreateWindow(&esContext, "Hello Triangle", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+	esCreateWindow(&esContext, "Dead Guns", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
 
 	if (Init(&esContext) != 0)
 		return 0;

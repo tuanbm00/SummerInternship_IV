@@ -14,6 +14,7 @@
     <ProjectGuid>{FC024EC8-32F4-4657-A2CB-14D2B3A931F8}</ProjectGuid>
     <RootNamespace>TrainingFramework</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -24,7 +25,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -53,7 +54,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(SolutionDir)\Include\Box2D;$(SolutionDir)\Include\Soloud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(SolutionDir)\Include\box2d;$(SolutionDir)\Include\Soloud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -63,8 +64,8 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;3DEngine.lib;Box2D.lib;freetypeD.lib;soloud_static.lib;soloud.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Lib;$(SolutionDir)\Lib\Nvidia;$(SolutionDir)\Lib\Soloud;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;box2d.lib;soloud_static.lib;soloud.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -93,59 +94,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Include\Box2D\Collision\b2BroadPhase.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2CollideCircle.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2CollideEdge.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2CollidePolygon.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2Collision.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2Distance.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2DynamicTree.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\b2TimeOfImpact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\Shapes\b2ChainShape.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\Shapes\b2CircleShape.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
-    <ClCompile Include="..\Include\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2BlockAllocator.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2Draw.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2Math.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2Settings.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2StackAllocator.cpp" />
-    <ClCompile Include="..\Include\Box2D\Common\b2Timer.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2Body.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2ContactManager.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2Fixture.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2Island.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2World.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\b2WorldCallbacks.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2Contact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2Joint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
-    <ClCompile Include="..\Include\Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeTextures.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GSLevel1.cpp" />
     <ClCompile Include="GSLevel2.cpp" />
+    <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -155,97 +116,21 @@
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Include\Box2D\Box2D.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\b2BroadPhase.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\b2Collision.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\b2Distance.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\b2DynamicTree.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\b2TimeOfImpact.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\Shapes\b2ChainShape.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\Shapes\b2CircleShape.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\Shapes\b2EdgeShape.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\Shapes\b2PolygonShape.h" />
-    <ClInclude Include="..\Include\Box2D\Collision\Shapes\b2Shape.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2BlockAllocator.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2Draw.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2GrowableStack.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2Math.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2Settings.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2StackAllocator.h" />
-    <ClInclude Include="..\Include\Box2D\Common\b2Timer.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2Body.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2ContactManager.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2Fixture.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2Island.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2TimeStep.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2World.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\b2WorldCallbacks.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2CircleContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2Contact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2GearJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2Joint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2MouseJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2RopeJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2WeldJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Dynamics\Joints\b2WheelJoint.h" />
-    <ClInclude Include="..\Include\Box2D\Rope\b2Rope.h" />
-    <ClInclude Include="..\Include\Soloud\soloud.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_audiosource.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_bassboostfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_biquadresonantfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_bus.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_c.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_dcremovalfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_echofilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_error.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_fader.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_fft.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_fftfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_file.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_file_hack_off.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_file_hack_on.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_filter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_flangerfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_freeverbfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_internal.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_lofifilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_misc.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_monotone.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_noise.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_openmpt.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_queue.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_robotizefilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_sfxr.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_speech.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_tedsid.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_thread.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_vic.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_vizsn.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_wav.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_waveshaperfilter.h" />
-    <ClInclude Include="..\Include\Soloud\soloud_wavstream.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeTextures.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="GSLevel1.h" />
     <ClInclude Include="GSLevel2.h" />
+    <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
@@ -329,6 +214,19 @@
     <Media Include="..\Resources\Sounds\laser2.mp3" />
     <Media Include="..\Resources\Sounds\shoot.wav" />
     <Media Include="..\Resources\Sounds\victory.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Resources\Animation\bazoka.txt" />
+    <Text Include="..\Resources\Animation\Idle.txt" />
+    <Text Include="..\Resources\Animation\jump.txt" />
+    <Text Include="..\Resources\Animation\miku.txt" />
+    <Text Include="..\Resources\Animation\RunBW.txt" />
+    <Text Include="..\Resources\Animation\RunFW.txt" />
+    <Text Include="..\Resources\Animation\shot2.txt" />
+    <Text Include="..\Resources\Animation\sprites (2).txt" />
+    <Text Include="..\Resources\Managers\RM.txt" />
+    <Text Include="..\Resources\Managers\SM1.txt" />
+    <Text Include="..\Resources\Managers\SM2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

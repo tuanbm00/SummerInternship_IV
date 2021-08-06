@@ -6,10 +6,8 @@
 #include "defines.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
-Object::Object(int ID, Shaders *shader, Model *model) {
+Object::Object(int ID) {
 	m_ObjectID = ID;
-	m_Model = model;
-	m_Shader = shader;
 }
 
 void Object::SetTexture(Texture* texture) {
@@ -30,16 +28,6 @@ Object::~Object() {
 
 int Object::Init() {
 	m_CurrentTime = 0;
-
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_Model->GetNumberofVertices(), m_Model->GetVertices(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glGenBuffers(1, &iboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * m_Model->GetNumberofIndices(), m_Model->GetIndices(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
@@ -62,6 +50,20 @@ int Object::Init() {
 	return m_Shader->Init();
 }
 
+void Object::InitWVP()
+{
+	m_Model->setOrigin(Vector2(m_Position.x, m_Position.y));
+	Matrix Rx, Ry, Rz;
+	Matrix translationMatrix, scaleMatrix, rotationMatrix;
+	translationMatrix.SetTranslation(m_Position);
+	scaleMatrix.SetScale(m_Scale);
+	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
+	m_WorldMatrix = scaleMatrix * translationMatrix;
+
+	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+}
+
 void Object::Draw() {
 
 	glUseProgram(m_Shader->program);
@@ -72,13 +74,13 @@ void Object::Draw() {
 	if (m_Shader->m_Depth_Test != 0) {
 		glEnable(GL_DEPTH_TEST);
 	}else glDisable(GL_DEPTH_TEST);
-	if (m_Shader->m_Blend != 0) {
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	} else glDisable(GL_BLEND);
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -112,18 +114,18 @@ void Object::Draw() {
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
 			if (m_Shader->m_uTextures[i] != -1) {
-				glUniform1i(m_Shader->m_uTextures[i], i);
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, TEXTURE0 + i);
+				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}
 	}
 
 	if (m_isCubeTexture) {
 		if (m_Shader->m_uCubeTexture != -1) {
-			glUniform1i(m_Shader->m_uCubeTexture, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, textureId[0]);
+			glUniform1i(m_Shader->m_uCubeTexture, 0);
 		}
 	}
 
@@ -147,19 +149,16 @@ void Object::Update(float deltaTime) {
 	if (m_bIsTarget) {
 		SetPosition(Camera::GetInstance()->GetTarget());
 	}
+	Matrix translationMatrix, scaleMatrix;
+	translationMatrix.SetTranslation(m_Position);
+	scaleMatrix.SetScale(m_Scale);
+	m_WorldMatrix = scaleMatrix * translationMatrix;
 	UpdateWVP();
 }
 
 void Object::UpdateWVP() {
-	Matrix Rx, Ry, Rz;
-	Matrix translationMatrix, scaleMatrix, rotationMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
-	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-
-	//m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
+	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::CleanUp() {
@@ -174,8 +173,19 @@ void Object::CleanUp() {
 	glDisable(GL_BLEND);
 }
 
+void Object::setModel(Model* mmodel)
+{
+	m_Model = mmodel;
+}
+
+void Object::setShader(Shaders* mshader)
+{
+	m_Shader = mshader;
+}
+
 void Object::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
+	printf("set position %f %f\n", m_Position.x, m_Position.y);
 }
 
 void Object::SetPosition(Vector3 Position) {

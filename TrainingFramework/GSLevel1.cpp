@@ -1,6 +1,7 @@
 #include "GSLevel1.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "Camera.h"
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
@@ -13,10 +14,11 @@ GSLevel1::~GSLevel1() {
 
 void GSLevel1::Init() {
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/Bye.wav", true);
 }
 
 void GSLevel1::Draw() {
+	Camera::GetInstance()->i_state = 1;
 	m_SM->Draw();
 }
 

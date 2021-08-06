@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <iostream>
 #include "CubeTextures.h"
 #include "../Utilities/utilities.h"
 
@@ -28,7 +29,7 @@ void CubeTextures::BufferTexture() {
 		}
 		else
 		{
-			std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
+			printf("Cubemap tex failed to load at path: %d\n" ,faces[i]);
 			delete[] data;
 		}
 	}
