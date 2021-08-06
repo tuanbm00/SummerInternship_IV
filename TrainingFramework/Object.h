@@ -5,6 +5,13 @@
 #include "Model.h"
 #include "Texture.h"
 #include "CubeTextures.h"
+#include "b2_body.h"
+#include <b2_world.h>
+#include <b2_polygon_shape.h>
+#include <b2_fixture.h>
+#include <b2_circle_shape.h>
+#include <b2_edge_shape.h>
+#include <b2_contact.h>
 
 class Object
 {
@@ -15,6 +22,8 @@ protected:
 	CubeTextures* m_CubeTexture;
 	Shaders* m_Shader;
 	Model* m_Model;
+
+	b2Body* m_body;
 
 	Vector3 m_Position;
 	Vector3 m_Scale;
