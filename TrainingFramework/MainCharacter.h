@@ -4,7 +4,7 @@ class MainCharacter :
     public Object
 {
 private:
-    int m_hearth_point;
+    int m_HP;
 public:
     MainCharacter(int ID) : Object(ID) {}
     void Update(float deltaTime);
