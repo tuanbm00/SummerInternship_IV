@@ -1,6 +1,7 @@
 #include "GSLevel2.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "Camera.h"
 
 GSLevel2::GSLevel2() {
 	char* SM = "../Resources/Managers/SM2.txt";
@@ -8,15 +9,21 @@ GSLevel2::GSLevel2() {
 }
 
 GSLevel2::~GSLevel2() {
+
 }
 
 void GSLevel2::Init() {
 	m_SM->SetFileManager("../Resources/Managers/SM2.txt");
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+
+	auto bullet = std::make_shared<Bullet>(1);
+	m_ListBullet.push_back(bullet);
+
 }
 
 void GSLevel2::Draw() {
+	Camera::GetInstance()->i_state = 2;
 	m_SM->Draw();
 }
 
@@ -68,7 +75,7 @@ void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 }
 
 void GSLevel2::OnMouseMoving(int X, int Y) {
-	printf("GSLevel2 - Mouse At: %d - %d!\n", X, Y);
+	//printf("GSLevel2 - Mouse At: %d - %d!\n", X, Y);
 }
 
 void GSLevel2::OnMouseButtonDown(int X, int Y, char Button) {

@@ -8,7 +8,7 @@
 
 class Object
 {
-private:
+protected:
 	GLuint iboId, vboId;
 	std::vector<GLuint> textureId;
 	std::vector<Texture*> m_Texture;
@@ -30,17 +30,16 @@ private:
 	bool m_bIsTarget = false, m_isTexture = false, m_isCubeTexture = false;
 	
 public:
-	Object(int ID, Shaders* Shader, Model* Model);
+	Object(int ID);
 	~Object();
 	int Init();
+	void InitWVP();
 	void Draw();
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime);
 	void CleanUp();
-
+	void setModel(Model* mmodel);
+	void setShader(Shaders* mshader);
 	void UpdateWVP();
-
-	void LookUp();
-	void LookAround();
 
 	void SetTexture(Texture* Texture);
 	void SetCubeTexture(CubeTextures* CubeTexture);

@@ -3,10 +3,8 @@
 #include "ResourceManager.h"
 #include "Camera.h"
 #include "defines.h"
-#include <Collision/Shapes/b2CircleShape.h>
-#include <Dynamics/b2World.h>
 #include <iostream>
-#include <Box2D/Dynamics/b2Body.h>
+
 
 
 SceneManager::SceneManager(char* fileSM)
@@ -26,12 +24,13 @@ void SceneManager::SetFileManager(char* fileSM) {
 void SceneManager::Init() {
 	m_Object.clear();
 
+	printf("Init state: %d\n", Camera::GetInstance()->i_state);
 	//Box2D
-	b2Vec2 gravity = b2Vec2(0.0, 8.0);
-	//physicWorld = new b2World(gravity);
-	b2BodyDef bd;
-	bd.type = b2_dynamicBody;
+	b2Vec2 gravity = b2Vec2(0.0, 9.8);
+	myWorld = new b2World(gravity);
+	
 
+	//resource
 	ResourceManager::GetInstance()->Init();
 	FILE* f_SM;
 	f_SM = fopen(m_fileSM, "r+");
@@ -43,6 +42,7 @@ void SceneManager::Init() {
 	for (int i = 0; i < m_Object.size(); i++) {
 		m_Object[i]->Init();
 	}
+	
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -87,15 +87,65 @@ void SceneManager::ReadFile(FILE* f_SM)
 	int numOfObjects;
 	fscanf(f_SM, "#Objects: %d\n", &numOfObjects);
 	for (register int i = 0; i < numOfObjects; i++) {
+		Object* obj;
 		int ID, model, Textures, cubeTextures, texture, shader;
+		char type[128];
 		Vector3 Position, Rotation, Scale;
 
 		fscanf(f_SM, "ID %d\n", &ID);
 		std::cout << "ID: " << ID << std::endl;
-		fscanf(f_SM, "MODEL %d\n", &model);
-		std::cout << "Models: " << model << std::endl;
+		fscanf(f_SM, "TYPE %s\n", type);
+		Model* pModel;
+		if (strcmp(type, "MAIN") == 0) {
+			float x, y, w, h, tw, th, speed; char aniFile[128];
+			fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
+			pModel = new Model();
+			pModel->InitSprite(x, y, w, h, tw, th);
+			int num_anim;
+			fscanf(f_SM, "ANIMATIONS %d\n", &num_anim);
+			if (num_anim > 0) {
+				for (int i = 0; i < num_anim; i++) {
+					fscanf(f_SM, "animation %s speed %f\n", aniFile, &speed);
+					Animation* anim = new Animation(aniFile);
+					anim->setAnimationSpeed(speed);
+					pModel->addAnimation(anim);
+				}
+			}
+			obj = new MainCharacter(ID);
+		}
+		else if (strcmp(type, "NPC") == 0) {
+			float x, y, w, h, tw, th, speed; char aniFile[128];
+			fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
+			pModel = new Model();
+			pModel->InitSprite(x, y, w, h, tw, th);
+			int num_anim;
+			fscanf(f_SM, "ANIMATIONS %d\n", &num_anim);
+			if (num_anim > 0) {
+				for (int i = 0; i < num_anim; i++) {
+					fscanf(f_SM, "animation %s speed %f\n", aniFile, &speed);
+					Animation* anim = new Animation(aniFile);
+					anim->setAnimationSpeed(speed);
+					pModel->addAnimation(anim);
+				}
+			}
+			obj = new NPC(ID);
+		}
+		else if (strcmp(type, "BULLET") == 0) {
+			// do something
+		}
+		else if (strcmp(type, "GROUND") == 0) {
+			// do something
+		}
+		else {
+			fscanf(f_SM, "MODEL %d\n", &model);
+			std::cout << "Models: " << model << std::endl;
+			pModel = ResourceManager::GetInstance()->GetModelAtID(model);
+			pModel->b_IsAnimation = false;
+			obj = new Object(ID);
+		}
 		fscanf(f_SM, "SHADER %d\n", &shader);
-		std::shared_ptr<Object> obj = std::make_shared<Object>(ID, (ResourceManager::GetInstance()->GetShaderAtID(shader)), ResourceManager::GetInstance()->GetModelAtID(model));
+		obj->setModel(pModel);
+		obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
 
 		fscanf(f_SM, "TEXTURES %d\n", &Textures);
 		for (register int j = 0; j < Textures; j++) {
@@ -119,6 +169,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		obj->SetPosition(Position);
 		obj->SetScale(Scale);
 		obj->SetRotation(Rotation);
+		obj->InitWVP();
 		AddObject(obj);
 
 	}
@@ -127,7 +178,9 @@ void SceneManager::ReadFile(FILE* f_SM)
 }
 
 void SceneManager::Update(float deltaTime) {
-	
+	if (myWorld != NULL) {
+		
+	}
 	Camera::GetInstance()->Update(deltaTime);
 	for (int i = 0; i < m_Object.size(); i++) {
 		m_Object[i]->Update(deltaTime);
@@ -156,7 +209,7 @@ void SceneManager::Draw() {
 	}
 }
 
-void SceneManager::AddObject(std::shared_ptr<Object> obj) {
+void SceneManager::AddObject(Object * obj) {
 	m_Object.push_back(obj);
 }
 
