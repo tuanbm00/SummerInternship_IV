@@ -1,10 +1,12 @@
 ﻿#include "Bullet.h"
 #include "define.h"
 
-void Bullet::Init(int numberOfBullet, float attackSpeed, float speedOfBullet, float maxOfLength) {
+void Bullet::Init(int numberOfBullet, float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
 	m_NumberOfBullet = numberOfBullet;
+	m_AttackDame = attackDame;
 	m_AttackSpeed = attackSpeed;
-	m_SpeedOfBullet = speedOfBullet;
+	m_SpeedOfBulletX = speedOfBulletX;
+	m_SpeedOfBulletY = speedOfBulletY;
 	m_MaxOfLength = maxOfLength;
 	m_CurrentLength = 0;
 }
@@ -26,12 +28,16 @@ bool Bullet::IsOverLength() {
 	return true;
 }
 
+float Bullet::GetAttackDame() {
+	return m_AttackDame;
+}
+
 float Bullet::GetAttackSpeed() {
 	return m_AttackSpeed;
 }
 
-float Bullet::GetSpeedOfBullet() {
-	return m_SpeedOfBullet;
+Vector2 Bullet::GetSpeedOfBullet() {
+	return Vector2(m_SpeedOfBulletX, m_SpeedOfBulletY);
 }
 
 float Bullet::GetMaxOfLength() {
@@ -40,20 +46,20 @@ float Bullet::GetMaxOfLength() {
 
 void Bullet::Update(float deltaTime)
 {
-	m_CurrentLength += deltaTime * m_SpeedOfBullet;
+	m_CurrentLength += deltaTime * m_SpeedOfBulletX;
+	m_Position.x = m_body->GetPosition().x;
+	m_Position.y = m_body->GetPosition().y;
 }
 
-void Bullet::SetBodyObject(float positionX, float positionY, float width, float height, bool isPlayer = true) {
+void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 400.0f);
-	//m_body = world.CreateBody(&bodyDef);
+	bodyDef.position.Set(positionX, positionY);
+	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(240.0f, 240.0f);
+	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.0f;
 	if (isPlayer) {
 		fixtureDef.filter.categoryBits = CATEGORY_BULLET_PLAYER;
 		fixtureDef.filter.maskBits = MASK_BULLET_PLAYER;
@@ -63,5 +69,5 @@ void Bullet::SetBodyObject(float positionX, float positionY, float width, float 
 		fixtureDef.filter.maskBits = MASK_BULLET_ENEMY;
 	}
 	m_body->CreateFixture(&fixtureDef);
-	m_body->SetLinearVelocity(b2Vec2(00.0f, -100.0f));
+	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 }

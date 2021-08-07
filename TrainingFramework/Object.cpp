@@ -216,3 +216,17 @@ void Object::SetRotation(Vector3 Rotation) {
 Vector3 Object::GetRotation() {
 	return m_Rotation;
 }
+
+void Object::SetBodyObject(b2World* world) {
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(m_Position.x, m_Position.y);
+	m_body = world->CreateBody(&bodyDef);
+	b2PolygonShape staticBox;
+	staticBox.SetAsBox(m_spriteW, m_spriteH);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &staticBox;
+	fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;
+	fixtureDef.filter.maskBits = MASK_TERRAIN;
+	m_body->CreateFixture(&fixtureDef);
+}

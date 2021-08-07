@@ -1,34 +1,9 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Object.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\20202\20203\summerinternship_iv\trainingframework\object.cpp(33): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\object.cpp(42): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\object.cpp(115): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\object.cpp(167): warning C4018: '<': signed/unsigned mismatch
-  Bullet.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Generating Code...
-  Compiling...
-  TrainingFramework.cpp
   SceneManager.cpp
 d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(29): warning C4305: 'argument': truncation from 'double' to 'float'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(42): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(36): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(35): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(52): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(57): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(58): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(59): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(60): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(61): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(62): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(63): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
@@ -36,141 +11,67 @@ d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(64): warni
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(65): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(75): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(66): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(80): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(67): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(68): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(69): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(70): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(71): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(81): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(82): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(86): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(83): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(87): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(88): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(95): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(89): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(97): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(94): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(101): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(105): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(103): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(108): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(107): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(118): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(111): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(122): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(114): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(125): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(124): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(140): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(128): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(131): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(146): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(150): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(152): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(157): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(156): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(159): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(158): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(163): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(165): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(166): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(171): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(167): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(172): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(185): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(207): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(226): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(252): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(269): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(286): warning C4018: '<': signed/unsigned mismatch
-  ResourceManager.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(35): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: see declaration of 'fopen'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(46): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(173): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(50): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(51): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(59): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(63): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(64): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(72): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(77): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(78): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(80): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(82): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(84): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(86): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(88): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(90): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(91): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(100): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(104): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(105): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(106): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(107): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(109): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(113): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(117): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(130): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(140): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(150): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(160): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(227): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(230): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(233): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\resourcemanager.cpp(236): warning C4018: '<': signed/unsigned mismatch
-  NPC.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  MainCharacter.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Ground.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GameStateMachine.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GameStateBase.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GSLevel2.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GSLevel1.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Camera.cpp
-  Application.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\model.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\20202\20203\summerinternship_iv\trainingframework\application.cpp(45): warning C4390: ';': empty controlled statement found; is this the intent?
-d:\20202\20203\summerinternship_iv\trainingframework\application.cpp(50): warning C4390: ';': empty controlled statement found; is this the intent?
-d:\20202\20203\summerinternship_iv\trainingframework\application.cpp(54): warning C4390: ';': empty controlled statement found; is this the intent?
-d:\20202\20203\summerinternship_iv\trainingframework\application.cpp(58): warning C4390: ';': empty controlled statement found; is this the intent?
-d:\20202\20203\summerinternship_iv\trainingframework\application.cpp(66): warning C4390: ';': empty controlled statement found; is this the intent?
-  Generating Code...
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(265): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(291): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(308): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
 Animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
 box2d.lib(b2_broad_phase.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_broad_phase.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info

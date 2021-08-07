@@ -6,19 +6,22 @@ class Bullet :
 {
 private:
 	int m_NumberOfBullet;
+	float m_AttackDame;
 	float m_AttackSpeed;
-	float m_SpeedOfBullet;
+	float m_SpeedOfBulletX;
+	float m_SpeedOfBulletY;
 	float m_MaxOfLength;
 	float m_CurrentLength;
 public:
     Bullet(int ID) : Object(ID) {}
-	void Init(int numberOfBullet, float attackSpeed, float speedOfBullet, float maxOfLength);
+	void Init(int numberOfBullet, float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
 	bool IsEmptyBullet();
 	bool IsOverLength();
+	float GetAttackDame();
 	float GetAttackSpeed();
-	float GetSpeedOfBullet();
+	Vector2 GetSpeedOfBullet();
 	float GetMaxOfLength();
     void Update(float deltaTime);
-	void SetBodyObject(float positionX, float positionY, float width, float height, bool isPlayer);
+	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer);
 };
 

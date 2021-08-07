@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -22,12 +22,11 @@ void SceneManager::SetFileManager(char* fileSM) {
 }
 
 void SceneManager::Init() {
-	m_Object.clear();
 
 	printf("Init state: %d\n", Camera::GetInstance()->i_state);
 	//Box2D
-	b2Vec2 gravity = b2Vec2(0.0, 9.8);
-	myWorld = new b2World(gravity);
+	b2Vec2 gravity = b2Vec2(0.0, 0.0);
+	m_world = new b2World(gravity);
 	
 
 	//resource
@@ -39,10 +38,17 @@ void SceneManager::Init() {
 	}
 	else std::cout << "Khong tim thay file Scene Manager! \n";
 
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Init();
+	// 
+	for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->Init();
 	}
+	//
+	m_MainCharactor->Init();
 	
+	//
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Init();
+	}
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -170,20 +176,26 @@ void SceneManager::ReadFile(FILE* f_SM)
 		obj->SetScale(Scale);
 		obj->SetRotation(Rotation);
 		obj->InitWVP();
-		AddObject(obj);
-
+		AddTerrain(obj);
 	}
 	
 	fclose(f_SM);
 }
 
 void SceneManager::Update(float deltaTime) {
-	if (myWorld != NULL) {
+	if (m_world != NULL) {
 		
 	}
 	Camera::GetInstance()->Update(deltaTime);
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Update(deltaTime);
+
+	m_MainCharactor->Update(deltaTime);
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Update(deltaTime);
+	}
+
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Update(deltaTime);
 	}
 
 	//physicWorld->Step(deltaTime, velocityIterations, positionIterations);
@@ -204,13 +216,40 @@ void SceneManager::Update(float deltaTime) {
 }
 
 void SceneManager::Draw() {
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Draw();
+	for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->Draw();
+	}
+
+	m_MainCharactor->Draw();
+
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Draw();
+	}
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Draw();
 	}
 }
 
-void SceneManager::AddObject(Object * obj) {
-	m_Object.push_back(obj);
+void SceneManager::AddTerrain(Object * obj) {
+	m_ListTerrain.push_back(obj);
+}
+
+void SceneManager::AddGun(Bullet* gun) {
+	m_ListGun.push_back(gun);
+}
+
+void SceneManager::AddBullet(Bullet* bullet) {
+	m_listBulletInWorld.push_back(bullet);
+}
+
+void SceneManager::RemoveBullet(int index) {
+	m_listBulletInWorld[index]->CleanUp();
+	m_listBulletInWorld.erase(m_listBulletInWorld.begin() + index);
+}
+
+void SceneManager::AddEnemy(Enemy* enemy) {
+	m_listEnemy.push_back(enemy);
 }
 
 void SceneManager::Key(unsigned char key, bool bIsPressed) {
@@ -283,7 +322,17 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->CleanUp();
+	for (int i = 0; i < (int)m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->CleanUp();
+	}
+
+	m_MainCharactor->CleanUp();
+
+	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+		m_listEnemy[i]->CleanUp();
+	}
+
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->CleanUp();
 	}
 }

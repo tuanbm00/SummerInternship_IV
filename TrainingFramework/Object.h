@@ -23,6 +23,9 @@ protected:
 	Shaders* m_Shader;
 	Model* m_Model;
 
+	float m_spriteW;
+	float m_spriteH;
+
 	b2Body* m_body;
 
 	Vector3 m_Position;
@@ -63,5 +66,6 @@ public:
 	Vector3 GetRotation();
 	void SetIsTarget(bool Target) { m_bIsTarget = Target; }
 	bool GetIsTarget() { return m_bIsTarget; }
+	void SetBodyObject(b2World* world);
 };
 
