@@ -16,6 +16,13 @@ void Enemy::Update(float deltaTime)
 	m_Position.y = m_body->GetPosition().y;
 }
 
+bool Enemy::isDie() {
+	if (m_HP <= 0) {
+		return true;
+	}
+	return false;
+}
+
 void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -25,6 +32,7 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = m_attackDame;
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
 	m_body->CreateFixture(&fixtureDef);

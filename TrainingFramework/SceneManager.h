@@ -48,6 +48,7 @@ public:
 	void Shoot(bool isFront = true);
 	void ChangeGun(bool isEmptyBullet = true);
 	void SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool isFront = true);
+	void Update(float deltaTime);
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);

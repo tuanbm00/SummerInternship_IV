@@ -16,6 +16,14 @@ void MainCharacter::Update(float deltaTime)
 	m_Position.y = m_body->GetPosition().y;
 }
 
+bool MainCharacter::isDie() {
+	if (m_HP <= 0) {
+		return true;
+	}
+	return false;
+}
+
+
 void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;

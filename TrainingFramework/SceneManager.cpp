@@ -384,3 +384,71 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool is
 		m_listBulletInWorld.push_back(bullet);
 	}
 }
+
+void SceneManager::Update(float deltaTime) {
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
+	m_world->Step(deltaTime, velocityIterations, positionIterations);
+	
+	m_MainCharacter->Update(deltaTime);
+
+	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Update(deltaTime);
+		for (b2ContactEdge* edge = m_listEnemy[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+			b2Fixture* a = edge->contact->GetFixtureA();
+			b2Fixture* b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+			}
+			if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+			}
+			if (a->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+			}
+			if (b->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+			}
+		}
+	}
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Update(deltaTime);
+		for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+			b2Fixture* a = edge->contact->GetFixtureA();
+			b2Fixture* b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().maskBits == MASK_TERRAIN || b->GetFilterData().maskBits == MASK_TERRAIN) {
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+				if (a->GetFilterData().maskBits == MASK_ENEMY) {
+					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+						SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
+					}
+				}
+				if (b->GetFilterData().maskBits == MASK_ENEMY) {
+					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+						SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
+					}
+				}
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
+				if (a->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+				}
+				if (b->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+				}
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+		}
+	}
+	
+}

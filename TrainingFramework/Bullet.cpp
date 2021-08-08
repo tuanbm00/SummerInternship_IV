@@ -64,6 +64,7 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = m_AttackDame;
 	if (isPlayer) {
 		fixtureDef.filter.categoryBits = CATEGORY_BULLET_PLAYER;
 		fixtureDef.filter.maskBits = MASK_BULLET_PLAYER;
