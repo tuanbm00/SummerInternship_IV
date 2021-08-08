@@ -10,6 +10,18 @@ Object::Object(int ID) {
 	m_ObjectID = ID;
 }
 
+int Object::GetID() {
+	return m_ObjectID;
+}
+
+b2Body* Object::getBody() {
+	return m_body;
+}
+
+Vector2 Object::GetBox() {
+	return Vector2(m_spriteW, m_spriteH);
+}
+
 void Object::SetTexture(Texture* texture) {
 	m_Texture.push_back(texture);
 	GLuint i;
@@ -24,6 +36,7 @@ void Object::SetCubeTexture(CubeTextures* cubeTexture) {
 	m_isCubeTexture = true;
 }
 Object::~Object() {
+
 }
 
 int Object::Init() {

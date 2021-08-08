@@ -43,7 +43,7 @@ void SceneManager::Init() {
 		m_ListTerrain[i]->Init();
 	}
 	//
-	m_MainCharactor->Init();
+	m_MainCharacter->Init();
 	
 	//
 	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
@@ -188,7 +188,7 @@ void SceneManager::Update(float deltaTime) {
 	}
 	Camera::GetInstance()->Update(deltaTime);
 
-	m_MainCharactor->Update(deltaTime);
+	m_MainCharacter->Update(deltaTime);
 
 	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Update(deltaTime);
@@ -220,7 +220,7 @@ void SceneManager::Draw() {
 		m_ListTerrain[i]->Draw();
 	}
 
-	m_MainCharactor->Draw();
+	m_MainCharacter->Draw();
 
 	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Draw();
@@ -326,7 +326,7 @@ void SceneManager::CleanUp() {
 		m_ListTerrain[i]->CleanUp();
 	}
 
-	m_MainCharactor->CleanUp();
+	m_MainCharacter->CleanUp();
 
 	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
 		m_listEnemy[i]->CleanUp();
@@ -334,5 +334,53 @@ void SceneManager::CleanUp() {
 
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->CleanUp();
+	}
+}
+
+void SceneManager::Shoot(bool isFront = true) {
+	int v = isFront ? 1 : -1;
+	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
+	Bullet* bullet = new Bullet(m_ListGun[0]->GetID());
+	bullet->Init(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
+	Vector3 posBullet = Vector3(posMainCharacter.x + v * (m_MainCharacter->GetBox().x + m_ListGun[0]->GetBox().x / 2), posMainCharacter.y, 0);
+	
+	// thieu phan doc textrue cua anh
+	
+	bullet->SetPosition(posBullet);
+	bullet->SetRotation(m_ListGun[0]->GetRotation());
+	bullet->SetScale(m_ListGun[0]->GetScale());
+
+	bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+	m_listBulletInWorld.push_back(bullet);
+}
+
+void SceneManager::ChangeGun(bool isEmptyBullet = true) {
+	Bullet *bullet = m_ListGun[0];
+	if (isEmptyBullet) {
+		m_ListGun.erase(m_ListGun.begin());
+		m_ListGun.push_back(bullet);
+	}
+	else {
+		m_ListGun[0] = m_ListGun[1];
+		m_ListGun[1] = bullet;
+	}
+}
+
+void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool isFront = true) {
+	int v = isFront ? 1 : -1;
+	for (int i = 0; i < 3; i++) {
+		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
+		Bullet* bullet = new Bullet(hellBullet->GetID());
+		bullet->Init(0, hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 2), hellBullet->GetMaxOfLength());
+		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x + enemyWidth), posHellBullet.y, 0);
+
+		// thieu phan doc textrue cua anh
+
+		bullet->SetPosition(posBullet);
+		bullet->SetRotation(m_ListGun[0]->GetRotation());
+		bullet->SetScale(m_ListGun[0]->GetScale());
+
+		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+		m_listBulletInWorld.push_back(bullet);
 	}
 }

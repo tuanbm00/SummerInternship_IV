@@ -46,6 +46,10 @@ float Bullet::GetMaxOfLength() {
 
 void Bullet::Update(float deltaTime)
 {
+	if (m_ObjectID == CATEGORY_BAZOKA) {
+		b2Vec2 v = m_body->GetLinearVelocity();
+		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime));
+	}
 	m_CurrentLength += deltaTime * m_SpeedOfBulletX;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;

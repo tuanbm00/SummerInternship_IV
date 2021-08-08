@@ -64,6 +64,9 @@ public:
 	void SetRotation(float X, float Y, float Z);
 	void SetRotation(Vector3 Rotation);
 	Vector3 GetRotation();
+	Vector2 GetBox();
+	int GetID();
+	b2Body* getBody();
 	void SetIsTarget(bool Target) { m_bIsTarget = Target; }
 	bool GetIsTarget() { return m_bIsTarget; }
 	void SetBodyObject(b2World* world);

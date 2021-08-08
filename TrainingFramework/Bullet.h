@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "define.h"
 
 class Bullet :
     public Object
@@ -22,6 +23,6 @@ public:
 	Vector2 GetSpeedOfBullet();
 	float GetMaxOfLength();
     void Update(float deltaTime);
-	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer);
+	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true);
 };
 

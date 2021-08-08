@@ -17,7 +17,7 @@ class SceneManager
 {
 private:
 	std::vector<Object*> m_ListTerrain;
-	std::shared_ptr<MainCharacter> m_MainCharactor;
+	MainCharacter* m_MainCharacter;
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
@@ -44,6 +44,11 @@ public:
 	void AddBullet(Bullet* bullet);
 	void RemoveBullet(int index);
 	void AddEnemy(Enemy* enemy);
+	
+	void Shoot(bool isFront = true);
+	void ChangeGun(bool isEmptyBullet = true);
+	void SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool isFront = true);
+
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
 	void SetFileManager(char* fileSM);
