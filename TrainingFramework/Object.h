@@ -22,12 +22,8 @@ protected:
 	Shaders* m_Shader;
 	Model* m_Model;
 
-<<<<<<< Updated upstream
-	float m_spriteW;
-	float m_spriteH;
-=======
+
 	float m_spriteX, m_spriteY, m_spriteW, m_spriteH;
->>>>>>> Stashed changes
 
 	b2Body* m_body;
 

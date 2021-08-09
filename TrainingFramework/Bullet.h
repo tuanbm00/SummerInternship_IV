@@ -15,11 +15,8 @@ private:
 	float m_CurrentLength;
 public:
     Bullet(int ID) : Object(ID) {}
-<<<<<<< Updated upstream
-	void Init(int numberOfBullet, float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
-=======
+
 	void InitA(int numberOfBullet, float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
->>>>>>> Stashed changes
 	bool IsEmptyBullet();
 	bool IsOverLength();
 	float GetAttackDame();

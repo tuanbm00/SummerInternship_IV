@@ -40,50 +40,10 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 }
 
 void Camera::Update(float deltaTime) {
-<<<<<<< Updated upstream
-	CheckMovement();
-	if (keyPressed) {
-		//Move
-		MoveForward(deltaTime);
-		//MoveRight(deltaTime);
-
-		//Look
-		LookAround(deltaTime);
-		LookUp(deltaTime);
-		
-	}
-}
-
-
-void Camera::LookUp(float deltaTime) {
-	if (m_rVertical != 0) {	
-		//FPS
-		m_bIsChange = true;
-		Matrix matR;
-		matR.SetRotationX(m_rSpeed * deltaTime * m_rVertical);
-		Vector4 Target = Vector4(0, 0, -(m_Position - m_Target).Length(), 1);	//Local Target
-		Target = Target * matR;													//New Local Target
-		Target = Target * GetWorldMatrix();										//New World Target
-		m_Target = Vector3(Target.x, Target.y, Target.z);
-	}
-}
-
-void Camera::LookAround(float deltaTime) {
-	if (m_rHorizontal != 0) {
-		m_bIsChange = true;
-		Vector4 Target = Vector4(0, 0, -(m_Position - m_Target).Length(), 1);				//Local Target
-		Target = Target * RotationMatrixAroundY(-m_rHorizontal * deltaTime * m_rSpeed);		//New Local Target
-		Target = Target * GetWorldMatrix();													//New World Target
-		m_Target = Vector3(Target.x, Target.y, Target.z);
-	}
 
 	
 }
-=======
-	
-}
 
->>>>>>> Stashed changes
 
 Matrix Camera::GetWorldMatrix() {
 	Vector3 xaxis, yaxis, zaxis;
@@ -231,6 +191,12 @@ Vector3 Camera::GetTarget() {
 
 void Camera::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
+}
+
+void Camera::SetPosition(float X, float Y)
+{
+	m_Position.x = X;
+	m_Position.y = Y;
 }
 
 void Camera::SetPosition(Vector3 Position) {

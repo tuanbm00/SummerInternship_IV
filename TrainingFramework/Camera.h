@@ -42,6 +42,7 @@ public:
 	Matrix GetWorldMatrix();
 
 	void SetPosition(float X, float Y, float Z);
+	void SetPosition(float X, float Y);
 	void SetPosition(Vector3 Position);
 	Vector3 GetPosition();
 	void SetRotation(float X, float Y, float Z);
