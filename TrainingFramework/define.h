@@ -6,6 +6,13 @@
 #define LMB 0
 #define RMB 1
 
+//key value
+#define KEY_JUMP 'W'
+#define KEY_LEFT 'A'
+#define KEY_RIGHT 'D'
+#define KEY_CHANGE_GUN 'J'
+#define KEY_SHOOT 'K'
+
 // key
 #define MOVE_JUMP 1
 #define MOVE_LEFT 1 << 1

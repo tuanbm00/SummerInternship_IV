@@ -21,6 +21,16 @@ private:
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
+
+	float m_direction;
+	float m_Horizontal;
+	float m_Vertical;
+	float m_shoot;
+	float m_changeGun;
+	float m_time;
+	float m_timeChangeGun;
+	int keyPressed;
+
 	bool m_bIsFighting = false;
 	Vector2 m_oTarget;
 	char* m_fileSM = NULL;
@@ -44,10 +54,13 @@ public:
 	void AddBullet(Bullet* bullet);
 	void RemoveBullet(int index);
 	void AddEnemy(Enemy* enemy);
+
+	void Key(unsigned char key, bool isPressed);
+	void CheckMovement();
 	
-	void Shoot(bool isFront = true);
+	void Shoot();
 	void ChangeGun(bool isEmptyBullet = true);
-	void SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool isFront = true);
+	void SetStateHellGun(Bullet* hellBullet, float enemyWidth);
 	void Update(float deltaTime);
 
 	void CleanUp();

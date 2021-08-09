@@ -14,6 +14,7 @@ void MainCharacter::Update(float deltaTime)
 {
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
+	Camera::GetInstance()->SetTarget(m_Position.x, m_Position.y, 0.0f);
 }
 
 bool MainCharacter::isDie() {

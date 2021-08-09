@@ -10,6 +10,12 @@
 SceneManager::SceneManager(char* fileSM)
 {
 	m_fileSM = fileSM;
+	m_direction = 1.0f;
+	m_Horizontal = 0.0f;
+	m_Vertical = 9.8f;
+	m_shoot = 0.0f;
+	m_time = 0.0f;
+	keyPressed = 0;
 }
 
 
@@ -337,12 +343,11 @@ void SceneManager::CleanUp() {
 	}
 }
 
-void SceneManager::Shoot(bool isFront = true) {
-	int v = isFront ? 1 : -1;
+void SceneManager::Shoot() {
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGun[0]->GetID());
-	bullet->Init(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
-	Vector3 posBullet = Vector3(posMainCharacter.x + v * (m_MainCharacter->GetBox().x + m_ListGun[0]->GetBox().x / 2), posMainCharacter.y, 0);
+	bullet->Init(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), m_direction*bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
+	Vector3 posBullet = Vector3(posMainCharacter.x + m_direction * (m_MainCharacter->GetBox().x + m_ListGun[0]->GetBox().x / 2), posMainCharacter.y, 0);
 	
 	// thieu phan doc textrue cua anh
 	
@@ -366,13 +371,12 @@ void SceneManager::ChangeGun(bool isEmptyBullet = true) {
 	}
 }
 
-void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool isFront = true) {
-	int v = isFront ? 1 : -1;
+void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 	for (int i = 0; i < 3; i++) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
-		bullet->Init(0, hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 2), hellBullet->GetMaxOfLength());
-		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x + enemyWidth), posHellBullet.y, 0);
+		bullet->Init(0, hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), m_direction*hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 2), hellBullet->GetMaxOfLength());
+		Vector3 posBullet = Vector3(posHellBullet.x + m_direction * (hellBullet->GetBox().x + enemyWidth), posHellBullet.y, 0);
 
 		// thieu phan doc textrue cua anh
 
@@ -386,10 +390,14 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth, bool is
 }
 
 void SceneManager::Update(float deltaTime) {
+	CheckMovement();
+
+	// set v
+	m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, m_Vertical));
+
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 	m_world->Step(deltaTime, velocityIterations, positionIterations);
-	
 	m_MainCharacter->Update(deltaTime);
 
 	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
@@ -449,6 +457,85 @@ void SceneManager::Update(float deltaTime) {
 				break;
 			}
 		}
+	}
+	
+}
+
+void SceneManager::Key(unsigned char key, bool isPressed) {
+	if (isPressed) {
+		switch (key)
+		{
+		case KEY_LEFT:
+		case KEY_LEFT + 32:
+			keyPressed = keyPressed | MOVE_LEFT;
+			break;
+		case KEY_RIGHT:
+		case KEY_RIGHT + 32:
+			keyPressed = keyPressed | MOVE_RIGHT;
+			break;
+		case KEY_JUMP:
+		case KEY_JUMP + 32:
+			keyPressed = keyPressed | MOVE_JUMP;
+			break;
+		case KEY_CHANGE_GUN:
+		case KEY_CHANGE_GUN + 32:
+			keyPressed = keyPressed | CHANGE_GUN;
+			break;
+		case KEY_SHOOT:
+		case KEY_SHOOT + 32:
+			keyPressed = keyPressed | SHOOT;
+			break;
+		}
+	}
+	else {
+		switch (key)
+		{
+		case KEY_LEFT:
+		case KEY_LEFT + 32:
+			keyPressed = keyPressed ^ MOVE_LEFT;
+			m_Horizontal = 0.0f;
+			break;
+		case KEY_RIGHT:
+		case KEY_RIGHT + 32:
+			keyPressed = keyPressed ^ MOVE_RIGHT;
+			m_Horizontal = 0.0f;
+			break;
+		case KEY_JUMP:
+		case KEY_JUMP + 32:
+			keyPressed = keyPressed ^ MOVE_JUMP;
+			m_Vertical = 9.8f;
+			break;
+		case KEY_CHANGE_GUN:
+		case KEY_CHANGE_GUN + 32:
+			keyPressed = keyPressed ^ CHANGE_GUN;
+			m_changeGun = 0;
+			break;
+		case KEY_SHOOT:
+		case KEY_SHOOT + 32:
+			keyPressed = keyPressed ^ SHOOT;
+			m_shoot = 0;
+			break;
+		}
+	}
+}
+
+void SceneManager::CheckMovement() {
+	if (keyPressed & MOVE_RIGHT) {
+		m_Horizontal = 10.0f;
+		m_direction = 1.0f;
+	}
+	if (keyPressed & MOVE_LEFT) {
+		m_Horizontal = -10.0f;
+		m_direction = -1.0f;
+	}
+	if (keyPressed & MOVE_JUMP) {
+		m_Vertical = -9.8f;
+	}
+	if (keyPressed & SHOOT) {
+		m_shoot = 1.0f;
+	}
+	if (keyPressed & CHANGE_GUN) {
+		m_changeGun = 1.0f;
 	}
 	
 }

@@ -53,68 +53,6 @@ void Camera::Update(float deltaTime) {
 	}
 }
 
-void Camera::CheckMovement() {
-	//if (keyPressed & MOVE_FORWARD) {
-	//	m_Vertical = 1;
-	//}
-	//if (keyPressed & MOVE_BACKWARD) {
-	//	m_Vertical = -1;
-	//}
-	
-	
-}
-
-void Camera::Key(unsigned char key, bool bIsPressed) {
-	if (bIsPressed) {
-		switch (key)
-		{
-		case 'A':
-		case 'a':
-			keyPressed = keyPressed | MOVE_LEFT;
-			break;
-		case 'D':
-		case 'd':
-			keyPressed = keyPressed | MOVE_RIGHT;
-			break;
-		case 'K':
-		case 'k':
-			m_TargetPosition = m_Target;
-			break;
-		}
-	}
-	else {
-		switch (key)
-		{
-		case 'A':
-		case 'a':
-			keyPressed = keyPressed ^ MOVE_LEFT;
-			m_Horizontal = 0;
-			break;
-		case 'D':
-		case 'd':
-			keyPressed = keyPressed ^ MOVE_RIGHT;
-			m_Horizontal = 0;
-			break;
-		}
-	}
-}
-
-void Camera::MoveRight(float dis, int r) {
-	m_Position.x += dis*r;
-	m_Target.x = m_Position.x;
-}
-
-void Camera::MoveForward(float deltaTime) {
-	if (m_Vertical != 0) {
-		m_bIsChange = true;
-		Vector3 deltaMove = -(m_Position - m_Target).Normalize() * m_Speed * deltaTime * m_Vertical;
-		m_Position += deltaMove;
-		m_Target += deltaMove;
-
-		//TPS
-		//m_TargetPosition += deltaMove;
-	}
-}
 
 void Camera::LookUp(float deltaTime) {
 	if (m_rVertical != 0) {	
@@ -126,11 +64,6 @@ void Camera::LookUp(float deltaTime) {
 		Target = Target * matR;													//New Local Target
 		Target = Target * GetWorldMatrix();										//New World Target
 		m_Target = Vector3(Target.x, Target.y, Target.z);
-
-		//TPS
-		//m_Position += deltaMove;
-		//m_TargetPosition += deltaMove;
-
 	}
 }
 
@@ -141,15 +74,6 @@ void Camera::LookAround(float deltaTime) {
 		Target = Target * RotationMatrixAroundY(-m_rHorizontal * deltaTime * m_rSpeed);		//New Local Target
 		Target = Target * GetWorldMatrix();													//New World Target
 		m_Target = Vector3(Target.x, Target.y, Target.z);
-
-
-		//FPS - 2
-		//Vector3 deltaMove = (m_Up.Cross((m_Position - m_Target).Normalize())).Normalize() * m_rSpeed * 10 * deltaTime * m_rHorizontal;
-		//m_Target += deltaMove;
-
-		//TPS
-		//m_Position += deltaMove;
-		//m_TargetPosition = m_Target;
 	}
 
 	
@@ -233,17 +157,6 @@ Matrix Camera::GetViewMatrix() {
 	}
 				
 	return m_ViewMatrix;
-
-
-	//Return CameraLocalView
-		//Camera Local Space
-	/*Matrix r1 = Ry.SetRotationY(-m_Rotation.y * float(PI / 180.0f)) * Rx.SetRotationX(-m_Rotation.x * float(PI / 180.0f)) * Rz.SetRotationZ(-m_Rotation.z * float(PI / 180.0f)) ;
-	Matrix t1;
-	t1.SetTranslation(-m_Position.x, -m_Position.y, -m_Position.z);
-
-	Matrix m_iWorldMatrix;
-	m_iWorldMatrix = t1 * r1;*/
-	//return m_iWorldMatrix;
 }
 
 int Camera::getKeyPressed()
@@ -289,13 +202,6 @@ Matrix Camera::GetOrthographic() {
 	return Omatrix;
 }
 
-Matrix Camera::RotationMatrixAroundY(float Angle) {
-	Matrix rotation;
-	Vector4 rotateAxis = Vector4(0, 1, 0, 0);
-	rotateAxis = rotateAxis * GetViewMatrix();
-	return rotation.SetRotationAngleAxis(Angle, rotateAxis.x, rotateAxis.y, rotateAxis.z);
-}
-
 void Camera::CleanUp() {
 	if (s_Instance)
 	{
@@ -315,14 +221,6 @@ void Camera::SetTarget(float X, float Y, float Z) {
 
 Vector3 Camera::GetTarget() {
 	return m_TargetPosition;
-}
-
-void Camera::SetHorizontal(float H) {
-	m_Horizontal = H;
-}
-
-void Camera::SetVertical(float V) {
-	m_Vertical = V;
 }
 
 void Camera::SetPosition(float X, float Y, float Z) {
