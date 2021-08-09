@@ -18,7 +18,7 @@ void MainCharacter::Update(float deltaTime)
 	Camera::GetInstance()->SetPosition(m_Position.x, m_Position.y);
 	Camera::GetInstance()->SetTarget(m_Position.x, m_Position.y, 0.0f);
 	if (m_Model->b_IsAnimation == true) {
-		m_Model->updateAnimation(deltaTime, Idle);
+		m_Model->updateAnimation(deltaTime, m_current_anim);
 	}
 	m_CurrentTime += deltaTime;
 	Matrix translationMatrix, scaleMatrix;

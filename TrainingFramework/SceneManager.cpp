@@ -379,7 +379,7 @@ void SceneManager::Update(float deltaTime) {
 
 	int32 velocityIterations = 24;
 	int32 positionIterations = 12;
-	m_world->Step(deltaTime, velocityIterations, positionIterations);
+	m_world->Step(deltaTime*5, velocityIterations, positionIterations);
 	m_MainCharacter->Update(deltaTime);
 
 	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
@@ -470,6 +470,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		}
 	}
 	else {
+		m_MainCharacter->m_current_anim = Idle;
 		switch (key)
 		{
 		case KEY_LEFT:
@@ -503,12 +504,13 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 
 void SceneManager::CheckMovement() {
 	if (keyPressed & MOVE_RIGHT) {
-
-		m_Horizontal = 500.0f;
+		m_MainCharacter->m_current_anim = RunFW;
+		m_Horizontal = 1024.0f;
 		m_direction = 1.0f;
 	}
 	if (keyPressed & MOVE_LEFT) {
-		m_Horizontal = -510.0f;
+		m_MainCharacter->m_current_anim = RunBW;
+		m_Horizontal = -1024.0f;
 		m_direction = -1.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {

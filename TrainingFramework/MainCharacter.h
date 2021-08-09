@@ -6,7 +6,11 @@ class MainCharacter :
 private:
     int m_HP;
 public:
-    MainCharacter(int ID) : Object(ID) {}
+	AnimationType m_current_anim;
+    MainCharacter(int ID) : Object(ID) {
+		m_current_anim = Idle;
+		m_HP = 0;
+	}
 	void SetHP(float hp);
 	float GetHP();
 	bool isDie();
