@@ -13,16 +13,19 @@ GSLevel1::~GSLevel1() {
 }
 
 void GSLevel1::Init() {
+	printf("State init\n");
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
+
 	Camera::GetInstance()->i_state = 1;
 	m_SM->Draw();
 }
 
 void GSLevel1::Update(float deltaTime) {
+
 	m_SM->Update(deltaTime);
 }
 

@@ -39,18 +39,8 @@ public:
 	void Update(float deltaTime);
 	void CleanUp();
 
-	void Key(unsigned char key, bool isPressed);
-	void CheckMovement();
-	void MoveForward(float deltaTime);
-	void MoveRight(float dis, int r);
-	void LookUp(float deltaTime);
-	void LookAround(float deltaTime);
-	Matrix RotationMatrixAroundX(float Angle);
-	Matrix RotationMatrixAroundY(float Angle);
 	Matrix GetWorldMatrix();
 
-	void SetHorizontal(float H);
-	void SetVertical(float V);
 	void SetPosition(float X, float Y, float Z);
 	void SetPosition(Vector3 Position);
 	Vector3 GetPosition();

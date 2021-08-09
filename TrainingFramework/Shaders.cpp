@@ -44,20 +44,10 @@ int Shaders::Init()
 	m_aColor = glGetAttribLocation(program, "a_color");
 	m_aUV = glGetAttribLocation(program, "a_uv");
 	m_uWVP = glGetUniformLocation(program, "u_WVP");
-	m_uDistanceToCamera = glGetUniformLocation(program, "u_DistanceToCamera");
-	m_uTime = glGetUniformLocation(program, "u_Time");
-
-	//Cube
-	m_aCPosition = glGetAttribLocation(program, "a_CPosition");
-	m_uCWVP = glGetUniformLocation(program, "u_CWVP");
-	m_uCubeTexture = glGetUniformLocation(program, "u_samplerCubeMap");
 
 	//Texture
 	m_uTextures[0] = glGetUniformLocation(program, "u_Texture1");
-	m_uTextures[1] = glGetUniformLocation(program, "u_Texture2");
-	m_uTextures[2] = glGetUniformLocation(program, "u_Texture3");
-	m_uTextures[3] = glGetUniformLocation(program, "u_BlendTexture");
-	m_uTextures[4] = glGetUniformLocation(program, "u_Heightmap");
+	
 	
 	return 0;
 }

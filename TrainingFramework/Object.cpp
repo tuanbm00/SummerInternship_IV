@@ -29,34 +29,19 @@ void Object::SetTexture(Texture* texture) {
 	m_isTexture = true;
 }
 
-void Object::SetCubeTexture(CubeTextures* cubeTexture) {
-	m_CubeTexture = cubeTexture;
-	GLuint i;
-	textureId.push_back(i);
-	m_isCubeTexture = true;
-}
+
 Object::~Object() {
 
 }
 
 int Object::Init() {
 	m_CurrentTime = 0;
-
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
 			glGenTextures(1, &textureId[i]);
 			glBindTexture(GL_TEXTURE_2D, textureId[i]);
 			m_Texture[i]->BufferTexture();
 			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-	}
-
-	if (m_isCubeTexture) {
-		for (register int i = 0; i < textureId.size(); i++) {
-			glGenTextures(1, &textureId[i]);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, textureId[i]);
-			m_CubeTexture->BufferTexture();
-			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		}
 	}
 
@@ -73,21 +58,14 @@ void Object::InitWVP()
 	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
 	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
-	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
-	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::Draw() {
 
 	glUseProgram(m_Shader->program);
 
-	if (m_Shader->m_Cull_Face != 0) {
-		glEnable(GL_CULL_FACE);
-	} else glDisable(GL_CULL_FACE);
-	if (m_Shader->m_Depth_Test != 0) {
-		glEnable(GL_DEPTH_TEST);
-	}else glDisable(GL_DEPTH_TEST);
-	
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -115,14 +93,6 @@ void Object::Draw() {
 		glUniformMatrix4fv(m_Shader->m_uWVP, 1, GL_FALSE, (GLfloat*)m_WVP.m);
 	}
 
-	//Set LerpValue
-	m_DistanceToCamera = (m_Position - Camera::GetInstance()->GetPosition()).Length();
-	if (m_Shader->m_uDistanceToCamera != -1)
-	{
-		glEnableVertexAttribArray(m_Shader->m_uDistanceToCamera);
-		glUniform1f(m_Shader->m_uDistanceToCamera, m_DistanceToCamera);
-	}
-
 	//Setting Texture Uniform
 	if (m_isTexture) {
 		for (register int i = 0; i < textureId.size(); i++) {
@@ -131,14 +101,6 @@ void Object::Draw() {
 				glBindTexture(GL_TEXTURE_2D, textureId[i]);
 				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
-		}
-	}
-
-	if (m_isCubeTexture) {
-		if (m_Shader->m_uCubeTexture != -1) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, textureId[0]);
-			glUniform1i(m_Shader->m_uCubeTexture, 0);
 		}
 	}
 
@@ -154,7 +116,6 @@ void Object::Draw() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
 void Object::Update(float deltaTime) {
@@ -170,8 +131,7 @@ void Object::Update(float deltaTime) {
 }
 
 void Object::UpdateWVP() {
-	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
-	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
 }
 
 void Object::CleanUp() {
@@ -188,6 +148,8 @@ void Object::CleanUp() {
 
 void Object::setModel(Model* mmodel)
 {
+	this->m_spriteH = mmodel->m_spriteH;
+	this->m_spriteW = mmodel->m_spriteW;
 	m_Model = mmodel;
 }
 

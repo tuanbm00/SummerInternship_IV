@@ -40,6 +40,7 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 }
 
 void Camera::Update(float deltaTime) {
+<<<<<<< Updated upstream
 	CheckMovement();
 	if (keyPressed) {
 		//Move
@@ -78,6 +79,11 @@ void Camera::LookAround(float deltaTime) {
 
 	
 }
+=======
+	
+}
+
+>>>>>>> Stashed changes
 
 Matrix Camera::GetWorldMatrix() {
 	Vector3 xaxis, yaxis, zaxis;

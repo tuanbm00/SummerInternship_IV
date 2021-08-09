@@ -13,8 +13,8 @@ private:
 	static ResourceManager* s_Instance;
 	std::vector<Model*> m_Models;
 	std::vector<Texture*> m_Textures;
-	std::vector<CubeTextures*> m_CubeTextures;
 	std::vector<Shaders*> m_Shaders;
+	std::vector<Animation*> m_Animations;
 
 	std::map<std::string, std::shared_ptr<SoLoud::Wav>> m_MapWave; //TruongNV - Add Map Sound
 	//std::string m_SoundPath; //Truong NV - Add SoundPath
@@ -27,8 +27,8 @@ public:
 	void CleanUp();
 	void ReadFile(FILE* f_RM);
 	Model* GetModelAtID(int ID);
+	Animation* GetAnimationAtID(int ID);
 	Texture* GetTextureAtID(int ID);
-	CubeTextures* GetCubeTextureAtID(int ID);
 	Shaders* GetShaderAtID(int ID);
 
 	//TruongNV - Add Function Sound

@@ -19,6 +19,7 @@ Animation::Animation(const char* filePath)
 		fscanf(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
 		m_animation[i] = Vector4(x, y, w, h);
 	}
+	printf("loaded animation %s\n", filePath);
 	fclose(fp);
 }
 
@@ -63,4 +64,9 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 void Animation::setAnimationSpeed(float newSpeed)
 {
 	f_speed = newSpeed;
+}
+
+void Animation::setID(int id)
+{
+	m_ID = id;
 }

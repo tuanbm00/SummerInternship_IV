@@ -16,10 +16,10 @@ private:
 	std::vector<Animation*> m_anim;;
 	int m_Id;
 	char m_srcModel[250];
-	float m_textureW, m_textureH;
 	Vector2 origin;
 	
 public:
+	float m_textureW, m_textureH, m_posX, m_posY, m_spriteW, m_spriteH;
 	GLuint vboId, iboId;
 	bool b_IsAnimation;
 	Model();

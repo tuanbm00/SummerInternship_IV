@@ -1,7 +1,11 @@
 ﻿#include "Bullet.h"
 #include "define.h"
 
+<<<<<<< Updated upstream
 void Bullet::Init(int numberOfBullet, float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
+=======
+void Bullet::InitA(int numberOfBullet, float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
+>>>>>>> Stashed changes
 	m_NumberOfBullet = numberOfBullet;
 	m_AttackDame = attackDame;
 	m_AttackSpeed = attackSpeed;
@@ -55,7 +59,11 @@ void Bullet::Update(float deltaTime)
 	m_Position.y = m_body->GetPosition().y;
 }
 
+<<<<<<< Updated upstream
 void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true) {
+=======
+void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer) {
+>>>>>>> Stashed changes
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);

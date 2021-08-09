@@ -14,6 +14,18 @@ void Enemy::Update(float deltaTime)
 {
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
+<<<<<<< Updated upstream
+=======
+	if (m_Model->b_IsAnimation == true) {
+		m_Model->updateAnimation(deltaTime, Idle);
+	}
+	m_CurrentTime += deltaTime;
+	Matrix translationMatrix, scaleMatrix;
+	translationMatrix.SetTranslation(m_Position);
+	scaleMatrix.SetScale(m_Scale);
+	m_WorldMatrix = scaleMatrix * translationMatrix;
+	UpdateWVP();
+>>>>>>> Stashed changes
 }
 
 bool Enemy::isDie() {

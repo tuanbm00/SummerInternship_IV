@@ -41,22 +41,24 @@ void ResourceManager::Init() {
 
 void ResourceManager::ReadFile(FILE* f_RM)
 {
-	//Models
-	int numOfModels;
-	fscanf(f_RM, "#Models: %d\n", &numOfModels);
-	for (register int i = 0; i < numOfModels; i++) {
+	//Animations
+	int numAnimations;
+	fscanf(f_RM, "#Animations: %d\n", &numAnimations);
+	for (register int i = 0; i < numAnimations; i++) {
 		int ID;
-		char File[250];
+		char File[250]; float speed;
 		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE %s\n", &File);
-
-		auto model = new Model(ID, File);
-		m_Models.push_back(model);
+		fscanf(f_RM, "FILE %s\n", File);
+		fscanf(f_RM, "SPEED %f\n", &speed);
+		Animation* anim = new Animation(File);
+		anim->setAnimationSpeed(speed);
+		anim->setID(ID);
+		m_Animations.push_back(anim);
 	}
 
 	//Textures
 	int numOfTextures;
-	fscanf(f_RM, "#2D Textures : %d\n", &numOfTextures);
+	fscanf(f_RM, "#2D Textures: %d\n", &numOfTextures);
 	for (register int i = 0; i < numOfTextures; i++) {
 		int ID;
 		char File[250];
@@ -65,34 +67,6 @@ void ResourceManager::ReadFile(FILE* f_RM)
 
 		Texture* texture = new Texture(ID, File);
 		m_Textures.push_back(texture);
-	}
-
-	//Cube Textures
-	int numOfCubeTextures;
-	fscanf(f_RM, "#Cube Textures: %d\n", &numOfCubeTextures);
-	for (register int i = 0; i < numOfCubeTextures; i++) {
-		int ID;
-		std::vector<std::string> faces;
-		char File[200], Wrap[30], Filter1[30], Filter2[30];
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE1 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "FILE2 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "FILE3 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "FILE4 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "FILE5 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "FILE6 %s\n", &File);
-		faces.push_back(File);
-		fscanf(f_RM, "WRAP %s\n", &Wrap);
-		fscanf(f_RM, "FILTER %s %s\n", &Filter1, &Filter2);
-
-
-		CubeTextures* ctexture = new CubeTextures(ID, faces);
-		m_CubeTextures.push_back(ctexture);
 	}
 
 	//Shaders
@@ -136,6 +110,17 @@ Model* ResourceManager::GetModelAtID(int ID) {
 	return NULL;
 }
 
+Animation* ResourceManager::GetAnimationAtID(int ID)
+{
+	for (int i = 0; i < m_Animations.size(); i++) {
+		if (m_Animations[i]->GetID() == ID) {
+			return m_Animations[i];
+		}
+	}
+	printf("cant find animation\n");
+	return NULL;
+}
+
 Shaders* ResourceManager::GetShaderAtID(int ID) {
 	for (register int i = 0; i < m_Shaders.size(); i++) {
 		if (m_Shaders[i]->GetID() == ID) {
@@ -153,16 +138,6 @@ Texture* ResourceManager::GetTextureAtID(int ID) {
 		}
 	}
 	std::cout << "No Texture found! " << std::endl;
-	return NULL;
-}
-
-CubeTextures* ResourceManager::GetCubeTextureAtID(int ID) {
-	for (register int i = 0; i < m_CubeTextures.size(); i++) {
-		if (m_CubeTextures[i]->GetID() == ID) {
-			return m_CubeTextures[i];
-		}
-	}
-	std::cout << "No Cube Texture found! " << std::endl;
 	return NULL;
 }
 
@@ -232,8 +207,5 @@ void ResourceManager::CleanUp() {
 	}
 	for (int i = 0; i < m_Shaders.size(); i++) {
 		delete m_Shaders[i];
-	}
-	for (int i = 0; i < m_CubeTextures.size(); i++) {
-		delete m_CubeTextures[i];
 	}
 }

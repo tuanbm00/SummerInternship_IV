@@ -2,7 +2,6 @@ attribute vec3 a_Position;
 attribute vec2 a_uv;
 
 varying vec2 v_uv;
-varying float v_dist;
 
 uniform mat4 u_WVP;
 

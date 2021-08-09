@@ -18,11 +18,16 @@ public:
 	void play(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime);
 
 	void setAnimationSpeed(float newSpeed);
+	void setID(int id);
+	int GetID(){
+		return m_ID;
+	}
 private:
 	double d_anim_cursor;
 	int i_current_frame_index;
 	int i_frame_count;
 	float f_speed;
 	Vector4* m_animation;
+	int m_ID;
 };
 

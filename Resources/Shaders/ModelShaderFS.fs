@@ -1,7 +1,6 @@
 precision mediump float;
 
 varying vec2 v_uv;
-varying float v_dist;
 uniform sampler2D u_Texture1;
 
 
