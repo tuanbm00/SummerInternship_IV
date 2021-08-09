@@ -3,11 +3,23 @@
 #include "Object.h"
 #include "Vertex.h"
 #include "Camera.h"
-#include "defines.h"
+#include "define.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
 Object::Object(int ID) {
 	m_ObjectID = ID;
+}
+
+int Object::GetID() {
+	return m_ObjectID;
+}
+
+b2Body* Object::getBody() {
+	return m_body;
+}
+
+Vector2 Object::GetBox() {
+	return Vector2(m_spriteW, m_spriteH);
 }
 
 void Object::SetTexture(Texture* texture) {
@@ -24,6 +36,7 @@ void Object::SetCubeTexture(CubeTextures* cubeTexture) {
 	m_isCubeTexture = true;
 }
 Object::~Object() {
+
 }
 
 int Object::Init() {
@@ -58,7 +71,7 @@ void Object::InitWVP()
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
 	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
-	m_WorldMatrix = scaleMatrix * translationMatrix;
+	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
 	if (Camera::GetInstance()->i_state == 1) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetPerspective();
 	else if (Camera::GetInstance()->i_state == 2) m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
@@ -115,7 +128,7 @@ void Object::Draw() {
 		for (register int i = 0; i < textureId.size(); i++) {
 			if (m_Shader->m_uTextures[i] != -1) {
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, textureId[i]);
 				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}
@@ -215,4 +228,18 @@ void Object::SetRotation(Vector3 Rotation) {
 }
 Vector3 Object::GetRotation() {
 	return m_Rotation;
+}
+
+void Object::SetBodyObject(b2World* world) {
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(m_Position.x, m_Position.y);
+	m_body = world->CreateBody(&bodyDef);
+	b2PolygonShape staticBox;
+	staticBox.SetAsBox(m_spriteW, m_spriteH);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &staticBox;
+	fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;
+	fixtureDef.filter.maskBits = MASK_TERRAIN;
+	m_body->CreateFixture(&fixtureDef);
 }

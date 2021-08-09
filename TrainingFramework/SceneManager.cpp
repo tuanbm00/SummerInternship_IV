@@ -1,8 +1,8 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
-#include "defines.h"
+#include "define.h"
 #include <iostream>
 
 
@@ -10,6 +10,12 @@
 SceneManager::SceneManager(char* fileSM)
 {
 	m_fileSM = fileSM;
+	m_direction = 1.0f;
+	m_Horizontal = 0.0f;
+	m_Vertical = 9.8f;
+	m_shoot = 0.0f;
+	m_time = 0.0f;
+	keyPressed = 0;
 }
 
 
@@ -22,12 +28,11 @@ void SceneManager::SetFileManager(char* fileSM) {
 }
 
 void SceneManager::Init() {
-	m_Object.clear();
 
 	printf("Init state: %d\n", Camera::GetInstance()->i_state);
 	//Box2D
-	b2Vec2 gravity = b2Vec2(0.0, 9.8);
-	myWorld = new b2World(gravity);
+	b2Vec2 gravity = b2Vec2(0.0, 0.0);
+	m_world = new b2World(gravity);
 	
 
 	//resource
@@ -39,10 +44,17 @@ void SceneManager::Init() {
 	}
 	else std::cout << "Khong tim thay file Scene Manager! \n";
 
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Init();
+	// 
+	for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->Init();
 	}
+	//
+	m_MainCharacter->Init();
 	
+	//
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Init();
+	}
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -170,20 +182,26 @@ void SceneManager::ReadFile(FILE* f_SM)
 		obj->SetScale(Scale);
 		obj->SetRotation(Rotation);
 		obj->InitWVP();
-		AddObject(obj);
-
+		AddTerrain(obj);
 	}
 	
 	fclose(f_SM);
 }
 
 void SceneManager::Update(float deltaTime) {
-	if (myWorld != NULL) {
+	if (m_world != NULL) {
 		
 	}
 	Camera::GetInstance()->Update(deltaTime);
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Update(deltaTime);
+
+	m_MainCharacter->Update(deltaTime);
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Update(deltaTime);
+	}
+
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Update(deltaTime);
 	}
 
 	//physicWorld->Step(deltaTime, velocityIterations, positionIterations);
@@ -204,13 +222,40 @@ void SceneManager::Update(float deltaTime) {
 }
 
 void SceneManager::Draw() {
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->Draw();
+	for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->Draw();
+	}
+
+	m_MainCharacter->Draw();
+
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Draw();
+	}
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Draw();
 	}
 }
 
-void SceneManager::AddObject(Object * obj) {
-	m_Object.push_back(obj);
+void SceneManager::AddTerrain(Object * obj) {
+	m_ListTerrain.push_back(obj);
+}
+
+void SceneManager::AddGun(Bullet* gun) {
+	m_ListGun.push_back(gun);
+}
+
+void SceneManager::AddBullet(Bullet* bullet) {
+	m_listBulletInWorld.push_back(bullet);
+}
+
+void SceneManager::RemoveBullet(int index) {
+	m_listBulletInWorld[index]->CleanUp();
+	m_listBulletInWorld.erase(m_listBulletInWorld.begin() + index);
+}
+
+void SceneManager::AddEnemy(Enemy* enemy) {
+	m_listEnemy.push_back(enemy);
 }
 
 void SceneManager::Key(unsigned char key, bool bIsPressed) {
@@ -283,7 +328,214 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < m_Object.size(); i++) {
-		m_Object[i]->CleanUp();
+	for (int i = 0; i < (int)m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->CleanUp();
 	}
+
+	m_MainCharacter->CleanUp();
+
+	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+		m_listEnemy[i]->CleanUp();
+	}
+
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->CleanUp();
+	}
+}
+
+void SceneManager::Shoot() {
+	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
+	Bullet* bullet = new Bullet(m_ListGun[0]->GetID());
+	bullet->Init(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), m_direction*bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
+	Vector3 posBullet = Vector3(posMainCharacter.x + m_direction * (m_MainCharacter->GetBox().x + m_ListGun[0]->GetBox().x / 2), posMainCharacter.y, 0);
+	
+	// thieu phan doc textrue cua anh
+	
+	bullet->SetPosition(posBullet);
+	bullet->SetRotation(m_ListGun[0]->GetRotation());
+	bullet->SetScale(m_ListGun[0]->GetScale());
+
+	bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+	m_listBulletInWorld.push_back(bullet);
+}
+
+void SceneManager::ChangeGun(bool isEmptyBullet = true) {
+	Bullet *bullet = m_ListGun[0];
+	if (isEmptyBullet) {
+		m_ListGun.erase(m_ListGun.begin());
+		m_ListGun.push_back(bullet);
+	}
+	else {
+		m_ListGun[0] = m_ListGun[1];
+		m_ListGun[1] = bullet;
+	}
+}
+
+void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
+	for (int i = 0; i < 3; i++) {
+		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
+		Bullet* bullet = new Bullet(hellBullet->GetID());
+		bullet->Init(0, hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), m_direction*hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 2), hellBullet->GetMaxOfLength());
+		Vector3 posBullet = Vector3(posHellBullet.x + m_direction * (hellBullet->GetBox().x + enemyWidth), posHellBullet.y, 0);
+
+		// thieu phan doc textrue cua anh
+
+		bullet->SetPosition(posBullet);
+		bullet->SetRotation(m_ListGun[0]->GetRotation());
+		bullet->SetScale(m_ListGun[0]->GetScale());
+
+		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+		m_listBulletInWorld.push_back(bullet);
+	}
+}
+
+void SceneManager::Update(float deltaTime) {
+	CheckMovement();
+
+	// set v
+	m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, m_Vertical));
+
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
+	m_world->Step(deltaTime, velocityIterations, positionIterations);
+	m_MainCharacter->Update(deltaTime);
+
+	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Update(deltaTime);
+		for (b2ContactEdge* edge = m_listEnemy[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+			b2Fixture* a = edge->contact->GetFixtureA();
+			b2Fixture* b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+			}
+			if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+			}
+			if (a->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+			}
+			if (b->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+			}
+		}
+	}
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Update(deltaTime);
+		for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+			b2Fixture* a = edge->contact->GetFixtureA();
+			b2Fixture* b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().maskBits == MASK_TERRAIN || b->GetFilterData().maskBits == MASK_TERRAIN) {
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+				if (a->GetFilterData().maskBits == MASK_ENEMY) {
+					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+						SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
+					}
+				}
+				if (b->GetFilterData().maskBits == MASK_ENEMY) {
+					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+						SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
+					}
+				}
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
+				if (a->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+				}
+				if (b->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+				}
+				RemoveBullet(i);
+				i--;
+				break;
+			}
+		}
+	}
+	
+}
+
+void SceneManager::Key(unsigned char key, bool isPressed) {
+	if (isPressed) {
+		switch (key)
+		{
+		case KEY_LEFT:
+		case KEY_LEFT + 32:
+			keyPressed = keyPressed | MOVE_LEFT;
+			break;
+		case KEY_RIGHT:
+		case KEY_RIGHT + 32:
+			keyPressed = keyPressed | MOVE_RIGHT;
+			break;
+		case KEY_JUMP:
+		case KEY_JUMP + 32:
+			keyPressed = keyPressed | MOVE_JUMP;
+			break;
+		case KEY_CHANGE_GUN:
+		case KEY_CHANGE_GUN + 32:
+			keyPressed = keyPressed | CHANGE_GUN;
+			break;
+		case KEY_SHOOT:
+		case KEY_SHOOT + 32:
+			keyPressed = keyPressed | SHOOT;
+			break;
+		}
+	}
+	else {
+		switch (key)
+		{
+		case KEY_LEFT:
+		case KEY_LEFT + 32:
+			keyPressed = keyPressed ^ MOVE_LEFT;
+			m_Horizontal = 0.0f;
+			break;
+		case KEY_RIGHT:
+		case KEY_RIGHT + 32:
+			keyPressed = keyPressed ^ MOVE_RIGHT;
+			m_Horizontal = 0.0f;
+			break;
+		case KEY_JUMP:
+		case KEY_JUMP + 32:
+			keyPressed = keyPressed ^ MOVE_JUMP;
+			m_Vertical = 9.8f;
+			break;
+		case KEY_CHANGE_GUN:
+		case KEY_CHANGE_GUN + 32:
+			keyPressed = keyPressed ^ CHANGE_GUN;
+			m_changeGun = 0;
+			break;
+		case KEY_SHOOT:
+		case KEY_SHOOT + 32:
+			keyPressed = keyPressed ^ SHOOT;
+			m_shoot = 0;
+			break;
+		}
+	}
+}
+
+void SceneManager::CheckMovement() {
+	if (keyPressed & MOVE_RIGHT) {
+		m_Horizontal = 10.0f;
+		m_direction = 1.0f;
+	}
+	if (keyPressed & MOVE_LEFT) {
+		m_Horizontal = -10.0f;
+		m_direction = -1.0f;
+	}
+	if (keyPressed & MOVE_JUMP) {
+		m_Vertical = -9.8f;
+	}
+	if (keyPressed & SHOOT) {
+		m_shoot = 1.0f;
+	}
+	if (keyPressed & CHANGE_GUN) {
+		m_changeGun = 1.0f;
+	}
+	
 }

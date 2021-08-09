@@ -10,15 +10,31 @@
 #include"box2d/b2_polygon_shape.h"
 #include "MainCharacter.h"
 #include "NPC.h"
+#include "Bullet.h"
+#include "Enemy.h"
 
 class SceneManager
 {
 private:
-	std::vector<Object *> m_Object;
+	std::vector<Object*> m_ListTerrain;
+	MainCharacter* m_MainCharacter;
+	std::vector<Bullet*> m_ListGun;
+	std::vector<Bullet*> m_listBulletInWorld;
+	std::vector<Enemy*> m_listEnemy;
+
+	float m_direction;
+	float m_Horizontal;
+	float m_Vertical;
+	float m_shoot;
+	float m_changeGun;
+	float m_time;
+	float m_timeChangeGun;
+	int keyPressed;
+
 	bool m_bIsFighting = false;
 	Vector2 m_oTarget;
 	char* m_fileSM = NULL;
-	b2World * myWorld;
+	b2World * m_world;
 	
 public:
 
@@ -33,7 +49,20 @@ public:
 	void OnMouseButtonUp(int X, int Y, char Button);
 	void OnMouseButtonMove(int X, int Y, char Button);
 
-	void AddObject(Object * obj);
+	void AddTerrain(Object* terrain);
+	void AddGun(Bullet* gun);
+	void AddBullet(Bullet* bullet);
+	void RemoveBullet(int index);
+	void AddEnemy(Enemy* enemy);
+
+	void Key(unsigned char key, bool isPressed);
+	void CheckMovement();
+	
+	void Shoot();
+	void ChangeGun(bool isEmptyBullet = true);
+	void SetStateHellGun(Bullet* hellBullet, float enemyWidth);
+	void Update(float deltaTime);
+
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
 	void SetFileManager(char* fileSM);
