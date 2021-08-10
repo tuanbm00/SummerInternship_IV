@@ -44,8 +44,10 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
 	b2FixtureDef fixtureDef;
+	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
 	fixtureDef.filter.maskBits = MASK_PLAYER;
+	fixtureDef.density = 5000.0f / area;
 	m_body->CreateFixture(&fixtureDef);
 }

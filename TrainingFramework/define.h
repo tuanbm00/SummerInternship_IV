@@ -10,8 +10,8 @@
 #define KEY_JUMP 'W'
 #define KEY_LEFT 'A'
 #define KEY_RIGHT 'D'
-#define KEY_CHANGE_GUN 'J'
-#define KEY_SHOOT 'K'
+#define KEY_CHANGE_GUN 'I'
+#define KEY_SHOOT 'O'
 
 // key
 #define MOVE_JUMP 1

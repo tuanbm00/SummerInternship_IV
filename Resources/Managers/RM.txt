@@ -12,9 +12,15 @@ ID 3
 FILE ../Resources/Animation/Idle.txt
 SPEED 1
 
-#2D Textures: 1
+#2D Textures: 4
 ID 0
 FILE ../Resources/Textures/MainCharacter.tga
+ID 1
+FILE ../Resources/TexturesAnimation/bazokabullet.tga
+ID 2
+FILE ../Resources/TexturesAnimation/shortgunbullet.tga
+ID 3
+FILE ../Resources/TexturesAnimation/hellgunbullet.tga
 
 #Shaders: 1
 ID 0

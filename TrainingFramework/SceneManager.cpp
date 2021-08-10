@@ -16,7 +16,6 @@ SceneManager::SceneManager(char* fileSM)
 	m_shoot = 0.0f;
 	m_time = 0.0f;
 	keyPressed = 0;
-	printf("init key hozinol\n");
 }
 
 
@@ -30,7 +29,6 @@ void SceneManager::SetFileManager(char* fileSM) {
 
 void SceneManager::Init() {
 	jumpstep = 0;
-	printf("Init state: %d\n", Camera::GetInstance()->i_state);
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -38,16 +36,13 @@ void SceneManager::Init() {
 
 	//resource
 	ResourceManager::GetInstance()->Init();
-	printf("Init resources done!\n");
 	FILE* f_SM;
 	f_SM = fopen(m_fileSM, "r+");
 	if (f_SM != NULL) {
 		this->ReadFile(f_SM);
 	}
-	else std::cout << "Khong tim thay file Scene Manager! \n";
 
 	// Init object
-	printf("Init sm done!\n");
 	if (m_MainCharacter != NULL) {
 		m_MainCharacter->Init();
 	}
@@ -100,7 +95,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
 		pModel = new Model();
 		pModel->InitSprite(x, y, w, h, tw, th);
-		printf("%f %f %f %f\n", x, y, w, h);
 		int num_anim;
 		fscanf(f_SM, "ANIMATIONS %d\n", &num_anim);
 		if (num_anim > 0) {
@@ -112,9 +106,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			}
 		}
 		fscanf(f_SM, "SHADER %d\n", &shader);
-		printf("shader %d\n", shader);
 		fscanf(f_SM, "TEXTURE %d\n", &texture);
-		printf("tex %d\n", texture);
 			//Add Texture here
 		
 		fscanf(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
@@ -192,7 +184,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 
 	if (m_bIsFighting && timeStep >= 0.8f) {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/laser.mp3", false);
-		printf("Fighting to Target at: %f - %f!\n", m_oTarget.x, m_oTarget.y);
 		timeStep -= 0.8f;
 	}
 
@@ -247,24 +238,20 @@ void SceneManager::OnMouseButtonDown(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		printf("Left Mouse Button Down! %d - %d!\n", X, Y);
 		SetIsFighting(true);
 		m_oTarget = Vector2(X, Y);
 	}
 	break;
 	case RMB:
 	{
-		printf("Right Mouse Button Down! %d - %d!\n", X, Y);
 	}
 	break;
 	case 2:
 	{
-		printf("Left Mouse Button Click! %d - %d!\n", X, Y);
 	}
 	break;
 	case 3:
 	{
-		printf("Right Mouse Button Click! %d - %d!\n", X, Y);
 	}
 	break;
 	}
@@ -276,12 +263,10 @@ void SceneManager::OnMouseButtonUp(int X, int Y, char Button) {
 	{
 		SetIsFighting(false);
 		m_oTarget = Vector2(X, Y);
-		printf("Left Mouse Button Up! %d - %d!\n", X, Y);
 	}
 	break;
 	case RMB:
 	{
-		printf("Right Mouse Button Up! %d - %d!\n", X, Y);
 	}
 	break;
 	}
@@ -291,13 +276,11 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		printf("Left Mouse Moving: %d - %d!\n", X, Y);
 		m_oTarget = Vector2(X, Y);
 	}
 	break;
 	case RMB:
 	{
-		printf("Right Mouse Moving: %d - %d!\n", X, Y);
 	}
 	break;
 	}
@@ -370,21 +353,23 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		m_listBulletInWorld.push_back(bullet);
 	}
 }
-
+int cnt = 0;
 void SceneManager::Update(float deltaTime) {
 	CheckMovement();
+	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
 	if (jumpstep > 0) {
-		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, -50000));
+		float impulse = m_MainCharacter->getBody()->GetMass() * 10;
+		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(0.0, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 		jumpstep--;
 	}
-	else m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, m_Vertical));
+	else m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 9.0));
 
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
 	int lop = deltaTime / 0.001f;
 	for(int i = 0;i < lop;i++){
-		m_world->Step(0.05f, velocityIterations, positionIterations); // sua cai nay cho hop ly la dc uk xoa tat may cai in ra nam hinh di do chamnuk
+		m_world->Step(0.05f, velocityIterations, positionIterations); 
 
 		m_MainCharacter->Update(deltaTime);
 
@@ -447,7 +432,8 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	
+	printf("done loop %d\n", cnt);
+	cnt++;
 }
 
 void SceneManager::Key(unsigned char key, bool isPressed) {

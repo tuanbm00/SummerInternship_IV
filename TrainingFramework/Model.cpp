@@ -7,7 +7,7 @@
 
 Model::Model()
 {
-	b_IsAnimation = true;
+	b_IsAnimation = false;
 }
 
 

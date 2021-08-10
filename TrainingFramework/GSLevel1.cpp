@@ -13,7 +13,6 @@ GSLevel1::~GSLevel1() {
 }
 
 void GSLevel1::Init() {
-	printf("State init\n");
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/fatima.mp3", true); // day, mp3 cung doc dc
 }
@@ -73,7 +72,6 @@ void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 }
 
 void GSLevel1::OnMouseMoving(int X, int Y) {
-	printf("GSLevel1 - Mouse At: %d - %d!\n", X, Y);
 }
 
 void GSLevel1::OnMouseButtonDown(int X, int Y, char Button) {
