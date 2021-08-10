@@ -368,6 +368,7 @@ void SceneManager::Update(float deltaTime) {
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
 	int lop = deltaTime / 0.001f;
+
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
 

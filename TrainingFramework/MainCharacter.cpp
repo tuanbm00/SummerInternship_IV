@@ -20,7 +20,6 @@ void MainCharacter::Update(float deltaTime)
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, m_current_anim);
 	}
-	m_CurrentTime += deltaTime;
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);

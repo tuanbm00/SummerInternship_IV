@@ -54,11 +54,11 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	verticesData[2].uv = Vector2(x, y);
 	verticesData[3].uv = Vector2(x + w, y);
 
-	glGenBuffers(1, vbo);
+	
 	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+	delete[] verticesData;
 }
 
 void Animation::setAnimationSpeed(float newSpeed)
