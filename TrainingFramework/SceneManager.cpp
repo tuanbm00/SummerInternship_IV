@@ -29,7 +29,7 @@ void SceneManager::SetFileManager(char* fileSM) {
 }
 
 void SceneManager::Init() {
-
+	jumpstep = 0;
 	printf("Init state: %d\n", Camera::GetInstance()->i_state);
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
@@ -207,8 +207,8 @@ void SceneManager::Draw() {
 	//for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
 		//m_ListTerrain[i]->Draw();
 	//}
-
 	m_MainCharacter->Draw();
+
 
 	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Draw();
@@ -373,70 +373,77 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 
 void SceneManager::Update(float deltaTime) {
 	CheckMovement();
-
 	// set v
-	m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, m_Vertical));
-
-	int32 velocityIterations = 24;
-	int32 positionIterations = 12;
-	m_world->Step(deltaTime*5, velocityIterations, positionIterations);
-	m_MainCharacter->Update(deltaTime);
-
-	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
-		m_listEnemy[i]->Update(deltaTime);
-		for (b2ContactEdge* edge = m_listEnemy[i]->getBody()->GetContactList(); edge; edge = edge->next) {
-			b2Fixture* a = edge->contact->GetFixtureA();
-			b2Fixture* b = edge->contact->GetFixtureB();
-			if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
-			}
-			if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
-			}
-			if (a->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
-				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
-			}
-			if (b->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
-				m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
-			}
-		}
+	if (jumpstep > 0) {
+		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, -50000));
+		jumpstep--;
 	}
+	else m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, m_Vertical));
 
-	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
-		m_listBulletInWorld[i]->Update(deltaTime);
-		for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
-			b2Fixture* a = edge->contact->GetFixtureA();
-			b2Fixture* b = edge->contact->GetFixtureB();
-			if (a->GetFilterData().maskBits == MASK_TERRAIN || b->GetFilterData().maskBits == MASK_TERRAIN) {
-				RemoveBullet(i);
-				i--;
-				break;
-			}
-			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-				if (a->GetFilterData().maskBits == MASK_ENEMY) {
-					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
-						SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
-					}
+	int32 velocityIterations = 2;
+	int32 positionIterations = 1;
+	int lop = deltaTime / 0.001f;
+	for(int i = 0;i < lop;i++){
+		m_world->Step(0.05f, velocityIterations, positionIterations); // sua cai nay cho hop ly la dc uk xoa tat may cai in ra nam hinh di do chamnuk
+
+		m_MainCharacter->Update(deltaTime);
+
+		for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+			m_listEnemy[i]->Update(deltaTime);
+			for (b2ContactEdge* edge = m_listEnemy[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+				b2Fixture* a = edge->contact->GetFixtureA();
+				b2Fixture* b = edge->contact->GetFixtureB();
+				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
 				}
-				if (b->GetFilterData().maskBits == MASK_ENEMY) {
-					if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
-						SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
-					}
+				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 				}
-				RemoveBullet(i);
-				i--;
-				break;
-			}
-			if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
-				if (a->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+				if (a->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
 					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
 				}
-				if (b->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+				if (b->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
 					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
 				}
-				RemoveBullet(i);
-				i--;
-				break;
+			}
+		}
+
+		for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+			m_listBulletInWorld[i]->Update(deltaTime);
+			for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+				b2Fixture* a = edge->contact->GetFixtureA();
+				b2Fixture* b = edge->contact->GetFixtureB();
+				if (a->GetFilterData().maskBits == MASK_TERRAIN || b->GetFilterData().maskBits == MASK_TERRAIN) {
+					RemoveBullet(i);
+					i--;
+					break;
+				}
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					if (a->GetFilterData().maskBits == MASK_ENEMY) {
+						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+							SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
+						}
+					}
+					if (b->GetFilterData().maskBits == MASK_ENEMY) {
+						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+							SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
+						}
+					}
+					RemoveBullet(i);
+					i--;
+					break;
+				}
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
+					if (a->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+						m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+					}
+					if (b->GetFilterData().maskBits == MASK_BULLET_ENEMY) {
+						m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+					}
+					RemoveBullet(i);
+					i--;
+					break;
+				}
 			}
 		}
 	}
@@ -457,6 +464,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
+			jumpstep = 20;
 			keyPressed = keyPressed | MOVE_JUMP;
 			break;
 		case KEY_CHANGE_GUN:
@@ -514,7 +522,7 @@ void SceneManager::CheckMovement() {
 		m_direction = -1.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
-		m_Vertical = -9.8f;
+		//m_Vertical = -90.8f;
 	}
 	if (keyPressed & SHOOT) {
 		m_shoot = 1.0f;

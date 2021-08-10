@@ -37,7 +37,7 @@ private:
 	Vector2 m_oTarget;
 	char* m_fileSM = NULL;
 	b2World * m_world;
-	
+	int jumpstep;
 public:
 
 	SceneManager(char* fileSM);
