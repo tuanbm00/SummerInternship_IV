@@ -61,7 +61,6 @@ void Object::InitWVP()
 }
 
 void Object::Draw() {
-
 	glUseProgram(m_Shader->program);
 
 	glEnable(GL_DEPTH_TEST);
@@ -101,12 +100,6 @@ void Object::Draw() {
 				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}
-	}
-
-	if (m_Shader->m_uTime != -1)
-	{
-		glEnableVertexAttribArray(m_Shader->m_uTime);
-		glUniform1f(m_Shader->m_uTime, m_CurrentTime);
 	}
 
 	glDrawElements(GL_TRIANGLES, m_Model->GetNumberofIndices(), GL_UNSIGNED_INT, 0);
@@ -193,7 +186,7 @@ void Object::SetBodyObject(b2World* world) {
 	bodyDef.position.Set(m_Position.x, m_Position.y);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape staticBox;
-	staticBox.SetAsBox(m_spriteW, m_spriteH);
+	staticBox.SetAsBox(m_spriteW/2, m_spriteH/2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticBox;
 	fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;

@@ -29,6 +29,7 @@ void SceneManager::SetFileManager(char* fileSM) {
 
 void SceneManager::Init() {
 	jumpstep = 0;
+	is_in_ground = false;
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -46,20 +47,28 @@ void SceneManager::Init() {
 	if (m_MainCharacter != NULL) {
 		m_MainCharacter->Init();
 	}
-	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+	for (int i = 0; i < m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Init();
 	}
-	for (int i = 0; i < (int) m_ListGun.size(); i++) {
+	for (int i = 0; i < m_ListGun.size(); i++) {
 		m_ListGun[i]->Init();
 	}
-	for (int i = 0; i < 16; i++) {
-		for (int j = 0; j < 100; j++) {
-			if (map[i][j] >= 0) {
-				m_ListTerrain[i][j]->Init();
-//				printf("done %d %d\n", i, j);
-			}
-		}
-	}
+
+	//test xoa di
+	groundTest = new Object(99);
+	Model * pmodel = new Model;
+	pmodel->InitSprite(0, 0, 12800, 128, 128, 128);
+	Shaders * shad = new Shaders(99, "../Resources/Shaders/ModelShaderVS.vs", "../Resources/Shaders/ModelShaderFS.fs");
+	Texture * tex = new Texture(99, "../Resources/SkyboxTextures/back.tga");
+	groundTest->setModel(pmodel);
+	groundTest->setShader(shad);
+	groundTest->SetTexture(tex);
+	groundTest->SetPosition(-500, 0, 0);
+	groundTest->SetScale(1, 1, 1);
+	groundTest->SetRotation(0, 0, 0);
+	groundTest->SetBodyObject(m_world);
+	groundTest->InitWVP();
+	groundTest->Init();
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -164,43 +173,42 @@ void SceneManager::ReadFile(FILE* f_SM)
 		}
 	}
 	
-	ReadFileBackground("../Resources/Tile/tile.txt");
-
 	fclose(f_SM);
 }
 
-void SceneManager::ReadFileBackground(char* filename) {
-	int spriteW, spriteH, m, n;
-	int x, c;
-	FILE* fp = fopen(filename, "r");
-	fscanf(fp, "%d %d\n", &spriteW, &spriteH);
-	fscanf(fp, "%d %d\n", &m, &n);
-	spriteH *= 5;
-	spriteW *= 5;
-	Model* tmodel = new Model();
-	tmodel->InitSprite(0, 0, spriteW, spriteH, spriteW, spriteH);
-	for (register int i = 0; i < m; i++) {
-		for (register int j = 0; j < n; j++) {
-			fscanf(fp, "%d ", &x);
-			map[i][j] = x;
-			Terrain* terrain = new Terrain(x);
-			if (x >= 0) {
-				terrain->setModel(tmodel);
-				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
-				terrain->SetPosition(Vector3(spriteW * (j - 50), spriteH * (i - 8), 0));
-				terrain->SetScale(Vector3(1, 1, 1));
-				terrain->SetRotation(Vector3(0, 0, 0));
-				terrain->SetBodyObject(spriteW / 2, spriteH / 2, m_world);
-				terrain->InitWVP();
-			}
-			m_ListTerrain[i][j] = terrain;
-		}
-		fscanf(fp, "\n", &c);
-	}
-	fclose(fp);
-}
 
+/*void SceneManager::Update(float deltaTime) {
+>>>>>>> Stashed changes
+	if (m_world != NULL) {
+		
+	}
+	Camera::GetInstance()->Update(deltaTime);
+
+	m_MainCharacter->Update(deltaTime);
+
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Update(deltaTime);
+	}
+
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
+		m_listEnemy[i]->Update(deltaTime);
+	}
+
+	//physicWorld->Step(deltaTime, velocityIterations, positionIterations);
+
+	static float timeStep = 0.8f;
+	timeStep += deltaTime;
+
+	if (m_bIsFighting && timeStep >= 0.8f) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/laser.mp3", false);
+		timeStep -= 0.8f;
+	}
+
+	if (timeStep >= 0.8f) {
+		timeStep = 0.8f;
+	}
+	//this->CheckOnCollision();
+}*/
 
 void SceneManager::Draw() {
 
@@ -208,33 +216,22 @@ void SceneManager::Draw() {
 		//m_ListTerrain[i]->Draw();
 	//}
 	m_MainCharacter->Draw();
-	Vector3 pos = m_MainCharacter->GetPosition();
-	printf("%f %f %f\n", pos.x, pos.y, pos.z);
+
 
 	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Draw();
 	}
 
-//	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
-//		m_listBulletInWorld[i]->Draw();
-//	}
-
-	for (int i = 0; i < 16; i++) {
-		for (int j = 0; j < 50; j++) {
-//			printf("%d ", map[i][j]);
-			if (map[i][j] >= 0) {
-//				printf("%d %d\n", i, j);
-				m_ListTerrain[i][j]->Draw();
-			}
-		}
+	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+		m_listBulletInWorld[i]->Draw();
 	}
-
+	groundTest->Draw();
 }
 
-void SceneManager::AddBackground(Terrain* background) {
-	m_ListBackground.push_back(background);
-}
 
+void SceneManager::AddTerrain(Ground * obj) {
+	m_ListTerrain.push_back(obj);
+}
 
 void SceneManager::AddGun(Bullet* gun) {
 	m_ListGun.push_back(gun);
@@ -313,10 +310,8 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; 100; j++) {
-			m_ListTerrain[i][j]->CleanUp();
-		}
+	for (int i = 0; i < (int)m_ListTerrain.size(); i++) {
+		m_ListTerrain[i]->CleanUp();
 	}
 
 	m_MainCharacter->CleanUp();
@@ -332,6 +327,7 @@ void SceneManager::CleanUp() {
 }
 
 void SceneManager::Shoot() {
+	printf("shoot\n");
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGun[0]->GetID());
 	bullet->InitA(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), m_direction*bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
@@ -389,20 +385,19 @@ void SceneManager::Update(float deltaTime) {
 
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
-	int lop = deltaTime / 0.001f;
+	int lop = deltaTime / 0.002f;
 
-	for (int i = 0; i < 16; i++) {
-		for (int j = 0; j < 100; j++) {
-			if (map[i][j] >= 0) {
-				m_ListTerrain[i][j]->Update(deltaTime);
-			}
-		}
-	}
-
+	groundTest->Update(deltaTime);
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
-
 		m_MainCharacter->Update(deltaTime);
+
+		is_in_ground = false;
+		for (b2ContactEdge* edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+			b2Fixture * a = edge->contact->GetFixtureA();
+			b2Fixture * b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) is_in_ground = true;
+		}
 
 		for (int i = 0; i < (int)m_listEnemy.size(); i++) {
 			m_listEnemy[i]->Update(deltaTime);
@@ -509,7 +504,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
 			keyPressed = keyPressed ^ MOVE_JUMP;
-			m_Vertical = 9.8f;
+			m_Vertical = 39.8f;
 			break;
 		case KEY_CHANGE_GUN:
 		case KEY_CHANGE_GUN + 32:
@@ -527,13 +522,13 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 
 void SceneManager::CheckMovement() {
 	if (keyPressed & MOVE_RIGHT) {
-		m_MainCharacter->m_current_anim = RunFW;
-		m_Horizontal = 1024.0f;
+		if(is_in_ground) m_MainCharacter->m_current_anim = RunFW;
+		m_Horizontal = 20.0f;
 		m_direction = 1.0f;
 	}
 	if (keyPressed & MOVE_LEFT) {
-		m_MainCharacter->m_current_anim = RunBW;
-		m_Horizontal = -1024.0f;
+		if(is_in_ground) m_MainCharacter->m_current_anim = RunBW;
+		m_Horizontal = -20.0f;
 		m_direction = -1.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
@@ -541,6 +536,7 @@ void SceneManager::CheckMovement() {
 	}
 	if (keyPressed & SHOOT) {
 		m_shoot = 1.0f;
+		Shoot();
 	}
 	if (keyPressed & CHANGE_GUN) {
 		m_changeGun = 1.0f;
