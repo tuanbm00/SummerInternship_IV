@@ -6,6 +6,8 @@
 #define LMB 0
 #define RMB 1
 
+#define WIDTH 200.0f
+
 //key value
 #define KEY_JUMP 'W'
 #define KEY_LEFT 'A'

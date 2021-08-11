@@ -61,6 +61,8 @@ void Object::InitWVP()
 }
 
 void Object::Draw() {
+	InitWVP();
+
 	glUseProgram(m_Shader->program);
 
 	glEnable(GL_DEPTH_TEST);
@@ -148,7 +150,6 @@ void Object::setShader(Shaders* mshader)
 
 void Object::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
-	printf("set position %f %f\n", m_Position.x, m_Position.y);
 }
 
 void Object::SetPosition(Vector3 Position) {

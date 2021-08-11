@@ -18,9 +18,11 @@ class SceneManager
 {
 private:
 
-	Terrain* m_ListTerrain[16][100];
+	std::vector<std::vector<Terrain*>> m_listTerrain;
 	std::vector<Terrain*> m_ListBackground;
-	int map[16][100];
+	std::vector<std::vector<int>> map;
+	std::vector<std::vector<int>> isInit;
+
 	MainCharacter* m_MainCharacter;
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;
@@ -40,11 +42,12 @@ private:
 	bool is_in_ground;
 	Vector2 m_oTarget;
 	char* m_fileSM = NULL;
+	char* m_fileMAP = NULL;
 	b2World * m_world;
 	int jumpstep;
 public:
 
-	SceneManager(char* fileSM);
+	SceneManager(char* fileSM, char* fileMAP);
 	~SceneManager();
 
 	void Init();
@@ -71,8 +74,8 @@ public:
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
-	void ReadFileBackground(char* filename);
-	void SetFileManager(char* fileSM);
+	void ReadMap(FILE* f_MAP);
+	void SetFileManager(char* fileSM, char* fileMAP);
 
 	//Object Fighting
 	void SetIsFighting(bool IsFighting);

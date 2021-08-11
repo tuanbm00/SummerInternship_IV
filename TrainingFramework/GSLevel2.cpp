@@ -5,7 +5,8 @@
 
 GSLevel2::GSLevel2() {
 	char* SM = "../Resources/Managers/SM2.txt";
-	m_SM = m_SM = std::make_shared<SceneManager>(SM);
+	char* MAP = "../Resources/Map/tilemapr.txt";
+	m_SM = m_SM = std::make_shared<SceneManager>(SM, MAP);
 }
 
 GSLevel2::~GSLevel2() {
@@ -13,7 +14,7 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
-	m_SM->SetFileManager("../Resources/Managers/SM2.txt");
+	m_SM->SetFileManager("../Resources/Managers/SM2.txt", "../Resources/Map/tilemapr.txt");
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 

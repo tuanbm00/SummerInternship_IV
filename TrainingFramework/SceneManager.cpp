@@ -4,12 +4,13 @@
 #include "Camera.h"
 #include "define.h"
 #include <iostream>
+#include "Globals.h"
 
 
-
-SceneManager::SceneManager(char* fileSM)
+SceneManager::SceneManager(char* fileSM, char* fileMAP)
 {
 	m_fileSM = fileSM;
+	m_fileMAP = fileMAP;
 	m_direction = 1.0f;
 	m_Horizontal = 0.0f;
 	m_Vertical = 0.0f;
@@ -23,8 +24,9 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::SetFileManager(char* fileSM) {
+void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_fileSM = fileSM;
+	m_fileMAP = fileMAP;
 }
 
 void SceneManager::Init() {
@@ -42,6 +44,12 @@ void SceneManager::Init() {
 	if (f_SM != NULL) {
 		this->ReadFile(f_SM);
 	}
+	FILE* f_MAP;
+	f_MAP = fopen(m_fileMAP, "r+");
+	if (f_MAP != NULL) {
+		this->ReadMap(f_MAP);
+		printf("file k loi");
+	}
 
 	// Init object
 	if (m_MainCharacter != NULL) {
@@ -54,21 +62,16 @@ void SceneManager::Init() {
 		m_ListGun[i]->Init();
 	}
 
-	//test xoa di
-	groundTest = new Object(99);
-	Model * pmodel = new Model;
-	pmodel->InitSprite(0, 0, 12800, 128, 128, 128);
-	Shaders * shad = new Shaders(99, "../Resources/Shaders/ModelShaderVS.vs", "../Resources/Shaders/ModelShaderFS.fs");
-	Texture * tex = new Texture(99, "../Resources/SkyboxTextures/back.tga");
-	groundTest->setModel(pmodel);
-	groundTest->setShader(shad);
-	groundTest->SetTexture(tex);
-	groundTest->SetPosition(-500, 0, 0);
-	groundTest->SetScale(1, 1, 1);
-	groundTest->SetRotation(0, 0, 0);
-	groundTest->SetBodyObject(m_world);
-	groundTest->InitWVP();
-	groundTest->Init();
+	for (int i = 0; i < m_ListBackground.size(); i++) {
+		m_ListBackground[i]->Init();
+	}
+//	printf("%d %d\n", m_listTerrain.size());
+	//for (int i = 0; i < m_listTerrain.size(); i++) {
+	//	for (int j = 0; j < m_listTerrain[i].size(); j++) {
+	//		if(map[i][j] >= 0)
+	//			m_listTerrain[i][j]->Init();
+	//	}
+	//}
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -176,6 +179,61 @@ void SceneManager::ReadFile(FILE* f_SM)
 	fclose(f_SM);
 }
 
+void SceneManager::ReadMap(FILE *f_MAP) {
+	int width, height, row, col, x, c, num, index;
+
+	fscanf(f_MAP, "%d %d\n", &width, &height);
+	fscanf(f_MAP, "%d\n", &index);
+
+	fscanf(f_MAP, "%d %d\n", &row, &col);
+	Model* terrainModel = new Model();
+	terrainModel->InitSprite(0, 0, WIDTH, WIDTH, WIDTH, WIDTH);
+
+	for (int i = 0; i < row; i++) {
+		std::vector<int> line;
+		std::vector<int> isLine;
+		std::vector<Terrain*> lineMap;
+		for (int j = 0; j < col; j++) {
+			fscanf(f_MAP, "%d ", &x);
+			line.push_back(x);
+			Terrain* terrain = new Terrain(x);
+			if (x >= 0) {
+				terrain->setModel(terrainModel);
+				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
+				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2), 0);
+				terrain->SetScale(Vector3(1, 1, 1));
+				terrain->SetRotation(Vector3(0, 0, 0));
+				terrain->SetBodyObject(WIDTH, WIDTH, m_world);
+				terrain->InitWVP();
+			}
+			isLine.push_back(0);
+			lineMap.push_back(terrain);
+		}
+		isInit.push_back(isLine);
+		map.push_back(line);
+		m_listTerrain.push_back(lineMap);
+	}
+
+	num = (col * height) / (2 * width * row) + 1;
+	num = 2 * num + 1;
+	int n = WIDTH / 13;
+	Model* backgroundModel = new Model();
+	backgroundModel->InitSprite(0, 0, n * (width * col / height), n * col, n * (width * col / height), n * col);
+
+	for (int i = 0; i < num; i++) {
+		Terrain *background = new Terrain(0);
+		background->setModel(backgroundModel);
+		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
+		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
+		background->SetScale(Vector3(1, 1, 1));
+		background->SetRotation(Vector3(0, 0, 0));
+		background->InitWVP();
+		m_ListBackground.push_back(background);
+	}
+	fclose(f_MAP);
+}
 
 /*void SceneManager::Update(float deltaTime) {
 >>>>>>> Stashed changes
@@ -225,13 +283,33 @@ void SceneManager::Draw() {
 	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
 	}
-	groundTest->Draw();
+
+	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
+	int col = Globals::screenWidth / WIDTH * 2 + 1;
+	int row = Globals::screenHeight / WIDTH * 2 + 1;
+	int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
+	int h = pos.y / WIDTH + m_listTerrain.size() / 2;
+	int wlow = w - col > 0 ? w - col : 0;
+	int whigh = w + col < m_listTerrain[0].size() ? w + col : m_listTerrain[0].size() - 1;
+	int hlow = h - row > 0 ? h - row : 0;
+	int hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size() - 1;
+	for (int i = hlow; i < hhigh; i++) {
+		for (int j = wlow; j < whigh; j++) {
+			if (map[i][j] >= 0) {
+				if (isInit[i][j] == 0) {
+					m_listTerrain[i][j]->Init();
+					isInit[i][j] = 1;
+				}
+				m_listTerrain[i][j]->Draw();
+			}
+		}
+	}
+
+	for (int i = 0; i < m_ListBackground.size(); i++) {
+		m_ListBackground[i]->Draw();
+	}
 }
 
-
-void SceneManager::AddTerrain(Ground * obj) {
-	m_ListTerrain.push_back(obj);
-}
 
 void SceneManager::AddGun(Bullet* gun) {
 	m_ListGun.push_back(gun);
@@ -310,8 +388,10 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < (int)m_ListTerrain.size(); i++) {
-		m_ListTerrain[i]->CleanUp();
+	for (int i = 0; i < m_listTerrain.size(); i++) {
+		for (int j = 0; j < m_listTerrain[i].size(); j++) {
+			m_listTerrain[i][j]->CleanUp();
+		}
 	}
 
 	m_MainCharacter->CleanUp();
@@ -387,7 +467,6 @@ void SceneManager::Update(float deltaTime) {
 	int32 positionIterations = 1;
 	int lop = deltaTime / 0.002f;
 
-	groundTest->Update(deltaTime);
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
 		m_MainCharacter->Update(deltaTime);

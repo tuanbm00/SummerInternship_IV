@@ -5,7 +5,8 @@
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
-	m_SM = std::make_shared<SceneManager>(SM);
+	char* MAP = "../Resources/Map/tilemapr.txt";
+	m_SM = std::make_shared<SceneManager>(SM, MAP);
 }
 
 GSLevel1::~GSLevel1() {
