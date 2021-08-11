@@ -23,6 +23,7 @@ private:
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
+	Object * groundTest;
 
 	float m_direction;
 	float m_Horizontal;
@@ -34,6 +35,7 @@ private:
 	int keyPressed;
 
 	bool m_bIsFighting = false;
+	bool is_in_ground;
 	Vector2 m_oTarget;
 	char* m_fileSM = NULL;
 	b2World * m_world;

@@ -29,6 +29,7 @@ void SceneManager::SetFileManager(char* fileSM) {
 
 void SceneManager::Init() {
 	jumpstep = 0;
+	is_in_ground = false;
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -52,6 +53,22 @@ void SceneManager::Init() {
 	for (int i = 0; i < m_ListGun.size(); i++) {
 		m_ListGun[i]->Init();
 	}
+
+	//test xoa di
+	groundTest = new Object(99);
+	Model * pmodel = new Model;
+	pmodel->InitSprite(0, 0, 12800, 128, 128, 128);
+	Shaders * shad = new Shaders(99, "../Resources/Shaders/ModelShaderVS.vs", "../Resources/Shaders/ModelShaderFS.fs");
+	Texture * tex = new Texture(99, "../Resources/SkyboxTextures/back.tga");
+	groundTest->setModel(pmodel);
+	groundTest->setShader(shad);
+	groundTest->SetTexture(tex);
+	groundTest->SetPosition(-500, 0, 0);
+	groundTest->SetScale(1, 1, 1);
+	groundTest->SetRotation(0, 0, 0);
+	groundTest->SetBodyObject(m_world);
+	groundTest->InitWVP();
+	groundTest->Init();
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -208,6 +225,7 @@ void SceneManager::Draw() {
 	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
 	}
+	groundTest->Draw();
 }
 
 
@@ -309,6 +327,7 @@ void SceneManager::CleanUp() {
 }
 
 void SceneManager::Shoot() {
+	printf("shoot\n");
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGun[0]->GetID());
 	bullet->InitA(0, bullet->GetAttackDame(), bullet->GetAttackSpeed(), m_direction*bullet->GetSpeedOfBullet().x, bullet->GetSpeedOfBullet().y, bullet->GetMaxOfLength());
@@ -353,7 +372,6 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		m_listBulletInWorld.push_back(bullet);
 	}
 }
-int cnt = 0;
 void SceneManager::Update(float deltaTime) {
 	CheckMovement();
 	m_MainCharacter->getBody()->SetFixedRotation(true);
@@ -367,12 +385,19 @@ void SceneManager::Update(float deltaTime) {
 
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
-	int lop = deltaTime / 0.001f;
+	int lop = deltaTime / 0.002f;
 
+	groundTest->Update(deltaTime);
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
-
 		m_MainCharacter->Update(deltaTime);
+
+		is_in_ground = false;
+		for (b2ContactEdge* edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+			b2Fixture * a = edge->contact->GetFixtureA();
+			b2Fixture * b = edge->contact->GetFixtureB();
+			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) is_in_ground = true;
+		}
 
 		for (int i = 0; i < (int)m_listEnemy.size(); i++) {
 			m_listEnemy[i]->Update(deltaTime);
@@ -433,8 +458,6 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	printf("done loop %d\n", cnt);
-	cnt++;
 }
 
 void SceneManager::Key(unsigned char key, bool isPressed) {
@@ -481,7 +504,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
 			keyPressed = keyPressed ^ MOVE_JUMP;
-			m_Vertical = 9.8f;
+			m_Vertical = 39.8f;
 			break;
 		case KEY_CHANGE_GUN:
 		case KEY_CHANGE_GUN + 32:
@@ -499,13 +522,13 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 
 void SceneManager::CheckMovement() {
 	if (keyPressed & MOVE_RIGHT) {
-		m_MainCharacter->m_current_anim = RunFW;
-		m_Horizontal = 1024.0f;
+		if(is_in_ground) m_MainCharacter->m_current_anim = RunFW;
+		m_Horizontal = 20.0f;
 		m_direction = 1.0f;
 	}
 	if (keyPressed & MOVE_LEFT) {
-		m_MainCharacter->m_current_anim = RunBW;
-		m_Horizontal = -1024.0f;
+		if(is_in_ground) m_MainCharacter->m_current_anim = RunBW;
+		m_Horizontal = -20.0f;
 		m_direction = -1.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
@@ -513,6 +536,7 @@ void SceneManager::CheckMovement() {
 	}
 	if (keyPressed & SHOOT) {
 		m_shoot = 1.0f;
+		Shoot();
 	}
 	if (keyPressed & CHANGE_GUN) {
 		m_changeGun = 1.0f;

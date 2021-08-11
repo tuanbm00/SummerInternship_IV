@@ -39,7 +39,7 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
+	dynamicBox.SetAsBox(m_spriteW/2, m_spriteH/2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = m_attackDame;
