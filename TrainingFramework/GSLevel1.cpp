@@ -14,7 +14,7 @@ GSLevel1::~GSLevel1() {
 
 void GSLevel1::Init() {
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/fatima.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {

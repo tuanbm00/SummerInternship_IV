@@ -35,7 +35,7 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	m_textureH = textureH; m_textureW = textureW;
 	m_NumberOfVertices = 4;
 	verticesData = new Vertex[m_NumberOfVertices];
-	origin = Vector2(m_posX,m_posY);
+	origin = Vector2((m_posX + m_spriteW) / 2, (m_posY + m_spriteH) / 2);
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
@@ -46,9 +46,9 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	verticesData[2].uv = Vector2((float)spriteX / textureW, (float)spriteY / textureH);
 	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
 
-	for (int i = 0; i < m_NumberOfVertices; i++) {
-		printf("first uv pos %f %f\n", verticesData[i].uv.x, verticesData[i].uv.y);
-	}
+//	for (int i = 0; i < m_NumberOfVertices; i++) {
+//		printf("first uv pos %f %f\n", verticesData[i].pos.x, verticesData[i].pos.y);
+//	}
 
 	indices = new int[6];
 	indices[0] = 0;
@@ -122,7 +122,7 @@ int Model::LoadModel()
 
 void Model::setOrigin(Vector2 ori)
 {
-	origin = Vector2(m_posX, m_posY);
+	origin = Vector2((m_posX + m_spriteW) / 2, (m_posY + m_spriteH)/ 2);
 }
 
 void Model::addAnimation(Animation* anm)

@@ -19,7 +19,7 @@ void Texture::Init() {
 void Texture::BufferTexture() {
 	int iWidth, iHeight, iBpp;
 	char* imageData = LoadTGA(m_srcTexture, &iWidth, &iHeight, &iBpp);
-	printf("loaded image %dx%d, %d, %s\n", iWidth, iHeight, iBpp, m_srcTexture);
+//	printf("loaded image %dx%d, %d, %s\n", iWidth, iHeight, iBpp, m_srcTexture);
 	if (iBpp == 24)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);

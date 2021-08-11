@@ -44,7 +44,6 @@ int Object::Init() {
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 	}
-
 	return m_Shader->Init();
 }
 
@@ -119,10 +118,6 @@ void Object::Draw() {
 }
 
 void Object::Update(float deltaTime) {
-	m_CurrentTime += deltaTime;
-	if (m_bIsTarget) {
-		SetPosition(Camera::GetInstance()->GetTarget());
-	}
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
@@ -138,7 +133,7 @@ void Object::CleanUp() {
 	glDeleteBuffers(1, &vboId);
 	glDeleteBuffers(1, &iboId);
 	for (register int i = 0; i < textureId.size(); i++) {
-		glDeleteBuffers(1, &textureId[i]);
+//		glDeleteBuffers(1, &textureId[i]);
 	}
 
 	glDisable(GL_CULL_FACE);

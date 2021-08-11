@@ -46,11 +46,19 @@ void SceneManager::Init() {
 	if (m_MainCharacter != NULL) {
 		m_MainCharacter->Init();
 	}
-	for (int i = 0; i < m_listEnemy.size(); i++) {
+	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Init();
 	}
-	for (int i = 0; i < m_ListGun.size(); i++) {
+	for (int i = 0; i < (int) m_ListGun.size(); i++) {
 		m_ListGun[i]->Init();
+	}
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 100; j++) {
+			if (map[i][j] >= 0) {
+				m_ListTerrain[i][j]->Init();
+//				printf("done %d %d\n", i, j);
+			}
+		}
 	}
 }
 
@@ -156,42 +164,43 @@ void SceneManager::ReadFile(FILE* f_SM)
 		}
 	}
 	
+	ReadFileBackground("../Resources/Tile/tile.txt");
+
 	fclose(f_SM);
 }
 
-
-/*void SceneManager::Update(float deltaTime) {
->>>>>>> Stashed changes
-	if (m_world != NULL) {
-		
+void SceneManager::ReadFileBackground(char* filename) {
+	int spriteW, spriteH, m, n;
+	int x, c;
+	FILE* fp = fopen(filename, "r");
+	fscanf(fp, "%d %d\n", &spriteW, &spriteH);
+	fscanf(fp, "%d %d\n", &m, &n);
+	spriteH *= 5;
+	spriteW *= 5;
+	Model* tmodel = new Model();
+	tmodel->InitSprite(0, 0, spriteW, spriteH, spriteW, spriteH);
+	for (register int i = 0; i < m; i++) {
+		for (register int j = 0; j < n; j++) {
+			fscanf(fp, "%d ", &x);
+			map[i][j] = x;
+			Terrain* terrain = new Terrain(x);
+			if (x >= 0) {
+				terrain->setModel(tmodel);
+				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
+				terrain->SetPosition(Vector3(spriteW * (j - 50), spriteH * (i - 8), 0));
+				terrain->SetScale(Vector3(1, 1, 1));
+				terrain->SetRotation(Vector3(0, 0, 0));
+				terrain->SetBodyObject(spriteW / 2, spriteH / 2, m_world);
+				terrain->InitWVP();
+			}
+			m_ListTerrain[i][j] = terrain;
+		}
+		fscanf(fp, "\n", &c);
 	}
-	Camera::GetInstance()->Update(deltaTime);
+	fclose(fp);
+}
 
-	m_MainCharacter->Update(deltaTime);
-
-	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
-		m_listBulletInWorld[i]->Update(deltaTime);
-	}
-
-	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
-		m_listEnemy[i]->Update(deltaTime);
-	}
-
-	//physicWorld->Step(deltaTime, velocityIterations, positionIterations);
-
-	static float timeStep = 0.8f;
-	timeStep += deltaTime;
-
-	if (m_bIsFighting && timeStep >= 0.8f) {
-		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/laser.mp3", false);
-		timeStep -= 0.8f;
-	}
-
-	if (timeStep >= 0.8f) {
-		timeStep = 0.8f;
-	}
-	//this->CheckOnCollision();
-}*/
 
 void SceneManager::Draw() {
 
@@ -199,21 +208,33 @@ void SceneManager::Draw() {
 		//m_ListTerrain[i]->Draw();
 	//}
 	m_MainCharacter->Draw();
-
+	Vector3 pos = m_MainCharacter->GetPosition();
+	printf("%f %f %f\n", pos.x, pos.y, pos.z);
 
 	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
 		m_listEnemy[i]->Draw();
 	}
 
-	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
-		m_listBulletInWorld[i]->Draw();
+//	for (int i = 0; i < (int) m_listBulletInWorld.size(); i++) {
+//		m_listBulletInWorld[i]->Draw();
+//	}
+
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 50; j++) {
+//			printf("%d ", map[i][j]);
+			if (map[i][j] >= 0) {
+//				printf("%d %d\n", i, j);
+				m_ListTerrain[i][j]->Draw();
+			}
+		}
 	}
+
 }
 
-
-void SceneManager::AddTerrain(Ground * obj) {
-	m_ListTerrain.push_back(obj);
+void SceneManager::AddBackground(Terrain* background) {
+	m_ListBackground.push_back(background);
 }
+
 
 void SceneManager::AddGun(Bullet* gun) {
 	m_ListGun.push_back(gun);
@@ -292,8 +313,10 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < (int)m_ListTerrain.size(); i++) {
-		m_ListTerrain[i]->CleanUp();
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; 100; j++) {
+			m_ListTerrain[i][j]->CleanUp();
+		}
 	}
 
 	m_MainCharacter->CleanUp();
@@ -353,7 +376,6 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		m_listBulletInWorld.push_back(bullet);
 	}
 }
-int cnt = 0;
 void SceneManager::Update(float deltaTime) {
 	CheckMovement();
 	m_MainCharacter->getBody()->SetFixedRotation(true);
@@ -368,6 +390,14 @@ void SceneManager::Update(float deltaTime) {
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
 	int lop = deltaTime / 0.001f;
+
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 100; j++) {
+			if (map[i][j] >= 0) {
+				m_ListTerrain[i][j]->Update(deltaTime);
+			}
+		}
+	}
 
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
@@ -433,8 +463,6 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	printf("done loop %d\n", cnt);
-	cnt++;
 }
 
 void SceneManager::Key(unsigned char key, bool isPressed) {

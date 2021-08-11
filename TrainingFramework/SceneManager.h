@@ -12,13 +12,15 @@
 #include "NPC.h"
 #include "Bullet.h"
 #include "Enemy.h"
-#include "Ground.h"
+#include "Terrain.h"
 
 class SceneManager
 {
 private:
 
-	std::vector<Ground *> m_ListTerrain;
+	Terrain* m_ListTerrain[16][100];
+	std::vector<Terrain*> m_ListBackground;
+	int map[16][100];
 	MainCharacter* m_MainCharacter;
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;
@@ -51,8 +53,8 @@ public:
 	void OnMouseButtonUp(int X, int Y, char Button);
 	void OnMouseButtonMove(int X, int Y, char Button);
 
-
-	void AddTerrain(Ground* terrain);
+	void AddBackground(Terrain* background);
+	void AddTerrain(Terrain* terrain);
 	void AddGun(Bullet* gun);
 	void AddBullet(Bullet* bullet);
 	void RemoveBullet(int index);
@@ -67,6 +69,7 @@ public:
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
+	void ReadFileBackground(char* filename);
 	void SetFileManager(char* fileSM);
 
 	//Object Fighting

@@ -41,8 +41,9 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW, m_spriteH);
+	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
 	b2FixtureDef fixtureDef;
+	printf("%f %f %f %f\n", m_Position.x, m_Position.y, m_spriteW, m_spriteH);
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.filter.categoryBits = CATEGORY_PLAYER;

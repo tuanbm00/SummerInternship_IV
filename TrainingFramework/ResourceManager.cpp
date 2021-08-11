@@ -69,6 +69,32 @@ void ResourceManager::ReadFile(FILE* f_RM)
 		m_Textures.push_back(texture);
 	}
 
+	//Background
+	int numOfBackground;
+	fscanf(f_RM, "#Background: %d\n", &numOfBackground);
+	for (register int i = 0; i < numOfBackground; i++) {
+		int ID;
+		char File[250];
+		fscanf(f_RM, "ID %d\n", &ID);
+		fscanf(f_RM, "FILE %s\n", &File);
+
+		Texture* texture = new Texture(ID, File);
+		m_BackgroundTextures.push_back(texture);
+	}
+
+	//Tile
+	int numOfTile;
+	fscanf(f_RM, "#Tile: %d\n", &numOfTile);
+	for (register int i = 0; i < numOfTile; i++) {
+		int ID;
+		char File[250];
+		fscanf(f_RM, "ID %d\n", &ID);
+		fscanf(f_RM, "FILE %s\n", &File);
+
+		Texture* texture = new Texture(ID, File);
+		m_TerrainTextures.push_back(texture);
+	}
+
 	//Shaders
 	int numOfShaders;
 	fscanf(f_RM, "#Shaders: %d\n", &numOfShaders);
@@ -141,6 +167,26 @@ Texture* ResourceManager::GetTextureAtID(int ID) {
 	return NULL;
 }
 
+Texture* ResourceManager::GetBackgroundAtID(int ID) {
+	for (register int i = 0; i < m_BackgroundTextures.size(); i++) {
+		if (m_BackgroundTextures[i]->GetID() == ID) {
+			return m_BackgroundTextures[i];
+		}
+	}
+	std::cout << "No Background Texture found! " << std::endl;
+	return NULL;
+}
+
+Texture* ResourceManager::GetTerrainAtID(int ID) {
+	for (register int i = 0; i < m_TerrainTextures.size(); i++) {
+		if (m_TerrainTextures[i]->GetID() == ID) {
+			return m_TerrainTextures[i];
+		}
+	}
+	std::cout << "No Terrian Texture found! " << std::endl;
+	return NULL;
+}
+
 //TruongNV - Sound Functions
 //Add Sound
 void ResourceManager::AddSound(const std::string& name)
@@ -207,5 +253,11 @@ void ResourceManager::CleanUp() {
 	}
 	for (int i = 0; i < m_Shaders.size(); i++) {
 		delete m_Shaders[i];
+	}
+	for (int i = 0; i < m_BackgroundTextures.size(); i++) {
+		delete m_BackgroundTextures[i];
+	}
+	for (int i = 0; i < m_TerrainTextures.size(); i++) {
+		delete m_TerrainTextures[i];
 	}
 }

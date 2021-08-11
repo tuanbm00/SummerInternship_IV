@@ -22,6 +22,44 @@ FILE ../Resources/TexturesAnimation/shortgunbullet.tga
 ID 3
 FILE ../Resources/TexturesAnimation/hellgunbullet.tga
 
+#Background: 1
+ID 0
+FILE ../Resources/Tile/background.tga
+
+#Tile: 16
+ID 0
+FILE ../Resources/Tile/0.tga
+ID 1
+FILE ../Resources/Tile/1.tga
+ID 2
+FILE ../Resources/Tile/2.tga
+ID 3
+FILE ../Resources/Tile/3.tga
+ID 4
+FILE ../Resources/Tile/4.tga
+ID 5
+FILE ../Resources/Tile/12.tga
+ID 6
+FILE ../Resources/Tile/13.tga
+ID 7
+FILE ../Resources/Tile/23.tga
+ID 8
+FILE ../Resources/Tile/24.tga
+ID 9
+FILE ../Resources/Tile/34.tga
+ID 10
+FILE ../Resources/Tile/41.tga
+ID 11
+FILE ../Resources/Tile/123.tga
+ID 12
+FILE ../Resources/Tile/234.tga
+ID 13
+FILE ../Resources/Tile/341.tga
+ID 14
+FILE ../Resources/Tile/412.tga
+ID 15
+FILE ../Resources/Tile/1234.tga
+
 #Shaders: 1
 ID 0
 VS ../Resources/Shaders/ModelShaderVS.vs

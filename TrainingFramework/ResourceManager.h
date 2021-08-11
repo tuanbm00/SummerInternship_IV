@@ -15,6 +15,8 @@ private:
 	std::vector<Texture*> m_Textures;
 	std::vector<Shaders*> m_Shaders;
 	std::vector<Animation*> m_Animations;
+	std::vector<Texture*> m_TerrainTextures;
+	std::vector<Texture*> m_BackgroundTextures;
 
 	std::map<std::string, std::shared_ptr<SoLoud::Wav>> m_MapWave; //TruongNV - Add Map Sound
 	//std::string m_SoundPath; //Truong NV - Add SoundPath
@@ -30,6 +32,8 @@ public:
 	Animation* GetAnimationAtID(int ID);
 	Texture* GetTextureAtID(int ID);
 	Shaders* GetShaderAtID(int ID);
+	Texture* GetBackgroundAtID(int ID);
+	Texture* GetTerrainAtID(int ID);
 
 	//TruongNV - Add Function Sound
 	void AddSound(const std::string& name);
