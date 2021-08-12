@@ -64,7 +64,12 @@ public:
 	Vector3 GetRotation();
 	Vector2 GetBox();
 	int GetID();
+
 	b2Body* getBody();
+	Texture* getTexture();
+	Shaders* getShaders();
+	Model* getModel();
+
 	void SetIsTarget(bool Target) { m_bIsTarget = Target; }
 	bool GetIsTarget() { return m_bIsTarget; }
 	void SetBodyObject(b2World* world);

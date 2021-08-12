@@ -7,6 +7,7 @@ class Bullet :
 {
 private:
 	int m_NumberOfBullet;
+	int m_isChange;
 	float m_AttackDame;
 	float m_AttackSpeed;
 	float m_SpeedOfBulletX;
@@ -16,11 +17,19 @@ private:
 public:
     Bullet(int ID) : Object(ID) {}
 
-	void InitA(int numberOfBullet, float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
+	void InitA(float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
+	void ResetBullet();
+	void SetCurrLength(float curr);
+	void ReverseV();
 	bool IsEmptyBullet();
 	bool IsOverLength();
+	void SetIsChange();
+
+	bool IsChange();
 	float GetAttackDame();
 	float GetAttackSpeed();
+	float GetCurrLength();
+
 	Vector2 GetSpeedOfBullet();
 	float GetMaxOfLength();
     void Update(float deltaTime);

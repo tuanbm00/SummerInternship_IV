@@ -30,6 +30,10 @@ void Object::SetTexture(Texture* texture) {
 	m_isTexture = true;
 }
 
+Texture* Object::getTexture() {
+	return m_Texture[0];
+}
+
 
 Object::~Object() {
 
@@ -62,7 +66,7 @@ void Object::InitWVP()
 }
 
 void Object::Draw() {
-	UpdateWVP();
+	InitWVP();
 
 	glUseProgram(m_Shader->program);
 	
@@ -140,9 +144,17 @@ void Object::setModel(Model* mmodel)
 	m_Model = mmodel;
 }
 
+Model* Object::getModel() {
+	return m_Model;
+}
+
 void Object::setShader(Shaders* mshader)
 {
 	m_Shader = mshader;
+}
+
+Shaders* Object::getShaders() {
+	return m_Shader;
 }
 
 void Object::SetPosition(float X, float Y, float Z) {

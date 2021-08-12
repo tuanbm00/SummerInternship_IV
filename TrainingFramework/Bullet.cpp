@@ -2,14 +2,19 @@
 #include "define.h"
 
 
-void Bullet::InitA(int numberOfBullet, float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
-	m_NumberOfBullet = numberOfBullet;
+void Bullet::InitA(float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
+	m_isChange = 0;
+	m_NumberOfBullet = NUM_BULLET;
 	m_AttackDame = attackDame;
 	m_AttackSpeed = attackSpeed;
 	m_SpeedOfBulletX = speedOfBulletX;
 	m_SpeedOfBulletY = speedOfBulletY;
 	m_MaxOfLength = maxOfLength;
 	m_CurrentLength = 0;
+}
+
+void Bullet::ResetBullet() {
+	m_NumberOfBullet = NUM_BULLET;
 }
 
 // hàm kiểm tra sẽ được gọi sau khi thực hiện việc bắn đạn nên lượng đạn -1
@@ -41,17 +46,43 @@ Vector2 Bullet::GetSpeedOfBullet() {
 	return Vector2(m_SpeedOfBulletX, m_SpeedOfBulletY);
 }
 
+void Bullet::SetCurrLength(float curr) {
+	m_CurrentLength = curr;
+}
+
+float Bullet::GetCurrLength() {
+	return m_CurrentLength;
+}
+
 float Bullet::GetMaxOfLength() {
 	return m_MaxOfLength;
+}
+
+void Bullet::SetIsChange() {
+	m_isChange = 1;
+}
+
+bool Bullet::IsChange() {
+	if (m_isChange == 0) {
+		return false;
+	}
+	m_isChange = 0;
+	return true;
+}
+
+void Bullet::ReverseV() {
+	m_SpeedOfBulletX = -m_SpeedOfBulletX;
+	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 }
 
 void Bullet::Update(float deltaTime)
 {
 	if (m_ObjectID == CATEGORY_BAZOKA) {
 		b2Vec2 v = m_body->GetLinearVelocity();
-		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime));
+		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
 	}
-	m_CurrentLength += deltaTime * m_SpeedOfBulletX;
+	float vel = m_SpeedOfBulletX > 0 ? m_SpeedOfBulletX : -m_SpeedOfBulletX;
+	m_CurrentLength += deltaTime * vel;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 }

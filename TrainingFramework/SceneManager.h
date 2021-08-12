@@ -58,8 +58,6 @@ public:
 	void OnMouseButtonUp(int X, int Y, char Button);
 	void OnMouseButtonMove(int X, int Y, char Button);
 
-	void AddBackground(Terrain* background);
-	void AddTerrain(Terrain* terrain);
 	void AddGun(Bullet* gun);
 	void AddBullet(Bullet* bullet);
 	void RemoveBullet(int index);

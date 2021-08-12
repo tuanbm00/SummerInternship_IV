@@ -6,6 +6,10 @@
 #define LMB 0
 #define RMB 1
 
+// number of max bullet
+#define NUM_BULLET 3
+
+// size of 
 #define WIDTH 200.0f
 
 //key value
