@@ -54,7 +54,6 @@ void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 		case 'k':
 		{
 			if (GameStateMachine::GetInstance()->HasInstance()) {
-				std::cout << "PushStates\n";
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 			}
 		}
@@ -63,9 +62,8 @@ void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 		case 'j':
 		{
 			if (GameStateMachine::GetInstance()->GetIsCanPop()) {
-				std::cout << "PopStates\n";
 				GameStateMachine::GetInstance()->PopState();
-			}else std::cout << "Cannot PopStates\n";
+			}
 		}
 		break;
 		}

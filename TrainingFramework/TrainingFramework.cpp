@@ -78,14 +78,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	esInitContext(&esContext);
 
-	esCreateWindow(&esContext, "Shooting game", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+	esCreateWindow(&esContext, "Shostfdsng game", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
 
 	if (Init(&esContext) != 0)
 		return 0;
 	
+	esRegisterKeyFunc(&esContext, KeyEvents);
 	esRegisterDrawFunc(&esContext, Draw);
 	esRegisterUpdateFunc(&esContext, Update);
-	esRegisterKeyFunc(&esContext, KeyEvents);
 	esRegisterMouseDownFunc(&esContext, OnMouseButtonDown);
 	esRegisterMouseUpFunc(&esContext, OnMouseButtonUp);
 	esRegisterMouseMoveFunc(&esContext, OnMouseButtonMove);

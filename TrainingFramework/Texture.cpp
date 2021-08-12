@@ -9,35 +9,28 @@ Texture::Texture(int ID, char* srcTexture)
 }
 
 Texture::~Texture() {
-
+	glDeleteTextures(1, &mTextureId);
 }
 
 void Texture::Init() {
-	
-}
+	int width = 0;
+	int height = 0;
+	int bpp = 0;
+	const char* imageData = LoadTGA(m_srcTexture, &width, &height, &bpp);
+	GLenum format = (bpp == 24 ? GL_RGB : GL_RGBA);
 
-void Texture::BufferTexture() {
-	int iWidth, iHeight, iBpp;
-	char* imageData = LoadTGA(m_srcTexture, &iWidth, &iHeight, &iBpp);
-//	printf("loaded image %dx%d, %d, %s\n", iWidth, iHeight, iBpp, m_srcTexture);
-	if (iBpp == 24)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-		delete[] imageData;
-	}
-	else if (iBpp == 32)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-		delete[] imageData;
-	}
-	else printf("load failed!\n");
+	glGenTextures(1, &mTextureId);
+	glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
+	delete[] imageData;
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 char* Texture::GetSource() {

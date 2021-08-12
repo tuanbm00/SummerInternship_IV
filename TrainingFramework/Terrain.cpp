@@ -1,6 +1,10 @@
 #include "Terrain.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
+void Terrain::InitTerrain(char * filename)
+{
+}
+
 void Terrain::SetBodyObject(float spriteW, float spriteH, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;

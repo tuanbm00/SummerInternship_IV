@@ -1,4 +1,5 @@
 #pragma once
+#include <GLES2/gl2.h>
 class Texture
 {
 private:
@@ -8,9 +9,8 @@ private:
 public:
 	Texture(int ID, char* srcTexture);
 	~Texture();
-
+	GLuint mTextureId;
 	void Init();
-	void BufferTexture();
 	int GetID() { return m_Id; }
 	char* GetSource();
 };

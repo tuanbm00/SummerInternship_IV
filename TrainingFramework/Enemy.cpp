@@ -18,12 +18,10 @@ void Enemy::Update(float deltaTime)
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, Idle);
 	}
-	m_CurrentTime += deltaTime;
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
 	m_WorldMatrix = scaleMatrix * translationMatrix;
-	UpdateWVP();
 }
 
 bool Enemy::isDie() {

@@ -20,14 +20,11 @@ private:
 	
 public:
 	float m_textureW, m_textureH, m_posX, m_posY, m_spriteW, m_spriteH;
-	GLuint vboId, iboId;
+	GLuint vboId;
 	bool b_IsAnimation;
 	Model();
-	Model(int ID, char* srcModel);
 	~Model();
-	int Init();
 	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH);
-	int LoadModel();
 	void setOrigin(Vector2 ori);
 	void addAnimation(Animation* anm);
 	void updateAnimation(float deltaTime, int type);
@@ -40,7 +37,6 @@ public:
 	int* GetIndices() { return indices; }
 	Vertex* GetVertices() { return verticesData; }
 	int GetID() { return m_Id; }
-	char* GetSource() { return m_srcModel; }
 	Vector2 getOrigin() {
 		return origin;
 	}

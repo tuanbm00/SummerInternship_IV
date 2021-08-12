@@ -98,7 +98,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CubeTextures.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
@@ -114,14 +113,12 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TrainingFramework.cpp" />
     <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CubeTextures.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
@@ -141,7 +138,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,6 @@ void NPC::Update(float deltaTime)
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, typ);
 	}
-	m_CurrentTime += deltaTime;
 	if (m_bIsTarget) {
 		SetPosition(Camera::GetInstance()->GetTarget());
 	}

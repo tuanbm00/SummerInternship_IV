@@ -15,16 +15,20 @@ void MainCharacter::Update(float deltaTime)
 {
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
-	Camera::GetInstance()->SetPosition(m_Position.x, 0.0f);
-	Camera::GetInstance()->SetTarget(m_Position.x, 0.0f, 0.0f);
+	Vector3 camPos = Camera::GetInstance()->GetPosition();
+	int Y = camPos.y-m_Position.y;
+	camPos.x = m_Position.x;
+	if (Y > 500) camPos.y = m_Position.y + 500;
+	if (Y < -500) camPos.y = m_Position.y - 500;
+	Camera::GetInstance()->SetPosition(camPos);
+	Camera::GetInstance()->SetTarget(camPos.x, camPos.y, 0.0f);
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, m_current_anim);
 	}
-	Matrix translationMatrix, scaleMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	m_WorldMatrix = scaleMatrix * translationMatrix;
-	UpdateWVP();
+	Matrix translation, scale;
+	translation.SetTranslation(m_Position);
+	scale.SetScale(m_Scale);
+	m_WorldMatrix = scale * translation;
 }
 
 bool MainCharacter::isDie() {
@@ -43,7 +47,6 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
 	b2FixtureDef fixtureDef;
-	printf("%f %f %f %f\n", m_Position.x, m_Position.y, m_spriteW, m_spriteH);
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.filter.categoryBits = CATEGORY_PLAYER;

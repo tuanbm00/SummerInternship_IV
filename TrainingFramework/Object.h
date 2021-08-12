@@ -4,7 +4,6 @@
 #include "Shaders.h"
 #include "Model.h"
 #include "Texture.h"
-#include "CubeTextures.h"
 #include "b2_body.h"
 #include <b2_world.h>
 #include <b2_polygon_shape.h>
@@ -22,7 +21,6 @@ protected:
 	Shaders* m_Shader;
 	Model* m_Model;
 
-
 	float m_spriteX, m_spriteY, m_spriteW, m_spriteH;
 
 	b2Body* m_body;
@@ -34,16 +32,14 @@ protected:
 	Matrix m_WorldMatrix;
 	Matrix m_ScaleMatrix;
 	Matrix m_WVP;
-	float m_CurrentTime;
 
 	int m_ObjectID;
-	bool m_bIsTarget = false, m_isTexture = false, m_isCubeTexture = false;
+	bool m_bIsTarget = false, m_isTexture = false;
 	
 public:
 	int m_current_anim;
 	Object(int ID);
 	~Object();
-	int Init();
 	void InitWVP();
 	void Draw();
 	virtual void Update(float deltaTime);
@@ -65,8 +61,6 @@ public:
 	Vector2 GetBox();
 	int GetID();
 	b2Body* getBody();
-	void SetIsTarget(bool Target) { m_bIsTarget = Target; }
-	bool GetIsTarget() { return m_bIsTarget; }
 	void SetBodyObject(b2World* world);
 };
 

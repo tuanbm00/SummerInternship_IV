@@ -36,7 +36,6 @@ void ResourceManager::Init() {
 	if (f_RM != NULL) {
 		this->ReadFile(f_RM);
 	}
-	else std::cout << "Khong tim thay file Scene Manager! \n";
 }
 
 void ResourceManager::ReadFile(FILE* f_RM)
@@ -66,6 +65,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 		fscanf(f_RM, "FILE %s\n", &File);
 
 		Texture* texture = new Texture(ID, File);
+		texture->Init();
 		m_Textures.push_back(texture);
 	}
 
@@ -79,6 +79,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 		fscanf(f_RM, "FILE %s\n", &File);
 
 		Texture* texture = new Texture(ID, File);
+		texture->Init();
 		m_BackgroundTextures.push_back(texture);
 	}
 
@@ -92,6 +93,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 		fscanf(f_RM, "FILE %s\n", &File);
 
 		Texture* texture = new Texture(ID, File);
+		texture->Init();
 		m_TerrainTextures.push_back(texture);
 	}
 
@@ -119,6 +121,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 		}
 
 		Shaders* shader = new Shaders(ID, FileVS, FileFS, depth_test, cull_face, blend);
+		shader->Init();
 		m_Shaders.push_back(shader);
 	}
 
@@ -132,7 +135,6 @@ Model* ResourceManager::GetModelAtID(int ID) {
 			return m_Models[i];
 		}
 	}
-	std::cout << "No Model found! " << std::endl;
 	return NULL;
 }
 
@@ -143,7 +145,6 @@ Animation* ResourceManager::GetAnimationAtID(int ID)
 			return m_Animations[i];
 		}
 	}
-	printf("cant find animation\n");
 	return NULL;
 }
 
@@ -153,7 +154,6 @@ Shaders* ResourceManager::GetShaderAtID(int ID) {
 			return m_Shaders[i];
 		}
 	}
-	std::cout << "No Shader found! " << std::endl;
 	return NULL;
 }
 
@@ -163,7 +163,6 @@ Texture* ResourceManager::GetTextureAtID(int ID) {
 			return m_Textures[i];
 		}
 	}
-	std::cout << "No Texture found! " << std::endl;
 	return NULL;
 }
 
@@ -173,7 +172,6 @@ Texture* ResourceManager::GetBackgroundAtID(int ID) {
 			return m_BackgroundTextures[i];
 		}
 	}
-	std::cout << "No Background Texture found! " << std::endl;
 	return NULL;
 }
 
@@ -183,7 +181,6 @@ Texture* ResourceManager::GetTerrainAtID(int ID) {
 			return m_TerrainTextures[i];
 		}
 	}
-	std::cout << "No Terrian Texture found! " << std::endl;
 	return NULL;
 }
 
