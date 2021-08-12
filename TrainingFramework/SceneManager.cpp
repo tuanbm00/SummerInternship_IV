@@ -457,15 +457,18 @@ void SceneManager::Update(float deltaTime) {
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
 	if (jumpstep > 0) {
-		float impulse = m_MainCharacter->getBody()->GetMass() * 10;
-		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(0.0, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
+		float impulse = m_MainCharacter->getBody()->GetMass() * 5;
+		float impulseX = m_Horizontal * 70;
+		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 		jumpstep--;
 	}
-	else m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 9.0));
+	else {
+		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 45.0));
+	}
 
 	int32 velocityIterations = 2;
 	int32 positionIterations = 1;
-	int lop = deltaTime / 0.002f;
+	int lop = deltaTime / 0.003f;
 
 	for(int i = 0;i < lop;i++){
 		m_world->Step(0.05f, velocityIterations, positionIterations); 
@@ -545,15 +548,18 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		{
 		case KEY_LEFT:
 		case KEY_LEFT + 32:
+			m_direction = -1.0f;
 			keyPressed = keyPressed | MOVE_LEFT;
 			break;
 		case KEY_RIGHT:
 		case KEY_RIGHT + 32:
+			m_direction = 1.0f;
 			keyPressed = keyPressed | MOVE_RIGHT;
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
 			jumpstep = 20;
+			m_MainCharacter->resetAnimation(RunJump);
 			keyPressed = keyPressed | MOVE_JUMP;
 			break;
 		case KEY_CHANGE_GUN:
@@ -567,7 +573,6 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		}
 	}
 	else {
-		m_MainCharacter->m_current_anim = Idle;
 		switch (key)
 		{
 		case KEY_LEFT:
@@ -600,18 +605,23 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 }
 
 void SceneManager::CheckMovement() {
+	if (is_in_ground) m_MainCharacter->m_current_anim = Idle * m_direction;
+	else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
 	if (keyPressed & MOVE_RIGHT) {
-		if(is_in_ground) m_MainCharacter->m_current_anim = RunFW;
-		m_Horizontal = 20.0f;
 		m_direction = 1.0f;
+		if (is_in_ground) m_MainCharacter->m_current_anim = Run;
+		m_Horizontal = 20.0f;
 	}
-	if (keyPressed & MOVE_LEFT) {
-		if(is_in_ground) m_MainCharacter->m_current_anim = RunBW;
-		m_Horizontal = -20.0f;
+	else if (keyPressed & MOVE_LEFT) {
 		m_direction = -1.0f;
+		if (is_in_ground) m_MainCharacter->m_current_anim = Run * m_direction;
+		m_Horizontal = -20.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
-		//m_Vertical = -90.8f;
+		if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
+		else {
+			m_MainCharacter->m_current_anim = RunJump * m_direction;
+		}
 	}
 	if (keyPressed & SHOOT) {
 		m_shoot = 1.0f;

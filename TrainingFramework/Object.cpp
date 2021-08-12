@@ -8,6 +8,7 @@
 
 Object::Object(int ID) {
 	m_ObjectID = ID;
+	m_current_anim = Idle;
 }
 
 int Object::GetID() {
@@ -61,13 +62,9 @@ void Object::InitWVP()
 }
 
 void Object::Draw() {
-	InitWVP();
+	UpdateWVP();
 
 	glUseProgram(m_Shader->program);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);

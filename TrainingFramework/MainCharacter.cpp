@@ -15,8 +15,8 @@ void MainCharacter::Update(float deltaTime)
 {
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
-	Camera::GetInstance()->SetPosition(m_Position.x, m_Position.y);
-	Camera::GetInstance()->SetTarget(m_Position.x, m_Position.y, 0.0f);
+	Camera::GetInstance()->SetPosition(m_Position.x, 0.0f);
+	Camera::GetInstance()->SetTarget(m_Position.x, 0.0f, 0.0f);
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, m_current_anim);
 	}
@@ -50,4 +50,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	fixtureDef.filter.maskBits = MASK_PLAYER;
 	fixtureDef.density = 5000.0f / area;
 	m_body->CreateFixture(&fixtureDef);
+}
+void MainCharacter::resetAnimation(int type) {
+	m_Model->getAnimation(type - 1)->resetAnimation();
 }

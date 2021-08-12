@@ -131,8 +131,12 @@ void Model::addAnimation(Animation* anm)
 	m_anim.push_back(anm);
 }
 
-void Model::updateAnimation(float deltaTime, AnimationType type)
+void Model::updateAnimation(float deltaTime, int type)
 {
-	m_anim[type]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
+	if (type >= 0) m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
+	else {
+		type = -type;
+		m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, true);
+	}
 }
 

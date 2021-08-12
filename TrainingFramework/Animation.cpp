@@ -10,11 +10,11 @@ Animation::Animation(const char* filePath)
 	if (fp == NULL) {
 		printf("Can not open animation file! %s\n", filePath);
 	}
-	int cnt;
-	fscanf(fp, "%d\n", &cnt);
+	int cnt, total;
+	fscanf(fp, "%d %d\n", &total, &cnt);
 	i_frame_count = cnt;
-	m_animation = new Vector4[i_frame_count];
-	for (int i = 0; i < i_frame_count; i++) {
+	m_animation = new Vector4[total];
+	for (int i = 0; i < total; i++) {
 		int x, y, w, h;
 		fscanf(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
 		m_animation[i] = Vector4(x, y, w, h);
@@ -28,12 +28,15 @@ Animation::~Animation()
 	delete[] m_animation;
 }
 
-void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime)
+void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert)
 {
 	d_anim_cursor += deltaTime;
 	if (d_anim_cursor > f_speed) {
 		i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
 		d_anim_cursor = 0;
+	}
+	if (revert) {
+		if (i_current_frame_index < i_frame_count) i_current_frame_index += i_frame_count;
 	}
 	Vector4 frame = m_animation[i_current_frame_index];
 	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
@@ -69,4 +72,8 @@ void Animation::setAnimationSpeed(float newSpeed)
 void Animation::setID(int id)
 {
 	m_ID = id;
+}
+void Animation::resetAnimation()
+{
+	i_current_frame_index = 0;
 }

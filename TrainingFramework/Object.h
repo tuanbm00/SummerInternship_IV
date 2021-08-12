@@ -40,6 +40,7 @@ protected:
 	bool m_bIsTarget = false, m_isTexture = false, m_isCubeTexture = false;
 	
 public:
+	int m_current_anim;
 	Object(int ID);
 	~Object();
 	int Init();

@@ -30,7 +30,7 @@ public:
 	int LoadModel();
 	void setOrigin(Vector2 ori);
 	void addAnimation(Animation* anm);
-	void updateAnimation(float deltaTime, AnimationType type);
+	void updateAnimation(float deltaTime, int type);
 	int GetNumberofVertices() {
 		return m_NumberOfVertices;
 	}
@@ -43,6 +43,9 @@ public:
 	char* GetSource() { return m_srcModel; }
 	Vector2 getOrigin() {
 		return origin;
+	}
+	Animation * getAnimation(int type) {
+		return m_anim[type];
 	}
 };
 
