@@ -15,23 +15,18 @@ private:
 	Vector3 m_Up;
 	Vector3 m_Target;
 	Vector3 m_Position;
-	Vector3 m_Rotation;
 	Vector3 m_TargetPosition;
 
-	Matrix m_WorldMatrix;
 	Matrix m_ViewMatrix;
-	Matrix m_Perspective;
+	Matrix Omatrix;
 
 	int keyPressed = 0;
 public:
+	GLuint iboId;
 	Camera();
 	~Camera();
-	float m_Horizontal, m_Vertical, m_Speed = 1.0f, m_rSpeed = 1.0f;
-	float m_rHorizontal, m_rVertical;
 	static Camera* GetInstance();
 	int i_state;
-	int getKeyPressed();
-	Matrix GetPerspective();
 	Matrix GetOrthographic();
 	Matrix GetViewMatrix();
 
@@ -39,15 +34,12 @@ public:
 	void Update(float deltaTime);
 	void CleanUp();
 
-	Matrix GetWorldMatrix();
 
+	void initOrtho();
 	void SetPosition(float X, float Y, float Z);
 	void SetPosition(float X, float Y);
 	void SetPosition(Vector3 Position);
 	Vector3 GetPosition();
-	void SetRotation(float X, float Y, float Z);
-	void SetRotation(Vector3 Rotation);
-	Vector3 GetRotation();
 	void SetTarget(Vector3 Target);
 	void SetTarget(float X, float Y, float Z);
 	Vector3 GetTarget();

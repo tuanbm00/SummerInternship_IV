@@ -39,19 +39,6 @@ Object::~Object() {
 
 }
 
-int Object::Init() {
-	m_CurrentTime = 0;
-	if (m_isTexture) {
-		for (register int i = 0; i < textureId.size(); i++) {
-			glGenTextures(1, &textureId[i]);
-			glBindTexture(GL_TEXTURE_2D, textureId[i]);
-			m_Texture[i]->BufferTexture();
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-	}
-	return m_Shader->Init();
-}
-
 void Object::InitWVP()
 {
 	m_Model->setOrigin(Vector2(m_Position.x, m_Position.y));
@@ -72,7 +59,7 @@ void Object::Draw() {
 	
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -96,16 +83,16 @@ void Object::Draw() {
 
 	//Setting Texture Uniform
 	if (m_isTexture) {
-		for (register int i = 0; i < textureId.size(); i++) {
+		for (register int i = 0; i < m_Texture.size(); i++) {
 			if (m_Shader->m_uTextures[i] != -1) {
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, textureId[i]);
+				glBindTexture(GL_TEXTURE_2D, m_Texture[i]->mTextureId);
 				glUniform1i(m_Shader->m_uTextures[i], i);
 			}
 		}
 	}
 
-	glDrawElements(GL_TRIANGLES, m_Model->GetNumberofIndices(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

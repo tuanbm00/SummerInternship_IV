@@ -19,6 +19,7 @@ class SceneManager
 private:
 
 	std::vector<std::vector<Terrain*>> m_listTerrain;
+	std::vector<Terrain*> m_terrainTest;
 	std::vector<Terrain*> m_ListBackground;
 	std::vector<std::vector<int>> map;
 	std::vector<std::vector<int>> isInit;
@@ -46,7 +47,7 @@ private:
 	b2World * m_world;
 	int jumpstep;
 public:
-
+	int * indices;
 	SceneManager(char* fileSM, char* fileMAP);
 	~SceneManager();
 

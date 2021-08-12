@@ -83,9 +83,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	if (Init(&esContext) != 0)
 		return 0;
 	
+	esRegisterKeyFunc(&esContext, KeyEvents);
 	esRegisterDrawFunc(&esContext, Draw);
 	esRegisterUpdateFunc(&esContext, Update);
-	esRegisterKeyFunc(&esContext, KeyEvents);
 	esRegisterMouseDownFunc(&esContext, OnMouseButtonDown);
 	esRegisterMouseUpFunc(&esContext, OnMouseButtonUp);
 	esRegisterMouseMoveFunc(&esContext, OnMouseButtonMove);

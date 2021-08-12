@@ -17,7 +17,7 @@ public:
 	Animation(const char* filePath);
 	~Animation();
 
-	void play(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
+	Vector4 play(float deltaTime, bool revert = false);
 
 	void setAnimationSpeed(float newSpeed);
 	void setID(int id);
@@ -26,6 +26,7 @@ public:
 	}
 	void resetAnimation();
 private:
+	bool isJump;
 	double d_anim_cursor;
 	int i_current_frame_index;
 	int i_frame_count;

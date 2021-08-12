@@ -33,6 +33,19 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 void SceneManager::Init() {
 	jumpstep = 0;
 	is_in_ground = false;
+	indices = new int[6];
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 3;
+	indices[3] = 0;
+	indices[4] = 2;
+	indices[5] = 3;
+	glGenBuffers(1, &Camera::GetInstance()->iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	delete[] indices;
+
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -49,21 +62,6 @@ void SceneManager::Init() {
 	f_MAP = fopen(m_fileMAP, "r+");
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
-	}
-
-	// Init object
-	if (m_MainCharacter != NULL) {
-		m_MainCharacter->Init();
-	}
-	for (int i = 0; i < m_listEnemy.size(); i++) {
-		m_listEnemy[i]->Init();
-	}
-	for (int i = 0; i < m_ListGun.size(); i++) {
-		m_ListGun[i]->Init();
-	}
-
-	for (int i = 0; i < m_ListBackground.size(); i++) {
-		m_ListBackground[i]->Init();
 	}
 }
 
@@ -101,7 +99,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 		Vector3 Position, Rotation, Scale;
 
 		fscanf(f_SM, "ID %d\n", &ID);
-		std::cout << "ID: " << ID << std::endl;
 		fscanf(f_SM, "TYPE %s\n", type);
 		Model* pModel;
 		float x, y, w, h, tw, th; char aniFile[128];
@@ -196,6 +193,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			line.push_back(x);
 			Terrain* terrain = new Terrain(x);
 			if (x >= 0) {
+				
 				terrain->setModel(terrainModel);
 				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
@@ -224,15 +222,14 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
-		background->SetScale(Vector3(1, 1, 1));
+		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, -500);
+		background->SetScale(Vector3(100, 100, 100));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
 		m_ListBackground.push_back(background);
 	}
 	fclose(f_MAP);
 }
-
 
 void SceneManager::Draw() {
 
@@ -262,10 +259,6 @@ void SceneManager::Draw() {
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (map[i][j] >= 0) {
-				if (isInit[i][j] == 0) {
-					m_listTerrain[i][j]->Init();
-					isInit[i][j] = 1;
-				}
 				m_listTerrain[i][j]->Draw();
 			}
 		}
@@ -429,6 +422,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		AddBullet(bullet);
 	}
 }
+int prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
 	// set key
 	m_time += deltaTime;
@@ -440,8 +434,9 @@ void SceneManager::Update(float deltaTime) {
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
 	if (jumpstep > 0) {
-		float impulse = m_MainCharacter->getBody()->GetMass() * 5;
-		float impulseX = m_Horizontal * 70;
+		
+		float impulse = m_MainCharacter->getBody()->GetMass() * 66;
+		float impulseX = m_Horizontal * 900;
 		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 		jumpstep--;
 	}
@@ -449,20 +444,24 @@ void SceneManager::Update(float deltaTime) {
 		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 45.0));
 	}
 
-	int32 velocityIterations = 2;
-	int32 positionIterations = 1;
+	int32 velocityIterations = 24;
+	int32 positionIterations = 12;
 	int lop = deltaTime / 0.003f;
 
-	for(int iLop = 0;iLop < lop;iLop++){
-		m_world->Step(0.05f, velocityIterations, positionIterations); 
+	for(int i = 0;i < lop;i++){
+		m_world->Step(0.06f, velocityIterations, positionIterations); 
 		m_MainCharacter->Update(deltaTime);
+		now = m_MainCharacter->GetPosition().y;
 
 		is_in_ground = false;
 		for (b2ContactEdge* edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 			b2Fixture * a = edge->contact->GetFixtureA();
 			b2Fixture * b = edge->contact->GetFixtureB();
-			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) is_in_ground = true;
+			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (now == prev) is_in_ground = true;
+			}
 		}
+		prev = now;
 
 		for (int i = 0; i < (int)m_listEnemy.size(); i++) {
 			m_listEnemy[i]->Update(deltaTime);
@@ -612,8 +611,11 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
-			jumpstep = 20;
-			m_MainCharacter->resetAnimation(RunJump);
+			if (is_in_ground) {
+				jumpstep = 25;
+				m_MainCharacter->resetAnimation(RunJump);
+				m_MainCharacter->resetAnimation(Jump);
+			}
 			keyPressed = keyPressed | MOVE_JUMP;
 			break;
 		case KEY_CHANGE_GUN:
@@ -642,7 +644,6 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
 			keyPressed = keyPressed ^ MOVE_JUMP;
-			m_Vertical = 39.8f;
 			break;
 		case KEY_CHANGE_GUN:
 		case KEY_CHANGE_GUN + 32:
@@ -664,12 +665,12 @@ void SceneManager::CheckMovement() {
 	if (keyPressed & MOVE_RIGHT) {
 		m_direction = 1.0f;
 		if (is_in_ground) m_MainCharacter->m_current_anim = Run;
-		m_Horizontal = 20.0f;
+		m_Horizontal = 40.0f;
 	}
 	else if (keyPressed & MOVE_LEFT) {
 		m_direction = -1.0f;
 		if (is_in_ground) m_MainCharacter->m_current_anim = Run * m_direction;
-		m_Horizontal = -20.0f;
+		m_Horizontal = -40.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
 		if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
