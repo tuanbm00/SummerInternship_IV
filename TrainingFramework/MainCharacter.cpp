@@ -42,18 +42,21 @@ bool MainCharacter::isDie() {
 void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(positionX, positionY);
+	bodyDef.position.Set(positionX+10, positionY+5);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
+	dynamicBox.SetAsBox(m_spriteW / 2.2, m_spriteH / 2.2);
 	b2FixtureDef fixtureDef;
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
 	fixtureDef.filter.maskBits = MASK_PLAYER;
-	fixtureDef.density = 5000.0f / area;
+	fixtureDef.density = 6000.0f / area;
 	m_body->CreateFixture(&fixtureDef);
 }
 void MainCharacter::resetAnimation(int type) {
 	m_Model->getAnimation(type - 1)->resetAnimation();
+}
+void MainCharacter::resetGun() {
+	m_Model->resetGun();
 }

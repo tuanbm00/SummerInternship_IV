@@ -6,7 +6,7 @@ class Enemy :
 	public Object
 {
 private:
-	int m_HP;
+	float m_HP;
 	float m_attackDame;
 	Bullet* m_bullet;
 public:

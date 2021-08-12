@@ -15,7 +15,6 @@
 class Object
 {
 protected:
-	GLuint iboId, vboId;
 	std::vector<GLuint> textureId;
 	std::vector<Texture*> m_Texture;
 	Shaders* m_Shader;

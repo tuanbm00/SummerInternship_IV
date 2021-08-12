@@ -29,11 +29,11 @@
 #define SHOOT 1 << 4
 
 // bullet categories
-#define CATEGORY_QUICK_PISTOL 1
-#define CATEGORY_HEAVY_PISTOL 2
-#define CATEGORY_BAZOKA 3
-#define CATEGORY_HELL_GUN 4
-#define CATEGORY_BOOMERANG 5
+#define CATEGORY_QUICK_PISTOL 6
+#define CATEGORY_BAZOKA 7
+#define CATEGORY_HELL_GUN 8
+#define CATEGORY_BOOMERANG 9
+#define CATEGORY_HEAVY_PISTOL 10
 
 // filter catefories
 #define CATEGORY_TERRAIN 1

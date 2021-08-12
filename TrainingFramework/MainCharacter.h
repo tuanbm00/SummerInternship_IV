@@ -4,7 +4,7 @@ class MainCharacter :
     public Object
 {
 private:
-    int m_HP;
+    float m_HP;
 public:
     MainCharacter(int ID) : Object(ID) {
 		m_HP = 0;
@@ -15,5 +15,6 @@ public:
     void Update(float deltaTime);
 	void SetBodyObject(float positionX, float positionY, b2World* world);
 	void resetAnimation(int type);
+	void resetGun();
 };
 

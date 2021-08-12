@@ -94,14 +94,14 @@ void SceneManager::ReadFile(FILE* f_SM)
 	int numOfObjects;
 	fscanf(f_SM, "#Objects: %d\n", &numOfObjects);
 	for (register int i = 0; i < numOfObjects; i++) {
-		int ID, model, texture, shader, anim;
+		int ID, texture, shader, anim;
 		char type[128];
 		Vector3 Position, Rotation, Scale;
 
 		fscanf(f_SM, "ID %d\n", &ID);
 		fscanf(f_SM, "TYPE %s\n", type);
 		Model* pModel;
-		float x, y, w, h, tw, th; char aniFile[128];
+		float x, y, w, h, tw, th;
 		float dame, attack, speedx, speedy, dis;
 		fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
 		pModel = new Model();
@@ -175,7 +175,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 }
 
 void SceneManager::ReadMap(FILE *f_MAP) {
-	int width, height, row, col, x, c, num, index;
+	int width, height, row, col, x, num, index;
 
 	fscanf(f_MAP, "%d %d\n", &width, &height);
 	fscanf(f_MAP, "%d\n", &index);
@@ -191,9 +191,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		for (int j = 0; j < col; j++) {
 			fscanf(f_MAP, "%d ", &x);
 			line.push_back(x);
-			Terrain* terrain = new Terrain(x);
+			Terrain* terrain = NULL;
 			if (x >= 0) {
-				
+				terrain = new Terrain(x);
 				terrain->setModel(terrainModel);
 				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
@@ -233,9 +233,6 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 
 void SceneManager::Draw() {
 
-	//for (int i = 0; i < (int) m_ListTerrain.size(); i++) {
-		//m_ListTerrain[i]->Draw();
-	//}
 	m_MainCharacter->Draw();
 
 
@@ -264,7 +261,7 @@ void SceneManager::Draw() {
 		}
 	}
 
-	for (int i = 0; i < m_ListBackground.size(); i++) {
+	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
 		m_ListBackground[i]->Draw();
 	}
 }
@@ -353,7 +350,7 @@ void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
 	for (int i = 0; i < m_listTerrain.size(); i++) {
 		for (int j = 0; j < m_listTerrain[i].size(); j++) {
-			m_listTerrain[i][j]->CleanUp();
+			if(m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
 		}
 	}
 
@@ -364,8 +361,8 @@ void SceneManager::CleanUp() {
 
 	}
 
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
-//		m_listBulletInWorld[i]->CleanUp();
+	for (int i = 0; i < m_ListGun.size(); i++) {
+		m_ListGun[i]->CleanUp();
 	}
 }
 
@@ -389,6 +386,7 @@ void SceneManager::Shoot() {
 }
 
 void SceneManager::ChangeGun(bool isEmptyBullet) {
+	m_time = 0;
 	Bullet *bullet = m_ListGun[0];
 	if (isEmptyBullet) {
 		bullet->ResetBullet();
@@ -420,7 +418,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		AddBullet(bullet);
 	}
 }
-int prev = 0, now = 0;
+float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
 	// set key
 	m_time += deltaTime;
@@ -650,6 +648,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_SHOOT + 32:
 			keyPressed = keyPressed ^ SHOOT;
 			m_shoot = 0;
+			m_MainCharacter->resetGun();
 			break;
 		}
 	}
@@ -675,12 +674,14 @@ void SceneManager::CheckMovement() {
 		}
 	}
 	if (keyPressed & SHOOT) {
+		if(m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGun[0]->GetID() * m_direction;
 		m_shoot = 1.0f;
-		if (m_time >= m_ListGun[0]->GetAttackSpeed()) {
+		if (Camera::GetInstance()->is_shoot == true) {
+			Camera::GetInstance()->is_shoot = false;
 			Shoot();
-			m_time = 0;
 			if (m_ListGun[0]->IsEmptyBullet()) {
 				ChangeGun(true);
+				m_time = 0;
 			}
 		}
 	}

@@ -8,7 +8,11 @@ enum AnimationType {
 	Run,
 	Jump,
 	RunJump,
-	Falling
+	Falling,
+	Gun0,
+	Gun1,
+	Gun2,
+	Gun3
 };
 
 class Animation
@@ -18,6 +22,7 @@ public:
 	~Animation();
 
 	Vector4 play(float deltaTime, bool revert = false);
+	void playGun(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
 
 	void setAnimationSpeed(float newSpeed);
 	void setID(int id);
@@ -25,6 +30,8 @@ public:
 		return m_ID;
 	}
 	void resetAnimation();
+	void setFire(int fire);
+	bool isGun;
 private:
 	bool isJump;
 	double d_anim_cursor;
@@ -33,5 +40,6 @@ private:
 	float f_speed;
 	Vector4* m_animation;
 	int m_ID;
+	int m_fire_pos;
 };
 

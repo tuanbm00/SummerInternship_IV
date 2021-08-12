@@ -33,7 +33,7 @@ public:
 	void Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed);
 	void Update(float deltaTime);
 	void CleanUp();
-
+	bool is_shoot;
 
 	void initOrtho();
 	void SetPosition(float X, float Y, float Z);

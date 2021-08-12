@@ -82,14 +82,10 @@ void Object::Draw() {
 	}
 
 	//Setting Texture Uniform
-	if (m_isTexture) {
-		for (register int i = 0; i < m_Texture.size(); i++) {
-			if (m_Shader->m_uTextures[i] != -1) {
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, m_Texture[i]->mTextureId);
-				glUniform1i(m_Shader->m_uTextures[i], i);
-			}
-		}
+	if (m_Shader->m_uTextures[0] != -1) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_Texture[0]->mTextureId);
+		glUniform1i(m_Shader->m_uTextures[0], 0);
 	}
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -113,12 +109,6 @@ void Object::UpdateWVP() {
 }
 
 void Object::CleanUp() {
-	glDeleteBuffers(1, &vboId);
-	glDeleteBuffers(1, &iboId);
-	for (register int i = 0; i < textureId.size(); i++) {
-//		glDeleteBuffers(1, &textureId[i]);
-	}
-
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);

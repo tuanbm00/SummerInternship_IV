@@ -11,6 +11,7 @@ Camera::Camera(void)
 	m_ViewMatrix.SetZero();
 	m_bIsChange = true;
 	i_state = 0;
+	is_shoot = false;
 }
 
 Camera* Camera::GetInstance()

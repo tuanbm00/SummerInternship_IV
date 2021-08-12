@@ -45,13 +45,14 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	fscanf(f_RM, "#Animations: %d\n", &numAnimations);
 	for (register int i = 0; i < numAnimations; i++) {
 		int ID;
-		char File[250]; float speed;
+		char File[250]; float speed; int fire;
 		fscanf(f_RM, "ID %d\n", &ID);
 		fscanf(f_RM, "FILE %s\n", File);
-		fscanf(f_RM, "SPEED %f\n", &speed);
+		fscanf(f_RM, "SPEED %f %d\n", &speed, &fire);
 		Animation* anim = new Animation(File);
 		anim->setAnimationSpeed(speed);
 		anim->setID(ID);
+		anim->setFire(fire);
 		m_Animations.push_back(anim);
 	}
 
@@ -256,5 +257,8 @@ void ResourceManager::CleanUp() {
 	}
 	for (int i = 0; i < m_TerrainTextures.size(); i++) {
 		delete m_TerrainTextures[i];
+	}
+	for (int i = 0; i < m_Animations.size(); i++) {
+		delete m_Animations[i];
 	}
 }

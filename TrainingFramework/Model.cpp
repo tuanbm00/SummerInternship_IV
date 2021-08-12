@@ -52,6 +52,15 @@ void Model::addAnimation(Animation* anm)
 
 void Model::updateAnimation(float deltaTime, int type)
 {
+	if (type == 0) return;
+	if (m_anim[abs(type) - 1]->isGun) {
+		if (type >= 0) m_anim[type - 1]->playGun(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
+		else {
+			type = -type;
+			m_anim[type - 1]->playGun(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, true);
+		}
+		return;
+	}
 	Vector4 frame;
 	if (type >= 0) frame = m_anim[type - 1]->play(deltaTime);
 	else {
@@ -75,3 +84,8 @@ void Model::updateAnimation(float deltaTime, int type)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void Model::resetGun() {
+	for (int i = 0; i < m_anim.size(); i++) {
+		if (m_anim[i]->isGun) m_anim[i]->resetAnimation();
+	}
+}

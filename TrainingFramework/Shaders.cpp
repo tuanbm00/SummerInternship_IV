@@ -4,8 +4,8 @@
 Shaders::Shaders(int ID, char* fileVertexShader, char* fileFragmentShader, int depth_Test, int cull_Face, int Blend)
 {
 	m_Id = ID;
-	strcpy(m_fileVS, fileVertexShader);
-	strcpy(m_fileFS, fileFragmentShader);
+	strcpy_s(m_fileVS, sizeof m_fileVS, fileVertexShader);
+	strcpy_s(m_fileFS, sizeof m_fileFS, fileFragmentShader);
 	m_Depth_Test = depth_Test;
 	m_Cull_Face = cull_Face;
 	m_Blend = Blend;

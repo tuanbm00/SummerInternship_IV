@@ -1,9 +1,9 @@
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\vc141.pdb
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\vc141.idb
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\animation.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\application.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\bullet.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\camera.obj
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\cubetextures.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\enemy.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamestatebase.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamestatemachine.obj
@@ -19,8 +19,6 @@ c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\terr
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\texture.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\trainingframework.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\shaders.obj
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\triangle.obj
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\animation.obj
 c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.exe
 c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.ilk
 c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.pdb

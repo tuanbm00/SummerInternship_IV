@@ -1,8 +1,10 @@
 #include "Animation.h"
 #include "stdafx.h"
+#include "Camera.h"
 
 Animation::Animation(const char* filePath)
 {
+	isGun = false;
 	isJump = false;
 	f_speed = 0;
 	d_anim_cursor = 0;
@@ -65,7 +67,47 @@ void Animation::setID(int id)
 }
 void Animation::resetAnimation()
 {
-	isJump = true;
+	if(!isGun) isJump = true;
 	i_current_frame_index = 0;
 	d_anim_cursor = 0;
+}
+void Animation::setFire(int fire) {
+	m_fire_pos = fire;
+	if (fire != -1) isGun = true;
+}
+
+void Animation::playGun(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert) {
+	d_anim_cursor += deltaTime;
+	if (d_anim_cursor > f_speed) {
+		i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
+		if (i_current_frame_index == m_fire_pos) Camera::GetInstance()->is_shoot = true;
+		d_anim_cursor = 0;
+	}
+	if (revert) {
+		if (i_current_frame_index < i_frame_count) i_current_frame_index += i_frame_count;
+	}
+	Vector4 frame = m_animation[i_current_frame_index];
+	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
+	Vertex *  verticesData = new Vertex[4];
+	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
+	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-(float)w / 2, (float)h / 2, 0.0f) - delta;
+	verticesData[3].pos = Vector3((float)w / 2, (float)h / 2, 0.0f) - delta;
+
+	x /= Tsize.x;
+	y /= Tsize.y;
+	w /= Tsize.x;
+	h /= Tsize.y;
+
+	verticesData[0].uv = Vector2(x, y + h);
+	verticesData[1].uv = Vector2(x + w, y + h);
+	verticesData[2].uv = Vector2(x, y);
+	verticesData[3].uv = Vector2(x + w, y);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	delete[] verticesData;
 }

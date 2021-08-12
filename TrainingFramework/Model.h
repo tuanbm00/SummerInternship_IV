@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
-#include "Vertex.h";
+#include "Vertex.h"
 #include "Animation.h"
 #include <vector>
 
@@ -43,5 +43,6 @@ public:
 	Animation * getAnimation(int type) {
 		return m_anim[type];
 	}
+	void resetGun();
 };
 
