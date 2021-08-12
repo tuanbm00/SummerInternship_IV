@@ -213,7 +213,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 
 	num = (col * height) / (2 * width * row) + 1;
 	num = 2 * num + 1;
-	int n = WIDTH / 13;
+	int n = WIDTH / 5;
 	Model* backgroundModel = new Model();
 	backgroundModel->InitSprite(0, 0, n * (width * col / height), n * col, n * (width * col / height), n * col);
 
@@ -222,8 +222,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, -500);
-		background->SetScale(Vector3(100, 100, 100));
+		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
+		background->SetScale(Vector3(1, 1, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
 		m_ListBackground.push_back(background);
@@ -384,7 +384,6 @@ void SceneManager::Shoot() {
 	bullet->SetRotation(m_ListGun[0]->GetRotation());
 	bullet->InitWVP();
 	bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-	bullet->Init();
 	
 	AddBullet(bullet);
 }
@@ -417,7 +416,6 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		bullet->SetRotation(hellBullet->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-		bullet->Init();
 
 		AddBullet(bullet);
 	}
@@ -523,7 +521,6 @@ void SceneManager::Update(float deltaTime) {
 							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
 							bullet->InitWVP();
 							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-							bullet->Init();
 
 							AddBullet(bullet);
 						}
@@ -554,7 +551,6 @@ void SceneManager::Update(float deltaTime) {
 							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
 							bullet->InitWVP();
 							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-							bullet->Init();
 
 							AddBullet(bullet);
 						}

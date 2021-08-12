@@ -50,16 +50,16 @@ void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 	m_SM->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
-		case 'K':
-		case 'k':
+		case KEY_NEW_STATE:
+		case KEY_NEW_STATE + 32:
 		{
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 			}
 		}
 		break;
-		case 'J':
-		case 'j':
+		case KEY_BACK_STATE:
+		case KEY_BACK_STATE+32:
 		{
 			if (GameStateMachine::GetInstance()->GetIsCanPop()) {
 				GameStateMachine::GetInstance()->PopState();
