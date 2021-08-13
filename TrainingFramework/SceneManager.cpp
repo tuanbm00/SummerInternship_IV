@@ -682,10 +682,12 @@ void SceneManager::CheckMovement() {
 		m_Horizontal = -40.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
+		if(jumpstep > 0){
 			if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
 			else {
 				m_MainCharacter->m_current_anim = RunJump * m_direction;
 			}
+		}
 		
 	}
 	if (keyPressed & SHOOT) {
