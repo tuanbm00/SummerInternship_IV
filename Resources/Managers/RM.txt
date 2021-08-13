@@ -1,4 +1,4 @@
-#Animations: 9
+#Animations: 14
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 1 -1
@@ -26,6 +26,21 @@ SPEED 1 4
 ID 8
 FILE ../Resources/Animation/Gun3.txt
 SPEED 1 8
+ID 9
+FILE ../Resources/Animation/shortgun.txt
+SPEED 1 -1
+ID 10
+FILE ../Resources/Animation/bazoka.txt
+SPEED 1 -1
+ID 11
+FILE ../Resources/Animation/hellgun1.txt
+SPEED 1 -1
+ID 12
+FILE ../Resources/Animation/hellgun2.txt
+SPEED 1 -1
+ID 13
+FILE ../Resources/Animation/defend.txt
+SPEED 1 -1
 
 #2D Textures: 5
 ID 0
@@ -37,7 +52,7 @@ FILE ../Resources/TexturesAnimation/bazokabullet.tga
 ID 3
 FILE ../Resources/TexturesAnimation/hellgunbullet.tga
 ID 4
-FILE ../Resources/TexturesAnimation/redbullet.tga
+FILE ../Resources/TexturesAnimation/defendbullet.tga
 
 #Background: 1
 ID 0

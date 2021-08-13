@@ -21,8 +21,7 @@ public:
 	Animation(const char* filePath);
 	~Animation();
 
-	Vector4 play(float deltaTime, bool revert = false);
-	void playGun(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
+	void play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
 
 	void setAnimationSpeed(float newSpeed);
 	void setID(int id);

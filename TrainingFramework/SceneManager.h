@@ -46,6 +46,7 @@ private:
 	char* m_fileMAP = NULL;
 	b2World * m_world;
 	int jumpstep;
+	int numJump;
 public:
 	int * indices;
 	SceneManager(char* fileSM, char* fileMAP);

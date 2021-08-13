@@ -31,6 +31,7 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 }
 
 void SceneManager::Init() {
+	numJump = 0;
 	jumpstep = 0;
 	is_in_ground = false;
 	indices = new int[6];
@@ -222,8 +223,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
-		background->SetScale(Vector3(1, 1, 1));
+		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, -1);
+		background->SetScale(Vector3(2, 2, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
 		m_ListBackground.push_back(background);
@@ -381,6 +382,7 @@ void SceneManager::Shoot() {
 	bullet->SetRotation(m_ListGun[0]->GetRotation());
 	bullet->InitWVP();
 	bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+	bullet->m_current_anim = m_direction;
 	
 	AddBullet(bullet);
 }
@@ -414,6 +416,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		bullet->SetRotation(hellBullet->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+		bullet->m_current_anim = 2*m_direction;
 
 		AddBullet(bullet);
 	}
@@ -430,14 +433,13 @@ void SceneManager::Update(float deltaTime) {
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
 	if (jumpstep > 0) {
-		
 		float impulse = m_MainCharacter->getBody()->GetMass() * 66;
 		float impulseX = m_Horizontal * 900;
 		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 		jumpstep--;
 	}
 	else {
-		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 45.0));
+		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 80.0f));
 	}
 
 	int32 velocityIterations = 24;
@@ -445,7 +447,7 @@ void SceneManager::Update(float deltaTime) {
 	int lop = deltaTime / 0.003f;
 
 	for(int i = 0;i < lop;i++){
-		m_world->Step(0.06f, velocityIterations, positionIterations); 
+		m_world->Step(0.07f, velocityIterations, positionIterations); 
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
 
@@ -454,7 +456,10 @@ void SceneManager::Update(float deltaTime) {
 			b2Fixture * a = edge->contact->GetFixtureA();
 			b2Fixture * b = edge->contact->GetFixtureB();
 			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-				if (now == prev) is_in_ground = true;
+				if (now == prev) {
+					is_in_ground = true;
+					numJump = 0;
+				}
 			}
 		}
 		prev = now;
@@ -519,6 +524,7 @@ void SceneManager::Update(float deltaTime) {
 							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
 							bullet->InitWVP();
 							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+							bullet->m_current_anim = m_direction;
 
 							AddBullet(bullet);
 						}
@@ -549,6 +555,7 @@ void SceneManager::Update(float deltaTime) {
 							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
 							bullet->InitWVP();
 							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+							bullet->m_current_anim = -m_listBulletInWorld[i]->m_current_anim;
 
 							AddBullet(bullet);
 						}
@@ -605,12 +612,14 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
-			if (is_in_ground) {
+			if (numJump < 2) {
 				jumpstep = 25;
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
+				m_MainCharacter->resetAnimation(Falling);
+				numJump++;
+				keyPressed = keyPressed | MOVE_JUMP;
 			}
-			keyPressed = keyPressed | MOVE_JUMP;
 			break;
 		case KEY_CHANGE_GUN:
 		case KEY_CHANGE_GUN + 32:
@@ -668,10 +677,11 @@ void SceneManager::CheckMovement() {
 		m_Horizontal = -40.0f;
 	}
 	if (keyPressed & MOVE_JUMP) {
-		if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
-		else {
-			m_MainCharacter->m_current_anim = RunJump * m_direction;
-		}
+			if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
+			else {
+				m_MainCharacter->m_current_anim = RunJump * m_direction;
+			}
+		
 	}
 	if (keyPressed & SHOOT) {
 		if(m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGun[0]->GetID() * m_direction;

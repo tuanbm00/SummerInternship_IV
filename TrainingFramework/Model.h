@@ -12,7 +12,6 @@ private:
 	int m_NumberOfIndices = 0;
 	
 	Vertex* verticesData;
-	int* indices;
 	std::vector<Animation*> m_anim;;
 	int m_Id;
 	char m_srcModel[250];
@@ -28,14 +27,9 @@ public:
 	void setOrigin(Vector2 ori);
 	void addAnimation(Animation* anm);
 	void updateAnimation(float deltaTime, int type);
-	int GetNumberofVertices() {
-		return m_NumberOfVertices;
-	}
 	int GetNumberofIndices() {
 		return m_NumberOfIndices;
 	}
-	int* GetIndices() { return indices; }
-	Vertex* GetVertices() { return verticesData; }
 	int GetID() { return m_Id; }
 	Vector2 getOrigin() {
 		return origin;

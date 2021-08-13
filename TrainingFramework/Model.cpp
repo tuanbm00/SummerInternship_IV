@@ -11,8 +11,6 @@ Model::Model()
 }
 
 Model::~Model() {
-	delete[] verticesData;
-	delete[] indices;
 }
 
 void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
@@ -37,7 +35,7 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+	delete[] verticesData;
 }
 
 void Model::setOrigin(Vector2 ori)
@@ -53,35 +51,13 @@ void Model::addAnimation(Animation* anm)
 void Model::updateAnimation(float deltaTime, int type)
 {
 	if (type == 0) return;
-	if (m_anim[abs(type) - 1]->isGun) {
-		if (type >= 0) m_anim[type - 1]->playGun(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
+	
+		if (type >= 0) m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
 		else {
 			type = -type;
-			m_anim[type - 1]->playGun(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, true);
+			m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, true);
 		}
-		return;
-	}
-	Vector4 frame;
-	if (type >= 0) frame = m_anim[type - 1]->play(deltaTime);
-	else {
-		type = -type;
-		frame = m_anim[type - 1]->play(deltaTime, true);
-	}
-	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
-	x /= m_textureW;
-	y /= m_textureH;
-	w /= m_textureW;
-	h /= m_textureH;
-
-	verticesData[0].uv = Vector2(x, y + h);
-	verticesData[1].uv = Vector2(x + w, y + h);
-	verticesData[2].uv = Vector2(x, y);
-	verticesData[3].uv = Vector2(x + w, y);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 }
 
 void Model::resetGun() {

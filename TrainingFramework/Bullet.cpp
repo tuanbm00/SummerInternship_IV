@@ -71,6 +71,7 @@ bool Bullet::IsChange() {
 }
 
 void Bullet::ReverseV() {
+	m_current_anim = -m_current_anim;
 	m_SpeedOfBulletX = -m_SpeedOfBulletX;
 	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 }
@@ -85,6 +86,13 @@ void Bullet::Update(float deltaTime)
 	m_CurrentLength += deltaTime * vel;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
+	if (m_Model->b_IsAnimation == true) {
+		m_Model->updateAnimation(deltaTime, m_current_anim);
+	}
+	Matrix translation, scale;
+	translation.SetTranslation(m_Position);
+	scale.SetScale(m_Scale);
+	m_WorldMatrix = scale * translation;
 }
 
 
