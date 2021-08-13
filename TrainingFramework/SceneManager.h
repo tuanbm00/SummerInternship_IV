@@ -71,6 +71,7 @@ public:
 	void Shoot();
 	void ChangeGun(bool isEmptyBullet = true);
 	void SetStateHellGun(Bullet* hellBullet, float enemyWidth);
+	void EnemyAttack(Enemy* enemy);
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);

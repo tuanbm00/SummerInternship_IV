@@ -10,6 +10,10 @@ float Enemy::GetHP() {
 	return m_HP;
 }
 
+void Enemy::UpdateAttack(float deltaTime) {
+	m_time += deltaTime;
+}
+
 void Enemy::Update(float deltaTime)
 {
 	m_Position.x = m_body->GetPosition().x;
@@ -31,6 +35,19 @@ bool Enemy::isDie() {
 	return false;
 }
 
+bool Enemy::isAttack() {
+	if (m_time >= m_bullet->GetAttackSpeed()) {
+		m_time = 0;
+		return true;
+	}
+	return false;
+}
+
+void Enemy::SetBullet(Bullet* bullet) {
+	m_time = 0;
+	m_bullet = bullet;
+}
+
 void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -44,5 +61,9 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
 	m_body->CreateFixture(&fixtureDef);
-	m_body->SetLinearVelocity(b2Vec2(0, 9.8));
+	m_body->SetLinearVelocity(b2Vec2(0, 0));
+}
+
+Bullet* Enemy::GetBullet() {
+	return m_bullet;
 }
