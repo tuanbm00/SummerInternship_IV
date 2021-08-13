@@ -2,6 +2,9 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
+#include "TextManager.h"
+#include "stdlib.h"
+#include "string.h"
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
@@ -15,13 +18,31 @@ GSLevel1::~GSLevel1() {
 
 void GSLevel1::Init() {
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+
+	Singleton<TextManager>::GetInstance()->Initialize();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
+	DWORD start, end;
+	start = GetTickCount();
 
 	Camera::GetInstance()->i_state = 1;
 	m_SM->Draw();
+
+	end = GetTickCount();
+	DWORD frameTime = end - start;
+	int fps = frameTime;
+	char buffer[5];
+	itoa(fps, buffer, 10);
+	char s[9] = "FPS: ";
+	strcat(s, buffer);
+
+	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }
 
 void GSLevel1::Update(float deltaTime) {
