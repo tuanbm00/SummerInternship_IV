@@ -44,4 +44,5 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
 	m_body->CreateFixture(&fixtureDef);
+	m_body->SetLinearVelocity(b2Vec2(0, 9.8));
 }

@@ -8,6 +8,7 @@ private:
 public:
 	int m_Depth_Test, m_Cull_Face, m_Blend;
 	Shaders(int ID, char* fileVertexShader, char* fileFragmentShader,int depth_Test = 0, int cull_Face = 0, int Blend = 0);
+	Shaders() {};
 	~Shaders();
 
 	GLuint program, vertexShader, fragmentShader;
@@ -25,6 +26,8 @@ public:
 
 	int Init();
 	
+	void SetFileVS(char* filepath) { strcpy(m_fileVS, filepath); };
+	void SetFileFS(char* filepath) { strcpy(m_fileFS, filepath); };
 
 	int GetID() { return m_Id; }
 };
