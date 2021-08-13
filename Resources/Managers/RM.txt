@@ -16,16 +16,16 @@ FILE ../Resources/Animation/fall.txt
 SPEED 1 -1
 ID 5
 FILE ../Resources/Animation/Gun0.txt
-SPEED 1 2
+SPEED 0.5 2
 ID 6
 FILE ../Resources/Animation/Gun1.txt
 SPEED 1 6
 ID 7
 FILE ../Resources/Animation/Gun2.txt
-SPEED 1 4
+SPEED 0.5 4
 ID 8
 FILE ../Resources/Animation/Gun3.txt
-SPEED 1 8
+SPEED 0.5 8
 
 #2D Textures: 5
 ID 0

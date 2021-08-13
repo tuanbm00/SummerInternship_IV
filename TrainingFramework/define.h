@@ -7,7 +7,7 @@
 #define RMB 1
 
 // number of max bullet
-#define NUM_BULLET 3
+#define NUM_BULLET 5
 
 // size of 
 #define WIDTH 200.0f

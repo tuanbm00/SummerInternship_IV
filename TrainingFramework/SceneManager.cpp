@@ -277,11 +277,7 @@ void SceneManager::AddBullet(Bullet* bullet) {
 
 void SceneManager::RemoveBullet(int index) {
 	m_world->DestroyBody(m_listBulletInWorld[index]->getBody());
-//	m_listBulletInWorld[index]->CleanUp();
 	m_listBulletInWorld.erase(m_listBulletInWorld.begin() + index);
-
-//	printf("%d\n", m_listBulletInWorld.size());
-
 }
 
 void SceneManager::AddEnemy(Enemy* enemy) {
@@ -470,12 +466,21 @@ void SceneManager::Update(float deltaTime) {
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 				}
-				if (a->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
 				}
-				if (b->GetFilterData().maskBits == MASK_BULLET_PLAYER) {
+				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
 				}
+				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+					m_listEnemy[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
+				}
+				printf("%f\n", m_listEnemy[i]->GetHP());
+			}
+			if (m_listEnemy[i]->isDie()) {
+				m_world->DestroyBody(m_listEnemy[i]->getBody());
+				m_listEnemy.erase(m_listEnemy.begin() + i);
+				i--;
 			}
 		}
 
