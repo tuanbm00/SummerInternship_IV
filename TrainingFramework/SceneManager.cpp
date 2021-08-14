@@ -103,7 +103,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf(f_SM, "TYPE %s\n", type);
 		Model* pModel;
 		float x, y, w, h, tw, th;
-		float dame, attack, speedx, speedy, dis;
+		float dame, attack, speedx, speedy, dis, hp;
 		fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
 		pModel = new Model();
 		pModel->InitSprite(x, y, w, h, tw, th);
@@ -123,6 +123,10 @@ void SceneManager::ReadFile(FILE* f_SM)
 		if (strcmp(type, "GUN") == 0) {
 			fscanf(f_SM, "BULLET %f %f %f %f %f\n", &dame, &attack, &speedx, &speedy, &dis);
 		}
+		else {
+			fscanf(f_SM, "HP %f\n", &hp);
+			printf("%f\n", hp);
+		}
 			//Add Texture here
 		
 		fscanf(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
@@ -138,7 +142,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			m_MainCharacter->SetPosition(Position);
 			m_MainCharacter->SetScale(Scale);
 			m_MainCharacter->SetRotation(Rotation);
-			m_MainCharacter->SetHP(1000);
+			m_MainCharacter->SetHP(hp);
 			m_MainCharacter->SetBodyObject(m_MainCharacter->GetPosition().x, m_MainCharacter->GetPosition().y, m_world);
 			m_MainCharacter->InitWVP();
 		}
@@ -150,10 +154,9 @@ void SceneManager::ReadFile(FILE* f_SM)
 			enemy->SetPosition(Position);
 			enemy->SetScale(Scale);
 			enemy->SetRotation(Rotation);
-			enemy->SetHP(1000);
-			enemy->SetBodyObject(enemy->GetPosition().x, enemy->GetPosition().y, m_world);
+			enemy->SetHP(hp);
 			enemy->InitWVP();
-			AddEnemy(enemy);
+			m_listEnemy.push_back(enemy);
 		}
 		else if (strcmp(type, "GUN") == 0) {
 			Bullet* bullet = new Bullet(ID);
@@ -175,13 +178,10 @@ void SceneManager::ReadFile(FILE* f_SM)
 	fclose(f_SM);
 
 	// test sung
-
-	m_listEnemy[0]->SetBullet(m_ListGun[0]);
-
 }
 
 void SceneManager::ReadMap(FILE *f_MAP) {
-	int width, height, row, col, x, num, index;
+	int width, height, row, col, x, num, index, c;
 
 	fscanf(f_MAP, "%d %d\n", &width, &height);
 	fscanf(f_MAP, "%d\n", &index);
@@ -212,6 +212,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			isLine.push_back(0);
 			lineMap.push_back(terrain);
 		}
+		fscanf(f_MAP, "\n", &c);
 		isInit.push_back(isLine);
 		map.push_back(line);
 		m_listTerrain.push_back(lineMap);
@@ -234,6 +235,24 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->InitWVP();
 		m_ListBackground.push_back(background);
 	}
+
+	int numOfEnemy, id, posRow, posCol;
+	fscanf(f_MAP, "#Enemy: %d\n", &numOfEnemy);
+	for (int i = 0; i < numOfEnemy; i++) {
+		fscanf(f_MAP, "%d %d %d\n", &id, &posRow, &posCol);
+		Enemy* enemy = new Enemy(id);
+		enemy->setModel(m_listEnemy[id]->getModel());
+		enemy->setShader(m_listEnemy[id]->getShaders());
+		enemy->SetTexture(m_listEnemy[id]->getTexture());
+		enemy->SetPosition(WIDTH*(posCol - col / 2), WIDTH*(posRow - row / 2), 0.0f);
+		enemy->SetScale(m_listEnemy[id]->GetScale());
+		enemy->SetRotation(m_listEnemy[id]->GetRotation());
+		enemy->SetHP(m_listEnemy[id]->GetHP());
+		enemy->SetBodyObject(enemy->GetPosition().x, enemy->GetPosition().y, m_world);
+		enemy->InitWVP();
+		enemy->SetBullet(m_ListGun[0]);
+		AddEnemy(enemy);
+	}
 	fclose(f_MAP);
 }
 
@@ -246,8 +265,8 @@ void SceneManager::Draw() {
 		m_listBulletInWorld[i]->Draw();
 	}
 
-	for (int i = 0; i < (int) m_listEnemy.size(); i++) {
-		m_listEnemy[i]->Draw();
+	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
+		m_listEnemyInWorld[i]->Draw();
 	}
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
@@ -287,7 +306,7 @@ void SceneManager::RemoveBullet(int index) {
 }
 
 void SceneManager::AddEnemy(Enemy* enemy) {
-	m_listEnemy.push_back(enemy);
+	m_listEnemyInWorld.push_back(enemy);
 }
 
 
@@ -358,8 +377,8 @@ void SceneManager::CleanUp() {
 
 	m_MainCharacter->CleanUp();
 
-	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
-		m_listEnemy[i]->CleanUp();
+	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+		m_listEnemyInWorld[i]->CleanUp();
 
 	}
 
@@ -452,10 +471,12 @@ void SceneManager::Update(float deltaTime) {
 	m_timeChangeGun += deltaTime;
 	CheckMovement();
 
-	for (int i = 0; i < m_listEnemy.size(); i++) {
-		m_listEnemy[i]->UpdateAttack(deltaTime);
-		if (m_listEnemy[i]->isAttack()) {
-			EnemyAttack(m_listEnemy[i]);
+	for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+		m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
+		if (m_listEnemyInWorld[i]->isAttack()) {
+			EnemyAttack(m_listEnemyInWorld[i]);
+			float velx = m_listEnemyInWorld[i]->getBody()->GetLinearVelocity().x;
+			m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(-velx, 0));
 		}
 	}
 
@@ -494,9 +515,9 @@ void SceneManager::Update(float deltaTime) {
 		}
 		prev = now;
 
-		for (int i = 0; i < (int)m_listEnemy.size(); i++) {
-			m_listEnemy[i]->Update(deltaTime);
-			for (b2ContactEdge* edge = m_listEnemy[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+			m_listEnemyInWorld[i]->Update(deltaTime);
+			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
@@ -506,19 +527,19 @@ void SceneManager::Update(float deltaTime) {
 				//	m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - a->GetDensity());
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_listEnemy[i]->SetHP(m_listEnemy[i]->GetHP() - b->GetDensity());
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-					m_listEnemy[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
+					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
 				}
-				printf("%f\n", m_listEnemy[i]->GetHP());
+				printf("%f\n", m_listEnemyInWorld[i]->GetHP());
 			}
-			if (m_listEnemy[i]->isDie()) {
-				m_world->DestroyBody(m_listEnemy[i]->getBody());
-				m_listEnemy.erase(m_listEnemy.begin() + i);
+			if (m_listEnemyInWorld[i]->isDie()) {
+				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
+				m_listEnemyInWorld.erase(m_listEnemyInWorld.begin() + i);
 				i--;
 			}
 		}
