@@ -1,17 +1,4 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Application.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  Generating Code...
-  Compiling...
-  TrainingFramework.cpp
-  Terrain.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
   SceneManager.cpp
 d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
@@ -86,79 +73,30 @@ d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(239): warn
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(241): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(273): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(274): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(275): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(276): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(278): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(280): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(324): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(347): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(361): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(377): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(378): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(390): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(410): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(453): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(467): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(479): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(501): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(569): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(588): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(600): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(727): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(728): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(736): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(741): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(280): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(281): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(282): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(283): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(285): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(287): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(331): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(354): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(368): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(384): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(385): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(397): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(417): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(460): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(474): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(486): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(508): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(576): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(595): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(607): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(734): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(735): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(743): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(749): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Object.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  MainCharacter.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\maincharacter.cpp(19): warning C4244: 'initializing': conversion from 'GLfloat' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\maincharacter.cpp(48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  GameStateMachine.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  GameStateBase.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  GSLevel2.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  GSLevel1.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\gslevel1.cpp(41): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _itoa. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1323): note: see declaration of 'itoa'
-d:\20202\20203\summerinternship_iv\trainingframework\gslevel1.cpp(43): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: see declaration of 'strcat'
-  Enemy.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-  Camera.cpp
-  Bullet.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(29): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\shaders.h(30): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: see declaration of 'strcpy'
-d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(83): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(748): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(750): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(756): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   TrainingFramework.vcxproj -> D:\20202\20203\SummerInternship_IV\\BIN\TrainingFramework.exe

@@ -270,6 +270,13 @@ void SceneManager::Draw() {
 	}
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
+
+	m_ListGun[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
+	m_ListGun[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
+	for (int i = 0; i < 2; i++) {
+		m_ListGun[i]->Draw();
+	}
+
 	int col = Globals::screenWidth / WIDTH * 2 + 1;
 	int row = Globals::screenHeight / WIDTH * 2 + 1;
 	int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
