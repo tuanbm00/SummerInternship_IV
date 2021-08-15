@@ -101,6 +101,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GSLevel1.cpp" />
     <ClCompile Include="GSLevel2.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TrainingFramework.cpp" />
     <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -124,6 +126,7 @@
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="GSLevel1.h" />
     <ClInclude Include="GSLevel2.h" />
     <ClInclude Include="define.h" />

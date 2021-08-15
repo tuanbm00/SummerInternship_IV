@@ -14,14 +14,15 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Terrain.h"
+#include "Ground.h"
 
 class SceneManager
 {
 private:
 	int wlow, whigh, hlow, hhigh;
 
+	Ground * groundTest;
 	std::vector<std::vector<Terrain*>> m_listTerrain;
-	std::vector<Terrain*> m_terrainTest;
 	std::vector<Terrain*> m_ListBackground;
 	std::vector<std::vector<int>> map;
 	std::map<std::pair<int, int>, int> mapEnemy;
@@ -32,7 +33,6 @@ private:
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
-	Object * groundTest;
 
 	float m_direction;
 	float m_Horizontal;

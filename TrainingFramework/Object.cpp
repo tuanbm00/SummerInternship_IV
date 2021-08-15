@@ -56,6 +56,7 @@ void Object::Draw() {
 	UpdateWVP();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -128,6 +129,10 @@ Shaders* Object::getShaders() {
 
 void Object::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
+	Matrix translation, scale;
+	translation.SetTranslation(m_Position);
+	scale.SetScale(m_Scale);
+	m_WorldMatrix = scale * translation;
 }
 
 void Object::SetPosition(Vector3 Position) {

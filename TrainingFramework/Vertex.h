@@ -3,6 +3,8 @@
 
 struct Vertex 
 {
+	Vertex();
+	Vertex(const Vertex &v);
 	Vector3 pos;
 
 	//Vector3 norm;

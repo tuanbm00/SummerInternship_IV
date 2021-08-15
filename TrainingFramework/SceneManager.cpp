@@ -180,33 +180,43 @@ void SceneManager::ReadFile(FILE* f_SM)
 }
 
 void SceneManager::ReadMap(FILE *f_MAP) {
-	int width, height, row, col, x, num, index, c;
+	groundTest = new Ground();
+	FILE * fp;
+	Vector4 Omap[16];
+	fopen_s(&fp, "../map.txt", "r+");
+	int ni; fscanf(fp, "%d\n", &ni);
+	for (int i = 0; i < ni; i++) {
+		float x, y, w, h;
+		fscanf(fp, "%f %f %f %f\n", &x, &y, &w, &h);
+		Omap[i] = Vector4(x, y, w, h);
+	}
+	fclose(fp);
+	Texture * texx = new Texture(99, "../mapT.tga");
+	texx->Init();
+	groundTest->setTexture(texx);
+	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+	//
+	int width, height, row, col, xi, num, index, c;
 
 	fscanf(f_MAP, "%d %d\n", &width, &height);
 	fscanf(f_MAP, "%d\n", &index);
 
 	fscanf(f_MAP, "%d %d\n", &row, &col);
-	Model* terrainModel = new Model();
-	terrainModel->InitSprite(0, 0, WIDTH, WIDTH, WIDTH, WIDTH);
 
 	for (int i = 0; i < row; i++) {
 		std::vector<int> line;
 		std::vector<int> isLine;
 		std::vector<Terrain*> lineMap;
 		for (int j = 0; j < col; j++) {
-			fscanf(f_MAP, "%d ", &x);
-			line.push_back(x);
+			fscanf(f_MAP, "%d ", &xi);
+			line.push_back(xi);
 			Terrain* terrain = NULL;
-			if (x >= 0) {
-				terrain = new Terrain(x);
-				terrain->setModel(terrainModel);
-				terrain->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				terrain->SetTexture(ResourceManager::GetInstance()->GetTerrainAtID(x));
+			if (xi >= 0) {
+				terrain = new Terrain(xi);
 				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2), 0);
-				terrain->SetScale(Vector3(1, 1, 1));
-				terrain->SetRotation(Vector3(0, 0, 0));
 				terrain->SetBodyObject(WIDTH, WIDTH, m_world);
-				terrain->InitWVP();
+				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
+				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, 3200.0f, 200.0f, origin);
 			}
 			isLine.push_back(0);
 			lineMap.push_back(terrain);
@@ -217,6 +227,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		m_listTerrain.push_back(lineMap);
 	}
 
+	groundTest->Init();
 	num = (col * height) / (2 * width * row) + 1;
 	num = 2 * num + 1;
 	int n = WIDTH / 12;
@@ -259,7 +270,6 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 void SceneManager::Draw() {
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 
 	m_MainCharacter->Draw();
 
@@ -268,15 +278,17 @@ void SceneManager::Draw() {
 		m_listBulletInWorld[i]->Draw();
 	}
 
+	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-		m_listEnemyInWorld[i]->Draw();
+		if(m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->Draw();
 	}
-
+	m_ListGun[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
+	m_ListGun[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
+	for (int i = 0; i < 2; i++) {
+		m_ListGun[i]->Draw();
+	}
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
-			if (map[i][j] >= 0) {
-				m_listTerrain[i][j]->Draw();
-			}
 			if (mapEnemy[{i, j}] == 1) {
 				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world);
 				AddEnemy(m_mapEnemy[{i, j}]);
@@ -284,6 +296,7 @@ void SceneManager::Draw() {
 			}
 		}
 	}
+	groundTest->Draw();
 
 	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
 		m_ListBackground[i]->Draw();
@@ -376,6 +389,7 @@ void SceneManager::CleanUp() {
 	}
 
 	m_MainCharacter->CleanUp();
+	
 
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 		m_listEnemyInWorld[i]->CleanUp();
@@ -466,6 +480,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	static const double step = 1.0 / 70.0;
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
 	 int row = Globals::screenHeight / WIDTH * 2 + 1;
@@ -491,18 +506,19 @@ void SceneManager::Update(float deltaTime) {
 	// set update
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
+	static double impulse = m_MainCharacter->getBody()->GetMass() * 40;;
+	float impulseX = m_Horizontal * 900;
 	if (jumpstep > 0) {
-		float impulse = m_MainCharacter->getBody()->GetMass() * 66;
-		float impulseX = m_Horizontal * 900;
 		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 		jumpstep--;
 	}
 	else {
-		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal*3, 180.0f));
+		//impulse += m_MainCharacter->getBody()->GetMass() * 10;
+		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
 	}
 
-	int32 velocityIterations = 24;
-	int32 positionIterations = 12;
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
 	int lop = deltaTime / 0.003f;
 
 	for(int i = 0;i < lop;i++){
@@ -678,7 +694,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
 			if (numJump < 2) {
-				jumpstep = 25;
+				jumpstep = 30;
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
 				m_MainCharacter->resetAnimation(Falling);

@@ -50,7 +50,7 @@ void Animation::setFire(int fire) {
 void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert) {
 	if (isJump) {
 		int lop = deltaTime / 0.003f;
-		int piece = 25 / i_frame_count;
+		int piece = 30 / i_frame_count;
 		piece++;
 		lop *= piece;
 		d_anim_cursor += 1;
