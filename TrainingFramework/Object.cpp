@@ -53,13 +53,9 @@ void Object::InitWVP()
 }
 
 void Object::Draw() {
-	InitWVP();
-
-	glUseProgram(m_Shader->program);
-	
+	UpdateWVP();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -83,17 +79,14 @@ void Object::Draw() {
 
 	//Setting Texture Uniform
 	if (m_Shader->m_uTextures[0] != -1) {
-		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_Texture[0]->mTextureId);
-		glUniform1i(m_Shader->m_uTextures[0], 0);
 	}
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Object::Update(float deltaTime) {
@@ -101,7 +94,6 @@ void Object::Update(float deltaTime) {
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
 	m_WorldMatrix = scaleMatrix * translationMatrix;
-	UpdateWVP();
 }
 
 void Object::UpdateWVP() {

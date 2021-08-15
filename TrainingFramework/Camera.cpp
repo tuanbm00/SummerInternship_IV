@@ -31,6 +31,7 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 	m_Near = Near;
 	m_Far = Far;
 	initOrtho();
+	initView();
 }
 
 void Camera::Update(float deltaTime) {
@@ -39,34 +40,6 @@ void Camera::Update(float deltaTime) {
 }
 
 Matrix Camera::GetViewMatrix() {
-	if (m_bIsChange) {
-		Vector3 xaxis, yaxis, zaxis;
-		zaxis = (m_Position - m_Target).Normalize();
-		xaxis = (m_Up.Cross(zaxis)).Normalize();
-		yaxis = (zaxis.Cross(xaxis)).Normalize();
-
-		m_ViewMatrix.m[0][0] = xaxis.x;
-		m_ViewMatrix.m[0][1] = yaxis.x;
-		m_ViewMatrix.m[0][2] = zaxis.x;
-		m_ViewMatrix.m[0][3] = 0;
-
-		m_ViewMatrix.m[1][0] = xaxis.y;
-		m_ViewMatrix.m[1][1] = yaxis.y;
-		m_ViewMatrix.m[1][2] = zaxis.y;
-		m_ViewMatrix.m[1][3] = 0;
-
-		m_ViewMatrix.m[2][0] = xaxis.z;
-		m_ViewMatrix.m[2][1] = yaxis.z;
-		m_ViewMatrix.m[2][2] = zaxis.z;
-		m_ViewMatrix.m[2][3] = 0;
-
-		m_ViewMatrix.m[3][0] = -m_Position.Dot(xaxis);
-		m_ViewMatrix.m[3][1] = -m_Position.Dot(yaxis);
-		m_ViewMatrix.m[3][2] = -m_Position.Dot(zaxis);
-		m_ViewMatrix.m[3][3] = 1;
-		m_bIsChange = false;
-	}
-				
 	return m_ViewMatrix;
 }
 
@@ -83,18 +56,46 @@ void Camera::CleanUp() {
 }
 
 void Camera::SetTarget(Vector3 Target) {
-	m_bIsChange = true;
 	m_Target = Target;
 	m_TargetPosition = Target;
+	initView();
 }
 
 void Camera::SetTarget(float X, float Y, float Z) {
-	m_bIsChange = true;
 	m_Target = Vector3(X, Y, Z);
+	initView();
 }
 
 Vector3 Camera::GetTarget() {
 	return m_TargetPosition;
+}
+
+void Camera::initView()
+{
+	Vector3 xaxis, yaxis, zaxis;
+	zaxis = (m_Position - m_Target).Normalize();
+	xaxis = (m_Up.Cross(zaxis)).Normalize();
+	yaxis = (zaxis.Cross(xaxis)).Normalize();
+
+	m_ViewMatrix.m[0][0] = xaxis.x;
+	m_ViewMatrix.m[0][1] = yaxis.x;
+	m_ViewMatrix.m[0][2] = zaxis.x;
+	m_ViewMatrix.m[0][3] = 0;
+
+	m_ViewMatrix.m[1][0] = xaxis.y;
+	m_ViewMatrix.m[1][1] = yaxis.y;
+	m_ViewMatrix.m[1][2] = zaxis.y;
+	m_ViewMatrix.m[1][3] = 0;
+
+	m_ViewMatrix.m[2][0] = xaxis.z;
+	m_ViewMatrix.m[2][1] = yaxis.z;
+	m_ViewMatrix.m[2][2] = zaxis.z;
+	m_ViewMatrix.m[2][3] = 0;
+
+	m_ViewMatrix.m[3][0] = -m_Position.Dot(xaxis);
+	m_ViewMatrix.m[3][1] = -m_Position.Dot(yaxis);
+	m_ViewMatrix.m[3][2] = -m_Position.Dot(zaxis);
+	m_ViewMatrix.m[3][3] = 1;
 }
 
 void Camera::initOrtho()
@@ -126,19 +127,16 @@ void Camera::initOrtho()
 }
 
 void Camera::SetPosition(float X, float Y, float Z) {
-	m_bIsChange = true;
 	m_Position = Vector3(X, Y, Z);
 }
 
 void Camera::SetPosition(float X, float Y)
 {
-	m_bIsChange = true;
 	m_Position.x = X;
 	m_Position.y = Y;
 }
 
 void Camera::SetPosition(Vector3 Position) {
-	m_bIsChange = true;
 	m_Position = Position;
 }
 

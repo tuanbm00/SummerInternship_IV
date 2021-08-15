@@ -18,6 +18,7 @@
 class SceneManager
 {
 private:
+	int wlow, whigh, hlow, hhigh;
 
 	std::vector<std::vector<Terrain*>> m_listTerrain;
 	std::vector<Terrain*> m_terrainTest;

@@ -35,6 +35,7 @@ public:
 	void CleanUp();
 	bool is_shoot;
 
+	void initView();
 	void initOrtho();
 	void SetPosition(float X, float Y, float Z);
 	void SetPosition(float X, float Y);

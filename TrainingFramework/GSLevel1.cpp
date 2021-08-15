@@ -21,8 +21,6 @@ void GSLevel1::Init() {
 
 	Singleton<TextManager>::GetInstance()->Initialize();
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
 }
@@ -46,7 +44,6 @@ void GSLevel1::Draw() {
 }
 
 void GSLevel1::Update(float deltaTime) {
-
 	m_SM->Update(deltaTime);
 }
 

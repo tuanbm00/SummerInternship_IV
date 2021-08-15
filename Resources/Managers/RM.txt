@@ -1,7 +1,7 @@
 #Animations: 14
 ID 0
 FILE ../Resources/Animation/Idle.txt
-SPEED 1 -1
+SPEED 2 -1
 ID 1
 FILE ../Resources/Animation/Run.txt
 SPEED 1 -1

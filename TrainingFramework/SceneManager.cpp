@@ -45,8 +45,8 @@ void SceneManager::Init() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	delete[] indices;
 
+	delete[] indices;
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -257,6 +257,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 }
 
 void SceneManager::Draw() {
+	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 
 	m_MainCharacter->Draw();
 
@@ -269,15 +272,7 @@ void SceneManager::Draw() {
 		m_listEnemyInWorld[i]->Draw();
 	}
 
-	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
-	int col = Globals::screenWidth / WIDTH * 2 + 1;
-	int row = Globals::screenHeight / WIDTH * 2 + 1;
-	int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
-	int h = 0 / WIDTH + m_listTerrain.size() / 2;
-	int wlow = w - col + 2 > 0 ? w - col + 2 : 0;
-	int whigh = w + col < m_listTerrain[0].size() ? w + col: m_listTerrain[0].size();
-	int hlow = h - row > 0 ? h - row : 0;
-	int hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size();
+
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (map[i][j] >= 0) {
@@ -294,6 +289,7 @@ void SceneManager::Draw() {
 	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
 		m_ListBackground[i]->Draw();
 	}
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
@@ -471,6 +467,16 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
+	 int col = Globals::screenWidth / WIDTH * 2 + 1;
+	 int row = Globals::screenHeight / WIDTH * 2 + 1;
+	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
+	 int h = 0 / WIDTH + m_listTerrain.size() / 2;
+	wlow = w - col + 2 > 0 ? w - col + 2 : 0;
+	whigh = w + col < m_listTerrain[0].size() ? w + col : m_listTerrain[0].size();
+	hlow = h - row > 0 ? h - row : 0;
+	hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size();
+
 	// set key
 	m_time += deltaTime;
 	m_timeChangeGun += deltaTime;
@@ -482,7 +488,7 @@ void SceneManager::Update(float deltaTime) {
 			EnemyAttack(m_listEnemyInWorld[i]);
 		}
 	}
-
+	
 	// set update
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
@@ -493,7 +499,7 @@ void SceneManager::Update(float deltaTime) {
 		jumpstep--;
 	}
 	else {
-		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal, 80.0f));
+		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(m_Horizontal*3, 180.0f));
 	}
 
 	int32 velocityIterations = 24;
@@ -746,6 +752,7 @@ void SceneManager::CheckMovement() {
 		
 	}
 	if (keyPressed & SHOOT) {
+		m_Horizontal = 0;
 		if(m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGun[0]->GetID() * m_direction;
 		m_shoot = 1.0f;
 		if (Camera::GetInstance()->is_shoot == true) {
