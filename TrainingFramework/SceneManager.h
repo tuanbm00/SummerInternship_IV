@@ -1,13 +1,14 @@
 #pragma once
 #include <fstream>
 #include <crtdbg.h>
-#include "Object.h"
 #include <vector>
+#include <map>
 #include "box2d/b2_world.h"
 #include"box2d/b2_body.h"
 #include"box2d/b2_fixture.h"
 #include"box2d/b2_circle_shape.h"
 #include"box2d/b2_polygon_shape.h"
+#include "Object.h"
 #include "MainCharacter.h"
 #include "NPC.h"
 #include "Bullet.h"
@@ -22,8 +23,9 @@ private:
 	std::vector<Terrain*> m_terrainTest;
 	std::vector<Terrain*> m_ListBackground;
 	std::vector<std::vector<int>> map;
+	std::map<std::pair<int, int>, int> mapEnemy;
+	std::map<std::pair<int, int>, Enemy*> m_mapEnemy;
 	std::vector<std::vector<int>> isInit;
-
 	MainCharacter* m_MainCharacter;
 	std::vector<Bullet*> m_ListGun;
 	std::vector<Bullet*> m_listBulletInWorld;

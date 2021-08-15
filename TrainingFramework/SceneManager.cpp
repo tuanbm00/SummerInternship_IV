@@ -125,7 +125,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 		}
 		else {
 			fscanf(f_SM, "HP %f\n", &hp);
-			printf("%f\n", hp);
 		}
 			//Add Texture here
 		
@@ -220,7 +219,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 
 	num = (col * height) / (2 * width * row) + 1;
 	num = 2 * num + 1;
-	int n = WIDTH / 5;
+	int n = WIDTH / 12;
 	Model* backgroundModel = new Model();
 	backgroundModel->InitSprite(0, 0, n * (width * col / height), n * col, n * (width * col / height), n * col);
 
@@ -229,29 +228,30 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, -1);
+		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
 		background->SetScale(Vector3(2, 2, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
 		m_ListBackground.push_back(background);
 	}
 
-	int numOfEnemy, id, posRow, posCol;
+	int numOfEnemy, id, posRow, posCol, left, right;
 	fscanf(f_MAP, "#Enemy: %d\n", &numOfEnemy);
 	for (int i = 0; i < numOfEnemy; i++) {
-		fscanf(f_MAP, "%d %d %d\n", &id, &posRow, &posCol);
+		fscanf(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
+		mapEnemy[{posRow, posCol}] = 1;
 		Enemy* enemy = new Enemy(id);
 		enemy->setModel(m_listEnemy[id]->getModel());
 		enemy->setShader(m_listEnemy[id]->getShaders());
 		enemy->SetTexture(m_listEnemy[id]->getTexture());
 		enemy->SetPosition(WIDTH*(posCol - col / 2), WIDTH*(posRow - row / 2), 0.0f);
+		enemy->SetLimit(WIDTH*(left - col / 2), WIDTH*(right - col / 2));
 		enemy->SetScale(m_listEnemy[id]->GetScale());
 		enemy->SetRotation(m_listEnemy[id]->GetRotation());
 		enemy->SetHP(m_listEnemy[id]->GetHP());
-		enemy->SetBodyObject(enemy->GetPosition().x, enemy->GetPosition().y, m_world);
 		enemy->InitWVP();
 		enemy->SetBullet(m_ListGun[0]);
-		AddEnemy(enemy);
+		m_mapEnemy[{posRow, posCol}] = enemy;
 	}
 	fclose(f_MAP);
 }
@@ -274,14 +274,19 @@ void SceneManager::Draw() {
 	int row = Globals::screenHeight / WIDTH * 2 + 1;
 	int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
 	int h = 0 / WIDTH + m_listTerrain.size() / 2;
-	int wlow = w - col > 0 ? w - col : 0;
-	int whigh = w + col < m_listTerrain[0].size() ? w + col : m_listTerrain[0].size() - 1;
+	int wlow = w - col + 2 > 0 ? w - col + 2 : 0;
+	int whigh = w + col < m_listTerrain[0].size() ? w + col: m_listTerrain[0].size();
 	int hlow = h - row > 0 ? h - row : 0;
-	int hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size() - 1;
+	int hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size();
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (map[i][j] >= 0) {
 				m_listTerrain[i][j]->Draw();
+			}
+			if (mapEnemy[{i, j}] == 1) {
+				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world);
+				AddEnemy(m_mapEnemy[{i, j}]);
+				mapEnemy[{i, j}] = 0;
 			}
 		}
 	}
@@ -475,8 +480,6 @@ void SceneManager::Update(float deltaTime) {
 		m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
 		if (m_listEnemyInWorld[i]->isAttack()) {
 			EnemyAttack(m_listEnemyInWorld[i]);
-			float velx = m_listEnemyInWorld[i]->getBody()->GetLinearVelocity().x;
-			m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(-velx, 0));
 		}
 	}
 
@@ -535,7 +538,6 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
 					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
 				}
-				printf("%f\n", m_listEnemyInWorld[i]->GetHP());
 			}
 			if (m_listEnemyInWorld[i]->isDie()) {
 				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
@@ -590,7 +592,6 @@ void SceneManager::Update(float deltaTime) {
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
-							printf("hell %d\n", i);
 							if (m_listBulletInWorld[i]->IsChange()) {
 								SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
 							}
@@ -631,7 +632,6 @@ void SceneManager::Update(float deltaTime) {
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 					}
-					printf("main: %f\n", m_MainCharacter->GetHP());
 					isContact = true;
 					RemoveBullet(i);
 					i--;

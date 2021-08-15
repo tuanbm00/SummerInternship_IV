@@ -19,6 +19,10 @@ void Enemy::Update(float deltaTime)
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 
+	if (m_Position.x <= m_left || m_Position.x >= m_right) {
+		m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
+	}
+
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, Idle);
 	}
@@ -26,6 +30,11 @@ void Enemy::Update(float deltaTime)
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
 	m_WorldMatrix = scaleMatrix * translationMatrix;
+}
+
+void Enemy::SetLimit(float left, float right) {
+	m_left = left;
+	m_right = right;
 }
 
 bool Enemy::isDie() {
