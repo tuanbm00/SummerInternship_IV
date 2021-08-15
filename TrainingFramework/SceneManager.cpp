@@ -272,7 +272,6 @@ void SceneManager::Draw() {
 		m_listEnemyInWorld[i]->Draw();
 	}
 
-
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (map[i][j] >= 0) {
