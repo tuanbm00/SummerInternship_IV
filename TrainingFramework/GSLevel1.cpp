@@ -26,19 +26,26 @@ void GSLevel1::Init() {
 }
 
 void GSLevel1::Draw() {
-	DWORD start, end;
-	start = GetTickCount();
+	
 
 	Camera::GetInstance()->i_state = 1;
 	m_SM->Draw();
 
-	end = GetTickCount();
-	DWORD frameTime = end - start;
-	int fps = frameTime;
+	static float framesPerSecond = 0.0f;
+	static int fps;
+	static float lastTime = 0.0f;
+	float currentTime = GetTickCount() * 0.001f;
+	++framesPerSecond;
+	if (currentTime - lastTime > 1.0f)
+	{
+		lastTime = currentTime;
+		fps = (int)framesPerSecond;
+		framesPerSecond = 0;
+	}
 	char buffer[5];
-	itoa(fps, buffer, 10);
+	_itoa(fps, buffer, 10);
 	char s[9] = "FPS: ";
-	strcat(s, buffer);
+	strcat_s(s, buffer);
 
 	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }

@@ -24,7 +24,6 @@ public:
 	void SetLimit(float left, float right);
 	void SetBullet(Bullet* bullet);
 	void SetBodyObject(float positionX, float positionY, b2World* world);
-	bool checkDraw();
 
 	Bullet* GetBullet();
 };

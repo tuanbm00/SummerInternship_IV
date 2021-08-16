@@ -150,6 +150,14 @@ void Object::SetScale(Vector3 Scale) {
 	m_Scale = Scale;
 }
 
+bool Object::checkDraw()
+{
+	Vector3 pos = Camera::GetInstance()->GetPosition();
+	if (m_Position.x <= (pos.x - 1280) || m_Position.x >= (pos.x + 1280)) return false;
+	if (m_Position.y <= (pos.y - 960) || m_Position.y >= (pos.y + 960)) return false;
+	return true;
+}
+
 Vector3 Object::GetScale() {
 	return m_Scale;
 }

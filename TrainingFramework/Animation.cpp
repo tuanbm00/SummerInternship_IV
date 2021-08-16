@@ -11,12 +11,12 @@ Animation::Animation(const char* filePath)
 	i_current_frame_index = 0;
 	FILE* fp = fopen(filePath, "r");
 	int cnt, total;
-	fscanf(fp, "%d %d\n", &total, &cnt);
+	fscanf_s(fp, "%d %d\n", &total, &cnt);
 	i_frame_count = cnt;
 	m_animation = new Vector4[total];
 	for (int i = 0; i < total; i++) {
 		int x, y, w, h;
-		fscanf(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
+		fscanf_s(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
 		m_animation[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);

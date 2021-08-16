@@ -53,6 +53,7 @@ public:
 	Vector3 GetPosition();
 	void SetScale(float X, float Y, float Z);
 	void SetScale(Vector3 Scale);
+	bool checkDraw();
 	Vector3 GetScale();
 	void SetRotation(float X, float Y, float Z);
 	void SetRotation(Vector3 Rotation);

@@ -42,13 +42,13 @@ void ResourceManager::ReadFile(FILE* f_RM)
 {
 	//Animations
 	int numAnimations;
-	fscanf(f_RM, "#Animations: %d\n", &numAnimations);
+	fscanf_s(f_RM, "#Animations: %d\n", &numAnimations);
 	for (register int i = 0; i < numAnimations; i++) {
 		int ID;
 		char File[250]; float speed; int fire;
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE %s\n", File);
-		fscanf(f_RM, "SPEED %f %d\n", &speed, &fire);
+		fscanf_s(f_RM, "ID %d\n", &ID);
+		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
+		fscanf_s(f_RM, "SPEED %f %d\n", &speed, &fire);
 		Animation* anim = new Animation(File);
 		anim->setAnimationSpeed(speed);
 		anim->setID(ID);
@@ -58,12 +58,12 @@ void ResourceManager::ReadFile(FILE* f_RM)
 
 	//Textures
 	int numOfTextures;
-	fscanf(f_RM, "#2D Textures: %d\n", &numOfTextures);
+	fscanf_s(f_RM, "#2D Textures: %d\n", &numOfTextures);
 	for (register int i = 0; i < numOfTextures; i++) {
 		int ID;
 		char File[250];
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE %s\n", &File);
+		fscanf_s(f_RM, "ID %d\n", &ID);
+		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
 
 		Texture* texture = new Texture(ID, File);
 		texture->Init();
@@ -72,12 +72,12 @@ void ResourceManager::ReadFile(FILE* f_RM)
 
 	//Background
 	int numOfBackground;
-	fscanf(f_RM, "#Background: %d\n", &numOfBackground);
+	fscanf_s(f_RM, "#Background: %d\n", &numOfBackground);
 	for (register int i = 0; i < numOfBackground; i++) {
 		int ID;
 		char File[250];
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE %s\n", &File);
+		fscanf_s(f_RM, "ID %d\n", &ID);
+		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
 
 		Texture* texture = new Texture(ID, File);
 		texture->Init();
@@ -86,12 +86,12 @@ void ResourceManager::ReadFile(FILE* f_RM)
 
 	//Tile
 	int numOfTile;
-	fscanf(f_RM, "#Tile: %d\n", &numOfTile);
+	fscanf_s(f_RM, "#Tile: %d\n", &numOfTile);
 	for (register int i = 0; i < numOfTile; i++) {
 		int ID;
 		char File[250];
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "FILE %s\n", &File);
+		fscanf_s(f_RM, "ID %d\n", &ID);
+		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
 
 		Texture* texture = new Texture(ID, File);
 		texture->Init();
@@ -100,24 +100,24 @@ void ResourceManager::ReadFile(FILE* f_RM)
 
 	//Shaders
 	int numOfShaders;
-	fscanf(f_RM, "#Shaders: %d\n", &numOfShaders);
+	fscanf_s(f_RM, "#Shaders: %d\n", &numOfShaders);
 	for (register int i = 0; i < numOfShaders; i++) {
 		int ID, states, depth_test = 0, cull_face = 0, blend = 0;
 		char FileVS[250], FileFS[250];
-		fscanf(f_RM, "ID %d\n", &ID);
-		fscanf(f_RM, "VS %s\n", &FileVS);
-		fscanf(f_RM, "FS %s\n", &FileFS);
-		fscanf(f_RM, "STATES %d\n", &states);
+		fscanf_s(f_RM, "ID %d\n", &ID);
+		fscanf_s(f_RM, "VS %s\n", FileVS, _countof(FileVS));
+		fscanf_s(f_RM, "FS %s\n", FileFS, _countof(FileFS));
+		fscanf_s(f_RM, "STATES %d\n", &states);
 		if (states > 0) {
-			fscanf(f_RM, "GL_DEPTH_TEST %d\n", &depth_test);
+			fscanf_s(f_RM, "GL_DEPTH_TEST %d\n", &depth_test);
 			states--;
 		}
 		if (states > 0) {
-			fscanf(f_RM, "GL_CULL_FACE %d\n", &cull_face);
+			fscanf_s(f_RM, "GL_CULL_FACE %d\n", &cull_face);
 			states--;
 		}
 		if (states > 0) {
-			fscanf(f_RM, "GL_BLEND %d\n", &blend);
+			fscanf_s(f_RM, "GL_BLEND %d\n", &blend);
 			states--;
 		}
 
