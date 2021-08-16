@@ -12,7 +12,8 @@ enum AnimationType {
 	Gun0,
 	Gun1,
 	Gun2,
-	Gun3
+	Gun3,
+	Wound
 };
 
 class Animation

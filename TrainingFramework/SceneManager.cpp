@@ -530,7 +530,7 @@ void SceneManager::Update(float deltaTime) {
 	float impulseX = m_Horizontal * 900;
 	if (jumpstep > 0) {
 		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
-		jumpstep = jumpstep - deltaTime*100 + 1;
+		--jumpstep;
 	}
 	else {
 		//impulse += m_MainCharacter->getBody()->GetMass() * 10;
@@ -542,7 +542,7 @@ void SceneManager::Update(float deltaTime) {
 	float lop = deltaTime / 0.003f;
 
 	for(float i = 0;i < lop;i++){
-		m_world->Step(0.07f, velocityIterations, positionIterations); 
+		m_world->Step(0.07f, velocityIterations, positionIterations);
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
 
@@ -576,13 +576,19 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					Camera::GetInstance()->is_wound = true;
+					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+					Camera::GetInstance()->is_wound = true;
+					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
-				
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
+				}
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
 				}
@@ -610,7 +616,37 @@ void SceneManager::Update(float deltaTime) {
 					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					
+					if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
+							if (m_listBulletInWorld[i]->IsChange()) {
+								SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
+							}
+						}
+						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
+							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
+							Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
+							bullet->InitA(m_listBulletInWorld[i]->GetAttackDame(), m_listBulletInWorld[i]->GetAttackSpeed(), m_listBulletInWorld[i]->GetSpeedOfBullet().x, 0, m_listBulletInWorld[i]->GetMaxOfLength());
+							bullet->SetCurrLength(m_listBulletInWorld[i]->GetCurrLength() + a->GetAABB(0).GetExtents().x);
+
+							if (m_listBulletInWorld[i]->IsChange()) {
+								bullet->SetIsChange();
+							}
+
+							Vector3 posBullet = Vector3(posHellBullet.x + v * (m_listBulletInWorld[i]->GetBox().x * 3 + a->GetAABB(0).GetExtents().x * 2), posHellBullet.y, 0);
+							bullet->setModel(m_listBulletInWorld[i]->getModel());
+							bullet->setShader(m_listBulletInWorld[i]->getShaders());
+							bullet->SetTexture(m_listBulletInWorld[i]->getTexture());
+							bullet->SetPosition(posBullet);
+							bullet->SetScale(m_listBulletInWorld[i]->GetScale());
+							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
+							bullet->InitWVP();
+							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
+							bullet->m_current_anim = m_direction;
+
+							AddBullet(bullet);
+						}
+					}
 					if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
 							if (m_listBulletInWorld[i]->IsChange()) {
@@ -647,9 +683,15 @@ void SceneManager::Update(float deltaTime) {
 					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
-					
+					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+						Camera::GetInstance()->is_wound = true;
+						m_MainCharacter->resetAnimation(Wound);
+					}
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+						Camera::GetInstance()->is_wound = true;
+						m_MainCharacter->resetAnimation(Wound);
 					}
 					isContact = true;
 					RemoveBullet(i);
@@ -784,5 +826,8 @@ void SceneManager::CheckMovement() {
 			m_timeChangeGun = 0;
 		}
 	}
-	
+	if (Camera::GetInstance()->is_wound) {
+		m_MainCharacter->m_current_anim = Wound * m_direction;
+	}
 }
+

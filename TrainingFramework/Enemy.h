@@ -15,7 +15,9 @@ private:
 	float m_right;
 	Bullet* m_bullet;
 public:
-	Enemy(int ID) : Object(ID) {}
+	Enemy(int ID) : Object(ID) {
+		m_current_anim = Idle;
+	}
 	void SetHP(float hp);
 	float GetHP();
 	void SetSpeed(float speedx, float speedy);

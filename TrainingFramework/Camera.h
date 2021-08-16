@@ -34,6 +34,7 @@ public:
 	void Update(float deltaTime);
 	void CleanUp();
 	bool is_shoot;
+	bool is_wound;
 
 	void initView();
 	void initOrtho();

@@ -64,6 +64,7 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 		if (d_anim_cursor > f_speed) {
 			i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
 			if (i_current_frame_index == m_fire_pos) Camera::GetInstance()->is_shoot = true;
+			if (i_current_frame_index == i_frame_count - 1) Camera::GetInstance()->is_wound = false;
 			d_anim_cursor = 0;
 		}
 	}
