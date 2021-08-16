@@ -7,6 +7,8 @@ class Enemy :
 {
 private:
 	float m_HP;
+	float m_speedx;
+	float m_speedy;
 	float m_attackDame;
 	float m_time;
 	float m_left;
@@ -16,6 +18,8 @@ public:
 	Enemy(int ID) : Object(ID) {}
 	void SetHP(float hp);
 	float GetHP();
+	void SetSpeed(float speedx, float speedy);
+	Vector2 GetSpeed();
 	bool isDie();
 	bool isAttack();
 

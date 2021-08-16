@@ -82,8 +82,8 @@ void Bullet::Update(float deltaTime)
 		b2Vec2 v = m_body->GetLinearVelocity();
 		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
 	}
-	float vel = m_SpeedOfBulletX > 0 ? m_SpeedOfBulletX : -m_SpeedOfBulletX;
-	m_CurrentLength += deltaTime * vel;
+	float dir = m_SpeedOfBulletX > 0 ? 1 : -1;
+	m_CurrentLength += (m_body->GetPosition().x  - m_Position.x) * dir;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 	if (m_Model->b_IsAnimation == true) {
