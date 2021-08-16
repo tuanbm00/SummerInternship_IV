@@ -10,6 +10,15 @@ float Enemy::GetHP() {
 	return m_HP;
 }
 
+void Enemy::SetSpeed(float speedx, float speedy) {
+	m_speedx = speedx;
+	m_speedy = speedy;
+}
+
+Vector2 Enemy::GetSpeed() {
+	return Vector2(m_speedx, m_speedy);
+}
+
 void Enemy::UpdateAttack(float deltaTime) {
 	m_time += deltaTime;
 }
@@ -66,11 +75,12 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	dynamicBox.SetAsBox(m_spriteW/2, m_spriteH/2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = m_attackDame;
+	fixtureDef.density = 0;
+//	fixtureDef.density = 1;
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
 	m_body->CreateFixture(&fixtureDef);
-	m_body->SetLinearVelocity(b2Vec2(10.0, 0));
+	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }
 
 Bullet* Enemy::GetBullet() {

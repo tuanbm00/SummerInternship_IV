@@ -124,7 +124,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			fscanf_s(f_SM, "BULLET %f %f %f %f %f\n", &dame, &attack, &speedx, &speedy, &dis);
 		}
 		else {
-			fscanf_s(f_SM, "HP %f\n", &hp);
+			fscanf(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 		}
 			//Add Texture here
 		
@@ -154,6 +154,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			enemy->SetScale(Scale);
 			enemy->SetRotation(Rotation);
 			enemy->SetHP(hp);
+			enemy->SetSpeed(speedx, speedy);
 			enemy->InitWVP();
 			m_listEnemy.push_back(enemy);
 		}
@@ -260,6 +261,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		enemy->SetScale(m_listEnemy[id]->GetScale());
 		enemy->SetRotation(m_listEnemy[id]->GetRotation());
 		enemy->SetHP(m_listEnemy[id]->GetHP());
+		enemy->SetSpeed(m_listEnemy[id]->GetSpeed().x, m_listEnemy[id]->GetSpeed().y);
 		enemy->InitWVP();
 		enemy->SetBullet(m_ListGun[0]);
 		m_mapEnemy[{posRow, posCol}] = enemy;
@@ -459,6 +461,7 @@ void SceneManager::ChangeGun(bool isEmptyBullet) {
 
 void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 	float v = hellBullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+	printf("%f\n", hellBullet->GetSpeedOfBullet().x);
 	for (int i = 0; i < 3; i++) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
@@ -547,11 +550,20 @@ void SceneManager::Update(float deltaTime) {
 		for (b2ContactEdge* edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 			b2Fixture * a = edge->contact->GetFixtureA();
 			b2Fixture * b = edge->contact->GetFixtureB();
-			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-				float y1 = a->GetBody()->GetPosition().y, y2 = b->GetBody()->GetPosition().y;
-				if (y1 < y2) {
-					is_in_ground = true;
-					numJump = 0;
+			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+						numJump = 0;
+					}
+				}
+			}
+			if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+						numJump = 0;
+					}
 				}
 			}
 		}
@@ -562,9 +574,13 @@ void SceneManager::Update(float deltaTime) {
 			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
-				
+				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					break;
+				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-				//	m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+					break;
 				}
 				
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
