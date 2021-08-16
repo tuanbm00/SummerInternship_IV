@@ -13,10 +13,13 @@ private:
 	float m_time;
 	float m_left;
 	float m_right;
+	int m_bulletID;
 	Bullet* m_bullet;
 public:
 	Enemy(int ID) : Object(ID) {}
 	void SetHP(float hp);
+	void SetBulletID(int bulletID);
+	int GetBulletID();
 	float GetHP();
 	void SetSpeed(float speedx, float speedy);
 	Vector2 GetSpeed();

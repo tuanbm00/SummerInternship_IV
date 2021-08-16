@@ -29,7 +29,8 @@ private:
 	std::map<std::pair<int, int>, Enemy*> m_mapEnemy;
 	std::vector<std::vector<int>> isInit;
 	MainCharacter* m_MainCharacter;
-	std::vector<Bullet*> m_ListGun;
+	std::vector<Bullet*> m_ListGunOfPlayer;
+	std::vector<Bullet*> m_ListGunOfEnemy;
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;

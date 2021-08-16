@@ -19,6 +19,14 @@ Vector2 Enemy::GetSpeed() {
 	return Vector2(m_speedx, m_speedy);
 }
 
+void Enemy::SetBulletID(int bulletID) {
+	m_bulletID = bulletID;
+}
+
+int Enemy::GetBulletID() {
+	return m_bulletID;
+}
+
 void Enemy::UpdateAttack(float deltaTime) {
 	m_time += deltaTime;
 }

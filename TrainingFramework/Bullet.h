@@ -14,6 +14,7 @@ private:
 	float m_SpeedOfBulletY;
 	float m_MaxOfLength;
 	float m_CurrentLength;
+	b2Body* m_target;
 public:
     Bullet(int ID) : Object(ID) {}
 
@@ -21,6 +22,7 @@ public:
 	void ResetBullet();
 	void SetCurrLength(float curr);
 	void ReverseV();
+	void SetTarget(b2Body* target);
 	bool IsEmptyBullet();
 	bool IsOverLength();
 	void SetIsChange();
@@ -31,6 +33,7 @@ public:
 	float GetCurrLength();
 
 	Vector2 GetSpeedOfBullet();
+	b2Body* GetTarget();
 	float GetMaxOfLength();
     void Update(float deltaTime);
 	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true);

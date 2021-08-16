@@ -11,6 +11,7 @@ void Bullet::InitA(float attackDame ,float attackSpeed, float speedOfBulletX, fl
 	m_SpeedOfBulletY = speedOfBulletY;
 	m_MaxOfLength = maxOfLength;
 	m_CurrentLength = 0;
+	m_target = NULL;
 }
 
 void Bullet::ResetBullet() {
@@ -62,6 +63,14 @@ void Bullet::SetIsChange() {
 	m_isChange = 1;
 }
 
+void Bullet::SetTarget(b2Body* target) {
+	m_target = target;
+}
+
+b2Body* Bullet::GetTarget() {
+	return m_target;
+}
+
 bool Bullet::IsChange() {
 	if (m_isChange == 0) {
 		return false;
@@ -80,7 +89,20 @@ void Bullet::Update(float deltaTime)
 {
 	if (m_ObjectID == CATEGORY_BAZOKA) {
 		b2Vec2 v = m_body->GetLinearVelocity();
-		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
+		if (!m_target) {
+			m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
+		}
+		else {
+			float dir = m_target->GetPosition().x > m_body->GetPosition().x ? 1.0f : -1.0f;
+			v.x = v.x > 0 ? v.x : -v.x;
+			if ((m_body->GetPosition().x == m_target->GetPosition().x)) {
+				m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
+			}
+			else {
+				float scale = (m_body->GetPosition().y - m_target->GetPosition().y + m_target->GetFixtureList()->GetAABB(0).GetExtents().x) / (m_body->GetPosition().x - m_target->GetPosition().x);
+				m_body->SetLinearVelocity(b2Vec2(v.x * dir, v.x * scale * dir));
+			}
+		}
 	}
 	float dir = m_SpeedOfBulletX > 0 ? 1 : -1;
 	m_CurrentLength += (m_body->GetPosition().x  - m_Position.x) * dir;
