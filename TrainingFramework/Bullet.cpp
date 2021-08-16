@@ -99,7 +99,7 @@ void Bullet::Update(float deltaTime)
 				m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 			}
 			else {
-				float scale = (m_body->GetPosition().y - m_target->GetPosition().y + m_target->GetFixtureList()->GetAABB(0).GetExtents().x) / (m_body->GetPosition().x - m_target->GetPosition().x);
+				float scale = (m_body->GetPosition().y - m_target->GetPosition().y + 50.0f) / (m_body->GetPosition().x - m_target->GetPosition().x);
 				m_body->SetLinearVelocity(b2Vec2(v.x * dir, v.x * scale * dir));
 			}
 		}

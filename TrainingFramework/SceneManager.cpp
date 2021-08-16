@@ -306,9 +306,9 @@ void SceneManager::Draw() {
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-		if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
+	//	if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
 			m_listEnemyInWorld[i]->Draw();
-		}
+	//	}
 	}
 	m_ListGunOfPlayer[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
 	m_ListGunOfPlayer[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
@@ -408,13 +408,11 @@ void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
-			if(m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
+			if (m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
 		}
 	}
-
 	m_MainCharacter->CleanUp();
 	
-
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 		m_listEnemyInWorld[i]->CleanUp();
 
@@ -422,8 +420,8 @@ void SceneManager::CleanUp() {
 
 	for (int i = 0; i < m_ListGunOfPlayer.size(); i++) {
 		m_ListGunOfPlayer[i]->CleanUp();
-
-	for (int i = 0; i < (int)m_ListGun.size(); i++) {
+	}
+	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); i++) {
 		m_ListGunOfEnemy[i]->CleanUp();
 	}
 }
@@ -441,9 +439,10 @@ void SceneManager::Shoot() {
 		for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
 			if (m_direction * m_MainCharacter->GetPosition().x < m_direction * m_listEnemyInWorld[i]->GetPosition().x) {
 				if (m_MainCharacter->GetPosition().y + 800 > m_listEnemyInWorld[i]->GetPosition().y && m_MainCharacter->GetPosition().y - 400 < m_listEnemyInWorld[i]->GetPosition().y) {
+					float high = abs(m_MainCharacter->GetPosition().y - m_listEnemyInWorld[i]->GetPosition().y);
 					float dis = abs(m_MainCharacter->GetPosition().x - m_listEnemyInWorld[i]->GetPosition().x);
-					if (minLength > dis) {
-						minLength = dis;
+					if (minLength > high && dis < 2000.0f) {
+						minLength = high;
 						bullet->SetTarget(m_listEnemyInWorld[i]->getBody());
 					}
 				}
