@@ -1,4 +1,4 @@
-#Animations: 14
+#Animations: 15
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 3 -1
@@ -41,6 +41,9 @@ SPEED 1 -1
 ID 13
 FILE ../Resources/Animation/defend.txt
 SPEED 1 -1
+ID 14
+FILE ../Resources/Animation/Wounded.txt
+SPEED 1.5 -1
 
 #2D Textures: 5
 ID 0

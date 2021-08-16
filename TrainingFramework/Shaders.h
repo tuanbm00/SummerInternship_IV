@@ -26,8 +26,8 @@ public:
 
 	int Init();
 	
-	void SetFileVS(char* filepath) { strcpy(m_fileVS, filepath); };
-	void SetFileFS(char* filepath) { strcpy(m_fileFS, filepath); };
+	void SetFileVS(char* filepath) { strcpy_s(m_fileVS, sizeof m_fileVS, filepath); };
+	void SetFileFS(char* filepath) { strcpy_s(m_fileFS, sizeof m_fileFS, filepath); };
 
 	int GetID() { return m_Id; }
 };

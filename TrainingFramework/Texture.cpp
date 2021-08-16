@@ -5,7 +5,7 @@
 Texture::Texture(int ID, char* srcTexture)
 {
 	m_Id = ID;
-	strcpy(m_srcTexture, srcTexture);
+	strcpy_s(m_srcTexture,sizeof m_srcTexture, srcTexture);
 }
 
 Texture::~Texture() {

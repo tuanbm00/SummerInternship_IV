@@ -35,7 +35,7 @@ private:
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
 
-	float m_direction;
+	int m_direction;
 	float m_Horizontal;
 	float m_Vertical;
 	float m_shoot;

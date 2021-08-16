@@ -90,12 +90,6 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }
-bool Enemy::checkDraw() {
-	Vector3 pos = Camera::GetInstance()->GetPosition();
-	if (m_Position.x <= (pos.x - 1280) || m_Position.x >= (pos.x + 1280)) return false;
-	if (m_Position.y <= (pos.y - 960) || m_Position.y >= (pos.y + 960)) return false;
-	return true;
-}
 
 Bullet* Enemy::GetBullet() {
 	return m_bullet;

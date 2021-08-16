@@ -16,7 +16,9 @@ private:
 	int m_bulletID;
 	Bullet* m_bullet;
 public:
-	Enemy(int ID) : Object(ID) {}
+	Enemy(int ID) : Object(ID) {
+		m_current_anim = Idle;
+	}
 	void SetHP(float hp);
 	void SetBulletID(int bulletID);
 	int GetBulletID();
@@ -31,7 +33,6 @@ public:
 	void SetLimit(float left, float right);
 	void SetBullet(Bullet* bullet);
 	void SetBodyObject(float positionX, float positionY, b2World* world);
-	bool checkDraw();
 
 	Bullet* GetBullet();
 };

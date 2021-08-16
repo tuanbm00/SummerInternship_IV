@@ -46,6 +46,7 @@ public:
 	void setModel(Model* mmodel);
 	void setShader(Shaders* mshader);
 	void UpdateWVP();
+	void UpdateAnimation(float deltaTime);
 
 	void SetTexture(Texture* Texture);
 	void SetPosition(float X, float Y, float Z);
@@ -53,6 +54,7 @@ public:
 	Vector3 GetPosition();
 	void SetScale(float X, float Y, float Z);
 	void SetScale(Vector3 Scale);
+	bool checkDraw();
 	Vector3 GetScale();
 	void SetRotation(float X, float Y, float Z);
 	void SetRotation(Vector3 Rotation);

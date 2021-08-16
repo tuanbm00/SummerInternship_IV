@@ -11,7 +11,7 @@ SceneManager::SceneManager(char* fileSM, char* fileMAP)
 {
 	m_fileSM = fileSM;
 	m_fileMAP = fileMAP;
-	m_direction = 1.0f;
+	m_direction = 1.0;
 	m_Horizontal = 0.0f;
 	m_Vertical = 0.0f;
 	m_shoot = 0.0f;
@@ -70,20 +70,20 @@ void SceneManager::ReadFile(FILE* f_SM)
 {
 	//Cameras
 	int numOfCameras;
-	fscanf(f_SM, "#Cameras: %d\n", &numOfCameras);
+	fscanf_s(f_SM, "#Cameras: %d\n", &numOfCameras);
 	for (register int i = 0; i < numOfCameras; i++) {
 		int ID;
 		Vector3 Position, Target, Up;
 		float Fovy, Near, Far, Move_Speed, Rotate_Speed;
-		fscanf(f_SM, "ID %d\n", &ID);
-		fscanf(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
-		fscanf(f_SM, "TARGET %f %f %f\n", &Target.x, &Target.y, &Target.z);
-		fscanf(f_SM, "UP %f %f %f\n", &Up.x, &Up.y, &Up.z);
-		fscanf(f_SM, "FOVY %f\n", &Fovy);
-		fscanf(f_SM, "NEAR %f\n", &Near);
-		fscanf(f_SM, "FAR %f\n", &Far);
-		fscanf(f_SM, "MOVE_SPEED %f\n", &Move_Speed);
-		fscanf(f_SM, "ROTATE_SPEED %f\n\n", &Rotate_Speed);
+		fscanf_s(f_SM, "ID %d\n", &ID);
+		fscanf_s(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
+		fscanf_s(f_SM, "TARGET %f %f %f\n", &Target.x, &Target.y, &Target.z);
+		fscanf_s(f_SM, "UP %f %f %f\n", &Up.x, &Up.y, &Up.z);
+		fscanf_s(f_SM, "FOVY %f\n", &Fovy);
+		fscanf_s(f_SM, "NEAR %f\n", &Near);
+		fscanf_s(f_SM, "FAR %f\n", &Far);
+		fscanf_s(f_SM, "MOVE_SPEED %f\n", &Move_Speed);
+		fscanf_s(f_SM, "ROTATE_SPEED %f\n\n", &Rotate_Speed);
 			
 		Camera::GetInstance()->Init(Fovy, Near, Far, Move_Speed, Rotate_Speed);
 		Camera::GetInstance()->SetPosition(Position);
@@ -93,48 +93,48 @@ void SceneManager::ReadFile(FILE* f_SM)
 
 	//Object
 	int numOfObjects;
-	fscanf(f_SM, "#Objects: %d\n", &numOfObjects);
+	fscanf_s(f_SM, "#Objects: %d\n", &numOfObjects);
 	for (register int i = 0; i < numOfObjects; i++) {
 		int ID, texture, shader, anim, bulletID;
 		char type[128];
 		Vector3 Position, Rotation, Scale;
 
-		fscanf(f_SM, "ID %d\n", &ID);
-		fscanf(f_SM, "TYPE %s\n", type);
+		fscanf_s(f_SM, "ID %d\n", &ID);
+		fscanf_s(f_SM, "TYPE %s\n", type, _countof(type));
 		Model* pModel;
 		float x, y, w, h, tw, th;
 		float dame, attack, speedx, speedy, dis, hp;
-		fscanf(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
+		fscanf_s(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
 		pModel = new Model();
 		pModel->InitSprite(x, y, w, h, tw, th);
 		int num_anim;
-		fscanf(f_SM, "ANIMATIONS %d\n", &num_anim);
+		fscanf_s(f_SM, "ANIMATIONS %d\n", &num_anim);
 		if (num_anim > 0) {
 			pModel->b_IsAnimation = true;
 			for (int i = 0; i < num_anim; i++) {
 				
-				fscanf(f_SM, "ANIMATION %d\n", &anim);
+				fscanf_s(f_SM, "ANIMATION %d\n", &anim);
 				pModel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(anim));
 			}
 		}
-		fscanf(f_SM, "SHADER %d\n", &shader);
-		fscanf(f_SM, "TEXTURE %d\n", &texture);
+		fscanf_s(f_SM, "SHADER %d\n", &shader);
+		fscanf_s(f_SM, "TEXTURE %d\n", &texture);
 
 		if (strcmp(type, "GUN_PLAYER") == 0 || strcmp(type, "GUN_ENEMY") == 0) {
-			fscanf(f_SM, "BULLET %f %f %f %f %f\n", &dame, &attack, &speedx, &speedy, &dis);
+			fscanf_s(f_SM, "BULLET %f %f %f %f %f\n", &dame, &attack, &speedx, &speedy, &dis);
 		}
 		else if (strcmp(type, "ENEMY") == 0) {
-			fscanf(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
-			fscanf(f_SM, "BULLET_ID %d\n", &bulletID);
+			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
+			fscanf_s(f_SM, "BULLET_ID %d\n", &bulletID);
 		}
 		else {
 			fscanf(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 		}
 			//Add Texture here
 		
-		fscanf(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
-		fscanf(f_SM, "ROTATION %f %f %f\n", &Rotation.x, &Rotation.y, &Rotation.z);
-		fscanf(f_SM, "SCALE %f %f %f\n\n", &Scale.x, &Scale.y, &Scale.z);
+		fscanf_s(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
+		fscanf_s(f_SM, "ROTATION %f %f %f\n", &Rotation.x, &Rotation.y, &Rotation.z);
+		fscanf_s(f_SM, "SCALE %f %f %f\n\n", &Scale.x, &Scale.y, &Scale.z);
 		
 
 		if (strcmp(type, "MAIN") == 0) {
@@ -202,10 +202,10 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	FILE * fp;
 	Vector4 Omap[16];
 	fopen_s(&fp, "../map.txt", "r+");
-	int ni; fscanf(fp, "%d\n", &ni);
+	int ni; fscanf_s(fp, "%d\n", &ni);
 	for (int i = 0; i < ni; i++) {
 		float x, y, w, h;
-		fscanf(fp, "%f %f %f %f\n", &x, &y, &w, &h);
+		fscanf_s(fp, "%f %f %f %f\n", &x, &y, &w, &h);
 		Omap[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);
@@ -216,17 +216,17 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	//
 	int width, height, row, col, xi, num, index, c;
 
-	fscanf(f_MAP, "%d %d\n", &width, &height);
-	fscanf(f_MAP, "%d\n", &index);
+	fscanf_s(f_MAP, "%d %d\n", &width, &height);
+	fscanf_s(f_MAP, "%d\n", &index);
 
-	fscanf(f_MAP, "%d %d\n", &row, &col);
+	fscanf_s(f_MAP, "%d %d\n", &row, &col);
 
 	for (int i = 0; i < row; i++) {
 		std::vector<int> line;
 		std::vector<int> isLine;
 		std::vector<Terrain*> lineMap;
 		for (int j = 0; j < col; j++) {
-			fscanf(f_MAP, "%d ", &xi);
+			fscanf_s(f_MAP, "%d ", &xi);
 			line.push_back(xi);
 			Terrain* terrain = NULL;
 			if (xi >= 0) {
@@ -239,7 +239,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			isLine.push_back(0);
 			lineMap.push_back(terrain);
 		}
-		fscanf(f_MAP, "\n", &c);
+		fscanf_s(f_MAP, "\n", &c);
 		isInit.push_back(isLine);
 		map.push_back(line);
 		m_listTerrain.push_back(lineMap);
@@ -265,9 +265,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	}
 
 	int numOfEnemy, id, posRow, posCol, left, right;
-	fscanf(f_MAP, "#Enemy: %d\n", &numOfEnemy);
+	fscanf_s(f_MAP, "#Enemy: %d\n", &numOfEnemy);
 	for (int i = 0; i < numOfEnemy; i++) {
-		fscanf(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
+		fscanf_s(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
 		mapEnemy[{posRow, posCol}] = 1;
 		Enemy* enemy = new Enemy(id);
 		enemy->setModel(m_listEnemy[id]->getModel());
@@ -292,10 +292,11 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fclose(f_MAP);
 }
 
+int cnt = 0;
 void SceneManager::Draw() {
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
-
+	cnt = 1;
 	m_MainCharacter->Draw();
 
 
@@ -305,28 +306,26 @@ void SceneManager::Draw() {
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-		if(m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->Draw();
+		if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
+			m_listEnemyInWorld[i]->Draw();
+		}
 	}
 	m_ListGunOfPlayer[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
 	m_ListGunOfPlayer[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
 	for (int i = 0; i < 2; i++) {
 		m_ListGunOfPlayer[i]->Draw();
+		cnt++;
 	}
-	for (int i = hlow; i < hhigh; i++) {
-		for (int j = wlow; j < whigh; j++) {
-			if (mapEnemy[{i, j}] == 1) {
-				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world);
-				AddEnemy(m_mapEnemy[{i, j}]);
-				mapEnemy[{i, j}] = 0;
-			}
-		}
-	}
+	
 	groundTest->Draw();
+	cnt++;
 
 	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
 		m_ListBackground[i]->Draw();
+		cnt++;
 	}
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//printf("%d\n", cnt);
 }
 
 
@@ -407,8 +406,8 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
-	for (int i = 0; i < m_listTerrain.size(); i++) {
-		for (int j = 0; j < m_listTerrain[i].size(); j++) {
+	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
+		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
 			if(m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
 		}
 	}
@@ -423,6 +422,9 @@ void SceneManager::CleanUp() {
 
 	for (int i = 0; i < m_ListGunOfPlayer.size(); i++) {
 		m_ListGunOfPlayer[i]->CleanUp();
+
+	for (int i = 0; i < (int)m_ListGun.size(); i++) {
+		m_ListGunOfEnemy[i]->CleanUp();
 	}
 }
 
@@ -534,9 +536,27 @@ void SceneManager::Update(float deltaTime) {
 	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
 	 int h = 0 / WIDTH + m_listTerrain.size() / 2;
 	wlow = w - col + 2 > 0 ? w - col + 2 : 0;
-	whigh = w + col < m_listTerrain[0].size() ? w + col : m_listTerrain[0].size();
+	whigh = w + col < (int)m_listTerrain[0].size() ? w + col : (int)m_listTerrain[0].size();
 	hlow = h - row > 0 ? h - row : 0;
-	hhigh = h + row < m_listTerrain.size() ? h + row : m_listTerrain.size();
+	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
+	for (int i = hlow; i < hhigh; i++) {
+		for (int j = wlow; j < whigh; j++) {
+			if (mapEnemy[{i, j}] == 1) {
+				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world);
+				AddEnemy(m_mapEnemy[{i, j}]);
+				mapEnemy[{i, j}] = 0;
+			}
+		}
+	}
+	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+		if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->getBody()->SetEnabled(true);
+		else m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+	}
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+		if (m_listBulletInWorld[i]->checkDraw() == false) {
+			RemoveBullet(i);
+		}
+	}
 
 	// set key
 	m_time += deltaTime;
@@ -555,11 +575,11 @@ void SceneManager::Update(float deltaTime) {
 	// set update
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	// set v
-	static double impulse = m_MainCharacter->getBody()->GetMass() * 40;;
+	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
 	float impulseX = m_Horizontal * 900;
 	if (jumpstep > 0) {
 		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
-		jumpstep--;
+		--jumpstep;
 	}
 	else {
 		//impulse += m_MainCharacter->getBody()->GetMass() * 10;
@@ -568,10 +588,10 @@ void SceneManager::Update(float deltaTime) {
 
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
-	int lop = deltaTime / 0.003f;
+	float lop = deltaTime / 0.003f;
 
-	for(int i = 0;i < lop;i++){
-		m_world->Step(0.07f, velocityIterations, positionIterations); 
+	for(float i = 0;i < lop;i++){
+		m_world->Step(0.07f, velocityIterations, positionIterations);
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
 
@@ -605,10 +625,14 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					Camera::GetInstance()->is_wound = true;
+					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+					Camera::GetInstance()->is_wound = true;
+					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
@@ -658,7 +682,7 @@ void SceneManager::Update(float deltaTime) {
 							Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
 							bullet->InitA(m_listBulletInWorld[i]->GetAttackDame(), m_listBulletInWorld[i]->GetAttackSpeed(), m_listBulletInWorld[i]->GetSpeedOfBullet().x, 0, m_listBulletInWorld[i]->GetMaxOfLength());
 							bullet->SetCurrLength(m_listBulletInWorld[i]->GetCurrLength() + a->GetAABB(0).GetExtents().x);
-							
+
 							if (m_listBulletInWorld[i]->IsChange()) {
 								bullet->SetIsChange();
 							}
@@ -715,9 +739,13 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+						Camera::GetInstance()->is_wound = true;
+						m_MainCharacter->resetAnimation(Wound);
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+						Camera::GetInstance()->is_wound = true;
+						m_MainCharacter->resetAnimation(Wound);
 					}
 					isContact = true;
 					RemoveBullet(i);
@@ -749,12 +777,12 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		{
 		case KEY_LEFT:
 		case KEY_LEFT + 32:
-			m_direction = -1.0f;
+			m_direction = -1;
 			keyPressed = keyPressed | MOVE_LEFT;
 			break;
 		case KEY_RIGHT:
 		case KEY_RIGHT + 32:
-			m_direction = 1.0f;
+			m_direction = 1;
 			keyPressed = keyPressed | MOVE_RIGHT;
 			break;
 		case KEY_JUMP:
@@ -814,12 +842,12 @@ void SceneManager::CheckMovement() {
 	if (is_in_ground) m_MainCharacter->m_current_anim = Idle * m_direction;
 	else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
 	if (keyPressed & MOVE_RIGHT) {
-		m_direction = 1.0f;
+		m_direction = 1;
 		if (is_in_ground) m_MainCharacter->m_current_anim = Run;
 		m_Horizontal = 40.0f;
 	}
 	else if (keyPressed & MOVE_LEFT) {
-		m_direction = -1.0f;
+		m_direction = -1;
 		if (is_in_ground) m_MainCharacter->m_current_anim = Run * m_direction;
 		m_Horizontal = -40.0f;
 	}
@@ -852,5 +880,8 @@ void SceneManager::CheckMovement() {
 			m_timeChangeGun = 0;
 		}
 	}
-	
+	if (Camera::GetInstance()->is_wound) {
+		m_MainCharacter->m_current_anim = Wound * m_direction;
+	}
 }
+
