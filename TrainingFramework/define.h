@@ -33,7 +33,10 @@
 #define CATEGORY_BAZOKA 7
 #define CATEGORY_HELL_GUN 8
 #define CATEGORY_BOOMERANG 9
+
+// bullet enemy
 #define CATEGORY_FOLLOW_GUN 10
+#define CATEGORY_BAZOKA_ENEMY 11
 
 // filter catefories
 #define CATEGORY_TERRAIN 1

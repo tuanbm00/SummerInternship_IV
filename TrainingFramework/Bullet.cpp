@@ -104,6 +104,10 @@ void Bullet::Update(float deltaTime)
 			}
 		}
 	}
+	if (m_ObjectID == CATEGORY_BAZOKA_ENEMY) {
+		b2Vec2 v = m_body->GetLinearVelocity();
+		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
+	}
 	float dir = m_SpeedOfBulletX > 0 ? 1 : -1;
 	m_CurrentLength += (m_body->GetPosition().x  - m_Position.x) * dir;
 	m_Position.x = m_body->GetPosition().x;
