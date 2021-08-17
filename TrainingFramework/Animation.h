@@ -20,6 +20,7 @@ class Animation
 {
 public:
 	Animation(const char* filePath);
+	Animation(Animation * anim);
 	~Animation();
 
 	void play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
@@ -33,13 +34,14 @@ public:
 	Vector4 getTexture();
 	void setFire(int fire);
 	bool isGun;
-private:
 	bool isJump;
+	int i_frame_count;
+	int i_total_frame;
+	Vector4* m_animation;
+private:
 	double d_anim_cursor;
 	int i_current_frame_index;
-	int i_frame_count;
 	float f_speed;
-	Vector4* m_animation;
 	int m_ID;
 	int m_fire_pos;
 };

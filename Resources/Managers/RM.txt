@@ -1,4 +1,4 @@
-#Animations: 15
+#Animations: 18
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -44,8 +44,17 @@ SPEED 0.1 -1
 ID 14
 FILE ../Resources/Animation/Wounded.txt
 SPEED 0.1 -1
+ID 15
+FILE ../Resources/Animation/enemy1Walk.txt
+SPEED 0.1 -1
+ID 16
+FILE ../Resources/Animation/enemybullet.txt
+SPEED 0.1 -2
+ID 17
+FILE ../Resources/Animation/enemy1Fire.txt
+SPEED 0.1 -1
 
-#2D Textures: 5
+#2D Textures: 7
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -56,6 +65,10 @@ ID 3
 FILE ../Resources/TexturesAnimation/hellgunbullet.tga
 ID 4
 FILE ../Resources/TexturesAnimation/defendbullet.tga
+ID 5
+FILE ../Resources/Textures/enemy1.tga
+ID 6
+FILE ../Resources/TexturesAnimation/enemybullet.tga
 
 #Background: 1
 ID 0

@@ -9,7 +9,7 @@
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
 	char* MAP = "../Resources/Map/tilemap.txt";
-	m_SM = std::make_shared<SceneManager>(SM, MAP);
+	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 
 GSLevel1::~GSLevel1() {
@@ -17,7 +17,7 @@ GSLevel1::~GSLevel1() {
 }
 
 void GSLevel1::Init() {
-	m_SM->Init();
+	Singleton<SceneManager>::GetInstance()->Init();
 
 	Singleton<TextManager>::GetInstance()->Initialize();
 	glEnable(GL_DEPTH_TEST);
@@ -29,7 +29,7 @@ void GSLevel1::Draw() {
 	
 
 	Camera::GetInstance()->i_state = 1;
-	m_SM->Draw();
+	Singleton<SceneManager>::GetInstance()->Draw();
 
 	static float framesPerSecond = 0.0f;
 	static int fps;
@@ -51,11 +51,12 @@ void GSLevel1::Draw() {
 }
 
 void GSLevel1::Update(float deltaTime) {
-	m_SM->Update(deltaTime);
+	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
 }
 
 void GSLevel1::CleanUp() {
-	m_SM->CleanUp();
+	Singleton<SceneManager>::GetInstance()->CleanUp();
+	Singleton<SceneManager>::GetInstance()->FreeInstance();
 }
 
 void GSLevel1::Resume() {
@@ -72,7 +73,7 @@ void GSLevel1::Pause() {
 
 //Events
 void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
-	m_SM->Key(key, bIsPressed);
+	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
 		case KEY_NEW_STATE:
@@ -99,13 +100,13 @@ void GSLevel1::OnMouseMoving(int X, int Y) {
 }
 
 void GSLevel1::OnMouseButtonDown(int X, int Y, char Button) {
-	m_SM->OnMouseButtonDown(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonDown(X, Y, Button);
 }
 
 void GSLevel1::OnMouseButtonUp(int X, int Y, char Button) {
-	m_SM->OnMouseButtonUp(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void GSLevel1::OnMouseButtonMove(int X, int Y, char Button) {
-	m_SM->OnMouseButtonMove(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonMove(X, Y, Button);
 }

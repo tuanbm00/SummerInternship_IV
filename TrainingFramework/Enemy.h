@@ -10,14 +10,17 @@ private:
 	float m_speedx;
 	float m_speedy;
 	float m_attackDame;
-	float m_time;
 	float m_left;
 	float m_right;
 	int m_bulletID;
 	Bullet* m_bullet;
 public:
+	float m_time;
+	int cnt;
+	int m_direction;
 	Enemy(int ID) : Object(ID) {
-		m_current_anim = Idle;
+		m_direction = 1;
+		cnt = 0;
 	}
 	void SetHP(float hp);
 	void SetBulletID(int bulletID);
@@ -32,7 +35,8 @@ public:
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);
 	void SetBullet(Bullet* bullet);
-	void SetBodyObject(float positionX, float positionY, b2World* world);
+	void SetBodyObject(float positionX, float positionY, b2World* world, float scale);
+	void UpdateAnimation(float deltaTime);
 
 	Bullet* GetBullet();
 };

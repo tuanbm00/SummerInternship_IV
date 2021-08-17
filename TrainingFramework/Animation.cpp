@@ -13,6 +13,7 @@ Animation::Animation(const char* filePath)
 	int cnt, total;
 	fscanf_s(fp, "%d %d\n", &total, &cnt);
 	i_frame_count = cnt;
+	i_total_frame = total;
 	m_animation = new Vector4[total];
 	for (int i = 0; i < total; i++) {
 		int x, y, w, h;
@@ -20,6 +21,17 @@ Animation::Animation(const char* filePath)
 		m_animation[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);
+}
+Animation::Animation(Animation* anim) {
+	isGun = false;
+	isJump = false;
+	f_speed = anim->f_speed;
+	d_anim_cursor = 0;
+	i_current_frame_index = 0;
+	i_frame_count = anim->i_frame_count;
+	i_total_frame = anim->i_total_frame;
+	m_animation = new Vector4[i_total_frame];
+	for (int i = 0; i < i_total_frame; i++) m_animation[i] = anim->m_animation[i];
 }
 
 Animation::~Animation()
@@ -67,7 +79,11 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	else {
 		d_anim_cursor += deltaTime;
 		if (d_anim_cursor > f_speed) {
-			i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
+			++i_current_frame_index;
+			if (i_current_frame_index >= i_frame_count) {
+				if (m_fire_pos == -2) i_current_frame_index = 3 % i_frame_count;
+				else i_current_frame_index %= i_frame_count;
+			}
 			if (i_current_frame_index == m_fire_pos) Camera::GetInstance()->is_shoot = true;
 			d_anim_cursor = 0;
 		}
@@ -79,6 +95,10 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
 	if (revert && w > 200) {
 		origin.x += 96;
+	}
+	if (h == 150) {
+		origin.y += 50;
+		if (revert) origin.x += 10;
 	}
 	Vertex *  verticesData = new Vertex[4];
 	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
