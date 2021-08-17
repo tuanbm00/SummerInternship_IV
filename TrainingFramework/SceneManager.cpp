@@ -473,7 +473,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
 	float scale = (posEnemy.y - posMainCharacter.y) / (posEnemy.x - posMainCharacter.x);
 	Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
-	if (enemy->GetBullet()->GetID() == CATEGORY_HELL_GUN) {
+	if (enemy->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
 		bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, dir*scale*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetMaxOfLength());
 	}
 	else {
@@ -677,7 +677,7 @@ void SceneManager::Update(float deltaTime) {
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
 				}
-				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
 					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
 				}
 			}
