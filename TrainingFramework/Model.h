@@ -38,5 +38,6 @@ public:
 		return m_anim[type];
 	}
 	void resetGun();
+	void resetTexture();
 };
 

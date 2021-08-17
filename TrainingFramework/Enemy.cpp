@@ -40,9 +40,7 @@ void Enemy::Update(float deltaTime)
 		m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
 	}
 
-	if (m_Model->b_IsAnimation == true) {
-		m_Model->updateAnimation(deltaTime, Idle);
-	}
+	
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);

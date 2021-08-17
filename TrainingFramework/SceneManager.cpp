@@ -200,9 +200,9 @@ void SceneManager::ReadFile(FILE* f_SM)
 void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest = new Ground();
 	FILE * fp;
-	Vector4 Omap[16];
 	fopen_s(&fp, "../map.txt", "r+");
 	int ni; fscanf_s(fp, "%d\n", &ni);
+	Vector4 * Omap = new Vector4[ni];
 	for (int i = 0; i < ni; i++) {
 		float x, y, w, h;
 		fscanf_s(fp, "%f %f %f %f\n", &x, &y, &w, &h);
@@ -239,17 +239,17 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 					terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
 				}
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
-				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, 3200.0f, 200.0f, origin);
+				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, 3200.0f, 400.0f, origin);
 			}
 			isLine.push_back(0);
 			lineMap.push_back(terrain);
 		}
-		fscanf_s(f_MAP, "\n", &c);
+		fscanf_s(f_MAP, "\n");
 		isInit.push_back(isLine);
 		map.push_back(line);
 		m_listTerrain.push_back(lineMap);
 	}
-
+	delete[] Omap;
 	groundTest->Init();
 	num = (col * height) / (2 * width * row) + 1;
 	num = 2 * num + 1;
@@ -301,7 +301,6 @@ int cnt = 0;
 void SceneManager::Draw() {
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
-	cnt = 1;
 	m_MainCharacter->Draw();
 
 
@@ -311,23 +310,22 @@ void SceneManager::Draw() {
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-		if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
+		if (m_listEnemyInWorld[i]->checkDraw()) {
 			m_listEnemyInWorld[i]->Draw();
 		}
 	}
 	m_ListGunOfPlayer[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
 	m_ListGunOfPlayer[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
 	for (int i = 0; i < 2; i++) {
+		m_ListGunOfPlayer[i]->m_current_anim = 0;
+		m_ListGunOfPlayer[i]->getModel()->resetTexture();
 		m_ListGunOfPlayer[i]->Draw();
-		cnt++;
 	}
 	
 	groundTest->Draw();
-	cnt++;
 
 	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
 		m_ListBackground[i]->Draw();
-		cnt++;
 	}
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	//printf("%d\n", cnt);
@@ -533,6 +531,11 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	if (Camera::GetInstance()->is_wound) ++cnt;
+	if (cnt > 35) {
+		cnt = 0;
+		Camera::GetInstance()->is_wound = false;
+	}
 	static const double step = 1.0 / 70.0;
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
@@ -552,14 +555,12 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	//for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
-	//	if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->getBody()->SetEnabled(true);
-	//	else m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-	//}
+	
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		if (m_listBulletInWorld[i]->checkDraw() == false) {
 			RemoveBullet(i);
 		}
+		else m_listBulletInWorld[i]->UpdateAnimation(deltaTime);
 	}
 
 	// set key
@@ -568,6 +569,7 @@ void SceneManager::Update(float deltaTime) {
 	CheckMovement();
 
 	for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+		if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
 		if (m_listEnemyInWorld[i]->GetBulletID() >= 0) {
 			m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
 			if (m_listEnemyInWorld[i]->isAttack()) {
@@ -578,6 +580,7 @@ void SceneManager::Update(float deltaTime) {
 	
 	// set update
 	m_MainCharacter->getBody()->SetFixedRotation(true);
+	m_MainCharacter->UpdateAnimation(deltaTime);
 	// set v
 	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
 	float impulseX = m_Horizontal * 900;

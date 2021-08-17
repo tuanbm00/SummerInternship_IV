@@ -65,3 +65,31 @@ void Model::resetGun() {
 		if (m_anim[i]->isGun) m_anim[i]->resetAnimation();
 	}
 }
+
+void Model::resetTexture()
+{
+	Vector4 frame = getAnimation(0)->getTexture();
+	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
+	
+	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
+	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-(float)w / 2, (float)h / 2, 0.0f) - delta;
+	verticesData[3].pos = Vector3((float)w / 2, (float)h / 2, 0.0f) - delta;
+
+	x /= m_textureW;
+	y /= m_textureH;
+	w /= m_textureW;
+	h /= m_textureH;
+
+	verticesData[0].uv = Vector2(x, y + h);
+	verticesData[1].uv = Vector2(x + w, y + h);
+	verticesData[2].uv = Vector2(x, y);
+	verticesData[3].uv = Vector2(x + w, y);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+

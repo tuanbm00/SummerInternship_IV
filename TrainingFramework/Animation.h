@@ -30,6 +30,7 @@ public:
 		return m_ID;
 	}
 	void resetAnimation();
+	Vector4 getTexture();
 	void setFire(int fire);
 	bool isGun;
 private:

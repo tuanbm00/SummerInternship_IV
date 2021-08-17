@@ -22,9 +22,7 @@ void MainCharacter::Update(float deltaTime)
 	if (Y < -500) camPos.y = m_Position.y - 500;
 	Camera::GetInstance()->SetPosition(camPos);
 	Camera::GetInstance()->SetTarget(camPos.x, camPos.y, 0.0f);
-	if (m_Model->b_IsAnimation == true) {
-		m_Model->updateAnimation(deltaTime, m_current_anim);
-	}
+	
 	Matrix translation, scale;
 	translation.SetTranslation(m_Position);
 	scale.SetScale(m_Scale);

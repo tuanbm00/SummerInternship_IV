@@ -42,6 +42,11 @@ void Animation::resetAnimation()
 	i_current_frame_index = 0;
 	d_anim_cursor = 0;
 }
+Vector4 Animation::getTexture()
+{
+	Vector4 frame = m_animation[0];
+	return frame;
+}
 void Animation::setFire(int fire) {
 	m_fire_pos = fire;
 	if (fire != -1) isGun = true;
@@ -49,7 +54,7 @@ void Animation::setFire(int fire) {
 
 void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert) {
 	if (isJump) {
-		int lop = deltaTime / 0.003f;
+		int lop = 1;
 		int piece = 30 / i_frame_count;
 		piece++;
 		lop *= piece;
@@ -64,7 +69,6 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 		if (d_anim_cursor > f_speed) {
 			i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
 			if (i_current_frame_index == m_fire_pos) Camera::GetInstance()->is_shoot = true;
-			if (i_current_frame_index == i_frame_count - 1) Camera::GetInstance()->is_wound = false;
 			d_anim_cursor = 0;
 		}
 	}
