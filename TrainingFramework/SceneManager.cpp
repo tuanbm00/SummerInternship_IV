@@ -232,7 +232,12 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			if (xi >= 0) {
 				terrain = new Terrain(xi);
 				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2), 0);
-				terrain->SetBodyObject(WIDTH, WIDTH, m_world);
+				if (xi <= 15) {
+					terrain->SetBodyObject(WIDTH, WIDTH, m_world);
+				}
+				else {
+					terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
+				}
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
 				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, 3200.0f, 200.0f, origin);
 			}
@@ -306,9 +311,9 @@ void SceneManager::Draw() {
 
 	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-	//	if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
+		if (m_listEnemyInWorld[i]->getBody()->IsEnabled()) {
 			m_listEnemyInWorld[i]->Draw();
-	//	}
+		}
 	}
 	m_ListGunOfPlayer[0]->SetPosition(pos.x - 100, pos.y - 150, 0);
 	m_ListGunOfPlayer[1]->SetPosition(pos.x + 100, pos.y - 150, 0);
@@ -547,10 +552,10 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
-		if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->getBody()->SetEnabled(true);
-		else m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-	}
+	//for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+	//	if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->getBody()->SetEnabled(true);
+	//	else m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+	//}
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		if (m_listBulletInWorld[i]->checkDraw() == false) {
 			RemoveBullet(i);
@@ -614,6 +619,26 @@ void SceneManager::Update(float deltaTime) {
 					}
 				}
 			}
+			if (a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+						numJump = 0;
+					}
+					b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+					m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+				}
+			}
+			if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+						numJump = 0;
+					}
+				}
+				b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+				m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+			}
 		}
 		prev = now;
 
@@ -662,7 +687,7 @@ void SceneManager::Update(float deltaTime) {
 			for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
-				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
 					RemoveBullet(i);
 					isContact = true;
 					i--;

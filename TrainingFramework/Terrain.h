@@ -11,5 +11,5 @@ public:
 	Terrain(int ID) : Object(ID) {}
 
 	void InitTerrain(char *filename);
-	void SetBodyObject(float spriteW, float spriteH, b2World* world);
+	void SetBodyObject(float spriteW, float spriteH, b2World* world, bool isTerrain = true);
 };
