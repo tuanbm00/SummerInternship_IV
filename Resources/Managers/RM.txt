@@ -78,7 +78,7 @@ ID 25
 FILE ../Resources/Animation/enemybullet2.txt
 SPEED 0.1 -2
 
-#2D Textures: 18
+#2D Textures: 21
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -106,14 +106,20 @@ FILE ../Resources/Tile/background1.tga
 ID 12
 FILE ../Resources/Textures/logo.tga
 ID 13
-FILE ../Resources/Textures/boss.tga
+FILE ../Resources/Textures/Buttons/button_aboutme.tga
 ID 14
-FILE ../Resources/Textures/enemy2.tga
+FILE ../Resources/Textures/Buttons/button_reset.tga
 ID 15
-FILE ../Resources/Textures/enemy3.tga
+FILE ../Resources/Textures/Buttons/button_X2.tga
 ID 16
-FILE ../Resources/Textures/enemy4.tga
+FILE ../Resources/Textures/boss.tga
 ID 17
+FILE ../Resources/Textures/enemy2.tga
+ID 18
+FILE ../Resources/Textures/enemy3.tga
+ID 19
+FILE ../Resources/Textures/enemy4.tga
+ID 20
 FILE ../Resources/TexturesAnimation/enemybullet2.tga
 
 #Background: 1

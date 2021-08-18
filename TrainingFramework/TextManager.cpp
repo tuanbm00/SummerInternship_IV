@@ -2,6 +2,8 @@
 #include "TextManager.h"
 
 void TextManager::Initialize() {
+	glGenBuffers(1, &m_VBO);
+
 	if (FT_Init_FreeType(&m_ft))
 	{
 		printf("Could not init freetype library\n");
@@ -33,7 +35,6 @@ void TextManager::RenderString(const char* text, Vector4 color, float x, float y
 	glUseProgram(m_TextShader.program);
 	glUniform4f(glGetUniformLocation(m_TextShader.program, "u_color"), color.x, color.y, color.z, color.w);
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
-	glGenBuffers(1, &m_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
 	glEnableVertexAttribArray(0);

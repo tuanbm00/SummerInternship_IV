@@ -21,7 +21,7 @@ void GameplayUI::Init() {
 }
 
 void GameplayUI::Draw() {
-	m_BM->Draw();
+	//m_BM->Draw();
 
 	//MainCharacter
 	char buffer[20];
