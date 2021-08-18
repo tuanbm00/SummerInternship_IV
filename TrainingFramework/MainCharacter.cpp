@@ -40,10 +40,10 @@ bool MainCharacter::isDie() {
 void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(positionX+10, positionY+5);
+	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW / 2.2, m_spriteH / 2.2);
+	dynamicBox.SetAsBox(m_spriteW / 2.5, m_spriteH / 2);
 	b2FixtureDef fixtureDef;
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
