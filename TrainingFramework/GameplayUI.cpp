@@ -28,23 +28,27 @@ void GameplayUI::Draw() {
 
 	//HP
 	_itoa(m_MainCharacter->GetHP(), buffer, 10);
-	char text[20] = "HP: ";
+	char text[20] = " ";
 	strcat_s(text, buffer);
-	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 0.0f), 350.0f, 100.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 0.0f), 10.0f, 700.0f, 1.0f, 1.0f);
 
 	//Bullet
-	_itoa(m_NumberOfBullets, buffer, 10);
-	strcpy(text, "Bullet: ");
+	_itoa(m_NumberOfBullets1, buffer, 10);
+	strcpy(text, " ");
 	strcat_s(text, buffer);
-	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 1.0f), 480.0f, 100.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 650.0f, 1.0f, 1.0f);
 
+	_itoa(m_NumberOfBullets2, buffer, 10);
+	strcpy(text, " ");
+	strcat_s(text, buffer);
+	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 610.0f, 1.0f, 1.0f);
 	//Boss
-	if (m_pBossAppear == true) {
-		_itoa(m_Boss->GetHP(), buffer, 10);
-		strcpy(text, "BOSS: ");
-		strcat_s(text, buffer);
-		Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(1.0f, 0.0f, 0.0f), 360.0f , 600.0f, 2.0f, 2.0f);
-	}
+	//if (m_pBossAppear == true) {
+	//	_itoa(m_Boss->GetHP(), buffer, 10);
+	//	strcpy(text, "BOSS: ");
+	//	strcat_s(text, buffer);
+	//	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(1.0f, 0.0f, 0.0f), 360.0f , 600.0f, 2.0f, 2.0f);
+	//}
 }
 
 void GameplayUI::SetMainCharacter(MainCharacter* mainCharacter)
@@ -63,9 +67,10 @@ void GameplayUI::SetBossAppear(bool IsAppear)
 	m_pBossAppear = IsAppear;
 }
 
-void GameplayUI::SetNumberOfBullets(int numberOfBullets)
+void GameplayUI::SetNumberOfBullets(int numberOfBullets1, int numberOfBullets2)
 {
-	m_NumberOfBullets = numberOfBullets;
+	m_NumberOfBullets1 = numberOfBullets1;
+	m_NumberOfBullets2 = numberOfBullets2;
 }
 
 void GameplayUI::Update(float deltaTime) {

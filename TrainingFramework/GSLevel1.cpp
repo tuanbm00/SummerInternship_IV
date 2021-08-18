@@ -8,7 +8,7 @@
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
-	char* MAP = "../Resources/Map/bossmap.txt";
+	char* MAP = "../Resources/Map/maplv1.txt";
 	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 
@@ -46,7 +46,7 @@ void GSLevel1::Draw() {
 	strcat_s(s, buffer);
 
 
-	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
+//	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }
 
 void GSLevel1::Update(float deltaTime) {

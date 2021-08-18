@@ -6,7 +6,8 @@ class GameplayUI :
 	MainCharacter* m_MainCharacter;
 	Boss* m_Boss;
 	bool m_pBossAppear = false;
-	float m_NumberOfBullets = 0;
+	float m_NumberOfBullets1 = 0;
+	float m_NumberOfBullets2 = 0;
 	
 public:
 	GameplayUI(void);
@@ -30,5 +31,5 @@ public:
 	void SetMainCharacter(MainCharacter* mainCharacter);
 	void SetBoss(Boss* boss);
 	void SetBossAppear(bool IsAppear);
-	void SetNumberOfBullets(int numberOfBullets);
+	void SetNumberOfBullets(int numberOfBullets1, int numberOfBullets2);
 };

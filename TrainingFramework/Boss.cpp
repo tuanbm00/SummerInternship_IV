@@ -132,7 +132,7 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 //	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
-	dynamicBox.SetAsBox(500, 500);
+	dynamicBox.SetAsBox(400, 400);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
