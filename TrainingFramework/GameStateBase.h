@@ -2,6 +2,7 @@
 #include "GameStateMachine.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "ButtonManager.h"
 
 class GameStateBase
 {
