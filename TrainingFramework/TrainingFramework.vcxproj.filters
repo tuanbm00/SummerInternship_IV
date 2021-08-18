@@ -135,6 +135,9 @@
     <ClCompile Include="GSIntro.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="GameplayUI.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -218,9 +221,6 @@
     <ClInclude Include="Boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameButton.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -234,6 +234,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GSMainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,6 +90,7 @@ public:
 
 	//Object Fighting
 	void SetIsFighting(bool IsFighting);
+	MainCharacter* GetMainCharacter();
 };
 
 

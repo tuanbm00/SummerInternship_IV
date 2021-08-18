@@ -5,6 +5,7 @@
 #include "define.h"
 #include <iostream>
 #include "Globals.h"
+#include "GameplayUI.h"
 
 
 SceneManager::SceneManager()
@@ -449,6 +450,12 @@ void SceneManager::SetIsFighting(bool IsFighting) {
 	m_bIsFighting = IsFighting;
 }
 
+MainCharacter* SceneManager::GetMainCharacter()
+{
+	MainCharacter* MC = m_MainCharacter;
+	return MC;
+}
+
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
@@ -640,6 +647,9 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	//Set Number of Bullets to UI
+	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet());
+
 	if (Camera::GetInstance()->is_wound) ++cnt;
 	if (cnt > 35) {
 		cnt = 0;
@@ -782,6 +792,7 @@ void SceneManager::Update(float deltaTime) {
 
 
 		if (m_bossAppear == true) {
+			Singleton<GameplayUI>::GetInstance()->SetBoss(m_boss); //Set Boss to get info's Boss
 			m_boss->Update(deltaTime);
 			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 				b2Fixture * a = edge->contact->GetFixtureA();
@@ -805,6 +816,7 @@ void SceneManager::Update(float deltaTime) {
 			}
 			if (m_boss->isDie()) {
 				m_bossAppear = false;
+				Singleton<GameplayUI>::GetInstance()->SetBossAppear(m_bossAppear);
 				m_world->DestroyBody(m_boss->getBody());
 				m_boss = NULL;
 				break;
