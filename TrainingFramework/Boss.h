@@ -17,7 +17,7 @@ private:
 	float m_high;
 	float m_low;
 	float m_destiny;
-	bool m_isMove;
+	int m_num;
 	b2Body* m_target;
 	std::vector<Bullet*> m_listBullet;
 public:
@@ -26,6 +26,8 @@ public:
 	void SetMaxHP(float maxhp);
 	float GetHP();
 	void SetSpeed(float speedx, float speedy);
+	void UploadSpeed();
+	void UploadNum();
 	Vector2 GetSpeed();
 	void SetDestiny(float destiny);
 	float GetDestiny();
@@ -34,6 +36,7 @@ public:
 	bool isAttack();
 	int GetNumOfBullet();
 
+	bool IsMove();
 	void UpdateAttack(float deltaTime);
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);

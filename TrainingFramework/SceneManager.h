@@ -16,6 +16,7 @@
 #include "Terrain.h"
 #include "Ground.h"
 #include "Singleton.h"
+#include "Boss.h"
 
 class SceneManager : public Singleton<SceneManager> 
 {
@@ -30,6 +31,7 @@ private:
 	std::map<std::pair<int, int>, Enemy*> m_mapEnemy;
 	std::vector<std::vector<int>> isInit;
 	MainCharacter* m_MainCharacter;
+	Boss* m_boss;
 	std::vector<Bullet*> m_ListGunOfPlayer;
 	std::vector<Bullet*> m_ListGunOfEnemy;
 	std::vector<Bullet*> m_listBulletInWorld;
@@ -44,6 +46,7 @@ private:
 	float m_time;
 	float m_timeChangeGun;
 	int keyPressed;
+	bool m_bossAppear;
 
 	bool m_bIsFighting = false;
 	bool is_in_ground;
@@ -78,6 +81,7 @@ public:
 	void ChangeGun(bool isEmptyBullet = true);
 	void SetStateHellGun(Bullet* hellBullet, float enemyWidth);
 	void EnemyAttack(Enemy* enemy);
+	void BossAttack();
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);

@@ -36,6 +36,6 @@ public:
 	b2Body* GetTarget();
 	float GetMaxOfLength();
     void Update(float deltaTime);
-	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true);
+	void SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer = true, bool notBoss = true);
 };
 

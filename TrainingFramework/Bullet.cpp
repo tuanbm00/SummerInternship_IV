@@ -120,7 +120,7 @@ void Bullet::Update(float deltaTime)
 }
 
 
-void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer) {
+void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, bool isPlayer, bool notBoss) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
@@ -135,8 +135,14 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 		fixtureDef.filter.maskBits = MASK_BULLET_PLAYER;
 	}
 	else {
-		fixtureDef.filter.categoryBits = CATEGORY_BULLET_ENEMY;
-		fixtureDef.filter.maskBits = MASK_BULLET_ENEMY;
+		if (notBoss) {
+			fixtureDef.filter.categoryBits = CATEGORY_BULLET_ENEMY;
+			fixtureDef.filter.maskBits = MASK_BULLET_ENEMY;
+		}
+		else {
+			fixtureDef.filter.categoryBits = CATEGORY_BULLET_BOSS;
+			fixtureDef.filter.maskBits = MASK_BULLET_BOSS;
+		}
 	}
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));

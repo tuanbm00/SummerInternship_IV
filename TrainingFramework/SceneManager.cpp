@@ -63,6 +63,8 @@ void SceneManager::Init() {
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
 	}
+	m_bossAppear == false;
+	m_boss = new Boss(99);
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -495,6 +497,73 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	AddBullet(bullet);
 }
 
+void SceneManager::BossAttack() {
+	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
+	b2Vec2 posBoss = m_boss->getBody()->GetPosition();
+	float dir = posMainCharacter.x > posBoss.x ? 1.0f : -1.0f;
+	if (m_boss->GetBullet()->GetID() == CATEGORY_BOSS_GUN) {
+		Bullet* bullet = new Bullet(m_boss->GetBullet()->GetID());
+		Vector3 posBullet = Vector3(posBoss.x, posBoss.y, 0);
+		float scale = (posBoss.y - posMainCharacter.y) / (posBoss.x - posMainCharacter.x);
+
+		if (m_boss->GetNumOfBullet() == 3) {
+			bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetSpeedOfBullet().y, m_boss->GetBullet()->GetMaxOfLength());
+		}
+		else {
+			bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
+		}
+		bullet->SetIsChange();
+		bullet->setModel(m_boss->GetBullet()->getModel());
+		bullet->setShader(m_boss->GetBullet()->getShaders());
+		bullet->SetTexture(m_boss->GetBullet()->getTexture());
+		bullet->SetPosition(posBullet);
+		bullet->SetScale(m_boss->GetBullet()->GetScale());
+		bullet->SetRotation(m_boss->GetBullet()->GetRotation());
+		bullet->InitWVP();
+		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false, false);
+		//	bullet->m_current_anim = m_direction;
+
+		AddBullet(bullet);
+	}
+	else {
+		for (int i = 0; i < m_boss->GetNumOfBullet(); i++) {
+			Bullet* bullet = new Bullet(m_boss->GetBullet()->GetID());
+			Vector3 posBullet;
+			if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
+				posBullet = Vector3(posBoss.x, posBoss.y, 0);
+			}
+			else {
+				float widthboss = m_boss->getBody()->GetFixtureList()->GetAABB(0).GetExtents().x * 2 / m_boss->GetNumOfBullet();
+				posBullet = Vector3(posBoss.x + widthboss, posBoss.y + widthboss *(i - int(m_boss->GetNumOfBullet() / 2)), 0);
+			}
+			
+			float scale = (posBullet.y - posMainCharacter.y) / (posBullet.x - posMainCharacter.x);
+			
+			if (m_boss->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
+			} 
+			else if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*m_boss->GetBullet()->GetSpeedOfBullet().x / m_boss->GetNumOfBullet() * (i - int(m_boss->GetNumOfBullet() / 2)), m_boss->GetBullet()->GetMaxOfLength());
+			}
+			else {
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetSpeedOfBullet().y, m_boss->GetBullet()->GetMaxOfLength());
+			}
+			bullet->SetIsChange();
+			bullet->setModel(m_boss->GetBullet()->getModel());
+			bullet->setShader(m_boss->GetBullet()->getShaders());
+			bullet->SetTexture(m_boss->GetBullet()->getTexture());
+			bullet->SetPosition(posBullet);
+			bullet->SetScale(m_boss->GetBullet()->GetScale());
+			bullet->SetRotation(m_boss->GetBullet()->GetRotation());
+			bullet->InitWVP();
+			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
+			//	bullet->m_current_anim = m_direction;
+
+			AddBullet(bullet);
+		}
+	}
+}
+
 void SceneManager::ChangeGun(bool isEmptyBullet) {
 	m_time = 0;
 	Bullet *bullet = m_ListGunOfPlayer[0];
@@ -555,7 +624,21 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-	
+
+	if (m_bossAppear == true) {
+		if (m_boss->IsMove()) {
+			m_boss->UploadSpeed();
+		}
+		else {
+			m_boss->Update(deltaTime);
+			if (m_boss->isAttack()) {
+				BossAttack();
+				m_boss->UploadNum();
+				m_boss->SwapGun();
+			}
+		}
+	}
+
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		if (m_listBulletInWorld[i]->checkDraw() == false) {
 			RemoveBullet(i);
@@ -654,6 +737,37 @@ void SceneManager::Update(float deltaTime) {
 				m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
 			}
 		}
+
+
+		if (m_bossAppear == true) {
+			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+				b2Fixture * a = edge->contact->GetFixtureA();
+				b2Fixture * b = edge->contact->GetFixtureB();
+				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
+					Camera::GetInstance()->is_wound = true;
+//					break;
+				}
+				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
+					Camera::GetInstance()->is_wound = true;
+//					break;
+				}
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_boss->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
+				}
+				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_boss->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
+				}
+			}
+			if (m_boss->isDie()) {
+				m_bossAppear = false;
+				m_world->DestroyBody(m_boss->getBody());
+				m_boss = NULL;
+				break;
+			}
+		}
+
 		prev = now;
 
 		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
@@ -662,12 +776,12 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 					Camera::GetInstance()->is_wound = true;
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 					Camera::GetInstance()->is_wound = true;
 					break;
 				}
@@ -772,7 +886,7 @@ void SceneManager::Update(float deltaTime) {
 					i--;
 					break;
 				}
-				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY) {
+				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
 						Camera::GetInstance()->is_wound = true;

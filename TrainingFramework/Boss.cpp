@@ -9,7 +9,7 @@ void Boss::SetHP(float hp) {
 void Boss::SetMaxHP(float maxhp) {
 	m_MaxHP = maxhp;
 	m_HP = maxhp;
-	m_isMove = true;
+	m_num = 0;
 }
 
 float Boss::GetHP() {
@@ -30,10 +30,24 @@ int Boss::GetNumOfBullet() {
 
 void Boss::SetTarget(b2Body* target) {
 	m_target = target;
+	m_destiny = target->GetPosition().y;
 }
 
 Vector2 Boss::GetSpeed() {
 	return Vector2(m_speedx, m_speedy);
+}
+
+void Boss::UploadSpeed() {
+	float dir = m_body->GetPosition().y < m_destiny ? 1.0f : -1.0f;
+	m_body->SetLinearVelocity(b2Vec2(0, dir*m_speedy));
+}
+
+void Boss::UploadNum() {
+	m_num++;
+	if (m_num == 4) {
+		m_destiny = m_target->GetPosition().y;
+		m_num = 0;
+	}
 }
 
 void Boss::SetDestiny(float destiny) {
@@ -67,6 +81,14 @@ void Boss::Update(float deltaTime)
 void Boss::SetLimit(float left, float right) {
 	m_left = left;
 	m_right = right;
+}
+
+bool Boss::IsMove() {
+	if (m_body->GetPosition().y > m_destiny - 10.0f &&  m_body->GetPosition().y < m_destiny + 10.0f) {
+		m_body->SetLinearVelocity(b2Vec2(0, 0));
+		return false;
+	}
+	return true;
 }
 
 bool Boss::isDie() {
@@ -109,8 +131,8 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
 	//	fixtureDef.density = 1;
-	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
-	fixtureDef.filter.maskBits = MASK_ENEMY;
+	fixtureDef.filter.categoryBits = CATEGORY_BOSS;
+	fixtureDef.filter.maskBits = MASK_BOSS;
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }
