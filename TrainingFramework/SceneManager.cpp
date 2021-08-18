@@ -337,8 +337,10 @@ void SceneManager::Draw() {
 
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
-	m_MainCharacter->Draw();
-
+	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
+		m_ListBackground[i]->Draw();
+	}
+	groundTest->Draw();
 
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
@@ -364,11 +366,10 @@ void SceneManager::Draw() {
 //		printf("%f %f\n", m_boss->GetPosition().x, m_boss->GetPosition().y);
 	}
 
-	groundTest->Draw();
 
-	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
-		m_ListBackground[i]->Draw();
-	}
+	
+	m_MainCharacter->Draw();
+
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	//printf("%d\n", cnt);
 }
@@ -717,6 +718,9 @@ void SceneManager::Update(float deltaTime) {
 	// set update
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	m_MainCharacter->UpdateAnimation(deltaTime);
+	m_boss->m_direction = (m_boss->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
+	m_boss->m_current_anim = Idle * m_boss->m_direction;
+	m_boss->UpdateAnimation(deltaTime);
 	// set v
 	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
 	float impulseX = m_Horizontal * 900;

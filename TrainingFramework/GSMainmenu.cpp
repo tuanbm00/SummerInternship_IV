@@ -31,8 +31,8 @@ void GSMainmenu::Init() {
 }
 
 void GSMainmenu::Draw() {
-	m_BM->Draw();
 	m_Background->Draw();
+	m_BM->Draw();
 	char name[5] = "Four";
 	Singleton<TextManager>::GetInstance()->RenderString(name, Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2, 700.0f, 1.0f, 1.0f);
 }

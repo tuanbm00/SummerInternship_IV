@@ -42,7 +42,7 @@ void GSIntro::Init() {
 void GSIntro::Draw() {
 	char name[5] = "Four";
 	Singleton<TextManager>::GetInstance()->RenderString(name, Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2, 700.0f, 1.0f, 1.0f);
-	for (register int i = 0; i < m_listSprite2D.size(); i++) {
+	for (register int i = m_listSprite2D.size()-1; i >= 0; --i) {
 		m_listSprite2D[i]->Draw();
 	}
 }
@@ -52,7 +52,7 @@ void GSIntro::Update(float deltaTime) {
 		m_listSprite2D[i]->Update(deltaTime);
 	}
 	m_currentTime += deltaTime;
-	if (m_currentTime >= 1.5f) {
+	if (m_currentTime >= 3.0f) {
 		if (GameStateMachine::GetInstance()->HasInstance()) {
 			GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
 		}

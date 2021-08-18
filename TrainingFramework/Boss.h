@@ -21,7 +21,10 @@ private:
 	b2Body* m_target;
 	std::vector<Bullet*> m_listBullet;
 public:
-	Boss(int ID) : Object(ID) {}
+	int m_direction;
+	Boss(int ID) : Object(ID) {
+		m_current_anim = Idle;
+	}
 	void SetHP(float hp);
 	void SetMaxHP(float maxhp);
 	float GetHP();

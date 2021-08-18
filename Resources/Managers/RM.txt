@@ -1,4 +1,4 @@
-#Animations: 18
+#Animations: 26
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -53,8 +53,32 @@ SPEED 0.1 -2
 ID 17
 FILE ../Resources/Animation/enemy1Fire.txt
 SPEED 0.1 -1
+ID 18
+FILE ../Resources/Animation/boss.txt
+SPEED 0.1 -1
+ID 19
+FILE ../Resources/Animation/enemy2Walk.txt
+SPEED 0.1 -1
+ID 20
+FILE ../Resources/Animation/enemy2Fire.txt
+SPEED 0.1 -1
+ID 21
+FILE ../Resources/Animation/enemy3Walk.txt
+SPEED 0.1 -1
+ID 22
+FILE ../Resources/Animation/enemy3Fire.txt
+SPEED 0.1 -1
+ID 23
+FILE ../Resources/Animation/enemy4Walk.txt
+SPEED 0.1 -1
+ID 24
+FILE ../Resources/Animation/enemy4Fire.txt
+SPEED 0.1 -1
+ID 25
+FILE ../Resources/Animation/enemybullet2.txt
+SPEED 0.1 -2
 
-#2D Textures: 13
+#2D Textures: 18
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -81,6 +105,16 @@ ID 11
 FILE ../Resources/Tile/background1.tga
 ID 12
 FILE ../Resources/Textures/logo.tga
+ID 13
+FILE ../Resources/Textures/boss.tga
+ID 14
+FILE ../Resources/Textures/enemy2.tga
+ID 15
+FILE ../Resources/Textures/enemy3.tga
+ID 16
+FILE ../Resources/Textures/enemy4.tga
+ID 17
+FILE ../Resources/TexturesAnimation/enemybullet2.tga
 
 #Background: 1
 ID 0
