@@ -74,11 +74,9 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			}
 		});
 	}
-	else if (strcmp(type, "LEVEL2") == 0) {
+	else if (strcmp(type, "EXIT") == 0) {
 		button->SetOnClick([]() {
-			if (GameStateMachine::GetInstance()->HasInstance()) {
-				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
-			}
+			exit(0);
 		});
 	}
 }

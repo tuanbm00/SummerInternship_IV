@@ -25,7 +25,7 @@ void GSMainmenu::Init() {
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
 	m_Background->setModel(model);
 	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
-	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(2));
+	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
 	m_Background->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
 }
