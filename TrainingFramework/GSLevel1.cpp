@@ -18,16 +18,14 @@ GSLevel1::~GSLevel1() {
 
 void GSLevel1::Init() {
 	Singleton<SceneManager>::GetInstance()->Init();
-
-	Singleton<TextManager>::GetInstance()->Initialize();
 	glEnable(GL_DEPTH_TEST);
+	Singleton<TextManager>::GetInstance()->Initialize();
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
 	
-
 	Camera::GetInstance()->i_state = 1;
 	Singleton<SceneManager>::GetInstance()->Draw();
 
@@ -46,6 +44,7 @@ void GSLevel1::Draw() {
 	_itoa(fps, buffer, 10);
 	char s[9] = "FPS: ";
 	strcat_s(s, buffer);
+
 
 	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }

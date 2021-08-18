@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include <iostream>
 #include "TextManager.h"
+#include "GameplayUI.h"
 
 GSMainmenu::GSMainmenu() {
 	
@@ -28,6 +29,8 @@ void GSMainmenu::Init() {
 	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
 	m_Background->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
+	
+	
 }
 
 void GSMainmenu::Draw() {
@@ -45,6 +48,7 @@ void GSMainmenu::Update(float deltaTime) {
 void GSMainmenu::CleanUp() {
 	m_Background->CleanUp();
 	m_BM->CleanUp();
+	
 }
 
 void GSMainmenu::Resume() {

@@ -87,9 +87,6 @@ public:
 	void ReadFile(FILE* f_SM);
 	void ReadMap(FILE* f_MAP);
 	void SetFileManager(char* fileSM, char* fileMAP);
-
-	//Object Fighting
-	void SetIsFighting(bool IsFighting);
 };
 
 
