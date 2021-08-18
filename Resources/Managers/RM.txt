@@ -54,7 +54,7 @@ ID 17
 FILE ../Resources/Animation/enemy1Fire.txt
 SPEED 0.1 -1
 
-#2D Textures: 7
+#2D Textures: 13
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -69,6 +69,18 @@ ID 5
 FILE ../Resources/Textures/enemy1.tga
 ID 6
 FILE ../Resources/TexturesAnimation/enemybullet.tga
+ID 7
+FILE ../Resources/Textures/Buttons/button_play.tga
+ID 8
+FILE ../Resources/Textures/Buttons/button_options.tga
+ID 9
+FILE ../Resources/Textures/Buttons/button_exit.tga
+ID 10
+FILE ../Resources/Tile/background.tga
+ID 11
+FILE ../Resources/Tile/background1.tga
+ID 12
+FILE ../Resources/Textures/logo.tga
 
 #Background: 1
 ID 0
@@ -76,10 +88,16 @@ FILE ../Resources/Tile/background.tga
 
 #Tile: 0
 
-#Shaders: 1
+#Shaders: 2
 ID 0
 VS ../Resources/Shaders/ModelShaderVS.vs
 FS ../Resources/Shaders/ModelShaderFS.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 0
+ID 1
+VS ../Resources/Shaders/Sprite2DShaderVS.vs
+FS ../Resources/Shaders/Sprite2DShaderFS.fs
 STATES 2
 GL_DEPTH_TEST 1
 GL_CULL_FACE 0
