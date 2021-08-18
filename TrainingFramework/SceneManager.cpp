@@ -63,8 +63,6 @@ void SceneManager::Init() {
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
 	}
-	m_bossAppear == false;
-	m_boss = new Boss(99);
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -97,6 +95,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 	fscanf_s(f_SM, "#Objects: %d\n", &numOfObjects);
 	for (register int i = 0; i < numOfObjects; i++) {
 		int ID, texture, shader, anim, bulletID;
+		int bullet1, bullet2, bullet3, bullet4;
 		char type[128];
 		Vector3 Position, Rotation, Scale;
 
@@ -113,7 +112,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 		if (num_anim > 0) {
 			pModel->b_IsAnimation = true;
 			for (int i = 0; i < num_anim; i++) {
-				
 				fscanf_s(f_SM, "ANIMATION %d\n", &anim);
 				pModel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(anim));
 			}
@@ -121,12 +119,16 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf_s(f_SM, "SHADER %d\n", &shader);
 		fscanf_s(f_SM, "TEXTURE %d\n", &texture);
 
-		if (strcmp(type, "GUN_PLAYER") == 0 || strcmp(type, "GUN_ENEMY") == 0) {
+		if (strcmp(type, "GUN_PLAYER") == 0 || strcmp(type, "GUN_ENEMY") == 0 || strcmp(type, "GUN_BOSS") == 0) {
 			fscanf_s(f_SM, "BULLET %f %f %f %f %f\n", &dame, &attack, &speedx, &speedy, &dis);
 		}
 		else if (strcmp(type, "ENEMY") == 0) {
 			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 			fscanf_s(f_SM, "BULLET_ID %d\n", &bulletID);
+		}
+		else if (strcmp(type, "BOSS") == 0) {
+			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
+			fscanf_s(f_SM, "BULLET_ID %d %d %d %d\n", &bullet1, &bullet2, &bullet3, &bullet4);
 		}
 		else {
 			fscanf(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
@@ -153,6 +155,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		else if (strcmp(type, "ENEMY") == 0) {
 			Enemy* enemy = new Enemy(ID);
 			enemy->setModel(pModel);
+			printf("e %d\n", pModel->GetID());
 			enemy->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
 			enemy->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
 			enemy->SetBulletID(bulletID);
@@ -163,6 +166,24 @@ void SceneManager::ReadFile(FILE* f_SM)
 			enemy->SetSpeed(speedx, speedy);
 			enemy->InitWVP();
 			m_listEnemy.push_back(enemy);
+		}
+		else if (strcmp(type, "BOSS") == 0) {
+			m_boss = new Boss(ID);
+			m_boss->setModel(pModel);
+			m_boss->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
+			m_boss->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
+			m_boss->SetPosition(Position);
+			m_boss->SetScale(Scale);
+			m_boss->SetRotation(Rotation);
+			m_boss->SetMaxHP(hp);
+			m_boss->SetSpeed(speedx, speedy);
+			m_boss->SetBodyObject(m_boss->GetPosition().x, m_boss->GetPosition().y, m_world);
+			m_boss->InitWVP();
+			m_boss->AddBulletID(bullet1);
+			m_boss->AddBulletID(bullet2);
+			m_boss->AddBulletID(bullet3);
+			m_boss->AddBulletID(bullet4);
+			m_bossAppear = true;
 		}
 		else if (strcmp(type, "GUN_PLAYER") == 0) {
 			Bullet* bullet = new Bullet(ID);
@@ -254,7 +275,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest->Init();
 	num = (col * height) / (2 * width * row) + 1;
 	num = 2 * num + 1;
-	int n = WIDTH / 12;
+	int n = WIDTH / (col / 18 + 8/9);
 	Model* backgroundModel = new Model();
 	backgroundModel->InitSprite(0, 0, n * (width * col / height), n * col, n * (width * col / height), n * col);
 
@@ -296,11 +317,24 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		}
 		m_mapEnemy[{posRow, posCol}] = enemy;
 	}
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < m_ListGunOfEnemy.size(); j++) {
+			int id = m_boss->GetBulletID(i);
+			if (m_ListGunOfEnemy[j]->GetID() == id) {
+				m_boss->AddBullet(m_ListGunOfEnemy[j]);
+				break;
+			}
+		}
+	}
+
+	m_boss->SetTarget(m_MainCharacter->getBody());
+
 	fclose(f_MAP);
 }
 
 int cnt = 0;
 void SceneManager::Draw() {
+
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
 	m_MainCharacter->Draw();
@@ -324,6 +358,12 @@ void SceneManager::Draw() {
 		m_ListGunOfPlayer[i]->Draw();
 	}
 	
+//	m_listEnemy[0]->Draw();
+	if (m_bossAppear == true) {
+		m_boss->Draw();
+//		printf("%f %f\n", m_boss->GetPosition().x, m_boss->GetPosition().y);
+	}
+
 	groundTest->Draw();
 
 	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
@@ -628,9 +668,11 @@ void SceneManager::Update(float deltaTime) {
 	if (m_bossAppear == true) {
 		if (m_boss->IsMove()) {
 			m_boss->UploadSpeed();
+			m_boss->Update(deltaTime);
 		}
 		else {
 			m_boss->Update(deltaTime);
+			m_boss->UpdateAttack(deltaTime);
 			if (m_boss->isAttack()) {
 				BossAttack();
 				m_boss->UploadNum();
@@ -740,6 +782,7 @@ void SceneManager::Update(float deltaTime) {
 
 
 		if (m_bossAppear == true) {
+			m_boss->Update(deltaTime);
 			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 				b2Fixture * a = edge->contact->GetFixtureA();
 				b2Fixture * b = edge->contact->GetFixtureB();
@@ -754,10 +797,10 @@ void SceneManager::Update(float deltaTime) {
 //					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_boss->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
+					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_boss->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
+					m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
 				}
 			}
 			if (m_boss->isDie()) {

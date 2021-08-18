@@ -8,7 +8,7 @@
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
-	char* MAP = "../Resources/Map/tilemap.txt";
+	char* MAP = "../Resources/Map/bossmap.txt";
 	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 

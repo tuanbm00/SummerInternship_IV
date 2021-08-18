@@ -10,7 +10,7 @@ private:
 	float m_HP;
 	float m_speedx;
 	float m_speedy;
-	std::vector<float> m_ListAttackSpeed;
+	std::vector<int> m_ListBulletID;
 	float m_time;
 	float m_left;
 	float m_right;
@@ -40,6 +40,8 @@ public:
 	void UpdateAttack(float deltaTime);
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);
+	void AddBulletID(int id);
+	int GetBulletID(int id);
 	void AddBullet(Bullet* bullet);
 	void SwapGun();
 	void SetBodyObject(float positionX, float positionY, b2World* world);

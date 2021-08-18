@@ -84,7 +84,7 @@ void Boss::SetLimit(float left, float right) {
 }
 
 bool Boss::IsMove() {
-	if (m_body->GetPosition().y > m_destiny - 10.0f &&  m_body->GetPosition().y < m_destiny + 10.0f) {
+	if (m_body->GetPosition().y > (m_destiny - 10.0f) &&  m_body->GetPosition().y < (m_destiny + 10.0f)) {
 		m_body->SetLinearVelocity(b2Vec2(0, 0));
 		return false;
 	}
@@ -105,11 +105,8 @@ void Boss::SwapGun() {
 }
 
 bool Boss::isAttack() {
-	if (m_time >= m_ListAttackSpeed[0]) {
-		float attackspeed = m_ListAttackSpeed[0];
+	if (m_time >= m_listBullet[0]->GetAttackSpeed()) {
 		m_time = 0;
-		m_ListAttackSpeed.erase(m_ListAttackSpeed.begin());
-		m_ListAttackSpeed.push_back(attackspeed);
 		return true;
 	}
 	return false;
@@ -120,13 +117,22 @@ void Boss::AddBullet(Bullet* bullet) {
 	m_listBullet.push_back(bullet);
 }
 
+void Boss::AddBulletID(int id) {
+	m_ListBulletID.push_back(id);
+}
+
+int Boss::GetBulletID(int id) {
+	return m_ListBulletID[id];
+}
+
 void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
+//	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
+	dynamicBox.SetAsBox(500, 500);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
