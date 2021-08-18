@@ -64,6 +64,9 @@ void SceneManager::Init() {
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
 	}
+
+	Singleton<GameplayUI>::GetInstance()->Init(); //Init GameplayUI
+	Singleton<GameplayUI>::GetInstance()->SetMainCharacter(m_MainCharacter); //Set MainCharacter to show information's MC
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -372,6 +375,8 @@ void SceneManager::Draw() {
 	}
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	//printf("%d\n", cnt);
+
+	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
 }
 
 
@@ -398,8 +403,6 @@ void SceneManager::OnMouseButtonDown(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		SetIsFighting(true);
-		m_oTarget = Vector2(X, Y);
 	}
 	break;
 	case RMB:
@@ -421,8 +424,6 @@ void SceneManager::OnMouseButtonUp(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		SetIsFighting(false);
-		m_oTarget = Vector2(X, Y);
 	}
 	break;
 	case RMB:
@@ -430,13 +431,13 @@ void SceneManager::OnMouseButtonUp(int X, int Y, char Button) {
 	}
 	break;
 	}
+	Singleton<GameplayUI>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		m_oTarget = Vector2(X, Y);
 	}
 	break;
 	case RMB:
@@ -446,18 +447,10 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 	}
 }
 
-void SceneManager::SetIsFighting(bool IsFighting) {
-	m_bIsFighting = IsFighting;
-}
-
-MainCharacter* SceneManager::GetMainCharacter()
-{
-	MainCharacter* MC = m_MainCharacter;
-	return MC;
-}
 
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
+	Singleton<GameplayUI>::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
 			if (m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
@@ -647,8 +640,9 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
-	//Set Number of Bullets to UI
+	//Set GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet());
+	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 
 	if (Camera::GetInstance()->is_wound) ++cnt;
 	if (cnt > 35) {

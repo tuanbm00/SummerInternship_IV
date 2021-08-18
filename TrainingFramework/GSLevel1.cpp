@@ -5,7 +5,6 @@
 #include "TextManager.h"
 #include "stdlib.h"
 #include "string.h"
-#include "GameplayUI.h"
 
 GSLevel1::GSLevel1() {
 	char* SM = "../Resources/Managers/SM1.txt";
@@ -23,9 +22,6 @@ void GSLevel1::Init() {
 	Singleton<TextManager>::GetInstance()->Initialize();
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
-
-	Singleton<GameplayUI>::GetInstance()->Init(); //Init GameplayUI
-	Singleton<GameplayUI>::GetInstance()->SetMainCharacter(SceneManager::GetInstance()->GetMainCharacter()); //Set MainCharacter to show information's MC
 }
 
 void GSLevel1::Draw() {
@@ -49,21 +45,17 @@ void GSLevel1::Draw() {
 	char s[9] = "FPS: ";
 	strcat_s(s, buffer);
 
-	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
-
 
 	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }
 
 void GSLevel1::Update(float deltaTime) {
 	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
-	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 }
 
 void GSLevel1::CleanUp() {
 	Singleton<SceneManager>::GetInstance()->CleanUp();
 	Singleton<SceneManager>::GetInstance()->FreeInstance();
-	Singleton<GameplayUI>::GetInstance()->CleanUp();
 }
 
 void GSLevel1::Resume() {
@@ -112,7 +104,6 @@ void GSLevel1::OnMouseButtonDown(int X, int Y, char Button) {
 
 void GSLevel1::OnMouseButtonUp(int X, int Y, char Button) {
 	Singleton<SceneManager>::GetInstance()->OnMouseButtonUp(X, Y, Button);
-	Singleton<GameplayUI>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void GSLevel1::OnMouseButtonMove(int X, int Y, char Button) {
