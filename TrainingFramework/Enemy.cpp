@@ -33,6 +33,7 @@ void Enemy::UpdateAttack(float deltaTime) {
 
 void Enemy::Update(float deltaTime)
 {
+	
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 
@@ -61,7 +62,7 @@ bool Enemy::isDie() {
 
 bool Enemy::isAttack() {
 	if (m_time >= m_bullet->GetAttackSpeed()) {
-		m_time = 0;
+		//m_time = 0;
 		return true;
 	}
 	return false;
@@ -72,13 +73,13 @@ void Enemy::SetBullet(Bullet* bullet) {
 	m_bullet = bullet;
 }
 
-void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
+void Enemy::SetBodyObject(float positionX, float positionY, b2World* world, float scale) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW/2, m_spriteH/2);
+	dynamicBox.SetAsBox(m_spriteW/(2.0f*scale), m_spriteH/(2.0f*scale));
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
@@ -91,4 +92,14 @@ void Enemy::SetBodyObject(float positionX, float positionY, b2World* world) {
 
 Bullet* Enemy::GetBullet() {
 	return m_bullet;
+}
+
+void Enemy::UpdateAnimation(float deltaTime) {
+	if (m_current_anim == 2) m_current_anim = abs(m_current_anim)*m_direction;
+	else {
+		m_current_anim = abs(m_current_anim) * ((m_body->GetLinearVelocity().x > 0) ? 1 : -1);
+	}
+	if (m_Model->b_IsAnimation == true) {
+		m_Model->updateAnimation(deltaTime, m_current_anim);
+	}
 }

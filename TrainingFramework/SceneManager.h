@@ -15,8 +15,9 @@
 #include "Enemy.h"
 #include "Terrain.h"
 #include "Ground.h"
+#include "Singleton.h"
 
-class SceneManager
+class SceneManager : public Singleton<SceneManager> 
 {
 private:
 	int wlow, whigh, hlow, hhigh;
@@ -54,7 +55,7 @@ private:
 	int numJump;
 public:
 	int * indices;
-	SceneManager(char* fileSM, char* fileMAP);
+	SceneManager();
 	~SceneManager();
 
 	void Init();
@@ -70,7 +71,7 @@ public:
 	void RemoveBullet(int index);
 	void AddEnemy(Enemy* enemy);
 
-
+	bool enemySeen(Enemy* enemy);
 	void CheckMovement();
 	
 	void Shoot();

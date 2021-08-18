@@ -7,17 +7,9 @@
 #include "Globals.h"
 
 
-SceneManager::SceneManager(char* fileSM, char* fileMAP)
+SceneManager::SceneManager()
 {
-	m_fileSM = fileSM;
-	m_fileMAP = fileMAP;
-	m_direction = 1.0;
-	m_Horizontal = 0.0f;
-	m_Vertical = 0.0f;
-	m_shoot = 0.0f;
-	m_time = 50.0f;
-	m_timeChangeGun = 50.0f;
-	keyPressed = 0;
+	
 }
 
 
@@ -28,6 +20,13 @@ SceneManager::~SceneManager()
 void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_fileSM = fileSM;
 	m_fileMAP = fileMAP;
+	m_direction = 1.0;
+	m_Horizontal = 0.0f;
+	m_Vertical = 0.0f;
+	m_shoot = 0.0f;
+	m_time = 50.0f;
+	m_timeChangeGun = 50.0f;
+	keyPressed = 0;
 }
 
 void SceneManager::Init() {
@@ -275,7 +274,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		fscanf_s(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
 		mapEnemy[{posRow, posCol}] = 1;
 		Enemy* enemy = new Enemy(id);
-		enemy->setModel(m_listEnemy[id]->getModel());
+		Model * emodel = new Model(m_listEnemy[id]->getModel());
+		enemy->setModel(emodel);
 		enemy->setShader(m_listEnemy[id]->getShaders());
 		enemy->SetTexture(m_listEnemy[id]->getTexture());
 		enemy->SetBulletID(m_listEnemy[id]->GetBulletID());
@@ -549,7 +549,7 @@ void SceneManager::Update(float deltaTime) {
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (mapEnemy[{i, j}] == 1) {
-				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world);
+				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world, 2);
 				AddEnemy(m_mapEnemy[{i, j}]);
 				mapEnemy[{i, j}] = 0;
 			}
@@ -569,12 +569,23 @@ void SceneManager::Update(float deltaTime) {
 	CheckMovement();
 
 	for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
-		if (m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
-		if (m_listEnemyInWorld[i]->GetBulletID() >= 0) {
+		if (m_listEnemyInWorld[i]->checkDraw()) {
+			m_listEnemyInWorld[i]->m_direction = (m_listEnemyInWorld[i]->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
+			m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
+		}
+		if (m_listEnemyInWorld[i]->GetBulletID() >= 0 && enemySeen(m_listEnemyInWorld[i])) {
 			m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
 			if (m_listEnemyInWorld[i]->isAttack()) {
-				EnemyAttack(m_listEnemyInWorld[i]);
+				m_listEnemyInWorld[i]->cnt++;
+				m_listEnemyInWorld[i]->m_current_anim = 2;
+				if (m_listEnemyInWorld[i]->cnt > 25) {
+					EnemyAttack(m_listEnemyInWorld[i]);
+					m_listEnemyInWorld[i]->m_time = 0;
+					m_listEnemyInWorld[i]->cnt = 0;
+				}
 			}
+			else
+			m_listEnemyInWorld[i]->m_current_anim = 1;
 		}
 	}
 	
@@ -653,13 +664,11 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
 					Camera::GetInstance()->is_wound = true;
-					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 					Camera::GetInstance()->is_wound = true;
-					m_MainCharacter->resetAnimation(Wound);
 					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
@@ -767,12 +776,10 @@ void SceneManager::Update(float deltaTime) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
 						Camera::GetInstance()->is_wound = true;
-						m_MainCharacter->resetAnimation(Wound);
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 						Camera::GetInstance()->is_wound = true;
-						m_MainCharacter->resetAnimation(Wound);
 					}
 					isContact = true;
 					RemoveBullet(i);
@@ -819,7 +826,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
 				m_MainCharacter->resetAnimation(Falling);
-				numJump++;
+				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
 			}
 			break;
@@ -910,5 +917,13 @@ void SceneManager::CheckMovement() {
 	if (Camera::GetInstance()->is_wound) {
 		m_MainCharacter->m_current_anim = Wound * m_direction;
 	}
+	else m_MainCharacter->resetAnimation(Wound);
 }
 
+bool SceneManager::enemySeen(Enemy * enemy) {
+	Vector3 mpos = m_MainCharacter->GetPosition();
+	Vector3 epos = enemy->GetPosition();
+	if (epos.x < mpos.x - 1280 || epos.x >(mpos.x + 1280)) return false;
+	if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;
+	return true;
+}

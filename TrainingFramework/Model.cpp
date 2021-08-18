@@ -10,7 +10,19 @@ Model::Model()
 	b_IsAnimation = false;
 }
 
+Model::Model(Model * model) {
+	InitSprite(model->m_posX, model->m_posY, model->m_spriteW, model->m_spriteH, model->m_textureW, model->m_textureH);
+	std::vector<Animation*> v = model->getAnim();
+	for (int i = 0; i < v.size(); i++) {
+		Animation* anim = new Animation(v[i]);
+		addAnimation(anim);
+	}
+	if(v.size() > 0) b_IsAnimation = true;
+}
+
 Model::~Model() {
+	delete[] verticesData;
+	verticesData = NULL;
 }
 
 void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
@@ -50,14 +62,9 @@ void Model::addAnimation(Animation* anm)
 
 void Model::updateAnimation(float deltaTime, int type)
 {
-	if (type == 0) return;
-	
-		if (type >= 0) m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
-		else {
-			type = -type;
-			m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, true);
-		}
-	
+	bool revert = (type > 0) ? 0 : 1;
+	type = abs(type);
+	m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, revert);
 }
 
 void Model::resetGun() {

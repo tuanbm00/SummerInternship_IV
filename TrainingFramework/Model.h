@@ -22,6 +22,7 @@ public:
 	GLuint vboId;
 	bool b_IsAnimation;
 	Model();
+	Model(Model * model);
 	~Model();
 	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH);
 	void setOrigin(Vector2 ori);
@@ -39,5 +40,8 @@ public:
 	}
 	void resetGun();
 	void resetTexture();
+	std::vector<Animation*> getAnim() {
+		return m_anim;
+	}
 };
 

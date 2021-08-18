@@ -6,7 +6,7 @@
 GSLevel2::GSLevel2() {
 	char* SM = "../Resources/Managers/SM2.txt";
 	char* MAP = "../Resources/Map/tilemapr.txt";
-	m_SM = m_SM = std::make_shared<SceneManager>(SM, MAP);
+	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 
 GSLevel2::~GSLevel2() {
@@ -14,8 +14,8 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
-	m_SM->SetFileManager("../Resources/Managers/SM2.txt", "../Resources/Map/tilemapr.txt");
-	m_SM->Init();
+	Singleton<SceneManager>::GetInstance()->SetFileManager("../Resources/Managers/SM2.txt", "../Resources/Map/tilemapr.txt");
+	Singleton<SceneManager>::GetInstance()->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 
 	auto bullet = std::make_shared<Bullet>(1);
@@ -25,15 +25,15 @@ void GSLevel2::Init() {
 
 void GSLevel2::Draw() {
 	Camera::GetInstance()->i_state = 2;
-	m_SM->Draw();
+	Singleton<SceneManager>::GetInstance()->Draw();
 }
 
 void GSLevel2::Update(float deltaTime) {
-	m_SM->Update(deltaTime);
+	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
 }
 
 void GSLevel2::CleanUp() {
-	m_SM->CleanUp();
+	Singleton<SceneManager>::GetInstance()->CleanUp();
 	
 }
 
@@ -49,7 +49,7 @@ void GSLevel2::Pause() {
 
 //Events
 void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
-	m_SM->Key(key, bIsPressed);
+	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
 		case KEY_NEW_STATE:
@@ -77,13 +77,13 @@ void GSLevel2::OnMouseMoving(int X, int Y) {
 }
 
 void GSLevel2::OnMouseButtonDown(int X, int Y, char Button) {
-	m_SM->OnMouseButtonDown(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonDown(X, Y, Button);
 }
 
 void GSLevel2::OnMouseButtonUp(int X, int Y, char Button) {
-	m_SM->OnMouseButtonUp(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void GSLevel2::OnMouseButtonMove(int X, int Y, char Button) {
-	m_SM->OnMouseButtonMove(X, Y, Button);
+	Singleton<SceneManager>::GetInstance()->OnMouseButtonMove(X, Y, Button);
 }
