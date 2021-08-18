@@ -54,7 +54,7 @@ ID 17
 FILE ../Resources/Animation/enemy1Fire.txt
 SPEED 0.1 -1
 
-#2D Textures: 13
+#2D Textures: 16
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -81,6 +81,12 @@ ID 11
 FILE ../Resources/Tile/background1.tga
 ID 12
 FILE ../Resources/Textures/logo.tga
+ID 13
+FILE ../Resources/Textures/Buttons/button_aboutme.tga
+ID 14
+FILE ../Resources/Textures/Buttons/button_reset.tga
+ID 15
+FILE ../Resources/Textures/Buttons/button_X2.tga
 
 #Background: 1
 ID 0

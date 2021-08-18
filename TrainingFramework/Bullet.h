@@ -31,6 +31,7 @@ public:
 	float GetAttackDame();
 	float GetAttackSpeed();
 	float GetCurrLength();
+	int GetNumberOfBullet() { return m_NumberOfBullet; }
 
 	Vector2 GetSpeedOfBullet();
 	b2Body* GetTarget();
