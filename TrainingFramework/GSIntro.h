@@ -1,13 +1,13 @@
 #pragma once
 #include "GameStateBase.h"
-class GSMainmenu :
+class GSIntro :
 	public GameStateBase
 {
-	std::shared_ptr<ButtonManager> m_BM;
-	std::shared_ptr<Sprite2D> m_Background;
+	std::vector<std::shared_ptr<Sprite2D>> m_listSprite2D;
+	float m_currentTime;
 public:
-	GSMainmenu(void);
-	~GSMainmenu(void);
+	GSIntro(void);
+	~GSIntro(void);
 
 	void Init();
 	void Update(float deltaTime);

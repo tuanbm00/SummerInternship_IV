@@ -50,7 +50,6 @@ void Sprite2D::CalculateWVP()
 void Sprite2D::Draw() {
 	glUseProgram(m_Shader->program);
 
-
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->GetVertexObject());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->GetIndiceObject());
 	//Set Position

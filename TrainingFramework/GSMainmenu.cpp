@@ -92,36 +92,3 @@ void GSMainmenu::OnMouseButtonUp(int X, int Y, char Button) {
 void GSMainmenu::OnMouseButtonMove(int X, int Y, char Button) {
 	//m_SM->OnMouseButtonMove(X, Y, Button);
 }
-
-//void GSMainmenu::InitButton() {
-//	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
-//	int id = 0;
-//	
-//	//Button Start
-//	auto button = std::make_shared<GameButton>(id++);
-//	button->setModel(pModel);
-//	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-//	button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(5));
-//	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 + 100);
-//	button->SetSize(300, 100);
-//	button->SetOnClick([]() {
-//		if (GameStateMachine::GetInstance()->HasInstance()) {
-//			GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
-//		}
-//	});
-//	m_ListButton.push_back(button);
-//
-//	//Button About
-//	auto button1 = std::make_shared<GameButton>(id++);
-//	button1->setModel(pModel);
-//	button1->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-//	button1->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(5));
-//	button1->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2-100);
-//	button1->SetSize(300, 100);
-//	button1->SetOnClick([]() {
-//		if (GameStateMachine::GetInstance()->HasInstance()) {
-//			GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
-//		}
-//	});
-//	m_ListButton.push_back(button1);
-//}

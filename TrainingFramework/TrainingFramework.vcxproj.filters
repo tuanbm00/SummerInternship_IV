@@ -117,6 +117,24 @@
     <ClCompile Include="Boss.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameButton.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GSMainmenu.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite2D.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Models.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GSIntro.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -198,6 +216,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameButton.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSIntro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSMainmenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

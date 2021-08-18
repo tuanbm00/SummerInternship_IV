@@ -1,7 +1,9 @@
 #include "GameStateBase.h"
+#include "GSIntro.h"
+#include "GSMainmenu.h"
 #include "GSLevel1.h"
 #include "GSLevel2.h"
-#include "GSMainmenu.h"
+
 
 std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 {
@@ -11,7 +13,7 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 	case GS_INVALID:
 		break;
 	case GS_INTRO:
-		//gs = std::make_shared<GSIntro>();
+		gs = std::make_shared<GSIntro>();
 		break;
 	case GS_MAINMENU:
 		gs = std::make_shared<GSMainmenu>();
