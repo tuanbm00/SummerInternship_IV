@@ -14,6 +14,7 @@ private:
 	float m_right;
 	int m_bulletID;
 	Bullet* m_bullet;
+	Vector2 transPosBox;
 public:
 	float m_time;
 	int cnt;
@@ -35,8 +36,12 @@ public:
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);
 	void SetBullet(Bullet* bullet);
-	void SetBodyObject(float positionX, float positionY, b2World* world, float scale);
+	void SetBodyObject(b2World* world);
 	void UpdateAnimation(float deltaTime);
+	void setTransBox(float b1, float b2);
+	Vector2 getTransBox() {
+		return transPosBox;
+	}
 
 	Bullet* GetBullet();
 };

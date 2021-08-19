@@ -23,6 +23,11 @@ void Enemy::SetBulletID(int bulletID) {
 	m_bulletID = bulletID;
 }
 
+void Enemy::setTransBox(float b1, float b2) {
+	transPosBox.x = b1;
+	transPosBox.y = b2;
+}
+
 int Enemy::GetBulletID() {
 	return m_bulletID;
 }
@@ -73,10 +78,10 @@ void Enemy::SetBullet(Bullet* bullet) {
 	m_bullet = bullet;
 }
 
-void Enemy::SetBodyObject(float positionX, float positionY, b2World* world, float scale) {
+void Enemy::SetBodyObject(b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(positionX, positionY);
+	bodyDef.position.Set(m_Position.x + transPosBox.x, m_Position.y+transPosBox.y);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_spriteW/(2.0f), m_spriteH/(2.0f));

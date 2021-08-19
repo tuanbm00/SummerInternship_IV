@@ -25,7 +25,7 @@ FILE ../Resources/Animation/Gun2.txt
 SPEED 0.1 4
 ID 8
 FILE ../Resources/Animation/Gun3.txt
-SPEED 0.1 8
+SPEED 0.07 8
 ID 9
 FILE ../Resources/Animation/shortgun.txt
 SPEED 0.1 -1
@@ -76,7 +76,7 @@ FILE ../Resources/Animation/enemy4Fire.txt
 SPEED 0.1 -1
 ID 25
 FILE ../Resources/Animation/enemybullet2.txt
-SPEED 0.1 -2
+SPEED 0.1 -1
 
 #2D Textures: 21
 ID 0

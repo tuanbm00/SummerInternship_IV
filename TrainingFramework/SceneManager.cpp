@@ -100,6 +100,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 	for (register int i = 0; i < numOfObjects; i++) {
 		int ID, texture, shader, anim, bulletID;
 		int bullet1, bullet2, bullet3, bullet4;
+		float b1, b2;
 		char type[128];
 		Vector3 Position, Rotation, Scale;
 
@@ -129,6 +130,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		else if (strcmp(type, "ENEMY") == 0) {
 			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 			fscanf_s(f_SM, "BULLET_ID %d\n", &bulletID);
+			fscanf_s(f_SM, "BOX %f %f\n", &b1, &b2);
 		}
 		else if (strcmp(type, "BOSS") == 0) {
 			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
@@ -167,6 +169,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			enemy->SetRotation(Rotation);
 			enemy->SetHP(hp);
 			enemy->SetSpeed(speedx, speedy);
+			enemy->setTransBox(b1, b2);
 			enemy->InitWVP();
 			m_listEnemy.push_back(enemy);
 		}
@@ -310,6 +313,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		enemy->SetRotation(m_listEnemy[id]->GetRotation());
 		enemy->SetHP(m_listEnemy[id]->GetHP());
 		enemy->SetSpeed(m_listEnemy[id]->GetSpeed().x, m_listEnemy[id]->GetSpeed().y);
+		Vector2 box = m_listEnemy[id]->getTransBox();
+		enemy->setTransBox(box.x, box.y);
 		enemy->InitWVP();
 		for (int j = 0; j < m_ListGunOfEnemy.size(); j++) {
 			if (m_ListGunOfEnemy[j]->GetID() == m_listEnemy[id]->GetBulletID()) {
@@ -368,16 +373,11 @@ void SceneManager::Draw() {
 //	m_listEnemy[0]->Draw();
 	if (m_bossAppear == true && m_boss != NULL) {
 		m_boss->Draw();
-//		printf("%f %f\n", m_boss->GetPosition().x, m_boss->GetPosition().y);
-//		printf("m_ %f %f\n", m_MainCharacter->GetPosition().x, m_MainCharacter->GetPosition().y);
 	}
 
 
 	
 	m_MainCharacter->Draw();
-
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//printf("%d\n", cnt);
 
 	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
 }
@@ -513,6 +513,7 @@ void SceneManager::Shoot() {
 }
 
 void SceneManager::EnemyAttack(Enemy* enemy) {
+	Vector2 box = enemy->getTransBox();
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	b2Vec2 posEnemy = enemy->getBody()->GetPosition();
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
@@ -520,7 +521,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		for (int i = 0; i < 3; i++) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().x / 2 * (i -1), enemy->GetBullet()->GetMaxOfLength());
-			Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
+			Vector3 posBullet = Vector3(posEnemy.x+box.x, posEnemy.y+box.y, 0);
 
 			bullet->SetIsChange();
 			bullet->setModel(enemy->GetBullet()->getModel());
@@ -531,7 +532,6 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 			bullet->SetRotation(enemy->GetBullet()->GetRotation());
 			bullet->InitWVP();
 			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
-//			bullet->m_current_anim = m_direction;
 			AddBullet(bullet);
 		}
 	}
@@ -540,11 +540,12 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 		if (enemy->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, dir*scale*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetMaxOfLength());
+			bullet->m_current_anim = enemy->m_direction;
 		}
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
 		}
-		Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
+		Vector3 posBullet = Vector3(posEnemy.x+box.x, posEnemy.y+box.y, 0);
 
 		bullet->SetIsChange();
 		bullet->setModel(enemy->GetBullet()->getModel());
@@ -555,7 +556,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		bullet->SetRotation(enemy->GetBullet()->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
-//		bullet->m_current_anim = m_direction;
+
 		AddBullet(bullet);
 	}
 }
@@ -685,7 +686,7 @@ void SceneManager::Update(float deltaTime) {
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (mapEnemy[{i, j}] == 1) {
-				m_mapEnemy[{i, j}]->SetBodyObject(m_mapEnemy[{i, j}]->GetPosition().x, m_mapEnemy[{i, j}]->GetPosition().y, m_world, 2);
+				m_mapEnemy[{i, j}]->SetBodyObject(m_world);
 				AddEnemy(m_mapEnemy[{i, j}]);
 				mapEnemy[{i, j}] = 0;
 			}
@@ -736,9 +737,9 @@ void SceneManager::Update(float deltaTime) {
 					m_listEnemyInWorld[i]->cnt = 0;
 				}
 			}
-			else
-			m_listEnemyInWorld[i]->m_current_anim = 1;
+			else m_listEnemyInWorld[i]->m_current_anim = 1;
 		}
+		else m_listEnemyInWorld[i]->m_current_anim = 1;
 	}
 	
 	// set update

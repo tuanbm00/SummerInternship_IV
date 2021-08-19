@@ -24,24 +24,14 @@ void GameplayUI::Draw() {
 	//m_BM->Draw();
 
 	//MainCharacter
-	char buffer[20];
+	
+	Singleton<TextManager>::GetInstance()->RenderString(mainHP, Vector4(0.0f, 1.0f, 0.0f), 10.0f, 700.0f, 1.0f, 1.0f);
 
-	//HP
-	_itoa(m_MainCharacter->GetHP(), buffer, 10);
-	char text[20] = " ";
-	strcat_s(text, buffer);
-	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 0.0f), 10.0f, 700.0f, 1.0f, 1.0f);
+	
+	Singleton<TextManager>::GetInstance()->RenderString(bullet1, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 650.0f, 1.0f, 1.0f);
 
-	//Bullet
-	_itoa(m_NumberOfBullets1, buffer, 10);
-	strcpy(text, " ");
-	strcat_s(text, buffer);
-	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 650.0f, 1.0f, 1.0f);
-
-	_itoa(m_NumberOfBullets2, buffer, 10);
-	strcpy(text, " ");
-	strcat_s(text, buffer);
-	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 610.0f, 1.0f, 1.0f);
+	
+	Singleton<TextManager>::GetInstance()->RenderString(bullet2, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 610.0f, 1.0f, 1.0f);
 	//Boss
 	//if (m_pBossAppear == true) {
 	//	_itoa(m_Boss->GetHP(), buffer, 10);
@@ -75,6 +65,22 @@ void GameplayUI::SetNumberOfBullets(int numberOfBullets1, int numberOfBullets2)
 
 void GameplayUI::Update(float deltaTime) {
 	m_BM->Update(deltaTime);
+	char buffer[20];
+
+	//HP
+	_itoa(m_MainCharacter->GetHP(), buffer, 10);
+	char text[20] = " ";
+	strcat_s(text, buffer);
+	strcpy_s(mainHP, sizeof mainHP, text);
+	_itoa(m_NumberOfBullets1, buffer, 10);
+	strcpy(text, " ");
+	strcat_s(text, buffer);
+	strcpy_s(bullet1, sizeof bullet1, text);
+	_itoa(m_NumberOfBullets2, buffer, 10);
+	strcpy(text, " ");
+	strcat_s(text, buffer);
+	strcpy_s(bullet2, sizeof bullet2, text);
+
 }
 
 void GameplayUI::CleanUp() {

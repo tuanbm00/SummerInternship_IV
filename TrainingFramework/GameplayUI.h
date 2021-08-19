@@ -8,6 +8,7 @@ class GameplayUI :
 	bool m_pBossAppear = false;
 	float m_NumberOfBullets1 = 0;
 	float m_NumberOfBullets2 = 0;
+	char mainHP[20], bullet1[20], bullet2[20];
 	
 public:
 	GameplayUI(void);
