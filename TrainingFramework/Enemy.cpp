@@ -45,7 +45,7 @@ void Enemy::Update(float deltaTime)
 	if (m_Position.x <= m_left || m_Position.x >= m_right) {
 		m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
 	}
-
+	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
 	
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
@@ -100,7 +100,7 @@ Bullet* Enemy::GetBullet() {
 }
 
 void Enemy::UpdateAnimation(float deltaTime) {
-	if (m_current_anim == 2) m_current_anim = abs(m_current_anim)*m_direction;
+	if (m_current_anim == 2 || m_left == m_right) m_current_anim = abs(m_current_anim)*m_direction;
 	else {
 		m_current_anim = abs(m_current_anim) * ((m_body->GetLinearVelocity().x > 0) ? 1 : -1);
 	}

@@ -1,4 +1,4 @@
-#Animations: 26
+#Animations: 28
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -77,8 +77,14 @@ SPEED 0.1 -1
 ID 25
 FILE ../Resources/Animation/enemybullet2.txt
 SPEED 0.1 -1
+ID 26
+FILE ../Resources/Animation/dead.txt
+SPEED 0.1 -1
+ID 27
+FILE ../Resources/Animation/turret.txt
+SPEED 0.1 -1
 
-#2D Textures: 21
+#2D Textures: 22
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -121,6 +127,8 @@ ID 19
 FILE ../Resources/Textures/enemy4.tga
 ID 20
 FILE ../Resources/TexturesAnimation/enemybullet2.tga
+ID 21
+FILE ../Resources/Textures/Turret.tga
 
 #Background: 1
 ID 0

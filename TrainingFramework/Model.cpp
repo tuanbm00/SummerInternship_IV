@@ -21,8 +21,6 @@ Model::Model(Model * model) {
 }
 
 Model::~Model() {
-	delete[] verticesData;
-	verticesData = NULL;
 }
 
 void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
@@ -30,7 +28,7 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	m_posX = spriteX; m_posY = spriteY; m_spriteW = spriteW; m_spriteH = spriteH;
 	m_textureH = textureH; m_textureW = textureW;
 	m_NumberOfVertices = 4;
-	verticesData = new Vertex[m_NumberOfVertices];
+	Vertex verticesData[4];
 	origin = Vector2((m_posX + m_spriteW) / 2, (m_posY + m_spriteH) / 2);
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
@@ -47,7 +45,6 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	delete[] verticesData;
 }
 
 void Model::setOrigin(Vector2 ori)
@@ -64,7 +61,13 @@ void Model::updateAnimation(float deltaTime, int type)
 {
 	bool revert = (type > 0) ? 0 : 1;
 	type = abs(type);
+	if (type > m_anim.size()) type = m_anim.size();
 	m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, revert);
+}
+
+void Model::updateDead(float deltaTime)
+{
+	m_anim[dead - 1]->playDead(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
 }
 
 void Model::resetGun() {
@@ -78,6 +81,7 @@ void Model::resetTexture()
 	Vector4 frame = getAnimation(0)->getTexture();
 	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
 	
+	Vertex verticesData[4];
 	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;

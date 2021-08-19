@@ -13,6 +13,7 @@ Camera::Camera(void)
 	i_state = 0;
 	is_shoot = false;
 	is_wound = false;
+	is_dead = false;
 }
 
 Camera* Camera::GetInstance()

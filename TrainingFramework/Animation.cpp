@@ -79,11 +79,8 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	else {
 		d_anim_cursor += deltaTime;
 		if (d_anim_cursor > f_speed) {
-			++i_current_frame_index;
-			if (i_current_frame_index >= i_frame_count) {
-				if (m_fire_pos == -2) i_current_frame_index = 3 % i_frame_count;
-				else i_current_frame_index %= i_frame_count;
-			}
+			i_current_frame_index = (i_current_frame_index + 1) % i_frame_count;
+			if (i_current_frame_index < 3 && m_fire_pos == -2) i_current_frame_index = 3 % i_frame_count;
 			if (i_current_frame_index == m_fire_pos) Camera::GetInstance()->is_shoot = true;
 			d_anim_cursor = 0;
 		}
@@ -100,7 +97,7 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 		origin.y += 50;
 		if (revert) origin.x += 10;
 	}
-	Vertex *  verticesData = new Vertex[4];
+	Vertex verticesData[4];
 	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;
@@ -121,5 +118,43 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	delete[] verticesData;
+}
+
+void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime)
+{
+	if (Camera::GetInstance()->is_dead) i_current_frame_index = i_frame_count - 1;
+	else {
+		d_anim_cursor += deltaTime;
+		if (d_anim_cursor > f_speed) {
+			++i_current_frame_index;
+			if (i_current_frame_index == i_frame_count - 1) {
+				Camera::GetInstance()->is_dead = true;
+			}
+			d_anim_cursor = 0;
+		}
+	}
+
+	Vector4 frame = m_animation[i_current_frame_index];
+	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
+	Vertex verticesData[4];
+	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
+	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-(float)w / 2, (float)h / 2, 0.0f) - delta;
+	verticesData[3].pos = Vector3((float)w / 2, (float)h / 2, 0.0f) - delta;
+
+	x /= Tsize.x;
+	y /= Tsize.y;
+	w /= Tsize.x;
+	h /= Tsize.y;
+
+	verticesData[0].uv = Vector2(x, y + h);
+	verticesData[1].uv = Vector2(x + w, y + h);
+	verticesData[2].uv = Vector2(x, y);
+	verticesData[3].uv = Vector2(x + w, y);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

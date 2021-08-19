@@ -35,6 +35,7 @@ public:
 	void CleanUp();
 	bool is_shoot;
 	bool is_wound;
+	bool is_dead;
 
 	void initView();
 	void initOrtho();

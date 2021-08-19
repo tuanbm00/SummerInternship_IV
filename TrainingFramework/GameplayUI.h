@@ -28,6 +28,7 @@ public:
 	void OnMouseMoving(int X, int Y);
 
 	void Draw();
+	void DrawGameOver();
 
 	void SetMainCharacter(MainCharacter* mainCharacter);
 	void SetBoss(Boss* boss);

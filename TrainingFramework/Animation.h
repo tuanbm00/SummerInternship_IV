@@ -13,7 +13,8 @@ enum AnimationType {
 	Gun1,
 	Gun2,
 	Gun3,
-	Wound
+	Wound,
+	dead
 };
 
 class Animation
@@ -24,6 +25,7 @@ public:
 	~Animation();
 
 	void play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
+	void playDead(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime);
 
 	void setAnimationSpeed(float newSpeed);
 	void setID(int id);

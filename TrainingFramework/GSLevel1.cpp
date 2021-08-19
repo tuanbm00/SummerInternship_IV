@@ -2,7 +2,6 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
-#include "TextManager.h"
 #include "stdlib.h"
 #include "string.h"
 
@@ -19,7 +18,6 @@ GSLevel1::~GSLevel1() {
 void GSLevel1::Init() {
 	Singleton<SceneManager>::GetInstance()->Init();
 	glEnable(GL_DEPTH_TEST);
-	Singleton<TextManager>::GetInstance()->Initialize();
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
 }
@@ -29,24 +27,6 @@ void GSLevel1::Draw() {
 	Camera::GetInstance()->i_state = 1;
 	Singleton<SceneManager>::GetInstance()->Draw();
 
-	static float framesPerSecond = 0.0f;
-	static int fps;
-	static float lastTime = 0.0f;
-	float currentTime = GetTickCount() * 0.001f;
-	++framesPerSecond;
-	if (currentTime - lastTime > 1.0f)
-	{
-		lastTime = currentTime;
-		fps = (int)framesPerSecond;
-		framesPerSecond = 0;
-	}
-	char buffer[5];
-	_itoa(fps, buffer, 10);
-	char s[9] = "FPS: ";
-	strcat_s(s, buffer);
-
-
-//	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 1.0f, 700.0f, 1.0f, 1.0f);
 }
 
 void GSLevel1::Update(float deltaTime) {

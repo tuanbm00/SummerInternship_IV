@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "GameStateMachine.h"
 #include "GameStatebase.h"
+#include "TextManager.h"
 #include "ResourceManager.h"
 
 Application::Application()
@@ -21,6 +22,7 @@ void Application::Init()
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	Singleton<TextManager>::GetInstance()->Initialize();
 	GameStateMachine::GetInstance()->PushState(StateTypes::GS_INTRO);
 }
 
@@ -35,9 +37,26 @@ void Application::Update(GLfloat deltaTime)
 
 void Application::Render()
 {
-
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Draw();
+	static float framesPerSecond = 0.0f;
+	static int fps;
+	static float lastTime = 0.0f;
+	float currentTime = GetTickCount() * 0.001f;
+	++framesPerSecond;
+	if (currentTime - lastTime > 1.0f)
+	{
+		lastTime = currentTime;
+		fps = (int)framesPerSecond;
+		framesPerSecond = 0;
+	}
+	char buffer[5];
+	_itoa(fps, buffer, 10);
+	char s[9] = "FPS: ";
+	strcat_s(s, buffer);
+
+
+	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 860.0f, 700.0f, 1.0f, 1.0f);
 }
 
 
@@ -69,6 +88,7 @@ void Application::Exit()
 	ResourceManager::GetInstance()->CleanUp();
 	if (GameStateMachine::GetInstance()->HasState())
 	GameStateMachine::GetInstance()->CurrentState()->CleanUp();
+	Singleton<TextManager>::GetInstance()->FreeInstance();
 	glDisable(GL_DEPTH_TEST);
 	exit(0);
 }

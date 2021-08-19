@@ -351,6 +351,7 @@ void SceneManager::Draw() {
 	}
 	groundTest->Draw();
 
+	
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
 	}
@@ -380,6 +381,9 @@ void SceneManager::Draw() {
 	m_MainCharacter->Draw();
 
 	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
+	if (Camera::GetInstance()->is_dead) {
+		Singleton<GameplayUI>::GetInstance()->DrawGameOver();
+	}
 }
 
 
@@ -532,6 +536,8 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 			bullet->SetRotation(enemy->GetBullet()->GetRotation());
 			bullet->InitWVP();
 			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
+			bullet->m_current_anim = Idle * enemy->m_direction;
+
 			AddBullet(bullet);
 		}
 	}
@@ -540,12 +546,11 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 		if (enemy->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, dir*scale*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetMaxOfLength());
-			bullet->m_current_anim = enemy->m_direction;
 		}
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
 		}
-		Vector3 posBullet = Vector3(posEnemy.x+box.x, posEnemy.y+box.y, 0);
+		Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
 
 		bullet->SetIsChange();
 		bullet->setModel(enemy->GetBullet()->getModel());
@@ -556,6 +561,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		bullet->SetRotation(enemy->GetBullet()->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
+		bullet->m_current_anim = Idle * enemy->m_direction;
 
 		AddBullet(bullet);
 	}
@@ -664,6 +670,22 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	if (m_MainCharacter->isDie()) {
+		m_MainCharacter->playDead(deltaTime);
+		if (Camera::GetInstance()->is_dead == false) {
+			for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+			}
+		}
+		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
+		int lop = deltaTime / 0.003;
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
+		for (int i = 0; i < lop; i++) {
+			m_world->Step(0.07f, 6, 2);
+			m_MainCharacter->Update(deltaTime);
+		}
+		return;
+	}
 	//Set GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);

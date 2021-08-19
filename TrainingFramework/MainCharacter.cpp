@@ -36,6 +36,10 @@ bool MainCharacter::isDie() {
 	return false;
 }
 
+void MainCharacter::playDead(float deltaTime) {
+	m_Model->updateDead(deltaTime);
+}
+
 
 void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
