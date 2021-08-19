@@ -10,7 +10,12 @@
 
 SceneManager::SceneManager()
 {
-	
+	filterMain.categoryBits = CATEGORY_PLAYER;
+	filterMain.maskBits = MASK_PLAYER;
+	filterMain.groupIndex = -1;
+	filterRoll.categoryBits = CATEGORY_PLAYER;
+	filterRoll.maskBits = MASK_PLAYER;
+	filterRoll.groupIndex = -2;
 }
 
 
@@ -28,6 +33,9 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_time = 50.0f;
 	m_timeChangeGun = 50.0f;
 	keyPressed = 0;
+	m_time_roll = 0;
+	is_roll = false;
+	roll_step = 0;
 }
 
 void SceneManager::Init() {
@@ -366,11 +374,8 @@ void SceneManager::Draw() {
 	}
 
 	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-		if (m_listEnemyInWorld[i]->checkDraw()) {
-			m_listEnemyInWorld[i]->Draw();
-		}
+			if(m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->Draw();
 	}
-	
 //	m_listEnemy[0]->Draw();
 	if (m_bossAppear == true && m_boss != NULL) {
 		m_boss->Draw();
@@ -741,6 +746,7 @@ void SceneManager::Update(float deltaTime) {
 	// set key
 	m_time += deltaTime;
 	m_timeChangeGun += deltaTime;
+	m_time_roll += deltaTime;
 	CheckMovement();
 
 	for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
@@ -773,13 +779,13 @@ void SceneManager::Update(float deltaTime) {
 	// set v
 	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
 	float impulseX = m_Horizontal * 900;
+	
 	if (jumpstep > 0) {
-		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, -impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, -impulse), true);
 		--jumpstep;
 	}
 	else {
-		//impulse += m_MainCharacter->getBody()->GetMass() * 10;
-		m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(impulseX, impulse), m_MainCharacter->getBody()->GetWorldCenter(), true);
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, impulse), true);
 	}
 
 	int32 velocityIterations = 6;
@@ -817,8 +823,10 @@ void SceneManager::Update(float deltaTime) {
 						is_in_ground = true;
 						numJump = 0;
 					}
-					b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
-					m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+					if (b->GetFilterData().groupIndex == -1) {
+						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+					}
 				}
 			}
 			if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
@@ -828,8 +836,10 @@ void SceneManager::Update(float deltaTime) {
 						numJump = 0;
 					}
 				}
-				b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
-				m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+				if (a->GetFilterData().groupIndex == -1) {
+					b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+					m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+				}
 			}
 		}
 
@@ -1059,6 +1069,16 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_SHOOT + 32:
 			keyPressed = keyPressed | SHOOT;
 			break;
+		case VK_SHIFT:
+			if (!is_roll && m_time_roll > 0.5f) {
+				roll_step = 30;
+				m_MainCharacter->resetAnimation(RunJump);
+				m_MainCharacter->resetAnimation(Idle);
+				m_MainCharacter->resetAnimation(Falling);
+				is_roll = true;
+				keyPressed = keyPressed | ROLL;
+			}
+			break;
 		}
 	}
 	else {
@@ -1089,56 +1109,77 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			m_shoot = 0;
 			m_MainCharacter->resetGun();
 			break;
+		case VK_SHIFT:
+			keyPressed = keyPressed ^ ROLL;
 		}
 	}
 }
 
 void SceneManager::CheckMovement() {
-	if (is_in_ground) m_MainCharacter->m_current_anim = Idle * m_direction;
-	else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
-	if (keyPressed & MOVE_RIGHT) {
-		m_direction = 1;
-		if (is_in_ground) m_MainCharacter->m_current_anim = Run;
-		m_Horizontal = 40.0f;
-	}
-	else if (keyPressed & MOVE_LEFT) {
-		m_direction = -1;
-		if (is_in_ground) m_MainCharacter->m_current_anim = Run * m_direction;
-		m_Horizontal = -40.0f;
-	}
-	if (keyPressed & MOVE_JUMP) {
-		if(jumpstep > 0){
-			if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
-			else {
-				m_MainCharacter->m_current_anim = RunJump * m_direction;
-			}
+	if (!is_roll) {
+		if (is_in_ground) m_MainCharacter->m_current_anim = Idle * m_direction;
+		else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
+		if (keyPressed & MOVE_RIGHT) {
+			m_direction = 1;
+			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
+			m_MainCharacter->resetAnimation(Idle);
+			m_Horizontal = 40.0f;
+		}
+		else if (keyPressed & MOVE_LEFT) {
+			m_direction = -1;
+			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
+			m_MainCharacter->resetAnimation(Idle);
+			m_Horizontal = -40.0f;
 		}
 		
-	}
-	if (keyPressed & SHOOT) {
-		m_Horizontal = 0;
-		if(m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGunOfPlayer[0]->GetID() * m_direction;
-		m_shoot = 1.0f;
-		if (Camera::GetInstance()->is_shoot == true) {
-			Camera::GetInstance()->is_shoot = false;
-			Shoot();
-			if (m_ListGunOfPlayer[0]->IsEmptyBullet()) {
-				ChangeGun(true);
-				m_time = 0;
+		if (keyPressed & MOVE_JUMP) {
+			if (jumpstep > 0) {
+				if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
+				else {
+					m_MainCharacter->m_current_anim = RunJump * m_direction;
+				}
 			}
 		}
+
+		
+		if (keyPressed & SHOOT) {
+			m_Horizontal = 0;
+			if (m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGunOfPlayer[0]->GetID() * m_direction;
+			m_shoot = 1.0f;
+			if (Camera::GetInstance()->is_shoot == true) {
+				Camera::GetInstance()->is_shoot = false;
+				Shoot();
+				if (m_ListGunOfPlayer[0]->IsEmptyBullet()) {
+					ChangeGun(true);
+					m_time = 0;
+				}
+			}
+		}
+		if (keyPressed & CHANGE_GUN) {
+			m_changeGun = 1.0f;
+			if (m_timeChangeGun >= 3.0) {
+				ChangeGun(false);
+				m_timeChangeGun = 0;
+			}
+		}
+		if (Camera::GetInstance()->is_wound) {
+			m_MainCharacter->m_current_anim = Wound * m_direction;
+		}
+		else m_MainCharacter->resetAnimation(Wound);
 	}
-	if (keyPressed & CHANGE_GUN) {
-		m_changeGun = 1.0f;
-		if (m_timeChangeGun >= 3.0) {
-			ChangeGun(false);
-			m_timeChangeGun = 0;
+	else {
+		if (roll_step > 0) {
+			m_MainCharacter->m_current_anim = RunJump * m_direction;
+			m_MainCharacter->getBody()->GetFixtureList()->SetFilterData(filterRoll);
+			m_time_roll = 0;
+			m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(80000 * m_direction, 50000), m_MainCharacter->getBody()->GetWorldCenter(), true);
+			--roll_step;
+		}
+		else {
+			is_roll = false;
+			m_MainCharacter->getBody()->GetFixtureList()->SetFilterData(filterMain);
 		}
 	}
-	if (Camera::GetInstance()->is_wound) {
-		m_MainCharacter->m_current_anim = Wound * m_direction;
-	}
-	else m_MainCharacter->resetAnimation(Wound);
 }
 
 bool SceneManager::enemySeen(Enemy * enemy) {

@@ -133,6 +133,7 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 	if (isPlayer) {
 		fixtureDef.filter.categoryBits = CATEGORY_BULLET_PLAYER;
 		fixtureDef.filter.maskBits = MASK_BULLET_PLAYER;
+		fixtureDef.filter.groupIndex = -1;
 	}
 	else {
 		if (notBoss) {
@@ -143,6 +144,7 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 			fixtureDef.filter.categoryBits = CATEGORY_BULLET_BOSS;
 			fixtureDef.filter.maskBits = MASK_BULLET_BOSS;
 		}
+		fixtureDef.filter.groupIndex = -2;
 	}
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));

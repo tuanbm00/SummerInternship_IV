@@ -27,6 +27,7 @@
 #define MOVE_RIGHT 1 << 2
 #define CHANGE_GUN 1 << 3
 #define SHOOT 1 << 4
+#define ROLL 1 << 5
 
 // bullet categories
 #define CATEGORY_QUICK_PISTOL 6

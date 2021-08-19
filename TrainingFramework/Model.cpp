@@ -55,6 +55,9 @@ void Model::setOrigin(Vector2 ori)
 void Model::addAnimation(Animation* anm)
 {
 	m_anim.push_back(anm);
+	if (m_anim.size() == RunJump || m_anim.size() == Jump) {
+		m_anim.back()->isJump = true;
+	}
 }
 
 void Model::updateAnimation(float deltaTime, int type)

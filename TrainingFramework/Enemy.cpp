@@ -91,6 +91,7 @@ void Enemy::SetBodyObject(b2World* world) {
 //	fixtureDef.density = 1;
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
+	fixtureDef.filter.groupIndex = -2;
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }

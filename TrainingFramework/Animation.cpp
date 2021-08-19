@@ -50,7 +50,6 @@ void Animation::setID(int id)
 }
 void Animation::resetAnimation()
 {
-	if(!isGun) isJump = true;
 	i_current_frame_index = 0;
 	d_anim_cursor = 0;
 }

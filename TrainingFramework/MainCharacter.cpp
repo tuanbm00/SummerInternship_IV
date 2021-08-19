@@ -53,6 +53,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
 	fixtureDef.filter.maskBits = MASK_PLAYER;
+	fixtureDef.filter.groupIndex = -1;
 	fixtureDef.density = 6000.0f / area;
 	m_body->CreateFixture(&fixtureDef);
 }

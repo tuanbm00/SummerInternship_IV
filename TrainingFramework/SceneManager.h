@@ -38,6 +38,7 @@ private:
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
 
+	b2Filter filterMain, filterRoll;
 	int m_direction;
 	float m_Horizontal;
 	float m_Vertical;
@@ -45,6 +46,9 @@ private:
 	float m_changeGun;
 	float m_time;
 	float m_timeChangeGun;
+	float m_time_roll;
+	bool is_roll;
+	int roll_step;
 	int keyPressed;
 	bool m_bossAppear;
 
