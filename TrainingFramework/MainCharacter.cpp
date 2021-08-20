@@ -44,7 +44,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW / 2.5, m_spriteH / 2);
+	dynamicBox.SetAsBox(m_spriteW / 2.5f, m_spriteH / 2.0f);
 	b2FixtureDef fixtureDef;
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;

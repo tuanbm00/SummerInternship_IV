@@ -53,7 +53,7 @@ void Application::Render()
 		framesPerSecond = 0;
 	}
 	char buffer[5];
-	_itoa(fps, buffer, 10);
+	_itoa_s(fps, buffer, 10);
 	char s[9] = "FPS: ";
 	strcat_s(s, buffer);
 

@@ -14,13 +14,13 @@ ButtonManager::~ButtonManager() {
 
 int ButtonManager::ReadFile(char* srcButton) {
 	FILE* f_M;
-	f_M = fopen(srcButton, "r+");
+	fopen_s(&f_M,srcButton, "r+");
 	if (f_M == NULL) {
 		return false;
 	}
 
 	int numberOfButtons;
-	fscanf(f_M, "#Buttons: %d\n", &numberOfButtons);
+	fscanf_s(f_M, "#Buttons: %d\n", &numberOfButtons);
 	if (numberOfButtons <= 0)
 		return false;
 	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
@@ -28,11 +28,11 @@ int ButtonManager::ReadFile(char* srcButton) {
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)
 	{
-		fscanf(f_M, "ID %d\n", &id);
-		fscanf(f_M, "SHADER %d\n", &shader);
-		fscanf(f_M, "TEXTURE %d\n", &texture);
-		fscanf(f_M, "COORD %d %d %d %d\n", &X, &Y, &W, &H);
-		fscanf(f_M, "FUNC %s\n", type);
+		fscanf_s(f_M, "ID %d\n", &id);
+		fscanf_s(f_M, "SHADER %d\n", &shader);
+		fscanf_s(f_M, "TEXTURE %d\n", &texture);
+		fscanf_s(f_M, "COORD %d %d %d %d\n", &X, &Y, &W, &H);
+		fscanf_s(f_M, "FUNC %s\n", type, _countof(type));
 
 		auto button = std::make_shared<GameButton>(id++);
 		button->setModel(pModel);
@@ -43,25 +43,26 @@ int ButtonManager::ReadFile(char* srcButton) {
 		AddFunction(type, button);		
 		m_listButton.push_back(button);
 	}
+	return 0;
 }
 
 void ButtonManager::Update(float deltaTime)
 {
-	for (register int i = 0; i < m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); i++) {
 		m_listButton[i]->Update(deltaTime);
 	}
 }
 
 void ButtonManager::CleanUp()
 {
-	for (register int i = 0; i < m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); i++) {
 		m_listButton[i]->CleanUp();
 	}
 }
 
 void ButtonManager::Draw()
 {
-	for (register int i = 0; i < m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); i++) {
 		m_listButton[i]->Draw();
 	}
 }
@@ -86,7 +87,7 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	switch (Button) {
 	case LMB:
 	{
-		for (register int i = 0; i < m_listButton.size(); i++) {
+		for (register int i = 0; i < (int)m_listButton.size(); i++) {
 			m_listButton[i]->OnMouseButtonUp(X, Y);
 		}
 	}

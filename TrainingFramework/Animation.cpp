@@ -9,7 +9,8 @@ Animation::Animation(const char* filePath)
 	f_speed = 0;
 	d_anim_cursor = 0;
 	i_current_frame_index = 0;
-	FILE* fp = fopen(filePath, "r");
+	FILE* fp;
+	fopen_s(&fp, filePath, "r");
 	int cnt, total;
 	fscanf_s(fp, "%d %d\n", &total, &cnt);
 	i_frame_count = cnt;

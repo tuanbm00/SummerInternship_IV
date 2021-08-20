@@ -26,7 +26,7 @@ SceneManager::~SceneManager()
 void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_fileSM = fileSM;
 	m_fileMAP = fileMAP;
-	m_direction = 1.0;
+	m_direction = 1;
 	m_Horizontal = 0.0f;
 	m_Vertical = 0.0f;
 	m_shoot = 0.0f;
@@ -66,12 +66,12 @@ void SceneManager::Init() {
 	m_IsTowerDefend = false;
 	ResourceManager::GetInstance()->Init();
 	FILE* f_SM;
-	f_SM = fopen(m_fileSM, "r+");
+	fopen_s(&f_SM, m_fileSM, "r+");
 	if (f_SM != NULL) {
 		this->ReadFile(f_SM);
 	}
 	FILE* f_MAP;
-	f_MAP = fopen(m_fileMAP, "r+");
+	fopen_s(&f_MAP, m_fileMAP, "r+");
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
 	}
@@ -148,7 +148,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			fscanf_s(f_SM, "BULLET_ID %d %d %d %d\n", &bullet1, &bullet2, &bullet3, &bullet4);
 		}
 		else {
-			fscanf(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
+			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 		}
 			//Add Texture here
 		
@@ -247,12 +247,12 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		Omap[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);
-	Texture * texx = new Texture(99, "../mapT.tga");
+	Texture * texx = new Texture(99, "../mapT2.tga");
 	texx->Init();
 	groundTest->setTexture(texx);
 	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	//
-	int width, height, row, col, xi, num, index, c;
+	int width, height, row, col, xi, num, index;
 
 	fscanf_s(f_MAP, "%d %d\n", &width, &height);
 	fscanf_s(f_MAP, "%d\n", &index);
@@ -293,14 +293,14 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	num = 2 * num + 1;
 	int n = WIDTH / (col / 18 + 8/9);
 	Model* backgroundModel = new Model();
-	backgroundModel->InitSprite(0, 0, n * (width * col / height), n * col, n * (width * col / height), n * col);
+	backgroundModel->InitSprite(0, 0, (float)n * (width * col / height), (float)n * col, (float)n * (width * col / height), (float)n * col);
 
 	for (int i = 0; i < num; i++) {
 		Terrain *background = new Terrain(0);
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition(n * (width * col / height) * (i - num / 2), 0, 0);
+		background->SetPosition((float)n * (width * col / height) * (i - num / 2), 0, 0);
 		background->SetScale(Vector3(2, 2, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
@@ -315,7 +315,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		mapLimit[{posRow, posCol}] = { left, right };
 	}
 	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < m_ListGunOfEnemy.size(); j++) {
+		for (int j = 0; j < (int)m_ListGunOfEnemy.size(); j++) {
 			int id = m_boss->GetBulletID(i);
 			if (id == -1) {
 				continue;
@@ -468,7 +468,7 @@ void SceneManager::CleanUp() {
 		delete m_listEnemy[i];
 	}
 
-	for (int i = 0; i < m_ListGunOfPlayer.size(); i++) {
+	for (int i = 0; i < (int)m_ListGunOfPlayer.size(); i++) {
 		delete m_ListGunOfPlayer[i]->getModel();
 		delete m_ListGunOfPlayer[i];
 	}
@@ -490,7 +490,7 @@ void SceneManager::Shoot() {
 	// set follow bazoka
 	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
 		float minLength = 2000;
-		for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 			if (m_direction * m_MainCharacter->GetPosition().x < m_direction * m_listEnemyInWorld[i]->GetPosition().x) {
 				if (m_MainCharacter->GetPosition().y + 800 > m_listEnemyInWorld[i]->GetPosition().y && m_MainCharacter->GetPosition().y - 400 < m_listEnemyInWorld[i]->GetPosition().y) {
 					float high = abs(m_MainCharacter->GetPosition().y - m_listEnemyInWorld[i]->GetPosition().y);
@@ -594,7 +594,7 @@ void SceneManager::BossAttack() {
 		bullet->SetRotation(m_boss->GetBullet()->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false, false);
-		//	bullet->m_current_anim = m_direction;
+		bullet->m_current_anim = Idle * dir;
 
 		AddBullet(bullet);
 	}
@@ -652,7 +652,7 @@ void SceneManager::ChangeGun(bool isEmptyBullet) {
 }
 
 void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
-	float v = hellBullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+	float v = hellBullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
 	for (int i = 0; i < 3; i++) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
@@ -676,7 +676,7 @@ void SceneManager::Update(float deltaTime) {
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
 		if (Camera::GetInstance()->is_dead == false) {
-			for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 			}
 		}
@@ -694,7 +694,7 @@ void SceneManager::Update(float deltaTime) {
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 
 	if (Camera::GetInstance()->is_wound) ++cnt;
-	if (cnt > 35) {
+	if (cnt > 31) {
 		cnt = 0;
 		Camera::GetInstance()->is_wound = false;
 	}
@@ -731,7 +731,7 @@ void SceneManager::Update(float deltaTime) {
 				Vector2 box = m_listEnemy[id]->getTransBox();
 				enemy->setTransBox(box.x, box.y);
 				enemy->InitWVP();
-				for (int k = 0; k < m_ListGunOfEnemy.size(); k++) {
+				for (int k = 0; k < (int)m_ListGunOfEnemy.size(); k++) {
 					if (m_ListGunOfEnemy[k]->GetID() == m_listEnemy[id]->GetBulletID()) {
 						enemy->SetBullet(m_ListGunOfEnemy[k]);
 						break;
@@ -932,7 +932,7 @@ void SceneManager::Update(float deltaTime) {
 					m_IsTowerDefend = true;
 				}
 
-				for (int j = 0; j < m_listBulletInWorld.size(); j++) {
+				for (int j = 0; j < (int)m_listBulletInWorld.size(); j++) {
 					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
 						m_listBulletInWorld[j]->SetTarget(NULL);
 					}

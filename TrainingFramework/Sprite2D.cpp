@@ -143,8 +143,8 @@ void Sprite2D::Set2DPosition(GLfloat X, GLfloat Y)
 {
 	m_Vec2DPos = Vector2(X, Y);
 
-	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0;
-	float yy = 1.0 - (2.0 * m_Vec2DPos.y) / Globals::screenHeight;
+	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0f;
+	float yy = 1.0f - (2.0f * m_Vec2DPos.y) / Globals::screenHeight;
 	m_Position = Vector3(xx, yy, 0.0);
 	CalculateWVP();
 }
@@ -159,16 +159,16 @@ void Sprite2D::Set2DPosition(Vector2 pos)
 {
 	m_Vec2DPos = pos;
 
-	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0;
-	float yy = 1.0 - (2.0 * m_Vec2DPos.y) / Globals::screenHeight;
+	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0f;
+	float yy = 1.0f - (2.0f * m_Vec2DPos.y) / Globals::screenHeight;
 	m_Position = Vector3(xx, yy, 0.0);
 	CalculateWVP();
 }
 
 Vector2 Sprite2D::Get2DPosition()
 {
-	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0;
-	float yy = 1.0 - (2.0 * m_Vec2DPos.y) / Globals::screenHeight;
+	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0f;
+	float yy = 1.0f - (2.0f * m_Vec2DPos.y) / Globals::screenHeight;
 	std::cout << xx << " - " << yy << std::endl;
 	return m_Vec2DPos;
 }

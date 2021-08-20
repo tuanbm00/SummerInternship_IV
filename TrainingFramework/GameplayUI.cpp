@@ -72,16 +72,16 @@ void GameplayUI::Update(float deltaTime) {
 	char buffer[20];
 
 	//HP
-	_itoa(m_MainCharacter->GetHP(), buffer, 10);
+	_itoa_s(m_MainCharacter->GetHP(), buffer, 10);
 	char text[20] = " ";
 	strcat_s(text, buffer);
 	strcpy_s(mainHP, sizeof mainHP, text);
-	_itoa(m_NumberOfBullets1, buffer, 10);
-	strcpy(text, " ");
+	_itoa_s(m_NumberOfBullets1, buffer, 10);
+	strcpy_s(text, " ");
 	strcat_s(text, buffer);
 	strcpy_s(bullet1, sizeof bullet1, text);
-	_itoa(m_NumberOfBullets2, buffer, 10);
-	strcpy(text, " ");
+	_itoa_s(m_NumberOfBullets2, buffer, 10);
+	strcpy_s(text, " ");
 	strcat_s(text, buffer);
 	strcpy_s(bullet2, sizeof bullet2, text);
 

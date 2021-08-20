@@ -19,13 +19,13 @@ Models::~Models() {
 int Models::LoadModel(char * srcModel)
 {
 	FILE* f_M;
-	f_M = fopen(srcModel, "r+");
+	fopen_s(&f_M,srcModel, "r+");
 	if (f_M == NULL) {
 		return false;
 	}
 
 	int numberOfVertices;
-	fscanf(f_M, "NrVertices: %d\n", &numberOfVertices);
+	fscanf_s(f_M, "NrVertices: %d\n", &numberOfVertices);
 	if (numberOfVertices <= 0)
 		return false;
 
@@ -33,13 +33,13 @@ int Models::LoadModel(char * srcModel)
 
 	for (int i = 0; i < numberOfVertices; ++i)
 	{
-		fscanf(f_M, "  %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n",
+		fscanf_s(f_M, "  %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n",
 			&verticesData[i].pos.x, &verticesData[i].pos.y, &verticesData[i].pos.z,
 			&verticesData[i].uv.x, &verticesData[i].uv.y);
 	}
 
 	int numberOfIndices;
-	fscanf(f_M, "NrIndices: %d\n", &numberOfIndices);
+	fscanf_s(f_M, "NrIndices: %d\n", &numberOfIndices);
 	if (numberOfIndices <= 0)
 	{
 		return 0;
@@ -47,7 +47,7 @@ int Models::LoadModel(char * srcModel)
 	indices = new int[numberOfIndices];
 	for (int i = 0; i < numberOfIndices; i += 3)
 	{
-		fscanf(f_M, "   %*d.    %d,    %d,    %d\n", &indices[i], &indices[i + 1], &indices[i + 2]);
+		fscanf_s(f_M, "   %*d.    %d,    %d,    %d\n", &indices[i], &indices[i + 1], &indices[i + 2]);
 	}
 
 	m_iNumIndices = numberOfIndices;
@@ -66,6 +66,7 @@ int Models::LoadModel(char * srcModel)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	fclose(f_M);
+	return 0;
 }
 
 GLuint Models::GetVertexObject()

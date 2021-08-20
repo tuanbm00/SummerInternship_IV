@@ -14,7 +14,7 @@ Model::Model()
 Model::Model(Model * model) {
 	InitSprite(model->m_posX, model->m_posY, model->m_spriteW, model->m_spriteH, model->m_textureW, model->m_textureH);
 	std::vector<Animation*> v = model->getAnim();
-	for (int i = 0; i < v.size(); i++) {
+	for (int i = 0; i < (int)v.size(); i++) {
 		Animation* anim = new Animation(v[i]);
 		addAnimation(anim);
 		ResourceManager::GetInstance()->addDumpAnim(anim);
@@ -66,7 +66,7 @@ void Model::updateAnimation(float deltaTime, int type)
 {
 	bool revert = (type > 0) ? 0 : 1;
 	type = abs(type);
-	if (type > m_anim.size()) type = m_anim.size();
+	if (type > (int)m_anim.size()) type = m_anim.size();
 	m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, revert);
 }
 
@@ -76,7 +76,7 @@ void Model::updateDead(float deltaTime)
 }
 
 void Model::resetGun() {
-	for (int i = 0; i < m_anim.size(); i++) {
+	for (int i = 0; i < (int)m_anim.size(); i++) {
 		if (m_anim[i]->isGun) m_anim[i]->resetAnimation();
 	}
 }

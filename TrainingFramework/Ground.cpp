@@ -5,12 +5,12 @@ void Ground::Init()
 {
 	InitWVP();
 	Vertex * verticesData = new Vertex[m_numberOfVertex];
-	for (int i = 0; i < vertices.size(); i++) {
+	for (int i = 0; i < (int)vertices.size(); i++) {
 		verticesData[i].pos = vertices[i].pos;
 		verticesData[i].uv = vertices[i].uv;
 	}
 	int *indic = new int[m_numberOfIndices];
-	for (int i = 0; i < indices.size(); i++) indic[i] = indices[i];
+	for (int i = 0; i < (int)indices.size(); i++) indic[i] = indices[i];
 	glGenBuffers(1, &vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
 	glBufferData(GL_ARRAY_BUFFER, m_numberOfVertex * sizeof(Vertex), verticesData, GL_STATIC_DRAW);
