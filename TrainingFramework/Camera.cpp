@@ -98,6 +98,7 @@ void Camera::initView()
 	m_ViewMatrix.m[3][1] = -m_Position.Dot(yaxis);
 	m_ViewMatrix.m[3][2] = -m_Position.Dot(zaxis);
 	m_ViewMatrix.m[3][3] = 1;
+	m_ViewMatrix = m_ViewMatrix * Omatrix;
 }
 
 void Camera::initOrtho()

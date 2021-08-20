@@ -88,9 +88,8 @@ void Application::OnMouseMoving(GLint X, GLint Y) {
 void Application::Exit()
 {
 	ResourceManager::GetInstance()->CleanUp();
-	if (GameStateMachine::GetInstance()->HasState())
-	GameStateMachine::GetInstance()->CurrentState()->CleanUp();
+	delete ResourceManager::GetInstance();
+	GameStateMachine::GetInstance()->Cleanup();
 	Singleton<TextManager>::GetInstance()->FreeInstance();
-	glDisable(GL_DEPTH_TEST);
 	exit(0);
 }

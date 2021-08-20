@@ -17,6 +17,7 @@ private:
 	std::vector<Animation*> m_Animations;
 	std::vector<Texture*> m_TerrainTextures;
 	std::vector<Texture*> m_BackgroundTextures;
+	std::vector<Animation*> m_DumpAnim;
 
 	std::map<std::string, std::shared_ptr<SoLoud::Wav>> m_MapWave; //TruongNV - Add Map Sound
 	//std::string m_SoundPath; //Truong NV - Add SoundPath
@@ -27,6 +28,7 @@ public:
 
 	void Init();
 	void CleanUp();
+	void CleanDump();
 	void ReadFile(FILE* f_RM);
 	Model* GetModelAtID(int ID);
 	Animation* GetAnimationAtID(int ID);
@@ -34,6 +36,7 @@ public:
 	Shaders* GetShaderAtID(int ID);
 	Texture* GetBackgroundAtID(int ID);
 	Texture* GetTerrainAtID(int ID);
+	void addDumpAnim(Animation* anim);
 
 	//TruongNV - Add Function Sound
 	void AddSound(const std::string& name);

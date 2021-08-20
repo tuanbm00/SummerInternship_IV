@@ -43,14 +43,10 @@ Object::~Object() {
 void Object::InitWVP()
 {
 	m_Model->setOrigin(Vector2(m_Position.x, m_Position.y));
-	Matrix Rx, Ry, Rz;
-	Matrix translationMatrix, scaleMatrix, rotationMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	rotationMatrix = Rz.SetRotationZ(m_Rotation.z * float(PI / 180.0f)) * Rx.SetRotationX(m_Rotation.x * float(PI / 180.0f)) * Ry.SetRotationY(m_Rotation.y * float(PI / 180.0f));
-	m_WorldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+	m_WorldMatrix.SetScale(m_Scale);
+	UpdateWorld();
 
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix();
 }
 
 void Object::Draw() {
@@ -92,20 +88,22 @@ void Object::Draw() {
 }
 
 void Object::Update(float deltaTime) {
-	Matrix translationMatrix, scaleMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	m_WorldMatrix = scaleMatrix * translationMatrix;
+	UpdateWorld();
 }
 
 void Object::UpdateWVP() {
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix();
+}
+
+void Object::UpdateWorld()
+{
+	m_WorldMatrix.m[3][0] = m_Position.x;
+	m_WorldMatrix.m[3][1] = m_Position.y;
+	m_WorldMatrix.m[3][2] = m_Position.z;
 }
 
 void Object::CleanUp() {
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	
 }
 
 void Object::setModel(Model* mmodel)

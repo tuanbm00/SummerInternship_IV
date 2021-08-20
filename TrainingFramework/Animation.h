@@ -1,5 +1,6 @@
 #pragma once
 #include "Vertex.h"
+#include <vector>
 #include "../Utilities/Math.h"
 
 enum AnimationType {
@@ -39,7 +40,7 @@ public:
 	bool isJump;
 	int i_frame_count;
 	int i_total_frame;
-	Vector4* m_animation;
+	std::vector<Vector4> m_animation;
 private:
 	double d_anim_cursor;
 	int i_current_frame_index;

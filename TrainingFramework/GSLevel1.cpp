@@ -34,6 +34,7 @@ void GSLevel1::Update(float deltaTime) {
 }
 
 void GSLevel1::CleanUp() {
+	ResourceManager::GetInstance()->CleanDump();
 	Singleton<SceneManager>::GetInstance()->CleanUp();
 	Singleton<SceneManager>::GetInstance()->FreeInstance();
 }

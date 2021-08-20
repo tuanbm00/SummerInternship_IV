@@ -72,10 +72,7 @@ void Boss::Update(float deltaTime)
 	//}
 
 
-	Matrix translationMatrix, scaleMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	m_WorldMatrix = scaleMatrix * translationMatrix;
+	UpdateWorld();
 }
 
 void Boss::SetLimit(float left, float right) {

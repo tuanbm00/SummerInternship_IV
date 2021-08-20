@@ -20,6 +20,10 @@ void Ground::Init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_numberOfIndices * sizeof(int), indic, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	delete[] verticesData;
+	delete[] indic;
+	vertices.clear();
+	indices.clear();
 }
 
 void Ground::Draw()
@@ -64,16 +68,13 @@ void Ground::Draw()
 
 void Ground::InitWVP()
 {
-	Matrix translation, scale;
-	translation.SetTranslation(Vector3(0, 0, 0));
-	scale.SetScale(Vector3(1, 1, 1));
-	m_WorldMatrix = scale * translation;
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WorldMatrix.SetScale(1, 1, 1);
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix();
 }
 
 void Ground::UpdateWVP()
 {
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix() * Camera::GetInstance()->GetOrthographic();
+	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix();
 }
 
 void Ground::addVertex(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH, Vector2 origin)

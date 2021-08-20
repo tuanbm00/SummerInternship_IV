@@ -2,6 +2,7 @@
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Model.h"
 #include "Vertex.h"
+#include "ResourceManager.h"
 #include <iostream>
 
 
@@ -16,6 +17,7 @@ Model::Model(Model * model) {
 	for (int i = 0; i < v.size(); i++) {
 		Animation* anim = new Animation(v[i]);
 		addAnimation(anim);
+		ResourceManager::GetInstance()->addDumpAnim(anim);
 	}
 	if(v.size() > 0) b_IsAnimation = true;
 }

@@ -448,12 +448,9 @@ void SceneManager::CleanUp() {
 	Singleton<GameplayUI>::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
-			if (m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
 			delete m_listTerrain[i][j];
 		}
 	}
-	m_MainCharacter->CleanUp();
-
 	delete m_MainCharacter->getModel();
 	delete m_MainCharacter;
 
@@ -462,24 +459,20 @@ void SceneManager::CleanUp() {
 		delete m_boss;
 	}
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
-		m_listEnemyInWorld[i]->CleanUp();
 		delete m_listEnemyInWorld[i]->getModel();
 		delete m_listEnemyInWorld[i];
 	}
 
 	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
-		m_listEnemy[i]->CleanUp();
 		delete m_listEnemy[i]->getModel();
 		delete m_listEnemy[i];
 	}
 
 	for (int i = 0; i < m_ListGunOfPlayer.size(); i++) {
-		m_ListGunOfPlayer[i]->CleanUp();
 		delete m_ListGunOfPlayer[i]->getModel();
 		delete m_ListGunOfPlayer[i];
 	}
 	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); i++) {
-		m_ListGunOfEnemy[i]->CleanUp();
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
@@ -526,7 +519,8 @@ void SceneManager::Shoot() {
 }
 
 void SceneManager::EnemyAttack(Enemy* enemy) {
-	Vector2 box = enemy->getTransBox();
+	Vector2 box = enemy->GetBox();
+	//box.x /= 2; box.y /= 2;
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	b2Vec2 posEnemy = enemy->getBody()->GetPosition();
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
@@ -534,7 +528,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		for (int i = 0; i < 3; i++) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().x / 2 * (i -1), enemy->GetBullet()->GetMaxOfLength());
-			Vector3 posBullet = Vector3(posEnemy.x+box.x, posEnemy.y+box.y, 0);
+			Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y+box.y, 0);
 
 			bullet->SetIsChange();
 			bullet->setModel(enemy->GetBullet()->getModel());
@@ -559,7 +553,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
 		}
-		Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
+		Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y + box.y, 0);
 
 		bullet->SetIsChange();
 		bullet->setModel(enemy->GetBullet()->getModel());

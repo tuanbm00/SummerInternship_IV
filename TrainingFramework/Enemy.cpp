@@ -47,10 +47,7 @@ void Enemy::Update(float deltaTime)
 	}
 	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
 	
-	Matrix translationMatrix, scaleMatrix;
-	translationMatrix.SetTranslation(m_Position);
-	scaleMatrix.SetScale(m_Scale);
-	m_WorldMatrix = scaleMatrix * translationMatrix;
+	UpdateWorld();
 }
 
 void Enemy::SetLimit(float left, float right) {

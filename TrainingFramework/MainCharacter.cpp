@@ -23,10 +23,7 @@ void MainCharacter::Update(float deltaTime)
 	Camera::GetInstance()->SetPosition(camPos);
 	Camera::GetInstance()->SetTarget(camPos.x, camPos.y, 0.0f);
 	
-	Matrix translation, scale;
-	translation.SetTranslation(m_Position);
-	scale.SetScale(m_Scale);
-	m_WorldMatrix = scale * translation;
+	UpdateWorld();
 }
 
 bool MainCharacter::isDie() {

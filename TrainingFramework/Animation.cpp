@@ -14,7 +14,7 @@ Animation::Animation(const char* filePath)
 	fscanf_s(fp, "%d %d\n", &total, &cnt);
 	i_frame_count = cnt;
 	i_total_frame = total;
-	m_animation = new Vector4[total];
+	m_animation.resize(total);
 	for (int i = 0; i < total; i++) {
 		int x, y, w, h;
 		fscanf_s(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
@@ -30,13 +30,12 @@ Animation::Animation(Animation* anim) {
 	i_current_frame_index = 0;
 	i_frame_count = anim->i_frame_count;
 	i_total_frame = anim->i_total_frame;
-	m_animation = new Vector4[i_total_frame];
+	m_animation.resize(i_total_frame);
 	for (int i = 0; i < i_total_frame; i++) m_animation[i] = anim->m_animation[i];
 }
 
 Animation::~Animation()
 {
-	delete[] m_animation;
 }
 
 void Animation::setAnimationSpeed(float newSpeed)

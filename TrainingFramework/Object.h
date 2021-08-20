@@ -46,6 +46,7 @@ public:
 	void setModel(Model* mmodel);
 	void setShader(Shaders* mshader);
 	void UpdateWVP();
+	void UpdateWorld();
 	void UpdateAnimation(float deltaTime);
 
 	void SetTexture(Texture* Texture);

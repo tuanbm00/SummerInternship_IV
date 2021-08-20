@@ -23,11 +23,7 @@ ResourceManager* ResourceManager::GetInstance()
 
 ResourceManager::~ResourceManager()
 {
-	if (s_Instance)
-	{
-		delete s_Instance;
-		s_Instance = NULL;
-	}
+	
 }
 
 void ResourceManager::Init() {
@@ -185,6 +181,11 @@ Texture* ResourceManager::GetTerrainAtID(int ID) {
 	return NULL;
 }
 
+void ResourceManager::addDumpAnim(Animation * anim)
+{
+	m_DumpAnim.push_back(anim);
+}
+
 //TruongNV - Sound Functions
 //Add Sound
 void ResourceManager::AddSound(const std::string& name)
@@ -260,5 +261,12 @@ void ResourceManager::CleanUp() {
 	}
 	for (int i = 0; i < m_Animations.size(); i++) {
 		delete m_Animations[i];
+	}
+}
+
+void ResourceManager::CleanDump()
+{
+	for (int i = 0; i < m_DumpAnim.size(); i++) {
+		delete m_DumpAnim[i];
 	}
 }

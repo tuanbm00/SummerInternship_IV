@@ -113,10 +113,7 @@ void Bullet::Update(float deltaTime)
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 	
-	Matrix translation, scale;
-	translation.SetTranslation(m_Position);
-	scale.SetScale(m_Scale);
-	m_WorldMatrix = scale * translation;
+	UpdateWorld();
 }
 
 
