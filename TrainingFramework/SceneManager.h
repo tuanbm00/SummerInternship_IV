@@ -28,7 +28,7 @@ private:
 	std::vector<Terrain*> m_ListBackground;
 	std::vector<std::vector<int>> map;
 	std::map<std::pair<int, int>, int> mapEnemy;
-	std::map<std::pair<int, int>, Enemy*> m_mapEnemy;
+	std::map<std::pair<int, int>, std::pair<int, int>> mapLimit;
 	std::vector<std::vector<int>> isInit;
 	MainCharacter* m_MainCharacter;
 	Boss* m_boss;
@@ -50,7 +50,8 @@ private:
 	bool is_roll;
 	int roll_step;
 	int keyPressed;
-	bool m_bossAppear;
+	bool m_IsBossAppear;
+	bool m_IsTowerDefend;
 
 	bool m_bIsFighting = false;
 	bool is_in_ground;

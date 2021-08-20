@@ -19,7 +19,7 @@ void GSLevel1::Init() {
 	Singleton<SceneManager>::GetInstance()->Init();
 	glEnable(GL_DEPTH_TEST);
 
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SkyCladNoKansokusha.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {

@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Camera.h"
 #include "define.h"
+#include "Globals.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
 Object::Object(int ID) {
@@ -153,8 +154,8 @@ void Object::SetScale(Vector3 Scale) {
 bool Object::checkDraw()
 {
 	Vector3 pos = Camera::GetInstance()->GetPosition();
-	if (m_Position.x <= (pos.x - 1280) || m_Position.x >= (pos.x + 1280)) return false;
-	if (m_Position.y <= (pos.y - 960) || m_Position.y >= (pos.y + 960)) return false;
+	if (m_Position.x <= (pos.x - Globals::screenWidth * 2) || m_Position.x >= (pos.x + Globals::screenWidth * 2)) return false;
+	if (m_Position.y <= (pos.y - Globals::screenHeight * 2) || m_Position.y >= (pos.y + Globals::screenHeight * 2)) return false;
 	return true;
 }
 

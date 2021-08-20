@@ -66,8 +66,8 @@ bool Enemy::isDie() {
 }
 
 bool Enemy::isAttack() {
-	if (m_time >= m_bullet->GetAttackSpeed()) {
-		//m_time = 0;
+	float scale = m_ObjectID == 4 ? 0.25 : 1;
+	if (m_time >= m_bullet->GetAttackSpeed() * scale) {
 		return true;
 	}
 	return false;

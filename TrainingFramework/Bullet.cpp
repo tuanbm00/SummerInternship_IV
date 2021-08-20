@@ -126,7 +126,12 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW*0.35, m_spriteH*0.35);
+	if (notBoss) {
+		dynamicBox.SetAsBox(m_spriteW*0.35, m_spriteH*0.35);
+	}
+	else {
+		dynamicBox.SetAsBox(m_spriteW*5, m_spriteH*5);
+	}
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = m_AttackDame;

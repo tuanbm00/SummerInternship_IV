@@ -61,6 +61,9 @@ void SceneManager::Init() {
 	
 
 	//resource
+	m_boss = NULL;
+	m_IsBossAppear = false;
+	m_IsTowerDefend = false;
 	ResourceManager::GetInstance()->Init();
 	FILE* f_SM;
 	f_SM = fopen(m_fileSM, "r+");
@@ -196,7 +199,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			m_boss->AddBulletID(bullet2);
 			m_boss->AddBulletID(bullet3);
 			m_boss->AddBulletID(bullet4);
-			m_bossAppear = false;
+			m_IsBossAppear = false;
 		}
 		else if (strcmp(type, "GUN_PLAYER") == 0) {
 			Bullet* bullet = new Bullet(ID);
@@ -308,29 +311,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fscanf_s(f_MAP, "#Enemy: %d\n", &numOfEnemy);
 	for (int i = 0; i < numOfEnemy; i++) {
 		fscanf_s(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
-		mapEnemy[{posRow, posCol}] = 1;
-		Enemy* enemy = new Enemy(id);
-		Model * emodel = new Model(m_listEnemy[id]->getModel());
-		enemy->setModel(emodel);
-		enemy->setShader(m_listEnemy[id]->getShaders());
-		enemy->SetTexture(m_listEnemy[id]->getTexture());
-		enemy->SetBulletID(m_listEnemy[id]->GetBulletID());
-		enemy->SetPosition(WIDTH*(posCol - col / 2), WIDTH*(posRow - row / 2), 0.0f);
-		enemy->SetLimit(WIDTH*(left - col / 2), WIDTH*(right - col / 2));
-		enemy->SetScale(m_listEnemy[id]->GetScale());
-		enemy->SetRotation(m_listEnemy[id]->GetRotation());
-		enemy->SetHP(m_listEnemy[id]->GetHP());
-		enemy->SetSpeed(m_listEnemy[id]->GetSpeed().x, m_listEnemy[id]->GetSpeed().y);
-		Vector2 box = m_listEnemy[id]->getTransBox();
-		enemy->setTransBox(box.x, box.y);
-		enemy->InitWVP();
-		for (int j = 0; j < m_ListGunOfEnemy.size(); j++) {
-			if (m_ListGunOfEnemy[j]->GetID() == m_listEnemy[id]->GetBulletID()) {
-				enemy->SetBullet(m_ListGunOfEnemy[j]);
-				break;
-			}
-		}
-		m_mapEnemy[{posRow, posCol}] = enemy;
+		mapEnemy[{posRow, posCol}] = id + 1;
+		mapLimit[{posRow, posCol}] = { left, right };
 	}
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < m_ListGunOfEnemy.size(); j++) {
@@ -377,7 +359,7 @@ void SceneManager::Draw() {
 			if(m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->Draw();
 	}
 //	m_listEnemy[0]->Draw();
-	if (m_bossAppear == true && m_boss != NULL) {
+	if (m_IsBossAppear == true && m_boss != NULL) {
 		m_boss->Draw();
 	}
 
@@ -402,6 +384,7 @@ void SceneManager::AddBullet(Bullet* bullet) {
 
 void SceneManager::RemoveBullet(int index) {
 	m_world->DestroyBody(m_listBulletInWorld[index]->getBody());
+	delete m_listBulletInWorld[index];
 	m_listBulletInWorld.erase(m_listBulletInWorld.begin() + index);
 }
 
@@ -466,21 +449,42 @@ void SceneManager::CleanUp() {
 	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
 			if (m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->CleanUp();
+			delete m_listTerrain[i][j];
 		}
 	}
 	m_MainCharacter->CleanUp();
-//	m_boss->CleanUp();
+
+	delete m_MainCharacter->getModel();
+	delete m_MainCharacter;
+
+	if (m_boss) {
+		delete m_boss->getModel();
+		delete m_boss;
+	}
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 		m_listEnemyInWorld[i]->CleanUp();
+		delete m_listEnemyInWorld[i]->getModel();
+		delete m_listEnemyInWorld[i];
+	}
 
+	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+		m_listEnemy[i]->CleanUp();
+		delete m_listEnemy[i]->getModel();
+		delete m_listEnemy[i];
 	}
 
 	for (int i = 0; i < m_ListGunOfPlayer.size(); i++) {
 		m_ListGunOfPlayer[i]->CleanUp();
+		delete m_ListGunOfPlayer[i]->getModel();
+		delete m_ListGunOfPlayer[i];
 	}
 	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); i++) {
 		m_ListGunOfEnemy[i]->CleanUp();
+		delete m_ListGunOfEnemy[i]->getModel();
+		delete m_ListGunOfEnemy[i];
 	}
+
+	delete m_world;
 }
 
 void SceneManager::Shoot() {
@@ -712,15 +716,41 @@ void SceneManager::Update(float deltaTime) {
 	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
-			if (mapEnemy[{i, j}] == 1) {
-				m_mapEnemy[{i, j}]->SetBodyObject(m_world);
-				AddEnemy(m_mapEnemy[{i, j}]);
+			if (mapEnemy[{i, j}] > 0) {
+				int id = mapEnemy[{i, j}] - 1;
+				int left = mapLimit[{i, j}].first;
+				int right = mapLimit[{i, j}].second;
+				int r = m_listTerrain.size();
+				int c = m_listTerrain[0].size();
+				Enemy* enemy = new Enemy(id);
+				Model * emodel = new Model(m_listEnemy[id]->getModel());
+				enemy->setModel(emodel);
+				enemy->setShader(m_listEnemy[id]->getShaders());
+				enemy->SetTexture(m_listEnemy[id]->getTexture());
+				enemy->SetBulletID(m_listEnemy[id]->GetBulletID());
+				enemy->SetPosition(WIDTH*(j - c / 2), WIDTH*(i - r / 2), 0.0f);
+				enemy->SetLimit(WIDTH*(left - c / 2), WIDTH*(right - c / 2));
+				enemy->SetScale(m_listEnemy[id]->GetScale());
+				enemy->SetRotation(m_listEnemy[id]->GetRotation());
+				enemy->SetHP(m_listEnemy[id]->GetHP());
+				enemy->SetSpeed(m_listEnemy[id]->GetSpeed().x, m_listEnemy[id]->GetSpeed().y);
+				Vector2 box = m_listEnemy[id]->getTransBox();
+				enemy->setTransBox(box.x, box.y);
+				enemy->InitWVP();
+				for (int k = 0; k < m_ListGunOfEnemy.size(); k++) {
+					if (m_ListGunOfEnemy[k]->GetID() == m_listEnemy[id]->GetBulletID()) {
+						enemy->SetBullet(m_ListGunOfEnemy[k]);
+						break;
+					}
+				}
+				enemy->SetBodyObject(m_world);
+				AddEnemy(enemy);
 				mapEnemy[{i, j}] = 0;
 			}
 		}
 	}
 
-	if (m_bossAppear == true && m_boss != NULL) {
+	if (m_IsBossAppear == true && m_boss != NULL) {
 		if (m_boss->IsMove()) {
 			m_boss->UploadSpeed();
 			m_boss->Update(deltaTime);
@@ -844,7 +874,7 @@ void SceneManager::Update(float deltaTime) {
 		}
 
 
-		if (m_bossAppear == true && m_boss != NULL) {
+		if (m_IsBossAppear == true && m_boss != NULL) {
 //			Singleton<GameplayUI>::GetInstance()->SetBoss(m_boss); //Set Boss to get info's Boss
 			m_boss->Update(deltaTime);
 			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
@@ -868,7 +898,7 @@ void SceneManager::Update(float deltaTime) {
 				}
 			}
 			if (m_boss->isDie()) {
-				m_bossAppear = false;
+				m_IsBossAppear = false;
 //				Singleton<GameplayUI>::GetInstance()->SetBossAppear(m_bossAppear);
 				m_world->DestroyBody(m_boss->getBody());
 	//			m_boss = NULL;
@@ -904,12 +934,18 @@ void SceneManager::Update(float deltaTime) {
 				}
 			}
 			if (m_listEnemyInWorld[i]->isDie()) {
+				if (m_listEnemyInWorld[i]->GetID() == 4) {
+					m_IsTowerDefend = true;
+				}
+
 				for (int j = 0; j < m_listBulletInWorld.size(); j++) {
 					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
 						m_listBulletInWorld[j]->SetTarget(NULL);
 					}
 				}
 				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
+				delete m_listEnemyInWorld[i]->getModel();
+				delete m_listEnemyInWorld[i];
 				m_listEnemyInWorld.erase(m_listEnemyInWorld.begin() + i);
 				i--;
 			}
@@ -1026,10 +1062,10 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	if (pos.x > 18400 && m_bossAppear == false) {
+	if (pos.x > 18400 && m_IsBossAppear == false && m_IsTowerDefend == true) {
 		if (m_boss) {
 			if (!m_boss->isDie()) {
-				m_bossAppear = true;
+				m_IsBossAppear = true;
 				m_boss->SetBodyObject(m_boss->GetPosition().x, m_boss->GetPosition().y, m_world);
 			}
 		}
