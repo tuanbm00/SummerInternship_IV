@@ -15,7 +15,7 @@ GameplayUI::~GameplayUI() {
 void GameplayUI::Init() {
 	//Manager Initialize
 	ResourceManager::GetInstance()->Init();
-	Singleton<TextManager>::GetInstance()->Initialize();
+	//Singleton<TextManager>::GetInstance()->Initialize();
 	char* BM = "../Resources/Managers/BM_Gameplay.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
 }

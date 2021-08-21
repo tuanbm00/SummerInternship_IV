@@ -11,6 +11,9 @@ public:
 		m_numberOfIndices = 0;
 		m_numberOfVertex = 0;
 	}
+	~Ground() {
+		delete m_texture;
+	}
 	void Init();
 	void Draw();
 	void InitWVP();

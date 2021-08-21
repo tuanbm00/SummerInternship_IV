@@ -476,7 +476,7 @@ void SceneManager::CleanUp() {
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
-
+	delete groundTest;
 	delete m_world;
 }
 
@@ -524,11 +524,11 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	b2Vec2 posEnemy = enemy->getBody()->GetPosition();
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
+	Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
 	if (enemy->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
 		for (int i = 0; i < 3; i++) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().x / 2 * (i -1), enemy->GetBullet()->GetMaxOfLength());
-			Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y+box.y, 0);
 
 			bullet->SetIsChange();
 			bullet->setModel(enemy->GetBullet()->getModel());
@@ -552,8 +552,8 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		}
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
+			if(enemy->GetBullet()->GetID() == CATEGORY_ENEMY_GUN) posBullet = Vector3(posEnemy.x, posEnemy.y+ box.y, 0);
 		}
-		Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y + box.y, 0);
 
 		bullet->SetIsChange();
 		bullet->setModel(enemy->GetBullet()->getModel());
@@ -630,7 +630,7 @@ void SceneManager::BossAttack() {
 			bullet->SetRotation(m_boss->GetBullet()->GetRotation());
 			bullet->InitWVP();
 			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
-			//	bullet->m_current_anim = m_direction;
+			bullet->m_current_anim = Idle * dir;
 
 			AddBullet(bullet);
 		}

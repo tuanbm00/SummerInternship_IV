@@ -16,7 +16,7 @@ GSMainmenu::~GSMainmenu() {
 void GSMainmenu::Init() {
 	//Manager Initialize
 	ResourceManager::GetInstance()->Init();
-	Singleton<TextManager>::GetInstance()->Initialize();
+	//Singleton<TextManager>::GetInstance()->Initialize();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_Mainmenu.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);

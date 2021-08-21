@@ -32,7 +32,7 @@ Texture* Sprite2D::getTexture() {
 
 
 Sprite2D::~Sprite2D() {
-
+	//delete m_Model;
 }
 
 void Sprite2D::CalculateWVP()
@@ -97,9 +97,9 @@ void Sprite2D::Update(float deltaTime) {
 }
 
 void Sprite2D::CleanUp() {
-	glDisable(GL_CULL_FACE);
+	/*glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	glDisable(GL_BLEND);*/
 }
 
 void Sprite2D::setModel(Models* mmodel)

@@ -11,8 +11,7 @@ Models::Models(int ID, char* srcModel) {
 }
 
 Models::~Models() {
-	delete[] verticesData;
-	delete[] indices;
+	
 }
 
 
@@ -66,6 +65,8 @@ int Models::LoadModel(char * srcModel)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	fclose(f_M);
+	delete[] verticesData;
+	delete[] indices;
 	return 0;
 }
 

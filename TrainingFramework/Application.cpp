@@ -41,7 +41,7 @@ void Application::Render()
 {
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Draw();
-	static float framesPerSecond = 0.0f;
+	/*static float framesPerSecond = 0.0f;
 	static int fps;
 	static float lastTime = 0.0f;
 	float currentTime = GetTickCount() * 0.001f;
@@ -58,7 +58,7 @@ void Application::Render()
 	strcat_s(s, buffer);
 
 
-	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 860.0f, 700.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 860.0f, 700.0f, 1.0f, 1.0f);*/
 }
 
 

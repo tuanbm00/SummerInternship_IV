@@ -9,7 +9,6 @@ ButtonManager::ButtonManager(char* srcButton) {
 }
 
 ButtonManager::~ButtonManager() {
-
 }
 
 int ButtonManager::ReadFile(char* srcButton) {

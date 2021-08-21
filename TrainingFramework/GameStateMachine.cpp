@@ -70,8 +70,8 @@ void  GameStateMachine::PerformStateChange()
 	{
 		// cleanup the current state
 		if (!m_StatesStack.empty()) {
-			//m_StatesStack.back()->CleanUp();
-			//delete states.back();
+			m_StatesStack.back()->CleanUp();
+			//delete m_StatesStack.back();
 			//states.pop_back();
 		}
 
