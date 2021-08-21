@@ -38,42 +38,12 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 	initOrtho();
 }
 
-void Camera::Update(float deltaTime, float posX, float posY, bool flag, int direction) {
-	m_bIsChange = false;
+void Camera::Update(float deltaTime, float posX, float posY,int direction) {
+	posY -= 500;
 	posX += 500 * direction;
-	posY += 200;
-	float x = m_Position.x - 200, w = m_Position.x + 200, y = m_Position.y + 720;
-	if (flag) {
-		if (y > posY) {
-			m_Position.y -= m_fVelocityY * deltaTime;
-			m_fVelocityY += 10;
-			if (m_Position.y + 720 < posY) m_Position.y = posY - 720;
-			m_bIsChange = true;
-		}
-		else if (y < posY) {
-			m_Position.y += m_fVelocityY * deltaTime;
-			m_fVelocityY += 10;
-			if (m_Position.y + 720 > posY) m_Position.y = posY - 720;
-			m_bIsChange = true;
-		}
-	}
-	else {
-		m_fVelocityY = 200.0f;
-	}
-	if (x > posX) {
-		m_Position.x -= m_fVelocityX * deltaTime;
-		m_fVelocityX *= 1.25f;
-		m_bIsChange = true;
-	}
-	else if (w < posX) {
-		m_Position.x += m_fVelocityX * deltaTime;
-		m_fVelocityX *= 1.25f;
-		m_bIsChange = true;
-	}
-	else m_fVelocityX = 1.0f;
-	
-	if (m_fVelocityX > CAM_MAX_SPEED) m_fVelocityX = CAM_MAX_SPEED;
-	if (m_bIsChange) updateView(m_Position.x, m_Position.y);
+	m_Position.x += (posX - m_Position.x)*deltaTime;
+	m_Position.y += (posY - m_Position.y)*deltaTime;
+	updateView(m_Position.x, m_Position.y);
 }
 
 Matrix Camera::GetViewMatrix() {

@@ -700,7 +700,7 @@ void SceneManager::Update(float deltaTime) {
 	}
 	static const double step = 1.0 / 70.0;
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
-	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, is_in_ground, m_direction);
+	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
 	 int row = Globals::screenHeight / WIDTH * 2 + 1;
 	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;

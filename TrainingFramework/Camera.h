@@ -30,7 +30,7 @@ public:
 	Matrix GetViewMatrix();
 
 	void Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed);
-	void Update(float deltaTime, float posX, float posY,bool flag, int direction);
+	void Update(float deltaTime, float posX, float posY,int direction);
 	void CleanUp();
 	bool is_shoot;
 	bool is_wound;
