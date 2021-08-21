@@ -13,16 +13,11 @@ float MainCharacter::GetHP() {
 
 void MainCharacter::Update(float deltaTime)
 {
-	m_Position.x = m_body->GetPosition().x;
-	m_Position.y = m_body->GetPosition().y;
-	Vector3 camPos = Camera::GetInstance()->GetPosition();
-	int Y = camPos.y-m_Position.y;
-	camPos.x = m_Position.x;
-	if (Y > 500) camPos.y = m_Position.y + 500;
-	if (Y < -500) camPos.y = m_Position.y - 500;
-	Camera::GetInstance()->SetPosition(camPos);
-	Camera::GetInstance()->SetTarget(camPos.x, camPos.y, 0.0f);
+	b2Vec2 pos = m_body->GetPosition();
 	
+	m_Position.x = pos.x;
+	m_Position.y = pos.y;
+		
 	UpdateWorld();
 }
 

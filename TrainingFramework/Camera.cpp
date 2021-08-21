@@ -3,13 +3,14 @@
 #include "Camera.h"
 #include "Globals.h"
 #include "define.h"
+#define CAM_MAX_SPEED 600
 
 Camera* Camera::s_Instance = NULL;
 
 Camera::Camera(void)
 {
 	m_ViewMatrix.SetZero();
-	m_bIsChange = true;
+	m_bIsChange = false;
 	i_state = 0;
 	is_shoot = false;
 	is_wound = false;
@@ -32,13 +33,47 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 	m_FOV = FOV;
 	m_Near = Near;
 	m_Far = Far;
+	m_fVelocityX = 1.0f;
+	m_fVelocityY = 200.0f;
 	initOrtho();
-	initView();
 }
 
-void Camera::Update(float deltaTime) {
-
+void Camera::Update(float deltaTime, float posX, float posY, bool flag, int direction) {
+	m_bIsChange = false;
+	posX += 500 * direction;
+	posY += 200;
+	float x = m_Position.x - 200, w = m_Position.x + 200, y = m_Position.y + 720;
+	if (flag) {
+		if (y > posY) {
+			m_Position.y -= m_fVelocityY * deltaTime;
+			m_fVelocityY += 10;
+			if (m_Position.y + 720 < posY) m_Position.y = posY - 720;
+			m_bIsChange = true;
+		}
+		else if (y < posY) {
+			m_Position.y += m_fVelocityY * deltaTime;
+			m_fVelocityY += 10;
+			if (m_Position.y + 720 > posY) m_Position.y = posY - 720;
+			m_bIsChange = true;
+		}
+	}
+	else {
+		m_fVelocityY = 200.0f;
+	}
+	if (x > posX) {
+		m_Position.x -= m_fVelocityX * deltaTime;
+		m_fVelocityX *= 1.25f;
+		m_bIsChange = true;
+	}
+	else if (w < posX) {
+		m_Position.x += m_fVelocityX * deltaTime;
+		m_fVelocityX *= 1.25f;
+		m_bIsChange = true;
+	}
+	else m_fVelocityX = 1.0f;
 	
+	if (m_fVelocityX > CAM_MAX_SPEED) m_fVelocityX = CAM_MAX_SPEED;
+	if (m_bIsChange) updateView(m_Position.x, m_Position.y);
 }
 
 Matrix Camera::GetViewMatrix() {
@@ -65,7 +100,6 @@ void Camera::SetTarget(Vector3 Target) {
 
 void Camera::SetTarget(float X, float Y, float Z) {
 	m_Target = Vector3(X, Y, Z);
-	initView();
 }
 
 Vector3 Camera::GetTarget() {
@@ -74,29 +108,24 @@ Vector3 Camera::GetTarget() {
 
 void Camera::initView()
 {
-	Vector3 xaxis, yaxis, zaxis;
-	zaxis = (m_Position - m_Target).Normalize();
-	xaxis = (m_Up.Cross(zaxis)).Normalize();
-	yaxis = (zaxis.Cross(xaxis)).Normalize();
-
-	m_ViewMatrix.m[0][0] = xaxis.x;
-	m_ViewMatrix.m[0][1] = yaxis.x;
-	m_ViewMatrix.m[0][2] = zaxis.x;
+	m_ViewMatrix.m[0][0] = 1;
+	m_ViewMatrix.m[0][1] = 0;
+	m_ViewMatrix.m[0][2] = 0;
 	m_ViewMatrix.m[0][3] = 0;
 
-	m_ViewMatrix.m[1][0] = xaxis.y;
-	m_ViewMatrix.m[1][1] = yaxis.y;
-	m_ViewMatrix.m[1][2] = zaxis.y;
+	m_ViewMatrix.m[1][0] = 0;
+	m_ViewMatrix.m[1][1] = 1;
+	m_ViewMatrix.m[1][2] = 0;
 	m_ViewMatrix.m[1][3] = 0;
 
-	m_ViewMatrix.m[2][0] = xaxis.z;
-	m_ViewMatrix.m[2][1] = yaxis.z;
-	m_ViewMatrix.m[2][2] = zaxis.z;
+	m_ViewMatrix.m[2][0] = 0;
+	m_ViewMatrix.m[2][1] = 0;
+	m_ViewMatrix.m[2][2] = 1;
 	m_ViewMatrix.m[2][3] = 0;
 
-	m_ViewMatrix.m[3][0] = -m_Position.Dot(xaxis);
-	m_ViewMatrix.m[3][1] = -m_Position.Dot(yaxis);
-	m_ViewMatrix.m[3][2] = -m_Position.Dot(zaxis);
+	m_ViewMatrix.m[3][0] = -m_Position.x;
+	m_ViewMatrix.m[3][1] = -m_Position.y;
+	m_ViewMatrix.m[3][2] = -m_Position.z;
 	m_ViewMatrix.m[3][3] = 1;
 	m_ViewMatrix = m_ViewMatrix * Omatrix;
 }
@@ -127,6 +156,12 @@ void Camera::initOrtho()
 	Omatrix.m[3][1] = 0;
 	Omatrix.m[3][2] = 0;
 	Omatrix.m[3][3] = 1;
+}
+
+void Camera::updateView(float x, float y)
+{
+	m_ViewMatrix.m[3][0] = -x * Omatrix.m[0][0];
+	m_ViewMatrix.m[3][1] = -y * Omatrix.m[1][1];
 }
 
 void Camera::SetPosition(float X, float Y, float Z) {

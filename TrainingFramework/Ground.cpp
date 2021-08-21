@@ -74,7 +74,9 @@ void Ground::InitWVP()
 
 void Ground::UpdateWVP()
 {
-	m_WVP = m_WorldMatrix * Camera::GetInstance()->GetViewMatrix();
+	Matrix ma = Camera::GetInstance()->GetViewMatrix();
+	m_WVP.m[3][0] = m_WorldMatrix.m[3][0] * ma.m[0][0] + ma.m[3][0];
+	m_WVP.m[3][1] = m_WorldMatrix.m[3][1] * ma.m[1][1] + ma.m[3][1];
 }
 
 void Ground::addVertex(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH, Vector2 origin)

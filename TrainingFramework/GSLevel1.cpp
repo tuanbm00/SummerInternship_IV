@@ -19,7 +19,7 @@ void GSLevel1::Init() {
 	Singleton<SceneManager>::GetInstance()->Init();
 	glEnable(GL_DEPTH_TEST);
 
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
@@ -42,7 +42,7 @@ void GSLevel1::CleanUp() {
 void GSLevel1::Resume() {
 	//Init();
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
+	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
 }
 
 void GSLevel1::Pause() {

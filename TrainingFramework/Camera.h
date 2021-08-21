@@ -10,7 +10,6 @@ private:
 	static Camera* s_Instance;
 	float m_FOV, m_Near, m_Far;
 	bool m_bIsChange;
-	bool m_bIsChangePers;
 	
 	Vector3 m_Up;
 	Vector3 m_Target;
@@ -19,8 +18,8 @@ private:
 
 	Matrix m_ViewMatrix;
 	Matrix Omatrix;
-
-	int keyPressed = 0;
+	float m_fVelocityX;
+	float m_fVelocityY;
 public:
 	GLuint iboId;
 	Camera();
@@ -31,7 +30,7 @@ public:
 	Matrix GetViewMatrix();
 
 	void Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed);
-	void Update(float deltaTime);
+	void Update(float deltaTime, float posX, float posY,bool flag, int direction);
 	void CleanUp();
 	bool is_shoot;
 	bool is_wound;
@@ -39,6 +38,7 @@ public:
 
 	void initView();
 	void initOrtho();
+	void updateView(float x, float y);
 	void SetPosition(float X, float Y, float Z);
 	void SetPosition(float X, float Y);
 	void SetPosition(Vector3 Position);
