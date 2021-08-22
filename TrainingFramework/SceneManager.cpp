@@ -749,7 +749,7 @@ void SceneManager::Update(float deltaTime) {
 				Healthy* whiteHp = new Healthy(0);
 				whiteHp->setModel(modelHP);
 				whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				whiteHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(22));
+				whiteHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(27));
 				whiteHp->SetPosition(enemy->GetPosition());
 				whiteHp->SetOriginScale(1, 1, 1);
 				whiteHp->SetRotation(enemy->GetRotation());
@@ -757,7 +757,7 @@ void SceneManager::Update(float deltaTime) {
 				Healthy* redHp = new Healthy(1);
 				redHp->setModel(modelHP);
 				redHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				redHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(23));
+				redHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(28));
 				redHp->SetPosition(enemy->GetPosition());
 				redHp->SetOriginScale(1, 1, 1);
 				redHp->SetRotation(enemy->GetRotation());
