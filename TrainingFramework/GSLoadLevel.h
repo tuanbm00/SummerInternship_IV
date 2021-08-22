@@ -5,6 +5,7 @@ class GSLoadLevel :
 {
 	std::shared_ptr<ButtonManager> m_BM;
 	std::shared_ptr<Sprite2D> m_Background;
+	std::shared_ptr<Sprite2D> m_Frame;
 public:
 	GSLoadLevel(void);
 	~GSLoadLevel(void);

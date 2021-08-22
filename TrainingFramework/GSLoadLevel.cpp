@@ -16,35 +16,44 @@ GSLoadLevel::~GSLoadLevel() {
 void GSLoadLevel::Init() {
 	//Manager Initialize
 	ResourceManager::GetInstance()->Init();
-	//Singleton<TextManager>::GetInstance()->Initialize();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_LOADLEVEL.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
 
+	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
 	m_Background->setModel(model);
 	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
 	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
 	m_Background->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
 
-
+	//Frame Initialize
+	m_Frame = std::make_shared<Sprite2D>(0);
+	m_Frame->setModel(model);
+	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(26));
+	m_Frame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	m_Frame->SetSize(Globals::screenWidth/2, Globals::screenHeight/2);
 }
 
 void GSLoadLevel::Draw() {
 	m_Background->Draw();
+	m_Frame->Draw();
 	m_BM->Draw();
 }
 
 void GSLoadLevel::Update(float deltaTime) {
 	m_Background->Update(deltaTime);
+	m_Frame->Update(deltaTime);
 	m_BM->Update(deltaTime);
 }
 
 void GSLoadLevel::CleanUp() {
 	m_Background->CleanUp();
+	m_Frame->CleanUp();
 	m_BM->CleanUp();
 
 }

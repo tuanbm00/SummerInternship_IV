@@ -84,7 +84,7 @@ ID 27
 FILE ../Resources/Animation/turret.txt
 SPEED 0.1 -1
 
-#2D Textures: 29
+#2D Textures: 30
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -138,11 +138,13 @@ FILE ../Resources/Textures/Levels/3.tga
 ID 25
 FILE ../Resources/Textures/Levels/4.tga
 ID 26
-FILE ../Resources/Textures/Buttons/button_menu2.tga
+FILE ../Resources/Textures/Levels/frame.tga
 ID 27
 FILE ../Resources/Textures/white.tga
 ID 28
 FILE ../Resources/Textures/red.tga
+ID 29
+FILE ../Resources/Textures/Buttons/button_menu2.tga
 
 #Background: 1
 ID 0

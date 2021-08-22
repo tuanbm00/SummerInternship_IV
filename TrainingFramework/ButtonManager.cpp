@@ -109,6 +109,14 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			}
 		});
 	}
+	else if (strcmp(type, "POPSTATE") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				if(GameStateMachine::GetInstance()->GetIsCanPop())
+				GameStateMachine::GetInstance()->PopState();
+			}
+		});
+	}
 	else if (strcmp(type, "EXIT") == 0) {
 		button->SetOnClick([]() {
 			exit(0);
