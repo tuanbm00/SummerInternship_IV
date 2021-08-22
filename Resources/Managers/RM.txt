@@ -84,7 +84,7 @@ ID 27
 FILE ../Resources/Animation/turret.txt
 SPEED 0.1 -1
 
-#2D Textures: 22
+#2D Textures: 27
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -129,6 +129,16 @@ ID 20
 FILE ../Resources/TexturesAnimation/enemybullet2.tga
 ID 21
 FILE ../Resources/Textures/Turret.tga
+ID 22
+FILE ../Resources/Textures/Levels/1.tga
+ID 23
+FILE ../Resources/Textures/Levels/2.tga
+ID 24
+FILE ../Resources/Textures/Levels/3.tga
+ID 25
+FILE ../Resources/Textures/Levels/4.tga
+ID 26
+FILE ../Resources/Textures/Buttons/button_menu2.tga
 
 #Background: 1
 ID 0

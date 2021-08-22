@@ -67,10 +67,45 @@ void ButtonManager::Draw()
 }
 
 void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) {
-	if (strcmp(type, "LEVEL1") == 0) {
+	if (strcmp(type, "MAINMENU") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
+			}
+		});
+	}
+	else if (strcmp(type, "LOADLEVEL") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LOADLEVEL);
+			}
+		});
+	}
+	else if (strcmp(type, "LEVEL1") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
+			}
+		});
+	}
+	else if (strcmp(type, "LEVEL2") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
+			}
+		});
+	}
+	else if (strcmp(type, "LEVEL3") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
+			}
+		});
+	}
+	else if (strcmp(type, "LEVEL4") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 			}
 		});
 	}
