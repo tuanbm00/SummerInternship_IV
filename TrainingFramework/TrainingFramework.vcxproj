@@ -110,6 +110,7 @@
     <ClCompile Include="GSLevel1.cpp" />
     <ClCompile Include="GSLevel2.cpp" />
     <ClCompile Include="GSMainmenu.cpp" />
+    <ClCompile Include="Healthy.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Models.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="GSLevel2.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GSMainmenu.h" />
+    <ClInclude Include="Healthy.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Models.h" />

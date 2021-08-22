@@ -93,6 +93,7 @@ void Object::Update(float deltaTime) {
 
 void Object::UpdateWVP() {
 	Matrix ma = Camera::GetInstance()->GetViewMatrix();
+	m_WVP.m[0][0] = m_Scale.x * ma.m[0][0];
 	m_WVP.m[3][0] = m_WorldMatrix.m[3][0] * ma.m[0][0] + ma.m[3][0];
 	m_WVP.m[3][1] = m_WorldMatrix.m[3][1] * ma.m[1][1] + ma.m[3][1];
 }

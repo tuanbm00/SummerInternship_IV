@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Globals.h"
 #include "GameplayUI.h"
+#include "Healthy.h"
 
 
 SceneManager::SceneManager()
@@ -178,10 +179,11 @@ void SceneManager::ReadFile(FILE* f_SM)
 			enemy->SetPosition(Position);
 			enemy->SetScale(Scale);
 			enemy->SetRotation(Rotation);
-			enemy->SetHP(hp);
+			enemy->SetMaxHP(hp);
 			enemy->SetSpeed(speedx, speedy);
 			enemy->setTransBox(b1, b2);
 			enemy->InitWVP();
+
 			m_listEnemy.push_back(enemy);
 		}
 		else if (strcmp(type, "BOSS") == 0) {
@@ -355,8 +357,11 @@ void SceneManager::Draw() {
 		m_ListGunOfPlayer[i]->Draw();
 	}
 
-	for (int i = 0; i < (int) m_listEnemyInWorld.size(); i++) {
-			if(m_listEnemyInWorld[i]->checkDraw()) m_listEnemyInWorld[i]->Draw();
+	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+		if (m_listEnemyInWorld[i]->checkDraw()) {
+			m_listEnemyInWorld[i]->Draw();
+			m_listEnemyInWorld[i]->DrawHP();
+		}
 	}
 //	m_listEnemy[0]->Draw();
 	if (m_IsBossAppear == true && m_boss != NULL) {
@@ -727,7 +732,7 @@ void SceneManager::Update(float deltaTime) {
 				enemy->SetLimit(WIDTH*(left - c / 2), WIDTH*(right - c / 2));
 				enemy->SetScale(m_listEnemy[id]->GetScale());
 				enemy->SetRotation(m_listEnemy[id]->GetRotation());
-				enemy->SetHP(m_listEnemy[id]->GetHP());
+				enemy->SetMaxHP(m_listEnemy[id]->GetHP());
 				enemy->SetSpeed(m_listEnemy[id]->GetSpeed().x, m_listEnemy[id]->GetSpeed().y);
 				Vector2 box = m_listEnemy[id]->getTransBox();
 				enemy->setTransBox(box.x, box.y);
@@ -738,6 +743,28 @@ void SceneManager::Update(float deltaTime) {
 						break;
 					}
 				}
+				// set HP texture
+				Model* modelHP = new Model();
+				modelHP->InitSprite(0, 0, 180, 18, 180, 18, false);
+				Healthy* whiteHp = new Healthy(0);
+				whiteHp->setModel(modelHP);
+				whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+				whiteHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(22));
+				whiteHp->SetPosition(enemy->GetPosition());
+				whiteHp->SetOriginScale(1, 1, 1);
+				whiteHp->SetRotation(enemy->GetRotation());
+				whiteHp->InitWVP();
+				Healthy* redHp = new Healthy(1);
+				redHp->setModel(modelHP);
+				redHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+				redHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(23));
+				redHp->SetPosition(enemy->GetPosition());
+				redHp->SetOriginScale(1, 1, 1);
+				redHp->SetRotation(enemy->GetRotation());
+				redHp->InitWVP();
+
+				enemy->SetHPTexture(whiteHp);
+				enemy->SetHPTexture(redHp, false);
 				enemy->SetBodyObject(m_world);
 				AddEnemy(enemy);
 				mapEnemy[{i, j}] = 0;

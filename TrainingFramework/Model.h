@@ -22,7 +22,7 @@ public:
 	Model();
 	Model(Model * model);
 	~Model();
-	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH);
+	void InitSprite(float spriteX, float SpriteY, float SpriteW, float SpriteH, float TextureW, float TextureH, bool isNotHP = true);
 	void setOrigin(Vector2 ori);
 	void addAnimation(Animation* anm);
 	void updateAnimation(float deltaTime, int type);

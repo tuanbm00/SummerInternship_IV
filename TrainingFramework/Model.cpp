@@ -25,13 +25,18 @@ Model::Model(Model * model) {
 Model::~Model() {
 }
 
-void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH)
+void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH, bool isNotHP)
 {
 	m_posX = spriteX; m_posY = spriteY; m_spriteW = spriteW; m_spriteH = spriteH;
 	m_textureH = textureH; m_textureW = textureW;
 	m_NumberOfVertices = 4;
 	Vertex verticesData[4];
-	origin = Vector2((m_posX + m_spriteW) / 2, (m_posY + m_spriteH) / 2);
+	if (isNotHP) {
+		origin = Vector2((m_posX + m_spriteW) / 2, (m_posY + m_spriteH) / 2);
+	}
+	else {
+		origin = Vector2(0, 0);
+	}
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
 	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
