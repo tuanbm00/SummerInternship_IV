@@ -3,6 +3,7 @@
 #include "GSMainmenu.h"
 #include "GSLevel1.h"
 #include "GSLevel2.h"
+#include "GSLoadLevel.h"
 
 
 std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
@@ -17,6 +18,9 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 		break;
 	case GS_MAINMENU:
 		gs = std::make_shared<GSMainmenu>();
+		break;
+	case GS_LOADLEVEL:
+		gs = std::make_shared<GSLoadLevel>();
 		break;
 	case GS_LEVEL1:
 		gs = std::make_shared<GSLevel1>();
