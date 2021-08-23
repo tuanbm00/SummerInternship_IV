@@ -4,7 +4,17 @@
 
 
 void MainCharacter::SetHP(float hp) {
-	m_HP = hp;
+	if (hp > m_MaxHP) {
+		m_HP = m_MaxHP;
+	}
+	else if (hp < 0) {
+		m_HP = 0;
+	}
+	else {
+		m_HP = hp;
+	}
+	Vector3 scale = m_redHp->GetScale();
+
 	if (hp < 0) {
 		m_redHp->SetScale(0);
 	}

@@ -1037,6 +1037,7 @@ void SceneManager::Update(float deltaTime) {
 							}
 						}
 						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
 							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
 							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
 							Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
@@ -1068,6 +1069,7 @@ void SceneManager::Update(float deltaTime) {
 							}
 						}
 						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
 							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
 							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
 							Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
