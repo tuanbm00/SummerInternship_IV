@@ -17,6 +17,7 @@ void GameplayUI::Init() {
 	//Singleton<TextManager>::GetInstance()->Initialize();
 	char* BM = "../Resources/Managers/BM_Gameplay.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
+
 }
 
 void GameplayUI::DrawGameOver() {
@@ -31,10 +32,10 @@ void GameplayUI::Draw() {
 	Singleton<TextManager>::GetInstance()->RenderString(mainHP, Vector4(0.0f, 1.0f, 0.0f), 10.0f, 700.0f, 1.0f, 1.0f);
 
 	
-	Singleton<TextManager>::GetInstance()->RenderString(bullet1, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 650.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString(bullet1, Vector4(0.0f, 1.0f, 1.0f), 100.0f, 650.0f, 1.0f, 1.0f);
 
 	
-	Singleton<TextManager>::GetInstance()->RenderString(bullet2, Vector4(0.0f, 1.0f, 1.0f), 50.0f, 610.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString(bullet2, Vector4(0.0f, 1.0f, 1.0f), 100.0f, 610.0f, 1.0f, 1.0f);
 	//Boss
 	//if (m_pBossAppear == true) {
 	//	_itoa(m_Boss->GetHP(), buffer, 10);

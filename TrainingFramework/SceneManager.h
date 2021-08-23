@@ -10,7 +10,6 @@
 #include"box2d/b2_polygon_shape.h"
 #include "Object.h"
 #include "MainCharacter.h"
-#include "NPC.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Terrain.h"
@@ -37,6 +36,7 @@ private:
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
+	Object * mainIcon;
 
 	b2Filter filterMain, filterRoll;
 	int m_direction;

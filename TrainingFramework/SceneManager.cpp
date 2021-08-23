@@ -60,7 +60,7 @@ void SceneManager::Init() {
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
 	
-
+	
 	//resource
 	m_boss = NULL;
 	m_IsBossAppear = false;
@@ -75,7 +75,19 @@ void SceneManager::Init() {
 	if (f_MAP != NULL) {
 		this->ReadMap(f_MAP);
 	}
-
+	//
+	mainIcon = new Object(101);
+	Model * ppmodel = new Model();
+	ppmodel->InitSprite(0, 0, 50, 50, 200, 100);
+	ppmodel->b_IsAnimation = true;
+	ppmodel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(28));
+	mainIcon->setModel(ppmodel);
+	mainIcon->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(31));
+	mainIcon->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+	mainIcon->SetPosition(0, 0, 0);
+	mainIcon->SetScale(3, 3, 1);
+	mainIcon->m_current_anim = 1;
+	mainIcon->InitWVP();
 	Singleton<GameplayUI>::GetInstance()->Init(); //Init GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetMainCharacter(m_MainCharacter); //Set MainCharacter to show information's MC
 }
@@ -374,8 +386,10 @@ void SceneManager::Draw() {
 	}
 
 	Vector3 pos = Camera::GetInstance()->GetPosition();
-	m_ListGunOfPlayer[0]->SetPosition(pos.x - 1220, pos.y - 800, 0);
-	m_ListGunOfPlayer[1]->SetPosition(pos.x - 1220, pos.y - 700, 0);
+	m_ListGunOfPlayer[0]->SetPosition(pos.x - 1090, pos.y - 800, 0);
+	m_ListGunOfPlayer[1]->SetPosition(pos.x - 1090, pos.y - 700, 0);
+	mainIcon->SetPosition(pos.x - 1200, pos.y - 750, 0);
+	mainIcon->Draw();
 	for (int i = 0; i < 2; i++) {
 		m_ListGunOfPlayer[i]->m_current_anim = 0;
 		m_ListGunOfPlayer[i]->getModel()->resetTexture();
@@ -508,6 +522,8 @@ void SceneManager::CleanUp() {
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
+	delete mainIcon->getModel();
+	delete mainIcon;
 	delete groundTest;
 	delete m_world;
 }
@@ -850,6 +866,7 @@ void SceneManager::Update(float deltaTime) {
 	}
 	
 	// set update
+	mainIcon->UpdateAnimation(deltaTime);
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	m_MainCharacter->UpdateAnimation(deltaTime);
 	m_boss->m_direction = (m_boss->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;

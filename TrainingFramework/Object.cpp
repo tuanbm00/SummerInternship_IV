@@ -88,6 +88,8 @@ void Object::Draw() {
 }
 
 void Object::Update(float deltaTime) {
+	m_Position.x = Camera::GetInstance()->GetPosition().x;
+	m_Position.y = Camera::GetInstance()->GetPosition().y;
 	UpdateWorld();
 }
 
@@ -131,10 +133,7 @@ Shaders* Object::getShaders() {
 
 void Object::SetPosition(float X, float Y, float Z) {
 	m_Position = Vector3(X, Y, Z);
-	Matrix translation, scale;
-	translation.SetTranslation(m_Position);
-	scale.SetScale(m_Scale);
-	m_WorldMatrix = scale * translation;
+	UpdateWorld();
 }
 
 void Object::SetPosition(Vector3 Position) {

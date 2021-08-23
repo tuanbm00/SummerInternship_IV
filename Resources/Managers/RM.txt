@@ -1,4 +1,4 @@
-#Animations: 28
+#Animations: 29
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -83,8 +83,11 @@ SPEED 0.1 -1
 ID 27
 FILE ../Resources/Animation/turret.txt
 SPEED 0.1 -1
+ID 28
+FILE ../Resources/Animation/mainicon.txt
+SPEED 0.1 -1
 
-#2D Textures: 31
+#2D Textures: 32
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -147,6 +150,8 @@ ID 29
 FILE ../Resources/Textures/red.tga
 ID 30
 FILE ../Resources/Textures/bossicon.tga
+ID 31
+FILE ../Resources/Textures/mainicon.tga
 
 #Background: 2
 ID 0
