@@ -284,8 +284,16 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	}
 	fclose(fp);
 	char filetex[20];
-	if (Camera::GetInstance()->i_state == 1) strcpy_s(filetex, "../mapT2.tga");
-	if (Camera::GetInstance()->i_state == 2) strcpy_s(filetex, "../mapT.tga");
+	float tw = 0, th = 0;
+	if (Camera::GetInstance()->i_state == 1) {
+		strcpy_s(filetex, "../mapT2.tga");
+		tw = 3200.0f; th = 400.0f;
+	}
+	if (Camera::GetInstance()->i_state == 2) {
+		strcpy_s(filetex, "../mapT.tga");
+		tw = 3200.0f;
+		th = 1200.0f;
+	}
 	Texture * texx = new Texture(99, filetex);
 	texx->Init();
 	groundTest->setTexture(texx);
@@ -312,11 +320,11 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 				if (xi <= 15) {
 					terrain->SetBodyObject(WIDTH, WIDTH, m_world);
 				}
-				else {
+				else if(xi <= 19){
 					terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
 				}
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
-				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, 3200.0f, 400.0f, origin);
+				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, tw, th, origin);
 			}
 			isLine.push_back(0);
 			lineMap.push_back(terrain);
