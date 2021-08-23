@@ -1,11 +1,15 @@
 #pragma once
 #include "Object.h"
+#include "Healthy.h"
 class MainCharacter :
     public Object
 {
 private:
     float m_HP;
+	float m_MaxHP;
 	b2Vec2 m_PrevPos;
+	Healthy* m_whiteHp;
+	Healthy* m_redHp;
 	bool m_CameraChange;
 public:
     MainCharacter(int ID) : Object(ID) {
@@ -14,6 +18,7 @@ public:
 		m_CameraChange = false;
 	}
 	void SetHP(float hp);
+	void SetMaxHP(float hp);
 	float GetHP();
 	bool isDie();
 	void playDead(float deltaTime);
@@ -21,6 +26,7 @@ public:
 	void SetBodyObject(float positionX, float positionY, b2World* world);
 	void resetAnimation(int type);
 	void resetGun();
-
+	void SetHPTexture(Healthy* healthy, bool isWhite = true);
+	void DrawHP();
 };
 

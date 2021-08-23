@@ -54,6 +54,7 @@ void Enemy::Update(float deltaTime)
 	
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
+
 	float scalew =  90;
 	float scaleh = 40;
 	if (m_ObjectID == 0) {

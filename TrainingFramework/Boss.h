@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Bullet.h"
+#include "Healthy.h"
 
 class Boss :
 	public Object
@@ -20,6 +21,9 @@ private:
 	int m_num;
 	b2Body* m_target;
 	std::vector<Bullet*> m_listBullet;
+	Healthy* m_whiteHp;
+	Healthy* m_redHp;
+	Healthy* m_bossIcon;
 public:
 	int m_direction;
 	Boss(int ID) : Object(ID) {
@@ -49,5 +53,8 @@ public:
 	void SwapGun();
 	void SetBodyObject(float positionX, float positionY, b2World* world);
 
+	void SetIcon(Healthy* icon);
+	void SetHPTexture(Healthy* healthy, bool isWhite = true);
+	void DrawHP();
 	Bullet* GetBullet();
 };

@@ -4,6 +4,14 @@
 
 void Boss::SetHP(float hp) {
 	m_HP = hp;
+	Vector3 scale = m_redHp->GetScale();
+	if (hp < 0) {
+		m_redHp->SetScale(0, scale.y, scale.z);
+	}
+	else {
+		float scalex = m_HP / m_MaxHP * m_redHp->GetScaleX();
+		m_redHp->SetScale(scalex, scale.y, scale.z);
+	}
 }
 
 void Boss::SetMaxHP(float maxhp) {
@@ -67,10 +75,13 @@ void Boss::Update(float deltaTime)
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 
-	//if (m_Position.y <= m_high || m_Position.y >= m_low) {
-	//	m_body->SetLinearVelocity(b2Vec2(0, 0));
-	//}
+	Vector3 posCamera = Camera::GetInstance()->GetPosition();
+	float scalew = 500;
+	float scaleh = 600;
 
+	m_bossIcon->SetPosition(posCamera.x - scalew, posCamera.y - scaleh - 100, posCamera.z);
+	m_whiteHp->SetPosition(posCamera.x - scalew, posCamera.y - scaleh, posCamera.z);
+	m_redHp->SetPosition(posCamera.x - scalew, posCamera.y - scaleh, m_Position.z);
 
 	UpdateWorld();
 }
@@ -142,4 +153,23 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 
 Bullet* Boss::GetBullet() {
 	return m_listBullet[0];
+}
+
+void Boss::SetIcon(Healthy* icon) {
+	m_bossIcon = icon;
+}
+
+void Boss::SetHPTexture(Healthy* healthy, bool isWhite) {
+	if (isWhite) {
+		m_whiteHp = healthy;
+	}
+	else {
+		m_redHp = healthy;
+	}
+}
+
+void Boss::DrawHP() {
+	m_whiteHp->Draw();
+	m_redHp->Draw();
+	m_bossIcon->Draw();
 }

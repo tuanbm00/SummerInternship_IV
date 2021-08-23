@@ -5,6 +5,19 @@
 
 void MainCharacter::SetHP(float hp) {
 	m_HP = hp;
+	Vector3 scale = m_redHp->GetScale();
+	if (hp < 0) {
+		m_redHp->SetScale(0, scale.y, scale.z);
+	}
+	else {
+		float scalex = m_HP / m_MaxHP * m_redHp->GetScaleX();
+		m_redHp->SetScale(scalex, scale.y, scale.z);
+	}
+}
+
+void MainCharacter::SetMaxHP(float maxhp) {
+	m_MaxHP = maxhp;
+	m_HP = maxhp;
 }
 
 float MainCharacter::GetHP() {
@@ -18,6 +31,13 @@ void MainCharacter::Update(float deltaTime)
 	m_Position.x = pos.x;
 	m_Position.y = pos.y;
 		
+	Vector3 posCamera = Camera::GetInstance()->GetPosition();
+	float scalew = 1250;
+	float scaleh = 900;
+
+	m_whiteHp->SetPosition(posCamera.x - scalew, posCamera.y - scaleh, posCamera.z);
+	m_redHp->SetPosition(posCamera.x - scalew, posCamera.y - scaleh, m_Position.z);
+
 	UpdateWorld();
 }
 
@@ -54,4 +74,18 @@ void MainCharacter::resetAnimation(int type) {
 }
 void MainCharacter::resetGun() {
 	m_Model->resetGun();
+}
+
+void MainCharacter::SetHPTexture(Healthy* healthy, bool isWhite) {
+	if (isWhite) {
+		m_whiteHp = healthy;
+	}
+	else {
+		m_redHp = healthy;
+	}
+}
+
+void MainCharacter::DrawHP() {
+	m_whiteHp->Draw();
+	m_redHp->Draw();
 }

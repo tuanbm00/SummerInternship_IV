@@ -9,6 +9,11 @@
 // number of max bullet
 #define NUM_BULLET 20
 
+// texture hp
+#define WHITE 28
+#define RED 29
+#define BOSS_ICON 30
+
 // size of 
 #define WIDTH 200.0f
 
