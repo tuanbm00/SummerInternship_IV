@@ -3,6 +3,8 @@
 #include "GSMainmenu.h"
 #include "GSLevel1.h"
 #include "GSLevel2.h"
+#include "GSLevel3.h"
+#include "GSLevel4.h"
 #include "GSLoadLevel.h"
 
 
@@ -29,10 +31,10 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 		gs = std::make_shared<GSLevel2>();
 		break;
 	case GS_LEVEL3:
-		gs = std::make_shared<GSLevel1>();
+		gs = std::make_shared<GSLevel3>();
 		break;
 	case GS_LEVEL4:
-		gs = std::make_shared<GSLevel2>();
+		gs = std::make_shared<GSLevel4>();
 		break;
 	case GS_OPTION:
 		//gs = std::make_shared<GSOptions>();

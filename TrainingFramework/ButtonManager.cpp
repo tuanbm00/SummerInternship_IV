@@ -106,7 +106,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL4") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
-				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 			}
 		});
 	}
