@@ -16,7 +16,7 @@ GSLevel2::~GSLevel2() {
 void GSLevel2::Init() {
 	Camera::GetInstance()->i_state = 2;
 	Singleton<SceneManager>::GetInstance()->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 
 
 }

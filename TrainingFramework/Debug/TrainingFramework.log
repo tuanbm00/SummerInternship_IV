@@ -1,1 +1,71 @@
-﻿
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Application.cpp
+  Generating Code...
+  Compiling...
+  TrainingFramework.cpp
+  Terrain.cpp
+  Sprite2D.cpp
+  SceneManager.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(340): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(342): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(654): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(690): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(741): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(761): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(762): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(763): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(764): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(856): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(933): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(946): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(992): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(997): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1049): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1050): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1081): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1082): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1325): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Object.cpp
+  MainCharacter.cpp
+  GameplayUI.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(67): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(74): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(78): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(82): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  GameStateMachine.cpp
+  GameStateBase.cpp
+  GSMainmenu.cpp
+  GSLoadLevel.cpp
+  GSLevel4.cpp
+  GSLevel3.cpp
+  GSLevel2.cpp
+  GSLevel1.cpp
+  GSIntro.cpp
+  Enemy.cpp
+  Camera.cpp
+  ButtonManager.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\buttonmanager.cpp(40): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  Bullet.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(93): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(111): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(127): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Compiling...
+  Boss.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Vertex.cpp
+  Texture.cpp
+  TextManager.cpp
+  Shaders.cpp
+  ResourceManager.cpp
+  NPC.cpp
+  Models.cpp
+  Model.cpp
+  Healthy.cpp
+  Ground.cpp
+  GameButton.cpp
+  Animation.cpp
+  TrainingFramework.vcxproj -> D:\20202\20203\SummerInternship_IV\\BIN\TrainingFramework.exe
