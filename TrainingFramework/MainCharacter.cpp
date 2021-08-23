@@ -5,13 +5,12 @@
 
 void MainCharacter::SetHP(float hp) {
 	m_HP = hp;
-	Vector3 scale = m_redHp->GetScale();
 	if (hp < 0) {
-		m_redHp->SetScale(0, scale.y, scale.z);
+		m_redHp->SetScale(0);
 	}
 	else {
 		float scalex = m_HP / m_MaxHP * m_redHp->GetScaleX();
-		m_redHp->SetScale(scalex, scale.y, scale.z);
+		m_redHp->SetScale(scalex);
 	}
 }
 

@@ -65,7 +65,6 @@ void SceneManager::Init() {
 	m_boss = NULL;
 	m_IsBossAppear = false;
 	m_IsTowerDefend = false;
-	ResourceManager::GetInstance()->Init();
 	FILE* f_SM;
 	fopen_s(&f_SM, m_fileSM, "r+");
 	if (f_SM != NULL) {
@@ -272,7 +271,10 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		Omap[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);
-	Texture * texx = new Texture(99, "../mapT2.tga");
+	char filetex[20];
+	if (Camera::GetInstance()->i_state == 1) strcpy_s(filetex, "../mapT2.tga");
+	if (Camera::GetInstance()->i_state == 2) strcpy_s(filetex, "../mapT.tga");
+	Texture * texx = new Texture(99, filetex);
 	texx->Init();
 	groundTest->setTexture(texx);
 	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -325,8 +327,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition((float)n * (width * col / height) * (i - num / 2), 0, 0);
-		background->SetScale(Vector3(2, 2, 1));
+		background->SetPosition((float)n * (width * col / height) * (i - num / 2), 0, -1);
+		background->SetScale(Vector3(1, 1, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();
 		m_ListBackground.push_back(background);

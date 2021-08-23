@@ -148,9 +148,11 @@ FILE ../Resources/Textures/red.tga
 ID 30
 FILE ../Resources/Textures/bossicon.tga
 
-#Background: 1
+#Background: 2
 ID 0
 FILE ../Resources/Tile/background.tga
+ID 1
+FILE ../Resources/Tile/background2.tga
 
 #Tile: 0
 

@@ -15,7 +15,6 @@ GSLoadLevel::~GSLoadLevel() {
 
 void GSLoadLevel::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_LOADLEVEL.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);

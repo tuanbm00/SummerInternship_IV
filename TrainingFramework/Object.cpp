@@ -148,6 +148,11 @@ void Object::SetScale(float X, float Y, float Z) {
 	m_Scale = Vector3(X, Y, Z);
 }
 
+void Object::SetScale(float X)
+{
+	m_Scale.x = X;
+}
+
 void Object::SetScale(Vector3 Scale) {
 	m_Scale = Scale;
 }

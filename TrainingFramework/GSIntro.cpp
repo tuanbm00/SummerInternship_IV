@@ -27,6 +27,7 @@ void GSIntro::Init() {
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(12));
 	logo->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	logo->SetSize(400, 400);
+	logo->CalculateWVP();
 	m_listSprite2D.push_back(logo);
 
 	//Background
@@ -36,6 +37,7 @@ void GSIntro::Init() {
 	bg->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(11));
 	bg->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	bg->SetSize(Globals::screenWidth, Globals::screenHeight);
+	bg->CalculateWVP();
 	m_listSprite2D.push_back(bg);
 }
 
@@ -48,9 +50,6 @@ void GSIntro::Draw() {
 }
 
 void GSIntro::Update(float deltaTime) {
-	for (register int i = 0; i < (int)m_listSprite2D.size(); i++) {
-		m_listSprite2D[i]->Update(deltaTime);
-	}
 	m_currentTime += deltaTime;
 	if (m_currentTime >= 3.0f) {
 		if (GameStateMachine::GetInstance()->HasInstance()) {
