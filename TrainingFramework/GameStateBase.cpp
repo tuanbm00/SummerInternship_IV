@@ -28,6 +28,12 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 	case GS_LEVEL2:
 		gs = std::make_shared<GSLevel2>();
 		break;
+	case GS_LEVEL3:
+		gs = std::make_shared<GSLevel1>();
+		break;
+	case GS_LEVEL4:
+		gs = std::make_shared<GSLevel2>();
+		break;
 	case GS_OPTION:
 		//gs = std::make_shared<GSOptions>();
 		break;

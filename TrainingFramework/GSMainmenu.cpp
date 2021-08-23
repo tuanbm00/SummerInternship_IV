@@ -15,8 +15,6 @@ GSMainmenu::~GSMainmenu() {
 
 void GSMainmenu::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->Init();
-	//Singleton<TextManager>::GetInstance()->Initialize();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_Mainmenu.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
@@ -30,7 +28,7 @@ void GSMainmenu::Init() {
 	m_Background->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
 	
-	
+	m_Background->CalculateWVP();
 }
 
 void GSMainmenu::Draw() {
@@ -41,8 +39,7 @@ void GSMainmenu::Draw() {
 }
 
 void GSMainmenu::Update(float deltaTime) {
-	m_Background->Update(deltaTime);
-	m_BM->Update(deltaTime);
+	
 }
 
 void GSMainmenu::CleanUp() {

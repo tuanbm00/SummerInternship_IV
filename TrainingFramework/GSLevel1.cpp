@@ -16,15 +16,14 @@ GSLevel1::~GSLevel1() {
 }
 
 void GSLevel1::Init() {
+	Camera::GetInstance()->i_state = 1;
 	Singleton<SceneManager>::GetInstance()->Init();
-	glEnable(GL_DEPTH_TEST);
 
 	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
 	
-	Camera::GetInstance()->i_state = 1;
 	Singleton<SceneManager>::GetInstance()->Draw();
 
 }

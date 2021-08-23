@@ -1,11 +1,11 @@
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\vc141.pdb
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\vc141.idb
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamestatemachine.obj
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\ground.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gsintro.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gslevel1.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gslevel2.obj
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gsloadlevel.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gsmainmenu.obj
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\healthy.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\maincharacter.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\model.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\models.obj
@@ -30,8 +30,10 @@ c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\enem
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamebutton.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gameplayui.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamestatebase.obj
-c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.exe
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\gamestatemachine.obj
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\debug\ground.obj
 c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.ilk
+c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.exe
 c:\users\toais\documents\github\summerinternship_iv\bin\trainingframework.pdb
 c:\users\toais\documents\github\summerinternship_iv\\bin\trainingframework.pdb
 c:\users\toais\documents\github\summerinternship_iv\\bin\trainingframework.exe

@@ -14,7 +14,6 @@ GameplayUI::~GameplayUI() {
 
 void GameplayUI::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->Init();
 	//Singleton<TextManager>::GetInstance()->Initialize();
 	char* BM = "../Resources/Managers/BM_Gameplay.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
@@ -25,7 +24,7 @@ void GameplayUI::DrawGameOver() {
 }
 
 void GameplayUI::Draw() {
-	//m_BM->Draw();
+	m_BM->Draw();
 
 	//MainCharacter
 	
@@ -68,7 +67,6 @@ void GameplayUI::SetNumberOfBullets(int numberOfBullets1, int numberOfBullets2)
 }
 
 void GameplayUI::Update(float deltaTime) {
-	m_BM->Update(deltaTime);
 	char buffer[20];
 
 	//HP

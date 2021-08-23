@@ -43,6 +43,8 @@ void Camera::Update(float deltaTime, float posX, float posY,int direction) {
 	posX += 500 * direction;
 	m_Position.x += (posX - m_Position.x)*deltaTime;
 	m_Position.y += (posY - m_Position.y)*deltaTime;
+	if (m_Position.x - 1280 < -20000) m_Position.x = -20000+1280;
+	if (m_Position.x + 1280 > 19800) m_Position.x = 19800-1280;
 	updateView(m_Position.x, m_Position.y);
 }
 

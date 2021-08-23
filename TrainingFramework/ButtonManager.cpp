@@ -40,6 +40,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		button->Set2DPosition(X, Y);
 		button->SetSize(W, H);
 		AddFunction(type, button);		
+		button->CalculateWVP();
 		m_listButton.push_back(button);
 	}
 	return 0;
@@ -47,9 +48,9 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 void ButtonManager::Update(float deltaTime)
 {
-	for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	/*for (register int i = 0; i < (int)m_listButton.size(); i++) {
 		m_listButton[i]->Update(deltaTime);
-	}
+	}*/
 }
 
 void ButtonManager::CleanUp()

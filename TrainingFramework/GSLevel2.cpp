@@ -5,7 +5,7 @@
 
 GSLevel2::GSLevel2() {
 	char* SM = "../Resources/Managers/SM2.txt";
-	char* MAP = "../Resources/Map/tilemapr.txt";
+	char* MAP = "../Resources/Map/maplv2.txt";
 	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 
@@ -14,17 +14,14 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
-	Singleton<SceneManager>::GetInstance()->SetFileManager("../Resources/Managers/SM2.txt", "../Resources/Map/tilemapr.txt");
+	Camera::GetInstance()->i_state = 2;
 	Singleton<SceneManager>::GetInstance()->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 
-	auto bullet = std::make_shared<Bullet>(1);
-	m_ListBullet.push_back(bullet);
 
 }
 
 void GSLevel2::Draw() {
-	Camera::GetInstance()->i_state = 2;
 	Singleton<SceneManager>::GetInstance()->Draw();
 }
 
@@ -33,8 +30,9 @@ void GSLevel2::Update(float deltaTime) {
 }
 
 void GSLevel2::CleanUp() {
+	ResourceManager::GetInstance()->CleanDump();
 	Singleton<SceneManager>::GetInstance()->CleanUp();
-	
+	Singleton<SceneManager>::GetInstance()->FreeInstance();
 }
 
 void GSLevel2::Resume() {

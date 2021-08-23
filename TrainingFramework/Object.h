@@ -54,6 +54,7 @@ public:
 	void SetPosition(Vector3 Position);
 	Vector3 GetPosition();
 	void SetScale(float X, float Y, float Z);
+	void SetScale(float X);
 	void SetScale(Vector3 Scale);
 	bool checkDraw();
 	Vector3 GetScale();
