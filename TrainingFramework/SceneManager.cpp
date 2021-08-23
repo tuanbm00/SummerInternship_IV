@@ -336,18 +336,19 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	}
 	delete[] Omap;
 	groundTest->Init();
-	num = (col * height) / (2 * width * row) + 1;
+	float scale = 1.5;
+	num = (col * height) / (2 * scale * width * row) + 1;
 	num = 2 * num + 1;
-	int n = WIDTH / (col / 18 + 8/9);
+	int n = WIDTH * scale;
 	Model* backgroundModel = new Model();
-	backgroundModel->InitSprite(0, 0, (float)n * (width * col / height), (float)n * col, (float)n * (width * col / height), (float)n * col);
+	backgroundModel->InitSprite(0, 0, (float)n * (width * row / height), (float)n * row, (float)n * (width * row / height), (float)n * row);
 
 	for (int i = 0; i < num; i++) {
 		Terrain *background = new Terrain(0);
 		background->setModel(backgroundModel);
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition((float)n * (width * col / height) * (i - num / 2), 0, -1);
+		background->SetPosition((float)n * (width * row / height) * (i - num / 2), -WIDTH * (scale - 1)/2 * row, 0);
 		background->SetScale(Vector3(1, 1, 1));
 		background->SetRotation(Vector3(0, 0, 0));
 		background->InitWVP();

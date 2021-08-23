@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "GameStateMachine.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
