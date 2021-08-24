@@ -150,6 +150,9 @@
     <ClCompile Include="GSLevel4.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
+    <ClCompile Include="GSResult.cpp">
+      <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GSLevel4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,6 +26,7 @@ protected:
 
 	int m_SpriteID;
 	bool m_bIsTarget = false, m_isTexture = false;
+	bool m_bIsActive = true;
 
 public:
 	int m_current_anim;
@@ -50,10 +51,14 @@ public:
 	void SetRotationZ(GLfloat Z);
 	GLfloat GetRotationZ();
 	int GetID();
+	inline void SetActive(bool isActive) { m_bIsActive = isActive; }
+	inline bool GetActive() { return m_bIsActive; }
 
 	Texture* getTexture();
 	Shaders* getShaders();
 	Models* getModel();
+	
+
 };
 
 

@@ -23,7 +23,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 	if (numberOfButtons <= 0)
 		return false;
 	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	int id, shader, texture, X, Y, W, H;
+	int id, shader, texture, X, Y, W, H, active;
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)
 	{
@@ -31,6 +31,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		fscanf_s(f_M, "SHADER %d\n", &shader);
 		fscanf_s(f_M, "TEXTURE %d\n", &texture);
 		fscanf_s(f_M, "COORD %d %d %d %d\n", &X, &Y, &W, &H);
+		fscanf_s(f_M, "ACTIVE %d\n", &active);
 		fscanf_s(f_M, "FUNC %s\n", type, _countof(type));
 
 		auto button = std::make_shared<GameButton>(id++);
@@ -39,6 +40,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
 		button->Set2DPosition(X, Y);
 		button->SetSize(W, H);
+		button->SetActive(active);
 		AddFunction(type, button);		
 		button->CalculateWVP();
 		m_listButton.push_back(button);
