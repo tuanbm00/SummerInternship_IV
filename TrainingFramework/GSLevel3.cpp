@@ -6,8 +6,8 @@
 #include "string.h"
 
 GSLevel3::GSLevel3() {
-	char* SM = "../Resources/Managers/SM1.txt";
-	char* MAP = "../Resources/Map/maplv1.txt";
+	char* SM = "../Resources/Managers/SM3.txt";
+	char* MAP = "../Resources/Map/maplv3.txt";
 	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
 }
 
@@ -29,7 +29,7 @@ void GSLevel3::Draw() {
 }
 
 void GSLevel3::Update(float deltaTime) {
-	std::cout << "This is Level 3!" << std::endl;
+//	std::cout << "This is Level 3!" << std::endl;
 	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
 }
 

@@ -858,7 +858,7 @@ void SceneManager::Update(float deltaTime) {
 			m_listEnemyInWorld[i]->m_direction = (m_listEnemyInWorld[i]->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
 			m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
 		}
-		if (m_listEnemyInWorld[i]->GetBulletID() >= 0 && enemySeen(m_listEnemyInWorld[i])) {
+		if ((m_listEnemyInWorld[i]->GetBulletID() >= 0 && enemySeen(m_listEnemyInWorld[i])) || m_listEnemyInWorld[i]->GetID() == 4) {
 			m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
 			if (m_listEnemyInWorld[i]->isAttack()) {
 				m_listEnemyInWorld[i]->cnt++;
