@@ -44,13 +44,13 @@ public:
 	void SetPosition(GLfloat X, GLfloat Y, GLfloat Z);
 	void Set2DPosition(Vector2 Position);
 	Vector2 Get2DPosition();
-	void SetSize(int W, int H);
+	void SetSize(GLint W, GLint H);
 	void Set2DScale(GLfloat X, GLfloat Y);
 	void Set2DScale(Vector2 Scale);
 	Vector2 Get2DScale();
 	void SetRotationZ(GLfloat Z);
 	GLfloat GetRotationZ();
-	int GetID();
+	inline int GetID() { return m_SpriteID; }
 	inline void SetActive(bool isActive) { m_bIsActive = isActive; }
 	inline bool GetActive() { return m_bIsActive; }
 

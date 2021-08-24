@@ -61,6 +61,9 @@ private:
 	b2World * m_world;
 	int jumpstep;
 	int numJump;
+
+	//ChangeToScreenRESULT
+	bool m_bChangeScreen = false, m_bIsVictory = false;
 public:
 	int * indices;
 	SceneManager();
@@ -92,6 +95,8 @@ public:
 	void ReadFile(FILE* f_SM);
 	void ReadMap(FILE* f_MAP);
 	void SetFileManager(char* fileSM, char* fileMAP);
+
+	void ChangeToResultScreen(bool bIsVictory);
 };
 
 

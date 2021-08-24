@@ -14,6 +14,7 @@ enum StateTypes {
 	GS_LEVEL2,
 	GS_LEVEL3,
 	GS_LEVEL4,
+	GS_RESULT,
 	GS_OPTION,
 	GS_CREDIT
 };
@@ -32,6 +33,7 @@ public:
 	void ChangeState(std::shared_ptr<GameStateBase> state);
 	void ChangeState(StateTypes stt);
 	void PushState(StateTypes stt);
+	void PushState(StateTypes stt, bool bIsVictory);
 	void PopState();
 
 	bool isRunning() { return m_running; }

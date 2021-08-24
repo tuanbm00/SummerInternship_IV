@@ -87,7 +87,7 @@ ID 28
 FILE ../Resources/Animation/mainicon.txt
 SPEED 0.1 -1
 
-#2D Textures: 32
+#2D Textures: 37
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -152,6 +152,16 @@ ID 30
 FILE ../Resources/Textures/bossicon.tga
 ID 31
 FILE ../Resources/Textures/mainicon.tga
+ID 32
+FILE ../Resources/Textures/Buttons/button_continue.tga
+ID 33
+FILE ../Resources/Textures/Buttons/button_retry.tga
+ID 34
+FILE ../Resources/Textures/Buttons/frame_victory.tga
+ID 35
+FILE ../Resources/Textures/Buttons/frame_failed.tga
+ID 36
+FILE ../Resources/Textures/Buttons/Background.tga
 
 #Background: 2
 ID 0

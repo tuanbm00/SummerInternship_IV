@@ -25,6 +25,7 @@ void Application::Init()
 	glEnable(GL_SCISSOR_TEST);
 	glScissor(0, 0, 960, 720);
 	Singleton<TextManager>::GetInstance()->Initialize();
+	ResourceManager::GetInstance()->Init();
 	GameStateMachine::GetInstance()->PushState(StateTypes::GS_INTRO);
 }
 

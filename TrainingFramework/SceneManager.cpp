@@ -39,6 +39,11 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	roll_step = 0;
 }
 
+void SceneManager::ChangeToResultScreen(bool bIsVictory)
+{
+	GameStateMachine::GetInstance()->PushState(StateTypes::GS_RESULT, bIsVictory);
+}
+
 void SceneManager::Init() {
 	numJump = 0;
 	jumpstep = 0;
@@ -1184,6 +1189,14 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
+
+
+	//Change To Result Screen
+	if (m_bChangeScreen) { //Check if Change Screen
+		ChangeToResultScreen(m_bIsVictory); // m_bIsVictory default = false;
+	}
+	
+
 }
 
 void SceneManager::Key(unsigned char key, bool isPressed) {
@@ -1261,6 +1274,16 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case VK_SHIFT:
 			keyPressed = keyPressed ^ ROLL;
+			break;
+		case 'n':
+		case 'N':
+			m_bIsVictory = true;
+			m_bChangeScreen = true;
+			break;
+		case 'M':
+		case 'm':
+			m_bChangeScreen = true;
+			break;
 		}
 	}
 }

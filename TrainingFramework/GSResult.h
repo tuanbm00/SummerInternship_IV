@@ -5,10 +5,12 @@ class GSResult :
 {
 	std::shared_ptr<ButtonManager> m_BM;
 	std::shared_ptr<Sprite2D> m_Background;
+	std::shared_ptr<Sprite2D> m_Frame;
 	bool m_bIsVictory;
 	StateTypes m_stt;
 public:
-	GSResult(bool isVictory, StateTypes stt);
+	GSResult();
+	GSResult(bool isVictory);
 	~GSResult(void);
 
 	void Init();

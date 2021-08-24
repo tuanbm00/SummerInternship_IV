@@ -5,7 +5,10 @@
 #include "TextManager.h"
 #include "GameplayUI.h"
 
-GSResult::GSResult(bool isVictory, StateTypes stt) {
+GSResult::GSResult() {
+}
+
+GSResult::GSResult(bool isVictory) {
 	m_bIsVictory = isVictory;
 }
 
@@ -15,24 +18,49 @@ GSResult::~GSResult() {
 
 void GSResult::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
+	
+
+	//Buttons
 	char* BM = "../Resources/Managers/BM_Result.txt";
 	m_BM = std::make_shared<ButtonManager>(BM);
+	if(m_bIsVictory){
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
+		for (register int i = 0; i < m_BM->m_listButton.size(); i++) {
+			if (m_BM->m_listButton[i]->GetID() == 1) m_BM->m_listButton[i]->SetActive(true);
+			else if(m_BM->m_listButton[i]->GetID() == 0) m_BM->m_listButton[i]->SetActive(false);
+		}
+	}
+	else {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/game_over.wav", false);
+	}
+
+	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
 	m_Background->setModel(model);
 	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
-	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
+	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(36));
 	m_Background->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
 
-	m_Background->CalculateWVP();
+	//Frame Initialize
+	m_Frame = std::make_shared<Sprite2D>(0);
+	m_Frame->setModel(model);
+	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	if (m_bIsVictory) {
+		m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(34));
+	} else m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(35));
+	
+	m_Frame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	m_Frame->SetSize(Globals::screenWidth / 2, Globals::screenHeight / 2 - 50);
+
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_PlayAgain_Sound.wav", true);
 }
 
 void GSResult::Draw() {
 	m_Background->Draw();
+	m_Frame->Draw();
 	m_BM->Draw();
 }
 
@@ -42,13 +70,14 @@ void GSResult::Update(float deltaTime) {
 
 void GSResult::CleanUp() {
 	m_Background->CleanUp();
+	m_Frame->CleanUp();
 	m_BM->CleanUp();
 
 }
 
 void GSResult::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_PlayAgain_Sound.wav", true);
 }
 
 void GSResult::Pause() {

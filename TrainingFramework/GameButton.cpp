@@ -22,6 +22,7 @@ void GameButton::SetOnClick(void(*pBtClickFun)())
 
 void GameButton::OnMouseButtonUp(GLint x, GLint y)
 {
+	if (!GetActive()) return;
 	m_isHandle = false;
 	if ((x > m_Vec2DPos.x - m_iWidth/2) && (x < m_Vec2DPos.x + m_iWidth/2) && (y > m_Vec2DPos.y - m_iHeight/2) && (y < m_Vec2DPos.y + m_iHeight/2))
 	{

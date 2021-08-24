@@ -32,7 +32,6 @@ Texture* Sprite2D::getTexture() {
 
 
 Sprite2D::~Sprite2D() {
-	//delete m_Model;
 }
 
 void Sprite2D::CalculateWVP()
@@ -48,6 +47,8 @@ void Sprite2D::CalculateWVP()
 }
 
 void Sprite2D::Draw() {
+	if (!m_bIsActive) return;
+
 	glUseProgram(m_Shader->program);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->GetVertexObject());
