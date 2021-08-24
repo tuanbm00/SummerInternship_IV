@@ -19,7 +19,7 @@ void GSLevel1::Init() {
 	Camera::GetInstance()->i_state = 1;
 	Singleton<SceneManager>::GetInstance()->Init();
 
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {

@@ -16,7 +16,7 @@ GSLevel4::~GSLevel4() {
 }
 
 void GSLevel4::Init() {
-	Camera::GetInstance()->i_state = 1;
+	Camera::GetInstance()->i_state = 4;
 	Singleton<SceneManager>::GetInstance()->Init();
 
 	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc

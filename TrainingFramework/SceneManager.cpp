@@ -735,22 +735,6 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
-	if (m_MainCharacter->isDie()) {
-		m_MainCharacter->playDead(deltaTime);
-		if (Camera::GetInstance()->is_dead == false) {
-			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
-					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-			}
-		}
-		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
-		int lop = deltaTime / 0.003;
-		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
-		for (int i = 0; i < lop; i++) {
-			m_world->Step(0.07f, 6, 2);
-			m_MainCharacter->Update(deltaTime);
-		}
-		return;
-	}
 	//Set GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
@@ -1190,6 +1174,40 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
+	// victory
+	if (m_IsTowerDefend == true) {
+		if (Camera::GetInstance()->i_state < 4) {
+			m_bIsVictory = true;
+			m_bChangeScreen = true;
+		}
+		else {
+			if (m_boss->isDie()) {
+				m_bIsVictory = true;
+				m_bChangeScreen = true;
+			}
+		}
+	}
+
+
+	// lose
+	if (m_MainCharacter->isDie()) {
+		m_MainCharacter->playDead(deltaTime);
+		if (Camera::GetInstance()->is_dead == false) {
+			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+			}
+		}
+		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
+		int lop = deltaTime / 0.003;
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
+		for (int i = 0; i < lop; i++) {
+			m_world->Step(0.07f, 6, 2);
+			m_MainCharacter->Update(deltaTime);
+		}
+		return;
+		m_bChangeScreen = true;
+		m_bIsVictory = false;
+	}
 
 	//Change To Result Screen
 	if (m_bChangeScreen) { //Check if Change Screen
