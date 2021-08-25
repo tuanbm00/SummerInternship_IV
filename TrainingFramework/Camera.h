@@ -26,6 +26,7 @@ public:
 	~Camera();
 	static Camera* GetInstance();
 	int i_state;
+	Vector2 limitX, limitY;
 	Matrix GetOrthographic();
 	Matrix GetViewMatrix();
 
@@ -35,7 +36,10 @@ public:
 	bool is_shoot;
 	bool is_wound;
 	bool is_dead;
+	bool checkRect(float posx, float posy);
 
+	void setLimitX(float min, float max);
+	void setLimitY(float min, float max);
 	void initView();
 	void initOrtho();
 	void updateView(float x, float y);

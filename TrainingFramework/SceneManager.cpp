@@ -310,7 +310,8 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fscanf_s(f_MAP, "%d\n", &index);
 
 	fscanf_s(f_MAP, "%d %d\n", &row, &col);
-
+	Camera::GetInstance()->setLimitX(-WIDTH*col/2, WIDTH*(col/2-1));
+	Camera::GetInstance()->setLimitY(-WIDTH * row / 2, WIDTH*(row / 2 - 1));
 	for (int i = 0; i < row; i++) {
 		std::vector<int> line;
 		std::vector<int> isLine;
@@ -735,6 +736,34 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	if (m_bChangeScreen) { //Check if Change Screen
+		ChangeToResultScreen(m_bIsVictory);
+		return; // m_bIsVictory default = false;
+	}
+	if (m_MainCharacter->isDie()) {
+		m_MainCharacter->playDead(deltaTime);
+		if (Camera::GetInstance()->is_dead == false) {
+			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+			}
+		}
+		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
+		int lop = deltaTime / 0.003;
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
+		for (int i = 0; i < lop; i++) {
+			m_world->Step(0.07f, 6, 2);
+			m_MainCharacter->Update(deltaTime);
+		}
+		if (Camera::GetInstance()->is_dead) {
+			static float timeCount = 0;
+			timeCount += deltaTime;
+			if (timeCount > 2.0f) {
+				m_bChangeScreen = true;
+				m_bIsVictory = false;
+			}
+		}
+		return;
+	}
 	//Set GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
@@ -1190,29 +1219,10 @@ void SceneManager::Update(float deltaTime) {
 
 
 	// lose
-	if (m_MainCharacter->isDie()) {
-		m_MainCharacter->playDead(deltaTime);
-		if (Camera::GetInstance()->is_dead == false) {
-			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
-				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-			}
-		}
-		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
-		int lop = deltaTime / 0.003;
-		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
-		for (int i = 0; i < lop; i++) {
-			m_world->Step(0.07f, 6, 2);
-			m_MainCharacter->Update(deltaTime);
-		}
-		return;
-		m_bChangeScreen = true;
-		m_bIsVictory = false;
-	}
+	
 
 	//Change To Result Screen
-	if (m_bChangeScreen) { //Check if Change Screen
-		ChangeToResultScreen(m_bIsVictory); // m_bIsVictory default = false;
-	}
+	
 	
 
 }

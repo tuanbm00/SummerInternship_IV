@@ -39,12 +39,14 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 }
 
 void Camera::Update(float deltaTime, float posX, float posY,int direction) {
-	posY -= 500;
-	posX += 500 * direction;
+	//posX += 500 * direction;
+	//if (checkRect(posX, posY)) return;
 	m_Position.x += (posX - m_Position.x)*deltaTime;
 	m_Position.y += (posY - m_Position.y)*deltaTime;
-	if (m_Position.x - 1280 < -20000) m_Position.x = -20000+1280;
-	if (m_Position.x + 1280 > 19800) m_Position.x = 19800-1280;
+	if (m_Position.x - 1280 < limitX.x) m_Position.x = limitX.x + 1280;
+	if (m_Position.x + 1280 > limitX.y) m_Position.x = limitX.y-1280;
+	if (m_Position.y - 600 < limitY.x) m_Position.y = limitY.x + 600;
+	if (m_Position.y + 1000 > limitY.y) m_Position.y = limitY.y - 1000;
 	updateView(m_Position.x, m_Position.y);
 }
 
@@ -76,6 +78,24 @@ void Camera::SetTarget(float X, float Y, float Z) {
 
 Vector3 Camera::GetTarget() {
 	return m_TargetPosition;
+}
+
+bool Camera::checkRect(float posx, float posy)
+{
+	if (posx < m_Position.x - 600 || posx > m_Position.x + 600) return false;
+	if (posy < m_Position.y - 600 || posy > m_Position.y + 600) return false;
+
+	return true;
+}
+
+void Camera::setLimitX(float min, float max)
+{
+	limitX.x = min; limitX.y = max;
+}
+
+void Camera::setLimitY(float min, float max)
+{
+	limitY.x = min; limitY.y = max;
 }
 
 void Camera::initView()
