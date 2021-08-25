@@ -13,7 +13,7 @@ ButtonManager::~ButtonManager() {
 
 int ButtonManager::ReadFile(char* srcButton) {
 	FILE* f_M;
-	fopen_s(&f_M,srcButton, "r+");
+	fopen_s(&f_M,srcButton, "r");
 	if (f_M == NULL) {
 		return false;
 	}
@@ -45,6 +45,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		button->CalculateWVP();
 		m_listButton.push_back(button);
 	}
+	fclose(f_M);
 	return 0;
 }
 

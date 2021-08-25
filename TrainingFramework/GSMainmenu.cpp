@@ -34,8 +34,8 @@ void GSMainmenu::Init() {
 void GSMainmenu::Draw() {
 	m_Background->Draw();
 	m_BM->Draw();
-	char name[5] = "Four";
-	Singleton<TextManager>::GetInstance()->RenderString(name, Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2, 700.0f, 1.0f, 1.0f);
+	char name[7] = "Fourth";
+	Singleton<TextManager>::GetInstance()->RenderString(name, Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2 - 100.0f, 600.0f, 3.0f, 3.0f);
 }
 
 void GSMainmenu::Update(float deltaTime) {
@@ -50,7 +50,7 @@ void GSMainmenu::CleanUp() {
 
 void GSMainmenu::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 }
 
 void GSMainmenu::Pause() {
