@@ -500,5 +500,8 @@
     <Text Include="..\Resources\Animation\sprites (2).txt">
       <Filter>Resources\Animation</Filter>
     </Text>
+    <Text Include="..\Resources\Managers\SM3.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -9,12 +9,14 @@ Camera* Camera::s_Instance = NULL;
 
 Camera::Camera(void)
 {
-	m_ViewMatrix.SetZero();
-	m_bIsChange = false;
 	i_state = 0;
 	is_shoot = false;
 	is_wound = false;
 	is_dead = false;
+	lerpX = 0.5f;
+	lerpY = 0.5f;
+	flagY = false;
+	past_dir = 0;
 }
 
 Camera* Camera::GetInstance()
@@ -33,21 +35,43 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 	m_FOV = FOV;
 	m_Near = Near;
 	m_Far = Far;
-	m_fVelocityX = 1.0f;
-	m_fVelocityY = 200.0f;
 	initOrtho();
 }
 
 void Camera::Update(float deltaTime, float posX, float posY,int direction) {
-	//posX += 500 * direction;
-	//if (checkRect(posX, posY)) return;
-	m_Position.x += (posX - m_Position.x)*deltaTime;
-	m_Position.y += (posY - m_Position.y)*deltaTime;
-	if (m_Position.x - 1280 < limitX.x) m_Position.x = limitX.x + 1280;
-	if (m_Position.x + 1280 > limitX.y) m_Position.x = limitX.y-1280;
+	if ((fabs(posX - m_Position.x) <= 5 && !flagX )|| past_dir != direction) {
+		flagX = false;
+		lerpX = 0;
+	}
+	else if (posX < m_Position.x - 700 || posX > m_Position.x + 700) {
+		flagX = true;
+	}
+	posX += 400 * direction;
+	if (fabs(posX - m_Position.x) <= 5) {
+		flagX = false;
+		lerpX = 0;
+	}
+	if (posY < m_Position.y - 500 || posY > m_Position.y + 500) {
+		flagY = true;
+	}
+	else if (posY >= m_Position.y - 10 && posY <= m_Position.y + 10) {
+		flagY = false;
+		lerpY = 0;
+	}
+	if (flagX) {
+		m_Position.x += (posX - m_Position.x)*lerpX*deltaTime;
+		lerpX += deltaTime;
+	}
+	if (flagY) {
+		m_Position.y += (posY - m_Position.y) * lerpY * deltaTime;
+		lerpY += deltaTime;
+	}
+	if (m_Position.x - 1200 < limitX.x) m_Position.x = limitX.x + 1200;
+	if (m_Position.x + 1200 > limitX.y) m_Position.x = limitX.y-1200;
 	if (m_Position.y - 600 < limitY.x) m_Position.y = limitY.x + 600;
 	if (m_Position.y + 1000 > limitY.y) m_Position.y = limitY.y - 1000;
 	updateView(m_Position.x, m_Position.y);
+	past_dir = direction;
 }
 
 Matrix Camera::GetViewMatrix() {
@@ -68,7 +92,6 @@ void Camera::CleanUp() {
 
 void Camera::SetTarget(Vector3 Target) {
 	m_Target = Target;
-	m_TargetPosition = Target;
 	initView();
 }
 
@@ -77,15 +100,7 @@ void Camera::SetTarget(float X, float Y, float Z) {
 }
 
 Vector3 Camera::GetTarget() {
-	return m_TargetPosition;
-}
-
-bool Camera::checkRect(float posx, float posy)
-{
-	if (posx < m_Position.x - 600 || posx > m_Position.x + 600) return false;
-	if (posy < m_Position.y - 600 || posy > m_Position.y + 600) return false;
-
-	return true;
+	return m_Target;
 }
 
 void Camera::setLimitX(float min, float max)

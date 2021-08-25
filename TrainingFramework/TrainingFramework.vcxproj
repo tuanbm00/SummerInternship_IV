@@ -258,6 +258,7 @@
     <Text Include="..\Resources\Managers\RM.txt" />
     <Text Include="..\Resources\Managers\SM1.txt" />
     <Text Include="..\Resources\Managers\SM2.txt" />
+    <Text Include="..\Resources\Managers\SM3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

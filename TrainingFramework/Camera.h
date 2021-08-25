@@ -9,17 +9,16 @@ class Camera
 private:
 	static Camera* s_Instance;
 	float m_FOV, m_Near, m_Far;
-	bool m_bIsChange;
+	bool flagX,flagY;
 	
 	Vector3 m_Up;
 	Vector3 m_Target;
 	Vector3 m_Position;
-	Vector3 m_TargetPosition;
 
 	Matrix m_ViewMatrix;
 	Matrix Omatrix;
-	float m_fVelocityX;
-	float m_fVelocityY;
+	float lerpX, lerpY;
+	int past_dir;
 public:
 	GLuint iboId;
 	Camera();
@@ -36,7 +35,6 @@ public:
 	bool is_shoot;
 	bool is_wound;
 	bool is_dead;
-	bool checkRect(float posx, float posy);
 
 	void setLimitX(float min, float max);
 	void setLimitY(float min, float max);

@@ -279,7 +279,8 @@ void SceneManager::ReadFile(FILE* f_SM)
 void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest = new Ground();
 	FILE * fp;
-	fopen_s(&fp, "../map.txt", "r+");
+	fopen_s(&fp, "../Resources/Map/map.txt", "r+");
+	printf("1\n");
 	int ni; fscanf_s(fp, "%d\n", &ni);
 	Vector4 * Omap = new Vector4[ni];
 	for (int i = 0; i < ni; i++) {
@@ -288,14 +289,24 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		Omap[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);
-	char filetex[20];
+	char filetex[128];
 	float tw = 0, th = 0;
 	if (Camera::GetInstance()->i_state == 1) {
-		strcpy_s(filetex, "../mapT2.tga");
+		strcpy_s(filetex, "../Resources/Map/mapT1.tga");
 		tw = 3200.0f; th = 400.0f;
 	}
 	if (Camera::GetInstance()->i_state == 2) {
-		strcpy_s(filetex, "../mapT.tga");
+		strcpy_s(filetex, "../Resources/Map/mapT2.tga");
+		tw = 3200.0f;
+		th = 1200.0f;
+	}
+	if (Camera::GetInstance()->i_state == 3) {
+		strcpy_s(filetex, "../Resources/Map/mapT3.tga");
+		tw = 3200.0f;
+		th = 400.0f;
+	}
+	if (Camera::GetInstance()->i_state == 4) {
+		strcpy_s(filetex, "../Resources/Map/mapT3.tga");
 		tw = 3200.0f;
 		th = 1200.0f;
 	}
@@ -782,8 +793,8 @@ void SceneManager::Update(float deltaTime) {
 	 int h = 0 / WIDTH + m_listTerrain.size() / 2;
 	wlow = w - col + 2 > 0 ? w - col + 2 : 0;
 	whigh = w + col < (int)m_listTerrain[0].size() ? w + col : (int)m_listTerrain[0].size();
-	hlow = h - row > 0 ? h - row : 0;
-	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
+	hlow = h - row+2 > 0 ? h - row+2 : 0;
+	hhigh = h + row + 2 < (int)m_listTerrain.size() ? h + row + 2 : (int)m_listTerrain.size();
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (mapEnemy[{i, j}] > 0) {
@@ -1324,12 +1335,14 @@ void SceneManager::CheckMovement() {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
 			m_MainCharacter->resetAnimation(Idle);
+			m_MainCharacter->resetAnimation(Falling);
 			m_Horizontal = 40.0f;
 		}
 		else if (keyPressed & MOVE_LEFT) {
 			m_direction = -1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
 			m_MainCharacter->resetAnimation(Idle);
+			m_MainCharacter->resetAnimation(Falling);
 			m_Horizontal = -40.0f;
 		}
 		
