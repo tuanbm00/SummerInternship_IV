@@ -64,8 +64,8 @@ void SceneManager::Init() {
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
-	
-	
+
+
 	//resource
 	m_boss = NULL;
 	m_IsBossAppear = false;
@@ -115,7 +115,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf_s(f_SM, "FAR %f\n", &Far);
 		fscanf_s(f_SM, "MOVE_SPEED %f\n", &Move_Speed);
 		fscanf_s(f_SM, "ROTATE_SPEED %f\n\n", &Rotate_Speed);
-			
+
 		Camera::GetInstance()->Init(Fovy, Near, Far, Move_Speed, Rotate_Speed);
 		Camera::GetInstance()->SetPosition(Position);
 		Camera::GetInstance()->SetTarget(Target);
@@ -168,11 +168,11 @@ void SceneManager::ReadFile(FILE* f_SM)
 			fscanf_s(f_SM, "CHARACTER %f %f %f\n", &hp, &speedx, &speedy);
 		}
 			//Add Texture here
-		
+
 		fscanf_s(f_SM, "POSITION %f %f %f\n", &Position.x, &Position.y, &Position.z);
 		fscanf_s(f_SM, "ROTATION %f %f %f\n", &Rotation.x, &Rotation.y, &Rotation.z);
 		fscanf_s(f_SM, "SCALE %f %f %f\n\n", &Scale.x, &Scale.y, &Scale.z);
-		
+
 
 		if (strcmp(type, "MAIN") == 0) {
 			m_MainCharacter = new MainCharacter(ID);
@@ -270,7 +270,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			// do something
 		}
 	}
-	
+
 	fclose(f_SM);
 
 	// test sung
@@ -406,7 +406,7 @@ void SceneManager::Draw() {
 	}
 	groundTest->Draw();
 
-	
+
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
 	}
@@ -435,7 +435,7 @@ void SceneManager::Draw() {
 	}
 
 
-	
+
 	m_MainCharacter->Draw();
 	m_MainCharacter->DrawHP();
 
@@ -588,7 +588,7 @@ void SceneManager::Shoot() {
 	bullet->InitWVP();
 	bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
 	bullet->m_current_anim = m_direction;
-	
+
 	AddBullet(bullet);
 }
 
@@ -683,12 +683,12 @@ void SceneManager::BossAttack() {
 				float widthboss = m_boss->getBody()->GetFixtureList()->GetAABB(0).GetExtents().x * 2 / m_boss->GetNumOfBullet();
 				posBullet = Vector3(posBoss.x + widthboss, posBoss.y + widthboss *(i - int(m_boss->GetNumOfBullet() / 2)), 0);
 			}
-			
+
 			float scale = (posBullet.y - posMainCharacter.y) / (posBullet.x - posMainCharacter.x);
-			
+
 			if (m_boss->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
 				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
-			} 
+			}
 			else if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
 				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*m_boss->GetBullet()->GetSpeedOfBullet().x / m_boss->GetNumOfBullet() * (i - int(m_boss->GetNumOfBullet() / 2)), m_boss->GetBullet()->GetMaxOfLength());
 			}
@@ -790,11 +790,13 @@ void SceneManager::Update(float deltaTime) {
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
 	 int row = Globals::screenHeight / WIDTH * 2 + 1;
 	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
-	 int h = 0 / WIDTH + m_listTerrain.size() / 2;
-	wlow = w - col + 2 > 0 ? w - col + 2 : 0;
+	 int h = pos.y / WIDTH + m_listTerrain.size() / 2;
+
+	wlow = w - col > 0 ? w - col : 0;
 	whigh = w + col < (int)m_listTerrain[0].size() ? w + col : (int)m_listTerrain[0].size();
-	hlow = h - row+2 > 0 ? h - row+2 : 0;
-	hhigh = h + row + 2 < (int)m_listTerrain.size() ? h + row + 2 : (int)m_listTerrain.size();
+	hlow = h - row > 0 ? h - row : 0;
+	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
+
 	for (int i = hlow; i < hhigh; i++) {
 		for (int j = wlow; j < whigh; j++) {
 			if (mapEnemy[{i, j}] > 0) {
@@ -902,7 +904,7 @@ void SceneManager::Update(float deltaTime) {
 		}
 		else m_listEnemyInWorld[i]->m_current_anim = 1;
 	}
-	
+
 	// set update
 	mainIcon->UpdateAnimation(deltaTime);
 	m_MainCharacter->getBody()->SetFixedRotation(true);
@@ -913,7 +915,7 @@ void SceneManager::Update(float deltaTime) {
 	// set v
 	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
 	float impulseX = m_Horizontal * 900;
-	
+
 	if (jumpstep > 0) {
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, -impulse), true);
 		--jumpstep;
@@ -1230,11 +1232,11 @@ void SceneManager::Update(float deltaTime) {
 
 
 	// lose
-	
+
 
 	//Change To Result Screen
-	
-	
+
+
 
 }
 
@@ -1345,7 +1347,7 @@ void SceneManager::CheckMovement() {
 			m_MainCharacter->resetAnimation(Falling);
 			m_Horizontal = -40.0f;
 		}
-		
+
 		if (keyPressed & MOVE_JUMP) {
 			if (jumpstep > 0) {
 				if (m_Horizontal == 0) m_MainCharacter->m_current_anim = Jump * m_direction;
@@ -1355,7 +1357,7 @@ void SceneManager::CheckMovement() {
 			}
 		}
 
-		
+
 		if (keyPressed & SHOOT) {
 			m_Horizontal = 0;
 			if (m_time > 0.5f) m_MainCharacter->m_current_anim = m_ListGunOfPlayer[0]->GetID() * m_direction;
