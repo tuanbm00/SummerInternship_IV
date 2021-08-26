@@ -58,7 +58,7 @@ void GSIntro::Update(float deltaTime) {
 }
 
 void GSIntro::CleanUp() {
-	for (register int i = 0; i < (int)m_listSprite2D.size(); i++) {
+	for (register int i = 0; i < (int)m_listSprite2D.size(); ++i) {
 		m_listSprite2D[i]->CleanUp();
 	}
 }
@@ -68,7 +68,7 @@ void GSIntro::Resume() {
 }
 
 void GSIntro::Pause() {
-	ResourceManager::GetInstance()->StopAllSound();
+	//ResourceManager::GetInstance()->StopAllSound();
 }
 
 

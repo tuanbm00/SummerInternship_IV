@@ -52,21 +52,21 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 void ButtonManager::Update(float deltaTime)
 {
-	/*for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	/*for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Update(deltaTime);
 	}*/
 }
 
 void ButtonManager::CleanUp()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->CleanUp();
 	}
 }
 
 void ButtonManager::Draw()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Draw();
 	}
 }
@@ -213,7 +213,7 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	switch (Button) {
 	case LMB:
 	{
-		for (register int i = 0; i < (int)m_listButton.size(); i++) {
+		for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 			m_listButton[i]->OnMouseButtonUp(X, Y);
 		}
 	}

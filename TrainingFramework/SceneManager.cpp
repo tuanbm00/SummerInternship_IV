@@ -105,7 +105,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 	//Cameras
 	int numOfCameras;
 	fscanf_s(f_SM, "#Cameras: %d\n", &numOfCameras);
-	for (register int i = 0; i < numOfCameras; i++) {
+	for (register int i = 0; i < numOfCameras; ++i) {
 		int ID;
 		Vector3 Position, Target, Up;
 		float Fovy, Near, Far, Move_Speed, Rotate_Speed;
@@ -128,7 +128,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 	//Object
 	int numOfObjects;
 	fscanf_s(f_SM, "#Objects: %d\n", &numOfObjects);
-	for (register int i = 0; i < numOfObjects; i++) {
+	for (register int i = 0; i < numOfObjects; ++i) {
 		int ID, texture, shader, anim, bulletID;
 		int bullet1, bullet2, bullet3, bullet4;
 		float b1, b2;
@@ -147,7 +147,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 		fscanf_s(f_SM, "ANIMATIONS %d\n", &num_anim);
 		if (num_anim > 0) {
 			pModel->b_IsAnimation = true;
-			for (int i = 0; i < num_anim; i++) {
+			for (int i = 0; i < num_anim; ++i) {
 				fscanf_s(f_SM, "ANIMATION %d\n", &anim);
 				pModel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(anim));
 			}
@@ -285,7 +285,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fopen_s(&fp, "../Resources/Map/map.txt", "r+");
 	int ni; fscanf_s(fp, "%d\n", &ni);
 	Vector4 * Omap = new Vector4[ni];
-	for (int i = 0; i < ni; i++) {
+	for (int i = 0; i < ni; ++i) {
 		float x, y, w, h;
 		fscanf_s(fp, "%f %f %f %f\n", &x, &y, &w, &h);
 		Omap[i] = Vector4(x, y, w, h);
@@ -318,18 +318,38 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	//
 	int width, height, row, col, xi, num, index;
+	float len;
 
 	fscanf_s(f_MAP, "%d %d\n", &width, &height);
-	fscanf_s(f_MAP, "%d\n", &index);
-
+	fscanf_s(f_MAP, "%d %f\n", &index, &len);
+	// background
+	float para = 0.0f;
+	for (int i = 0; i < index; ++i) {
+		fscanf(f_MAP, "%d", &xi);
+		Object * background = new Object(123);
+		Model * backgroundModel = new Model();
+		backgroundModel->InitSprite(0, 0, width, height, width, height);
+		background->setModel(backgroundModel);
+		ResourceManager::GetInstance()->GetBackgroundAtID(xi)->Init();
+		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(xi));
+		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+		background->SetPosition(Camera::GetInstance()->GetPosition().x + 1000, Camera::GetInstance()->GetPosition().y - 500, 0);
+		background->SetScale(2, 2, 1);
+		background->start(para, len);
+		background->InitWVP();
+		m_ListBackground.push_back(background);
+		para += 0.2f;
+	}
+	//
+	fscanf(f_MAP, "\n");
 	fscanf_s(f_MAP, "%d %d\n", &row, &col);
 	Camera::GetInstance()->setLimitX(-WIDTH*col/2, WIDTH*(col/2-1));
 	Camera::GetInstance()->setLimitY(-WIDTH * row / 2, WIDTH*(row / 2 - 1));
-	for (int i = 0; i < row; i++) {
+	for (int i = 0; i < row; ++i) {
 		std::vector<int> line;
 		std::vector<int> isLine;
 		std::vector<Terrain*> lineMap;
-		for (int j = 0; j < col; j++) {
+		for (int j = 0; j < col; ++j) {
 			fscanf_s(f_MAP, "%d ", &xi);
 			line.push_back(xi);
 			Terrain* terrain = NULL;
@@ -355,34 +375,17 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	}
 	delete[] Omap;
 	groundTest->Init();
-	float scale = 1.5;
-	num = (col * height) / (2 * scale * width * row) + 1;
-	num = 2 * num + 1;
-	int n = WIDTH * scale;
-	Model* backgroundModel = new Model();
-	backgroundModel->InitSprite(0, 0, (float)n * (width * row / height), (float)n * row, (float)n * (width * row / height), (float)n * row);
-
-	for (int i = 0; i < num; i++) {
-		Terrain *background = new Terrain(0);
-		background->setModel(backgroundModel);
-		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(index));
-		background->SetPosition((float)n * (width * row / height) * (i - num / 2), -WIDTH * (scale - 1)/2 * row, 0);
-		background->SetScale(Vector3(1, 1, 1));
-		background->SetRotation(Vector3(0, 0, 0));
-		background->InitWVP();
-		m_ListBackground.push_back(background);
-	}
+	
 
 	int numOfEnemy, id, posRow, posCol, left, right;
 	fscanf_s(f_MAP, "#Enemy: %d\n", &numOfEnemy);
-	for (int i = 0; i < numOfEnemy; i++) {
+	for (int i = 0; i < numOfEnemy; ++i) {
 		fscanf_s(f_MAP, "%d %d %d %d %d\n", &id, &posRow, &posCol, &left, &right);
 		mapEnemy[{posRow, posCol}] = id + 1;
 		mapLimit[{posRow, posCol}] = { left, right };
 	}
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < (int)m_ListGunOfEnemy.size(); j++) {
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < (int)m_ListGunOfEnemy.size(); ++j) {
 			int id = m_boss->GetBulletID(i);
 			if (id == -1) {
 				continue;
@@ -408,7 +411,7 @@ void SceneManager::LoadDecor()
 	int num;
 	int row, col, sizex, sizey, x, y, w, h;
 	fscanf_s(fp, "%d\n", &num);
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < num; ++i) {
 		fscanf_s(fp, "%d %d %d %d %d %d %d %d\n", &row, &col, &sizex, &sizey, &x, &y, &w, &h);
 		Vector2 origin = Vector2(-WIDTH * (sizey - col / 2), -WIDTH * (sizex - row / 2));
 		m_Decor->addVertex(x, y, w, h, 3200.0f, 1200.0f, origin);
@@ -423,13 +426,12 @@ void SceneManager::Draw() {
 
 	glUseProgram(ResourceManager::GetInstance()->GetShaderAtID(0)->program);
 
-	for (int i = 0; i < (int)m_ListBackground.size(); i++) {
-		m_ListBackground[i]->Draw();
-	}
+	for (int i = m_ListBackground.size() - 1; i >= 0; --i) m_ListBackground[i]->Draw();
+	
 	groundTest->Draw();
-	m_Decor->Draw();
+	//m_Decor->Draw();
 
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
 		m_listBulletInWorld[i]->Draw();
 	}
 
@@ -438,13 +440,13 @@ void SceneManager::Draw() {
 	m_ListGunOfPlayer[1]->SetPosition(pos.x - 1090, pos.y - 700, 0);
 	mainIcon->SetPosition(pos.x - 1200, pos.y - 750, 0);
 	mainIcon->Draw();
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 2; ++i) {
 		m_ListGunOfPlayer[i]->m_current_anim = 0;
 		m_ListGunOfPlayer[i]->getModel()->resetTexture();
 		m_ListGunOfPlayer[i]->Draw();
 	}
 
-	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 		if (m_listEnemyInWorld[i]->checkDraw()) {
 			m_listEnemyInWorld[i]->Draw();
 			m_listEnemyInWorld[i]->DrawHP();
@@ -540,10 +542,14 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 void SceneManager::CleanUp() {
 	Camera::GetInstance()->CleanUp();
 	Singleton<GameplayUI>::GetInstance()->CleanUp();
-	for (int i = 0; i < (int)m_listTerrain.size(); i++) {
-		for (int j = 0; j < (int)m_listTerrain[i].size(); j++) {
+	for (int i = 0; i < (int)m_listTerrain.size(); ++i) {
+		for (int j = 0; j < (int)m_listTerrain[i].size(); ++j) {
 			delete m_listTerrain[i][j];
 		}
+	}
+	for (int i = 0; i < (int)m_ListBackground.size(); ++i) {
+		delete m_ListBackground[i]->getModel();
+		delete m_ListBackground[i];
 	}
 	delete m_MainCharacter->getModel();
 	delete m_MainCharacter;
@@ -552,21 +558,21 @@ void SceneManager::CleanUp() {
 		delete m_boss->getModel();
 		delete m_boss;
 	}
-	for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 		delete m_listEnemyInWorld[i]->getModel();
 		delete m_listEnemyInWorld[i];
 	}
 
-	for (int i = 0; i < (int)m_listEnemy.size(); i++) {
+	for (int i = 0; i < (int)m_listEnemy.size(); ++i) {
 		delete m_listEnemy[i]->getModel();
 		delete m_listEnemy[i];
 	}
 
-	for (int i = 0; i < (int)m_ListGunOfPlayer.size(); i++) {
+	for (int i = 0; i < (int)m_ListGunOfPlayer.size(); ++i) {
 		delete m_ListGunOfPlayer[i]->getModel();
 		delete m_ListGunOfPlayer[i];
 	}
-	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); i++) {
+	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); ++i) {
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
@@ -587,7 +593,7 @@ void SceneManager::Shoot() {
 	// set follow bazoka
 	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
 		float minLength = 2000;
-		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 			if (m_direction * m_MainCharacter->GetPosition().x < m_direction * m_listEnemyInWorld[i]->GetPosition().x) {
 				if (m_MainCharacter->GetPosition().y + 800 > m_listEnemyInWorld[i]->GetPosition().y && m_MainCharacter->GetPosition().y - 400 < m_listEnemyInWorld[i]->GetPosition().y) {
 					float high = abs(m_MainCharacter->GetPosition().y - m_listEnemyInWorld[i]->GetPosition().y);
@@ -623,7 +629,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
 	Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
 	if (enemy->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; ++i) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().x / 2 * (i -1), enemy->GetBullet()->GetMaxOfLength());
 
@@ -696,7 +702,7 @@ void SceneManager::BossAttack() {
 		AddBullet(bullet);
 	}
 	else {
-		for (int i = 0; i < m_boss->GetNumOfBullet(); i++) {
+		for (int i = 0; i < m_boss->GetNumOfBullet(); ++i) {
 			Bullet* bullet = new Bullet(m_boss->GetBullet()->GetID());
 			Vector3 posBullet;
 			if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
@@ -750,7 +756,7 @@ void SceneManager::ChangeGun(bool isEmptyBullet) {
 
 void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 	float v = hellBullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; ++i) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
 		bullet->InitA(hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 1), hellBullet->GetMaxOfLength());
@@ -777,14 +783,14 @@ void SceneManager::Update(float deltaTime) {
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
 		if (Camera::GetInstance()->is_dead == false) {
-			for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 			}
 		}
 		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 		int lop = deltaTime / 0.003;
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
-		for (int i = 0; i < lop; i++) {
+		for (int i = 0; i < lop; ++i) {
 			m_world->Step(0.07f, 6, 2);
 			m_MainCharacter->Update(deltaTime);
 		}
@@ -810,6 +816,9 @@ void SceneManager::Update(float deltaTime) {
 	static const double step = 1.0 / 70.0;
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
+	 for (int i = 0; i < m_ListBackground.size(); ++i) m_ListBackground[i]->Update(deltaTime);
+
+
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
 	 int row = Globals::screenHeight / WIDTH * 2 + 1;
 	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
@@ -820,8 +829,8 @@ void SceneManager::Update(float deltaTime) {
 	hlow = h - row > 0 ? h - row : 0;
 	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
 
-	for (int i = hlow; i < hhigh; i++) {
-		for (int j = wlow; j < whigh; j++) {
+	for (int i = hlow; i < hhigh; ++i) {
+		for (int j = wlow; j < whigh; ++j) {
 			if (mapEnemy[{i, j}] > 0) {
 				int id = mapEnemy[{i, j}] - 1;
 				int left = mapLimit[{i, j}].first;
@@ -894,7 +903,7 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
 		if (m_listBulletInWorld[i]->checkDraw() == false) {
 			RemoveBullet(i);
 		}
@@ -907,7 +916,7 @@ void SceneManager::Update(float deltaTime) {
 	m_time_roll += deltaTime;
 	CheckMovement();
 
-	for (int i = 0; i < m_listEnemyInWorld.size(); i++) {
+	for (int i = 0; i < m_listEnemyInWorld.size(); ++i) {
 		if (m_listEnemyInWorld[i]->checkDraw()) {
 			m_listEnemyInWorld[i]->m_direction = (m_listEnemyInWorld[i]->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
 			m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
@@ -951,7 +960,7 @@ void SceneManager::Update(float deltaTime) {
 	int32 positionIterations = 2;
 	float lop = deltaTime / 0.003f;
 
-	for(float i = 0;i < lop;i++){
+	for(float i = 0;i < lop;++i){
 		m_world->Step(0.07f, velocityIterations, positionIterations);
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
@@ -1037,7 +1046,7 @@ void SceneManager::Update(float deltaTime) {
 
 		prev = now;
 
-		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
+		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 			m_listEnemyInWorld[i]->Update(deltaTime);
 			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
@@ -1067,7 +1076,7 @@ void SceneManager::Update(float deltaTime) {
 					m_IsTowerDefend = true;
 				}
 
-				for (int j = 0; j < (int)m_listBulletInWorld.size(); j++) {
+				for (int j = 0; j < (int)m_listBulletInWorld.size(); ++j) {
 					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
 						m_listBulletInWorld[j]->SetTarget(NULL);
 					}
@@ -1080,7 +1089,7 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 
-		for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
+		for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
 			m_listBulletInWorld[i]->Update(deltaTime);
 			bool isContact = false;
 			for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {

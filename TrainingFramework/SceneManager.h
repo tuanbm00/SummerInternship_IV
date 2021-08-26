@@ -25,7 +25,7 @@ private:
 	Ground * groundTest;
 	Ground * m_Decor;
 	std::vector<std::vector<Terrain*>> m_listTerrain;
-	std::vector<Terrain*> m_ListBackground;
+	std::vector<Object*> m_ListBackground;
 	std::vector<std::vector<int>> map;
 	std::map<std::pair<int, int>, int> mapEnemy;
 	std::map<std::pair<int, int>, std::pair<int, int>> mapLimit;
@@ -38,6 +38,7 @@ private:
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
 	Object * mainIcon;
+	Object * background;
 
 	b2Filter filterMain, filterRoll;
 	int m_direction;

@@ -88,8 +88,13 @@ void Object::Draw() {
 }
 
 void Object::Update(float deltaTime) {
-	m_Position.x = Camera::GetInstance()->GetPosition().x;
-	m_Position.y = Camera::GetInstance()->GetPosition().y;
+	Vector3 camPos = Camera::GetInstance()->GetPosition();
+	float temp = (camPos.x * (1 - parallaxEffect));
+	float dist = camPos.x * parallaxEffect;
+	m_Position.x = startPos+dist;
+	m_Position.y = camPos.y;
+	if (temp > startPos + length) startPos += length;
+	else if (temp < startPos - length) startPos -= length;
 	UpdateWorld();
 }
 
@@ -195,4 +200,11 @@ void Object::UpdateAnimation(float deltaTime) {
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, m_current_anim);
 	}
+}
+
+void Object::start(float para, float len)
+{
+	startPos = m_Position.x;
+	parallaxEffect = para;
+	length = len*m_Scale.y;
 }

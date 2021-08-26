@@ -16,7 +16,7 @@ Animation::Animation(const char* filePath)
 	i_frame_count = cnt;
 	i_total_frame = total;
 	m_animation.resize(total);
-	for (int i = 0; i < total; i++) {
+	for (int i = 0; i < total; ++i) {
 		int x, y, w, h;
 		fscanf_s(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
 		m_animation[i] = Vector4(x, y, w, h);
@@ -32,7 +32,7 @@ Animation::Animation(Animation* anim) {
 	i_frame_count = anim->i_frame_count;
 	i_total_frame = anim->i_total_frame;
 	m_animation.resize(i_total_frame);
-	for (int i = 0; i < i_total_frame; i++) m_animation[i] = anim->m_animation[i];
+	for (int i = 0; i < i_total_frame; ++i) m_animation[i] = anim->m_animation[i];
 }
 
 Animation::~Animation()
@@ -132,7 +132,7 @@ void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float delt
 			d_anim_cursor = 0;
 		}
 	}
-
+	if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;
 	Vector4 frame = m_animation[i_current_frame_index];
 	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
 	Vertex verticesData[4];

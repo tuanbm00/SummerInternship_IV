@@ -15,6 +15,7 @@
 class Object
 {
 protected:
+	float startPos, parallaxEffect, length;
 	std::vector<GLuint> textureId;
 	std::vector<Texture*> m_Texture;
 	Shaders* m_Shader;
@@ -48,6 +49,7 @@ public:
 	void UpdateWVP();
 	void UpdateWorld();
 	void UpdateAnimation(float deltaTime);
+	void start(float para, float len);
 
 	void SetTexture(Texture* Texture);
 	void SetPosition(float X, float Y, float Z);

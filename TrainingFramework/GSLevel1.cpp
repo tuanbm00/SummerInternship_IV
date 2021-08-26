@@ -22,7 +22,7 @@ void GSLevel1::Init() {
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
 
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
+	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel1::Draw() {
@@ -37,7 +37,7 @@ void GSLevel1::Update(float deltaTime) {
 
 void GSLevel1::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
-	ResourceManager::GetInstance()->StopAllSound();
+	//ResourceManager::GetInstance()->StopAllSound();
 	m_SM->CleanUp();
 	m_SM->FreeInstance();
 }

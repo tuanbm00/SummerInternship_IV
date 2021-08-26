@@ -163,11 +163,21 @@ FILE ../Resources/Textures/Buttons/frame_failed.tga
 ID 36
 FILE ../Resources/Textures/Buttons/Background.tga
 
-#Background: 2
+#Background: 7
 ID 0
-FILE ../Resources/Tile/background.tga
+FILE ../Resources/Tile/bg1.tga
 ID 1
-FILE ../Resources/Tile/background2.tga
+FILE ../Resources/Tile/bg2.tga
+ID 2
+FILE ../Resources/Tile/bg3.tga
+ID 3
+FILE ../Resources/Tile/bg4.tga
+ID 4
+FILE ../Resources/Tile/bg5.tga
+ID 5
+FILE ../Resources/Tile/bg6.tga
+ID 6
+FILE ../Resources/Tile/bg7.tga
 
 #Tile: 0
 

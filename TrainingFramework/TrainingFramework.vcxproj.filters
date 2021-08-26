@@ -102,9 +102,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
     <ClCompile Include="TextManager.cpp">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
@@ -152,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="GSLoadLevel.cpp">
       <Filter>Source Files\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
