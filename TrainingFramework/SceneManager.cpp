@@ -515,10 +515,12 @@ void SceneManager::OnMouseButtonUp(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
+
 	}
 	break;
 	case RMB:
 	{
+
 	}
 	break;
 	}

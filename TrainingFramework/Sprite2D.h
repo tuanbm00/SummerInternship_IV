@@ -40,6 +40,7 @@ public:
 	void setModel(Models* mmodel);
 	void setShader(Shaders* mshader);
 	void SetTexture(Texture* Texture);
+	void SetNewTexture(Texture* Texture);
 	void Set2DPosition(GLfloat X, GLfloat Y);
 	void SetPosition(GLfloat X, GLfloat Y, GLfloat Z);
 	void Set2DPosition(Vector2 Position);

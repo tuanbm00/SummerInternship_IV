@@ -130,6 +130,9 @@ void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float delt
 				Camera::GetInstance()->is_dead = true;
 			}
 			d_anim_cursor = 0;
+			if (i_current_frame_index >= i_frame_count - 1) {
+				i_current_frame_index = 0;
+			}
 		}
 	}
 	if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;

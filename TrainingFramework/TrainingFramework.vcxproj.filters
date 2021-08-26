@@ -150,8 +150,8 @@
     <ClCompile Include="GSLoadLevel.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GSOptions.cpp">
+      <Filter>Source Files\GameStates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +270,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GSResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

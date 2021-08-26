@@ -113,6 +113,7 @@
     <ClCompile Include="GSLevel4.cpp" />
     <ClCompile Include="GSLoadLevel.cpp" />
     <ClCompile Include="GSMainmenu.cpp" />
+    <ClCompile Include="GSOptions.cpp" />
     <ClCompile Include="GSResult.cpp" />
     <ClCompile Include="Healthy.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="GSLevel4.h" />
     <ClInclude Include="GSLoadLevel.h" />
     <ClInclude Include="GSMainmenu.h" />
+    <ClInclude Include="GSOptions.h" />
     <ClInclude Include="GSResult.h" />
     <ClInclude Include="Healthy.h" />
     <ClInclude Include="MainCharacter.h" />

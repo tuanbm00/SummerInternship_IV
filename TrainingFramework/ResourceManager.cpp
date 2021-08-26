@@ -9,6 +9,7 @@ ResourceManager* ResourceManager::s_Instance = NULL;
 
 ResourceManager::ResourceManager(void)
 {
+	m_fGlobalVolume = 1;
 	m_Soloud = SoLoud::Soloud();
 	m_Soloud.init();
 }
@@ -240,6 +241,16 @@ void ResourceManager::StopSound(const std::string& name)
 void ResourceManager::StopAllSound()
 {
 	m_Soloud.stopAll();
+}
+
+//Stop All Sound
+void ResourceManager::SwitchSound()
+{
+	if (m_fGlobalVolume > 0) {
+		m_fGlobalVolume = 0;
+	}
+	else m_fGlobalVolume = 1;
+	m_Soloud.setGlobalVolume(m_fGlobalVolume);
 }
 
 void ResourceManager::CleanUp() {

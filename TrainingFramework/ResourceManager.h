@@ -22,6 +22,7 @@ private:
 	std::map<std::string, std::shared_ptr<SoLoud::Wav>> m_MapWave; //TruongNV - Add Map Sound
 	//std::string m_SoundPath; //Truong NV - Add SoundPath
 	SoLoud::Soloud m_Soloud; //Truong NV - Engine Core
+	float m_fGlobalVolume = 1;
 public:
 	ResourceManager();
 	~ResourceManager();
@@ -43,6 +44,8 @@ public:
 	void PlaySound(const std::string& name, bool loop = false);
 	void StopSound(const std::string& name);
 	void StopAllSound();
+	void SwitchSound();
+	inline float GetGlobalVolume() { return m_Soloud.getGlobalVolume(); }
 
 	static ResourceManager* GetInstance();
 

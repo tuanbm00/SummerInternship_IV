@@ -87,7 +87,7 @@ ID 28
 FILE ../Resources/Animation/mainicon.txt
 SPEED 0.1 -1
 
-#2D Textures: 37
+#2D Textures: 41
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -162,6 +162,14 @@ ID 35
 FILE ../Resources/Textures/Buttons/frame_failed.tga
 ID 36
 FILE ../Resources/Textures/Buttons/Background.tga
+ID 37
+FILE ../Resources/Textures/key_mapping.tga
+ID 38
+FILE ../Resources/Textures/Buttons/button_back.tga
+ID 39
+FILE ../Resources/Textures/Buttons/button_audio_off.tga
+ID 40
+FILE ../Resources/Textures/Buttons/button_audio_on.tga
 
 #Background: 7
 ID 0
