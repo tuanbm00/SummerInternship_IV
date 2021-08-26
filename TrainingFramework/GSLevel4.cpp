@@ -42,14 +42,12 @@ void GSLevel4::CleanUp() {
 }
 
 void GSLevel4::Resume() {
-	//Init();
 	ResourceManager::GetInstance()->StopAllSound();
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel4::Pause() {
 	ResourceManager::GetInstance()->StopAllSound();
-	//ResourceManager::GetInstance()->StopSound("../Resources/Sounds/bg_MainMenu_Sound.wav");
 }
 
 

@@ -79,6 +79,14 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			}
 		});
 	}
+	else if (strcmp(type, "OPTIONS") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				if (GameStateMachine::GetInstance()->GetIsCanPop())
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_OPTIONS);
+			}
+		});
+	}
 	else if (strcmp(type, "LOADLEVEL") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
@@ -199,6 +207,11 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				if(GameStateMachine::GetInstance()->GetIsCanPop())
 				GameStateMachine::GetInstance()->PopState();
 			}
+		});
+	}
+	else if (strcmp(type, "SWITCHSOUND") == 0) {
+		button->SetOnClick([]() {
+			ResourceManager::GetInstance()->SwitchSound();
 		});
 	}
 	else if (strcmp(type, "EXIT") == 0) {

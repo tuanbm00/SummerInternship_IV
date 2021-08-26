@@ -15,7 +15,7 @@ enum StateTypes {
 	GS_LEVEL3,
 	GS_LEVEL4,
 	GS_RESULT,
-	GS_OPTION,
+	GS_OPTIONS,
 	GS_CREDIT
 };
 

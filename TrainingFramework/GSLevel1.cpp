@@ -37,7 +37,6 @@ void GSLevel1::Update(float deltaTime) {
 
 void GSLevel1::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
-	ResourceManager::GetInstance()->StopAllSound();
 	m_SM->CleanUp();
 	m_SM->FreeInstance();
 }
@@ -45,12 +44,11 @@ void GSLevel1::CleanUp() {
 void GSLevel1::Resume() {
 	//Init();
 	ResourceManager::GetInstance()->StopAllSound();
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 }
 
 void GSLevel1::Pause() {
 	ResourceManager::GetInstance()->StopAllSound();
-	//ResourceManager::GetInstance()->StopSound("../Resources/Sounds/bg_MainMenu_Sound.wav");
 }
 
 

@@ -35,3 +35,8 @@ bool GameButton::IsHandle()
 {
 	return m_isHandle;
 }
+
+void GameButton::SetIsHandle(bool isHandle)
+{
+	m_isHandle = isHandle;
+}

@@ -19,9 +19,7 @@ void GSLevel2::Init() {
 	char* MAP = "../Resources/Map/maplv2.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
-
-
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel2::Draw() {
@@ -40,7 +38,7 @@ void GSLevel2::CleanUp() {
 
 void GSLevel2::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel2::Pause() {
