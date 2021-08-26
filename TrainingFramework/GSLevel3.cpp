@@ -6,9 +6,7 @@
 #include "string.h"
 
 GSLevel3::GSLevel3() {
-	char* SM = "../Resources/Managers/SM3.txt";
-	char* MAP = "../Resources/Map/maplv3.txt";
-	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
+	
 }
 
 GSLevel3::~GSLevel3() {
@@ -17,26 +15,31 @@ GSLevel3::~GSLevel3() {
 
 void GSLevel3::Init() {
 	Camera::GetInstance()->i_state = 3;
-	Singleton<SceneManager>::GetInstance()->Init();
+
+	//Init SM
+	m_SM = std::make_shared<SceneManager>();
+	char* SM = "../Resources/Managers/SM3.txt";
+	char* MAP = "../Resources/Map/maplv3.txt";
+	m_SM->SetFileManager(SM, MAP);
+	m_SM->Init();
 
 	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel3::Draw() {
 
-	Singleton<SceneManager>::GetInstance()->Draw();
+	m_SM->Draw();
 
 }
 
 void GSLevel3::Update(float deltaTime) {
-//	std::cout << "This is Level 3!" << std::endl;
-	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
+	m_SM->Update(deltaTime);
 }
 
 void GSLevel3::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
-	Singleton<SceneManager>::GetInstance()->CleanUp();
-	Singleton<SceneManager>::GetInstance()->FreeInstance();
+	m_SM->CleanUp();
+	m_SM->FreeInstance();
 }
 
 void GSLevel3::Resume() {
@@ -53,7 +56,7 @@ void GSLevel3::Pause() {
 
 //Events
 void GSLevel3::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
-	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
+	m_SM->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
 		case KEY_NEW_STATE:
@@ -80,13 +83,13 @@ void GSLevel3::OnMouseMoving(int X, int Y) {
 }
 
 void GSLevel3::OnMouseButtonDown(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonDown(X, Y, Button);
+	m_SM->OnMouseButtonDown(X, Y, Button);
 }
 
 void GSLevel3::OnMouseButtonUp(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonUp(X, Y, Button);
+	m_SM->OnMouseButtonUp(X, Y, Button);
 }
 
 void GSLevel3::OnMouseButtonMove(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonMove(X, Y, Button);
+	m_SM->OnMouseButtonMove(X, Y, Button);
 }

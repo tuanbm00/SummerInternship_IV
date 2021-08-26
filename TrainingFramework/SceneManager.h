@@ -56,8 +56,8 @@ private:
 	bool m_bIsFighting = false;
 	bool is_in_ground;
 	Vector2 m_oTarget;
-	char* m_fileSM = NULL;
-	char* m_fileMAP = NULL;
+	char* m_fileSM;
+	char* m_fileMAP;
 	b2World * m_world;
 	int jumpstep;
 	int numJump;

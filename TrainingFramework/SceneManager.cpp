@@ -25,6 +25,7 @@ SceneManager::~SceneManager()
 }
 
 void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
+	std::cout << fileSM << std::endl;
 	m_fileSM = fileSM;
 	m_fileMAP = fileMAP;
 	m_direction = 1;

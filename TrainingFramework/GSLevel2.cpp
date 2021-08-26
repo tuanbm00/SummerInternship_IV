@@ -4,9 +4,7 @@
 #include "Camera.h"
 
 GSLevel2::GSLevel2() {
-	char* SM = "../Resources/Managers/SM2.txt";
-	char* MAP = "../Resources/Map/maplv2.txt";
-	Singleton<SceneManager>::GetInstance()->SetFileManager(SM, MAP);
+	
 }
 
 GSLevel2::~GSLevel2() {
@@ -15,24 +13,29 @@ GSLevel2::~GSLevel2() {
 
 void GSLevel2::Init() {
 	Camera::GetInstance()->i_state = 2;
-	Singleton<SceneManager>::GetInstance()->Init();
+	//Init SM
+	m_SM = std::make_shared<SceneManager>();
+	char* SM = "../Resources/Managers/SM2.txt";
+	char* MAP = "../Resources/Map/maplv2.txt";
+	m_SM->SetFileManager(SM, MAP);
+	m_SM->Init();
 	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 
 
 }
 
 void GSLevel2::Draw() {
-	Singleton<SceneManager>::GetInstance()->Draw();
+	m_SM->Draw();
 }
 
 void GSLevel2::Update(float deltaTime) {
-	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
+	m_SM->Update(deltaTime);
 }
 
 void GSLevel2::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
-	Singleton<SceneManager>::GetInstance()->CleanUp();
-	Singleton<SceneManager>::GetInstance()->FreeInstance();
+	m_SM->CleanUp();
+	m_SM->FreeInstance();
 }
 
 void GSLevel2::Resume() {
@@ -47,7 +50,7 @@ void GSLevel2::Pause() {
 
 //Events
 void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
-	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
+	m_SM->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
 		case KEY_NEW_STATE:
@@ -75,13 +78,13 @@ void GSLevel2::OnMouseMoving(int X, int Y) {
 }
 
 void GSLevel2::OnMouseButtonDown(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonDown(X, Y, Button);
+	m_SM->OnMouseButtonDown(X, Y, Button);
 }
 
 void GSLevel2::OnMouseButtonUp(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonUp(X, Y, Button);
+	m_SM->OnMouseButtonUp(X, Y, Button);
 }
 
 void GSLevel2::OnMouseButtonMove(int X, int Y, char Button) {
-	Singleton<SceneManager>::GetInstance()->OnMouseButtonMove(X, Y, Button);
+	m_SM->OnMouseButtonMove(X, Y, Button);
 }
