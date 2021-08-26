@@ -53,13 +53,13 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 	return std::shared_ptr<GameStateBase>();
 }
 
-std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt, bool bIsVictory)
+std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt, bool bIsVictory, int currentLevel)
 {
 	std::shared_ptr<GameStateBase> gs = nullptr;
 	switch (stt)
 	{
 	case GS_RESULT:
-		gs = std::make_shared<GSResult>(bIsVictory);
+		gs = std::make_shared<GSResult>(bIsVictory, currentLevel);
 		break;
 	default:
 		break;

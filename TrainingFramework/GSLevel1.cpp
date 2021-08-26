@@ -10,7 +10,6 @@ GSLevel1::GSLevel1() {
 }
 
 GSLevel1::~GSLevel1() {
-	
 }
 
 void GSLevel1::Init() {
@@ -38,6 +37,7 @@ void GSLevel1::Update(float deltaTime) {
 
 void GSLevel1::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
+	ResourceManager::GetInstance()->StopAllSound();
 	m_SM->CleanUp();
 	m_SM->FreeInstance();
 }

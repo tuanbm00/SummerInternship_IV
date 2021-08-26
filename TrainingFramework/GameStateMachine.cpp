@@ -62,9 +62,9 @@ void GameStateMachine::PushState(StateTypes stt)
 	m_pNextState = state;
 }
 
-void GameStateMachine::PushState(StateTypes stt, bool bIsVictory)
+void GameStateMachine::PushState(StateTypes stt, bool bIsVictory, int currentLevel)
 {
-	std::shared_ptr<GameStateBase> state = GameStateBase::CreateState(stt, bIsVictory);
+	std::shared_ptr<GameStateBase> state = GameStateBase::CreateState(stt, bIsVictory, currentLevel);
 	// pause current state
 	if (!m_StatesStack.empty()) {
 		m_StatesStack.back()->Pause();

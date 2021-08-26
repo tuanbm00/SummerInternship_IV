@@ -33,7 +33,7 @@ public:
 	void ChangeState(std::shared_ptr<GameStateBase> state);
 	void ChangeState(StateTypes stt);
 	void PushState(StateTypes stt);
-	void PushState(StateTypes stt, bool bIsVictory);
+	void PushState(StateTypes stt, bool bIsVictory, int currentLevel);
 	void PopState();
 
 	bool isRunning() { return m_running; }

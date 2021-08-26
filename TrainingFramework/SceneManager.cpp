@@ -26,7 +26,6 @@ SceneManager::~SceneManager()
 }
 
 void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
-	std::cout << fileSM << std::endl;
 	m_fileSM = fileSM;
 	m_fileMAP = fileMAP;
 	m_direction = 1;
@@ -43,7 +42,7 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 
 void SceneManager::ChangeToResultScreen(bool bIsVictory)
 {
-	GameStateMachine::GetInstance()->PushState(StateTypes::GS_RESULT, bIsVictory);
+	GameStateMachine::GetInstance()->PushState(StateTypes::GS_RESULT, bIsVictory, m_currentLevel);
 }
 
 void SceneManager::Init() {

@@ -8,7 +8,8 @@
 GSResult::GSResult() {
 }
 
-GSResult::GSResult(bool isVictory) {
+GSResult::GSResult(bool isVictory, int currentLevel) {
+	m_currentLevel = currentLevel;
 	m_bIsVictory = isVictory;
 }
 
@@ -22,7 +23,7 @@ void GSResult::Init() {
 
 	//Buttons
 	char* BM = "../Resources/Managers/BM_Result.txt";
-	m_BM = std::make_shared<ButtonManager>(BM, 0);
+	m_BM = std::make_shared<ButtonManager>(BM, m_currentLevel);
 	if(m_bIsVictory){
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
 		for (register int i = 0; i < m_BM->m_listButton.size(); i++) {

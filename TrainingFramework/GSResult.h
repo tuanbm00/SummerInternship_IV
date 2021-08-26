@@ -7,10 +7,10 @@ class GSResult :
 	std::shared_ptr<Sprite2D> m_Background;
 	std::shared_ptr<Sprite2D> m_Frame;
 	bool m_bIsVictory;
-	StateTypes m_stt;
+	int m_currentLevel;
 public:
 	GSResult();
-	GSResult(bool isVictory);
+	GSResult(bool isVictory, int currentLevel);
 	~GSResult(void);
 
 	void Init();

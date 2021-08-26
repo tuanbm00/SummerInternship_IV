@@ -28,6 +28,6 @@ public:
 
 
 	static std::shared_ptr<GameStateBase> CreateState(StateTypes stt);
-	static std::shared_ptr<GameStateBase> CreateState(StateTypes stt, bool bIsVictory);
+	static std::shared_ptr<GameStateBase> CreateState(StateTypes stt, bool bIsVictory, int currentLevel);
 };
 

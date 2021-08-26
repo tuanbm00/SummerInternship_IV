@@ -116,7 +116,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			}
 		});
 	}
-	else if (strcmp(type, "RESET") == 0) {
+	else if (strcmp(type, "RETRY") == 0) {
 		switch (m_currentLevel) {
 			case 1:
 				button->SetOnClick([]() {
@@ -150,6 +150,48 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 		}
 		
+	}
+	else if (strcmp(type, "NEXTLEVEL") == 0) {
+		switch (m_currentLevel+1) {
+		case 1:
+			button->SetOnClick([]() {
+				if (GameStateMachine::GetInstance()->HasInstance()) {
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
+				}
+			});
+			break;
+		case 2:
+			button->SetOnClick([]() {
+				if (GameStateMachine::GetInstance()->HasInstance()) {
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
+				}
+			});
+			break;
+		case 3:
+			button->SetOnClick([]() {
+				if (GameStateMachine::GetInstance()->HasInstance()) {
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
+				}
+			});
+			break;
+		case 4:
+			button->SetOnClick([]() {
+				if (GameStateMachine::GetInstance()->HasInstance()) {
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
+				}
+			});
+			break;
+		case 5:
+			button->SetOnClick([]() {
+				if (GameStateMachine::GetInstance()->HasInstance()) {
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
+				}
+			});
+			break;
+		default:
+			break;
+		}
+
 	}
 	else if (strcmp(type, "POPSTATE") == 0) {
 		button->SetOnClick([]() {
