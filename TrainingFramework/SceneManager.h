@@ -23,6 +23,7 @@ private:
 	int wlow, whigh, hlow, hhigh;
 
 	Ground * groundTest;
+	Ground * m_Decor;
 	std::vector<std::vector<Terrain*>> m_listTerrain;
 	std::vector<Terrain*> m_ListBackground;
 	std::vector<std::vector<int>> map;
@@ -96,6 +97,7 @@ public:
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
 	void ReadMap(FILE* f_MAP);
+	void LoadDecor();
 	void SetFileManager(char* fileSM, char* fileMAP);
 
 	void ChangeToResultScreen(bool bIsVictory);

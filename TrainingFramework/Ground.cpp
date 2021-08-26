@@ -82,8 +82,8 @@ void Ground::UpdateWVP()
 void Ground::addVertex(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH, Vector2 origin)
 {
 	Vertex verticesData[4];
-	origin.x = origin.x + (spriteW / 2.0f);
-	origin.y = origin.y + (spriteH / 2.0f);
+	origin.x = origin.x + 100.0f;
+	origin.y = origin.y + 100.0f;
 
 	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
 	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;

@@ -6,7 +6,6 @@
 #include "Application.h"
 #include "Globals.h"
 
-bool fighting = false;
 
 int Init(ESContext* esContext){	
 	if (Application::GetInstance()->HasInstance()) {

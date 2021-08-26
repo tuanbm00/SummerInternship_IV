@@ -97,6 +97,7 @@ void SceneManager::Init() {
 	Singleton<GameplayUI>::GetInstance()->SetCurrentLevel(m_currentLevel);
 	Singleton<GameplayUI>::GetInstance()->Init(); //Init GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetMainCharacter(m_MainCharacter); //Set MainCharacter to show information's MC
+	LoadDecor();
 }
 
 void SceneManager::ReadFile(FILE* f_SM)
@@ -282,7 +283,6 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest = new Ground();
 	FILE * fp;
 	fopen_s(&fp, "../Resources/Map/map.txt", "r+");
-	printf("1\n");
 	int ni; fscanf_s(fp, "%d\n", &ni);
 	Vector4 * Omap = new Vector4[ni];
 	for (int i = 0; i < ni; i++) {
@@ -300,7 +300,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	if (Camera::GetInstance()->i_state == 2) {
 		strcpy_s(filetex, "../Resources/Map/mapT2.tga");
 		tw = 3200.0f;
-		th = 1200.0f;
+		th = 400.0f;
 	}
 	if (Camera::GetInstance()->i_state == 3) {
 		strcpy_s(filetex, "../Resources/Map/mapT3.tga");
@@ -308,9 +308,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		th = 400.0f;
 	}
 	if (Camera::GetInstance()->i_state == 4) {
-		strcpy_s(filetex, "../Resources/Map/mapT3.tga");
+		strcpy_s(filetex, "../Resources/Map/mapT4.tga");
 		tw = 3200.0f;
-		th = 1200.0f;
+		th = 400.0f;
 	}
 	Texture * texx = new Texture(99, filetex);
 	texx->Init();
@@ -396,6 +396,28 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fclose(f_MAP);
 }
 
+void SceneManager::LoadDecor()
+{
+	m_Decor = new Ground;
+	Texture * tex = new Texture(1, "../Resources/Map/mapT2.tga");
+	tex->Init();
+	m_Decor->setTexture(tex);
+	m_Decor->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+	FILE * fp;
+	fopen_s(&fp, "../Resources/Map/decor.txt", "r");
+	int num;
+	int row, col, sizex, sizey, x, y, w, h;
+	fscanf_s(fp, "%d\n", &num);
+	for (int i = 0; i < num; i++) {
+		fscanf_s(fp, "%d %d %d %d %d %d %d %d\n", &row, &col, &sizex, &sizey, &x, &y, &w, &h);
+		Vector2 origin = Vector2(-WIDTH * (sizey - col / 2), -WIDTH * (sizex - row / 2));
+		m_Decor->addVertex(x, y, w, h, 3200.0f, 1200.0f, origin);
+	}
+	fclose(fp);
+	m_Decor->Init();
+
+}
+
 int cnt = 0;
 void SceneManager::Draw() {
 
@@ -405,7 +427,7 @@ void SceneManager::Draw() {
 		m_ListBackground[i]->Draw();
 	}
 	groundTest->Draw();
-
+	m_Decor->Draw();
 
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); i++) {
 		m_listBulletInWorld[i]->Draw();
@@ -551,6 +573,7 @@ void SceneManager::CleanUp() {
 	delete mainIcon->getModel();
 	delete mainIcon;
 	delete groundTest;
+	delete m_Decor;
 	delete m_world;
 }
 

@@ -44,10 +44,10 @@ void Camera::Update(float deltaTime, float posX, float posY,int direction) {
 		flagX = false;
 		lerpX = 0;
 	}
-	else if (posX < m_Position.x - 700 || posX > m_Position.x + 700) {
+	else if (posX < m_Position.x - 500 || posX > m_Position.x + 500) {
 		flagX = true;
 	}
-	posX += 400 * direction;
+	posX += 300 * direction;
 	if (fabs(posX - m_Position.x) <= 5) {
 		flagX = false;
 		lerpX = 0;
@@ -68,9 +68,8 @@ void Camera::Update(float deltaTime, float posX, float posY,int direction) {
 		lerpY += deltaTime;
 	}
 	if (m_Position.x - 1200 < limitX.x) m_Position.x = limitX.x + 1200;
-	if (m_Position.x + 1200 > limitX.y) m_Position.x = limitX.y-1200;
-	if (m_Position.y - 600 < limitY.x) m_Position.y = limitY.x + 600;
-	if (m_Position.y + 800 > limitY.y) m_Position.y = limitY.y - 800;
+	if (m_Position.x + 1200 > limitX.y) m_Position.x = limitX.y - 1200;
+	if (m_Position.y + 800 > limitY.y) m_Position.y = limitY.y-800;
 	updateView(m_Position.x, m_Position.y);
 	past_dir = direction;
 }
