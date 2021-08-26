@@ -584,8 +584,20 @@ void SceneManager::Shoot() {
 	bullet->InitA(m_ListGunOfPlayer[0]->GetAttackDame(), m_ListGunOfPlayer[0]->GetAttackSpeed(), m_direction*m_ListGunOfPlayer[0]->GetSpeedOfBullet().x, m_ListGunOfPlayer[0]->GetSpeedOfBullet().y, m_ListGunOfPlayer[0]->GetMaxOfLength());
 	Vector3 posBullet = Vector3(posMainCharacter.x + m_direction * (m_MainCharacter->GetBox().x + m_ListGunOfPlayer[0]->GetBox().x / 2), posMainCharacter.y, 0);
 
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_QUICK_PISTOL) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/pistol2.wav", false);
+	}
+
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BOOMERANG) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+	}
+
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_HELL_GUN) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hellgun.wav", false);
+	}
 	// set follow bazoka
 	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bazooka3.wav", false);
 		float minLength = 2000;
 		for (int i = 0; i < (int)m_listEnemyInWorld.size(); i++) {
 			if (m_direction * m_MainCharacter->GetPosition().x < m_direction * m_listEnemyInWorld[i]->GetPosition().x) {
@@ -1066,6 +1078,18 @@ void SceneManager::Update(float deltaTime) {
 				if (m_listEnemyInWorld[i]->GetID() == 4) {
 					m_IsTowerDefend = true;
 				}
+				if (m_listEnemyInWorld[i]->GetID() == 0) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bigdragon.wav", false);
+				}
+				if (m_listEnemyInWorld[i]->GetID() == 1) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/moster.wav", false);
+				}
+				if (m_listEnemyInWorld[i]->GetID() == 2) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/medusa.wav", false);
+				}
+				if (m_listEnemyInWorld[i]->GetID() == 3) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/smalldragon.wav", false);
+				}
 
 				for (int j = 0; j < (int)m_listBulletInWorld.size(); j++) {
 					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
@@ -1164,10 +1188,12 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt.wav", false);
 						Camera::GetInstance()->is_wound = true;
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 						Camera::GetInstance()->is_wound = true;
 					}
 					isContact = true;
@@ -1291,6 +1317,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				m_MainCharacter->resetAnimation(Falling);
 				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump.wav", false);
 			}
 			break;
 		case KEY_CHANGE_GUN:

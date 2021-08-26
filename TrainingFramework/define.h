@@ -7,7 +7,7 @@
 #define RMB 1
 
 // number of max bullet
-#define NUM_BULLET 10
+#define NUM_BULLET 5
 
 // texture hp
 #define WHITE 28
