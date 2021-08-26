@@ -26,7 +26,7 @@ void Application::Init()
 	glScissor(0, 0, 960, 720);
 	Singleton<TextManager>::GetInstance()->Initialize();
 	ResourceManager::GetInstance()->Init();
-	GameStateMachine::GetInstance()->PushState(StateTypes::GS_INTRO);
+	GameStateMachine::GetInstance()->ChangeState(StateTypes::GS_INTRO);
 }
 
 void Application::Update(GLfloat deltaTime)

@@ -28,11 +28,24 @@ void GameStateMachine::Cleanup()
 void GameStateMachine::ChangeState(StateTypes stt)
 {
 	std::shared_ptr<GameStateBase> gstb = GameStateBase::CreateState(stt);
+
+	// cleanup the current state
+	if (!m_StatesStack.empty()) {
+		m_StatesStack.back()->CleanUp();
+		m_StatesStack.pop_back();
+	}
+
 	m_pNextState = gstb;
 }
 
 void GameStateMachine::ChangeState(std::shared_ptr<GameStateBase> state)
 {
+	// cleanup the current state
+	if (!m_StatesStack.empty()) {
+		m_StatesStack.back()->CleanUp();
+		m_StatesStack.pop_back();
+	}
+
 	m_pNextState = state;
 }
 
@@ -80,13 +93,6 @@ void  GameStateMachine::PerformStateChange()
 {
 	if (m_pNextState != 0)
 	{
-		// cleanup the current state
-		if (!m_StatesStack.empty()) {
-			m_StatesStack.back()->CleanUp();
-			//delete m_StatesStack.back();
-			//states.pop_back();
-		}
-
 		// store and init the new state
 		m_StatesStack.push_back(m_pNextState);
 		m_StatesStack.back()->Init();

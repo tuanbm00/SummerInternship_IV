@@ -12,7 +12,7 @@ Camera::Camera(void)
 	i_state = 0;
 	is_shoot = false;
 	is_wound = false;
-	is_dead = false;
+	
 	lerpX = 0.5f;
 	lerpY = 0.5f;
 	flagY = false;
@@ -32,6 +32,7 @@ Camera::~Camera() {
 }
 
 void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed) {
+	is_dead = false;
 	m_FOV = FOV;
 	m_Near = Near;
 	m_Far = Far;
