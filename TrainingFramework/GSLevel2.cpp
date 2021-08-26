@@ -14,7 +14,7 @@ GSLevel2::~GSLevel2() {
 void GSLevel2::Init() {
 	Camera::GetInstance()->i_state = 2;
 	//Init SM
-	m_SM = std::make_shared<SceneManager>();
+	m_SM = std::make_shared<SceneManager>(2);
 	char* SM = "../Resources/Managers/SM2.txt";
 	char* MAP = "../Resources/Map/maplv2.txt";
 	m_SM->SetFileManager(SM, MAP);

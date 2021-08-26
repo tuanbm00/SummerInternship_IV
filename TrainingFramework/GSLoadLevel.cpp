@@ -18,7 +18,7 @@ void GSLoadLevel::Init() {
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_LOADLEVEL.txt";
-	m_BM = std::make_shared<ButtonManager>(BM);
+	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
 

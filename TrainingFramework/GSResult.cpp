@@ -22,7 +22,7 @@ void GSResult::Init() {
 
 	//Buttons
 	char* BM = "../Resources/Managers/BM_Result.txt";
-	m_BM = std::make_shared<ButtonManager>(BM);
+	m_BM = std::make_shared<ButtonManager>(BM, 0);
 	if(m_bIsVictory){
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
 		for (register int i = 0; i < m_BM->m_listButton.size(); i++) {

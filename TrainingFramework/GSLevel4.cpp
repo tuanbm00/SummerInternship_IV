@@ -17,7 +17,7 @@ void GSLevel4::Init() {
 	Camera::GetInstance()->i_state = 4;
 
 	//Init SM
-	m_SM = std::make_shared<SceneManager>();
+	m_SM = std::make_shared<SceneManager>(4);
 	char* SM = "../Resources/Managers/SM1.txt";
 	char* MAP = "../Resources/Map/maplv1.txt";
 	m_SM->SetFileManager(SM, MAP);

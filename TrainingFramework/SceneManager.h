@@ -64,9 +64,11 @@ private:
 
 	//ChangeToScreenRESULT
 	bool m_bChangeScreen = false, m_bIsVictory = false;
+
+	int m_currentLevel = 0;
 public:
 	int * indices;
-	SceneManager();
+	SceneManager(int currentLevel);
 	~SceneManager();
 
 	void Init();

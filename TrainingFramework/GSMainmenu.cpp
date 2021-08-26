@@ -17,7 +17,7 @@ void GSMainmenu::Init() {
 	//Manager Initialize
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
 	char* BM = "../Resources/Managers/BM_Mainmenu.txt";
-	m_BM = std::make_shared<ButtonManager>(BM);
+	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);

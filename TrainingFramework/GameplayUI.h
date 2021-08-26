@@ -9,6 +9,7 @@ class GameplayUI :
 	float m_NumberOfBullets1 = 0;
 	float m_NumberOfBullets2 = 0;
 	char mainHP[20], bullet1[20], bullet2[20];
+	int m_currentLevel = 0;
 	
 public:
 	GameplayUI(void);
@@ -30,8 +31,10 @@ public:
 	void Draw();
 	void DrawGameOver();
 
+	void SetCurrentLevel(int currentLevel);
 	void SetMainCharacter(MainCharacter* mainCharacter);
 	void SetBoss(Boss* boss);
 	void SetBossAppear(bool IsAppear);
 	void SetNumberOfBullets(int numberOfBullets1, int numberOfBullets2);
+
 };

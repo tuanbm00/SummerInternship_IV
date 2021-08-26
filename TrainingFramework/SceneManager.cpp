@@ -9,7 +9,7 @@
 #include "Healthy.h"
 
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(int currentLevel)
 {
 	filterMain.categoryBits = CATEGORY_PLAYER;
 	filterMain.maskBits = MASK_PLAYER;
@@ -17,6 +17,7 @@ SceneManager::SceneManager()
 	filterRoll.categoryBits = CATEGORY_PLAYER;
 	filterRoll.maskBits = MASK_PLAYER;
 	filterRoll.groupIndex = -2;
+	m_currentLevel = currentLevel;
 }
 
 
@@ -94,6 +95,7 @@ void SceneManager::Init() {
 	mainIcon->SetScale(3, 3, 1);
 	mainIcon->m_current_anim = 1;
 	mainIcon->InitWVP();
+	Singleton<GameplayUI>::GetInstance()->SetCurrentLevel(m_currentLevel);
 	Singleton<GameplayUI>::GetInstance()->Init(); //Init GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetMainCharacter(m_MainCharacter); //Set MainCharacter to show information's MC
 }

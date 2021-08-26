@@ -4,7 +4,8 @@
 #include "GameStateMachine.h"
 #include "define.h"
 
-ButtonManager::ButtonManager(char* srcButton) {
+ButtonManager::ButtonManager(char* srcButton, int currentLevel) {
+	m_currentLevel = currentLevel;
 	ReadFile(srcButton);
 }
 
@@ -95,6 +96,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL2") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
+				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 			}
 		});
@@ -102,6 +104,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL3") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
+				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 			}
 		});
@@ -112,6 +115,41 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 			}
 		});
+	}
+	else if (strcmp(type, "RESET") == 0) {
+		switch (m_currentLevel) {
+			case 1:
+				button->SetOnClick([]() {
+					if (GameStateMachine::GetInstance()->HasInstance()) {
+						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
+					}
+				});
+				break;
+			case 2:
+				button->SetOnClick([]() {
+					if (GameStateMachine::GetInstance()->HasInstance()) {
+						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
+					}
+				});
+				break;
+			case 3:
+				button->SetOnClick([]() {
+					if (GameStateMachine::GetInstance()->HasInstance()) {
+						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
+					}
+				});
+				break;
+			case 4:
+				button->SetOnClick([]() {
+					if (GameStateMachine::GetInstance()->HasInstance()) {
+						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
+					}
+				});
+				break;
+			default:
+				break;
+		}
+		
 	}
 	else if (strcmp(type, "POPSTATE") == 0) {
 		button->SetOnClick([]() {
@@ -143,4 +181,9 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	}
 	break;
 	}
+}
+
+void ButtonManager::SetCurrentLevel(int currentLevel)
+{
+	m_currentLevel = currentLevel;
 }

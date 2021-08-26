@@ -4,10 +4,12 @@
 class ButtonManager
 {
 private:
-	
+	int m_currentLevel = 0;
 public:
-	ButtonManager(char *srcButton);
+	ButtonManager(char *srcButton, int currentLevel);
 	~ButtonManager();
+
+
 
 	std::vector<std::shared_ptr<GameButton>> m_listButton;
 
@@ -29,5 +31,6 @@ public:
 	
 
 	void AddFunction(char* type, std::shared_ptr<GameButton> button);
+	void SetCurrentLevel(int currentLevel);
 };
 

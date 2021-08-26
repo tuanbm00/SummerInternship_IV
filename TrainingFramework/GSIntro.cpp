@@ -15,7 +15,6 @@ GSIntro::~GSIntro() {
 void GSIntro::Init() {
 	m_currentTime = 0;
 	//Manager Initialize
-	ResourceManager::GetInstance()->Init();
 	//Singleton<TextManager>::GetInstance()->Initialize();
 
 	//Sprite2D Initialize

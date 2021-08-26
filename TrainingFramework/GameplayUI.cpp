@@ -15,14 +15,16 @@ GameplayUI::~GameplayUI() {
 void GameplayUI::Init() {
 	//Manager Initialize
 	//Singleton<TextManager>::GetInstance()->Initialize();
+	
 	char* BM = "../Resources/Managers/BM_Gameplay.txt";
-	m_BM = std::make_shared<ButtonManager>(BM);
+	m_BM = std::make_shared<ButtonManager>(BM, m_currentLevel);
 
 }
 
 void GameplayUI::DrawGameOver() {
 	Singleton<TextManager>::GetInstance()->RenderString("GAME OVER!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 }
+
 
 void GameplayUI::Draw() {
 	m_BM->Draw();
@@ -43,6 +45,10 @@ void GameplayUI::Draw() {
 	//	strcat_s(text, buffer);
 	//	Singleton<TextManager>::GetInstance()->RenderString(text, Vector4(1.0f, 0.0f, 0.0f), 360.0f , 600.0f, 2.0f, 2.0f);
 	//}
+}
+
+void GameplayUI::SetCurrentLevel(int currentLevel) {
+	m_currentLevel = currentLevel;
 }
 
 void GameplayUI::SetMainCharacter(MainCharacter* mainCharacter)
