@@ -186,6 +186,16 @@ void ResourceManager::addDumpAnim(Animation * anim)
 	m_DumpAnim.push_back(anim);
 }
 
+void ResourceManager::addModel(Model * m)
+{
+	m_Models.push_back(m);
+}
+
+void ResourceManager::addModels(Models * m)
+{
+	m_DumpModels.push_back(m);
+}
+
 //TruongNV - Sound Functions
 //Add Sound
 void ResourceManager::AddSound(const std::string& name)
@@ -256,6 +266,9 @@ void ResourceManager::SwitchSound()
 void ResourceManager::CleanUp() {
 	for (int i = 0; i < (int)m_Models.size(); ++i) {
 		delete m_Models[i];
+	}
+	for (int i = 0; i < (int)m_DumpModels.size(); ++i) {
+		delete m_DumpModels[i];
 	}
 	for (int i = 0; i < (int)m_Textures.size(); ++i) {
 		delete m_Textures[i];

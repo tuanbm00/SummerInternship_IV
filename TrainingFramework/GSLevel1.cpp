@@ -36,7 +36,6 @@ void GSLevel1::Update(float deltaTime) {
 }
 
 void GSLevel1::CleanUp() {
-	ResourceManager::GetInstance()->CleanDump();
 	m_SM->CleanUp();
 	m_SM->FreeInstance();
 }

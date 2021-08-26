@@ -154,6 +154,12 @@ Bullet* Boss::GetBullet() {
 	return m_listBullet[0];
 }
 
+void Boss::cleanHP()
+{
+	delete m_whiteHp;
+	delete m_redHp;
+}
+
 void Boss::SetIcon(Healthy* icon) {
 	m_bossIcon = icon;
 }

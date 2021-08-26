@@ -13,6 +13,7 @@ GSLevel2::~GSLevel2() {
 
 void GSLevel2::Init() {
 	Camera::GetInstance()->i_state = 2;
+
 	//Init SM
 	m_SM = std::make_shared<SceneManager>(2);
 	char* SM = "../Resources/Managers/SM2.txt";
@@ -31,7 +32,6 @@ void GSLevel2::Update(float deltaTime) {
 }
 
 void GSLevel2::CleanUp() {
-	ResourceManager::GetInstance()->CleanDump();
 	m_SM->CleanUp();
 	m_SM->FreeInstance();
 }

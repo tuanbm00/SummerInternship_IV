@@ -28,5 +28,6 @@ public:
 	void resetGun();
 	void SetHPTexture(Healthy* healthy, bool isWhite = true);
 	void DrawHP();
+	void cleanHP();
 };
 

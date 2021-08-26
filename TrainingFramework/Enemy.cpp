@@ -92,6 +92,12 @@ bool Enemy::isAttack() {
 	return false;
 }
 
+void Enemy::cleanHP()
+{
+	delete m_whiteHp;
+	delete m_redHp;
+}
+
 void Enemy::SetBullet(Bullet* bullet) {
 	m_time = 0;
 	m_bullet = bullet;

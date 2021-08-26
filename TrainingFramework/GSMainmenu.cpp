@@ -22,6 +22,7 @@ void GSMainmenu::Init() {
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(model);
 	m_Background->setModel(model);
 	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
 	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
@@ -43,7 +44,6 @@ void GSMainmenu::Update(float deltaTime) {
 }
 
 void GSMainmenu::CleanUp() {
-	m_Background->CleanUp();
 	m_BM->CleanUp();
 	
 }

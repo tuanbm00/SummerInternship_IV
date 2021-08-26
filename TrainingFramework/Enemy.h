@@ -37,6 +37,8 @@ public:
 	bool isDie();
 	bool isAttack();
 
+	void cleanHP();
+
 	void UpdateAttack(float deltaTime);
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);

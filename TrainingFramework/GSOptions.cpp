@@ -30,6 +30,7 @@ void GSOptions::Init() {
 
 	//Background Initialize
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(model);
 
 	auto obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
@@ -83,7 +84,6 @@ void GSOptions::CleanUp() {
 		m_listSprite[i]->CleanUp();
 	}
 	m_BM->CleanUp();
-
 }
 
 void GSOptions::Resume() {

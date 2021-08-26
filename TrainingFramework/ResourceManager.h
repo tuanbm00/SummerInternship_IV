@@ -6,12 +6,14 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include <map>
+#include "Models.h"
 
 class ResourceManager
 {
 private:
 	static ResourceManager* s_Instance;
 	std::vector<Model*> m_Models;
+	std::vector<Models*> m_DumpModels;
 	std::vector<Texture*> m_Textures;
 	std::vector<Shaders*> m_Shaders;
 	std::vector<Animation*> m_Animations;
@@ -38,6 +40,8 @@ public:
 	Texture* GetBackgroundAtID(int ID);
 	Texture* GetTerrainAtID(int ID);
 	void addDumpAnim(Animation* anim);
+	void addModel(Model * m);
+	void addModels(Models * m);
 
 	//TruongNV - Add Function Sound
 	void AddSound(const std::string& name);

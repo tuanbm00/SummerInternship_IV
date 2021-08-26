@@ -42,24 +42,7 @@ void Application::Render()
 {
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Draw();
-	/*static float framesPerSecond = 0.0f;
-	static int fps;
-	static float lastTime = 0.0f;
-	float currentTime = GetTickCount() * 0.001f;
-	++framesPerSecond;
-	if (currentTime - lastTime > 1.0f)
-	{
-		lastTime = currentTime;
-		fps = (int)framesPerSecond;
-		framesPerSecond = 0;
-	}
-	char buffer[5];
-	_itoa_s(fps, buffer, 10);
-	char s[9] = "FPS: ";
-	strcat_s(s, buffer);
-
-
-	Singleton<TextManager>::GetInstance()->RenderString(s, Vector4(0.5f, 0.8f, 0.2f), 860.0f, 700.0f, 1.0f, 1.0f);*/
+	
 }
 
 
@@ -88,9 +71,9 @@ void Application::OnMouseMoving(GLint X, GLint Y) {
 
 void Application::Exit()
 {
+	ResourceManager::GetInstance()->CleanDump();
 	ResourceManager::GetInstance()->CleanUp();
 	delete ResourceManager::GetInstance();
 	GameStateMachine::GetInstance()->Cleanup();
 	Singleton<TextManager>::GetInstance()->FreeInstance();
-	exit(0);
 }

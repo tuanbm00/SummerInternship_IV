@@ -53,6 +53,7 @@ public:
 	void SwapGun();
 	void SetBodyObject(float positionX, float positionY, b2World* world);
 
+	void cleanHP();
 	void SetIcon(Healthy* icon);
 	void SetHPTexture(Healthy* healthy, bool isWhite = true);
 	void DrawHP();

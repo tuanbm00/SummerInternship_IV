@@ -19,6 +19,7 @@ void GSIntro::Init() {
 
 	//Sprite2D Initialize
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(model);
 	//Logo
 	auto logo = std::make_shared<Sprite2D>(1);
 	logo->setModel(model);

@@ -24,6 +24,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 	if (numberOfButtons <= 0)
 		return false;
 	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(pModel);
 	int id, shader, texture, X, Y, W, H, active;
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)

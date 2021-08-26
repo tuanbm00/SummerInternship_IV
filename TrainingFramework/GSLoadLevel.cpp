@@ -21,6 +21,7 @@ void GSLoadLevel::Init() {
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(model);
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
@@ -52,7 +53,6 @@ void GSLoadLevel::Update(float deltaTime) {
 }
 
 void GSLoadLevel::CleanUp() {
-	m_Background->CleanUp();
 	m_Frame->CleanUp();
 	m_BM->CleanUp();
 

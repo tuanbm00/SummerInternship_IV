@@ -192,6 +192,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			// set HP texture
 			Model* modelHP = new Model();
 			modelHP->InitSprite(0, 0, 500, 30, 500, 30, false);
+			ResourceManager::GetInstance()->addModel(modelHP);
 			Healthy* whiteHp = new Healthy(0);
 			whiteHp->setModel(modelHP);
 			whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -553,6 +554,7 @@ void SceneManager::CleanUp() {
 		delete m_ListBackground[i]->getModel();
 		delete m_ListBackground[i];
 	}
+	m_MainCharacter->cleanHP();
 	delete m_MainCharacter->getModel();
 	delete m_MainCharacter;
 
@@ -561,6 +563,7 @@ void SceneManager::CleanUp() {
 		delete m_boss;
 	}
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+		m_listEnemyInWorld[i]->cleanHP();
 		delete m_listEnemyInWorld[i]->getModel();
 		delete m_listEnemyInWorld[i];
 	}
@@ -827,7 +830,6 @@ void SceneManager::Update(float deltaTime) {
 		cnt = 0;
 		Camera::GetInstance()->is_wound = false;
 	}
-	static const double step = 1.0 / 70.0;
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
 	 for (int i = 0; i < m_ListBackground.size(); ++i) m_ListBackground[i]->Update(deltaTime);
@@ -875,6 +877,7 @@ void SceneManager::Update(float deltaTime) {
 				// set HP texture
 				Model* modelHP = new Model();
 				modelHP->InitSprite(0, 0, 180, 18, 180, 18, false);
+				ResourceManager::GetInstance()->addModel(modelHP);
 				Healthy* whiteHp = new Healthy(0);
 				whiteHp->setModel(modelHP);
 				whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -970,8 +973,8 @@ void SceneManager::Update(float deltaTime) {
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, impulse), true);
 	}
 
-	int32 velocityIterations = 6;
-	int32 positionIterations = 2;
+	static int32 velocityIterations = 6;
+	static int32 positionIterations = 2;
 	float lop = deltaTime / 0.003f;
 
 	for(float i = 0;i < lop;++i){
@@ -1199,7 +1202,7 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt.wav", false);
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 						Camera::GetInstance()->is_wound = true;
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
@@ -1241,6 +1244,7 @@ void SceneManager::Update(float deltaTime) {
 						// set HP texture
 						Model* modelHP = new Model();
 						modelHP->InitSprite(0, 0, 1000, 50, 1000, 50, false);
+						ResourceManager::GetInstance()->addModel(modelHP);
 						Healthy* whiteHp = new Healthy(0);
 						whiteHp->setModel(modelHP);
 						whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -1264,6 +1268,7 @@ void SceneManager::Update(float deltaTime) {
 						// set icon boss
 						Model* modelIcon = new Model();
 						modelIcon->InitSprite(0, 0, 150, 100, 150, 100, false);
+						ResourceManager::GetInstance()->addModel(modelIcon);
 						Healthy* icon = new Healthy(2);
 						icon->setModel(modelIcon);
 						icon->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -1328,7 +1333,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				m_MainCharacter->resetAnimation(Falling);
 				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
-				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump.wav", false);
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump.mp3", false);
 			}
 			break;
 		case KEY_CHANGE_GUN:

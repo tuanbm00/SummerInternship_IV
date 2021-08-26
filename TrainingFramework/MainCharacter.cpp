@@ -98,3 +98,9 @@ void MainCharacter::DrawHP() {
 	m_whiteHp->Draw();
 	m_redHp->Draw();
 }
+
+void MainCharacter::cleanHP()
+{
+	delete m_whiteHp;
+	delete m_redHp;
+}

@@ -36,6 +36,7 @@ void GSResult::Init() {
 	}
 
 	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	ResourceManager::GetInstance()->addModels(model);
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
@@ -70,7 +71,6 @@ void GSResult::Update(float deltaTime) {
 }
 
 void GSResult::CleanUp() {
-	m_Background->CleanUp();
 	m_Frame->CleanUp();
 	m_BM->CleanUp();
 
