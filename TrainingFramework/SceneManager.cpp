@@ -393,8 +393,6 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			}
 		}
 	}
-	m_boss->SetTarget(m_MainCharacter->getBody());
-
 	fclose(f_MAP);
 }
 
@@ -1172,48 +1170,53 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	if (pos.x > 18400 && m_IsBossAppear == false && m_IsTowerDefend == true) {
-		if (m_boss) {
-			if (!m_boss->isDie()) {
-				m_IsBossAppear = true;
-				m_boss->SetBodyObject(m_boss->GetPosition().x, m_boss->GetPosition().y, m_world);
+	if (Camera::GetInstance()->i_state == 4){
+		if(pos.x > 1800 && pos.x < 2200 && pos.y > -1200 && pos.y < -800){
+			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
+				if (m_boss) {
+					if (!m_boss->isDie()) {
+						m_IsBossAppear = true;
+						m_boss->SetBodyObject(m_boss->GetPosition().x, m_boss->GetPosition().y, m_world);
 
-				// set HP texture
-				Model* modelHP = new Model();
-				modelHP->InitSprite(0, 0, 1000, 50, 1000, 50, false);
-				Healthy* whiteHp = new Healthy(0);
-				whiteHp->setModel(modelHP);
-				whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				whiteHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(WHITE));
-				whiteHp->SetPosition(m_boss->GetPosition());
-				whiteHp->SetOriginScale(1, 1, 1);
-				whiteHp->SetRotation(m_boss->GetRotation());
-				whiteHp->InitWVP();
-				Healthy* redHp = new Healthy(1);
-				redHp->setModel(modelHP);
-				redHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				redHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(RED));
-				redHp->SetPosition(m_boss->GetPosition());
-				redHp->SetOriginScale(1, 1, 1);
-				redHp->SetRotation(m_boss->GetRotation());
-				redHp->InitWVP();
+						// set HP texture
+						Model* modelHP = new Model();
+						modelHP->InitSprite(0, 0, 1000, 50, 1000, 50, false);
+						Healthy* whiteHp = new Healthy(0);
+						whiteHp->setModel(modelHP);
+						whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+						whiteHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(WHITE));
+						whiteHp->SetPosition(m_boss->GetPosition());
+						whiteHp->SetOriginScale(1, 1, 1);
+						whiteHp->SetRotation(m_boss->GetRotation());
+						whiteHp->InitWVP();
+						Healthy* redHp = new Healthy(1);
+						redHp->setModel(modelHP);
+						redHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+						redHp->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(RED));
+						redHp->SetPosition(m_boss->GetPosition());
+						redHp->SetOriginScale(1, 1, 1);
+						redHp->SetRotation(m_boss->GetRotation());
+						redHp->InitWVP();
 
-				m_boss->SetHPTexture(whiteHp);
-				m_boss->SetHPTexture(redHp, false);
+						m_boss->SetHPTexture(whiteHp);
+						m_boss->SetHPTexture(redHp, false);
 
-				// set icon boss
-				Model* modelIcon = new Model();
-				modelIcon->InitSprite(0, 0, 150, 100, 150, 100, false);
-				Healthy* icon = new Healthy(2);
-				icon->setModel(modelIcon);
-				icon->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-				icon->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(BOSS_ICON));
-				icon->SetPosition(m_boss->GetPosition());
-				icon->SetOriginScale(1, 1, 1);
-				icon->SetRotation(m_boss->GetRotation());
-				icon->InitWVP();
+						// set icon boss
+						Model* modelIcon = new Model();
+						modelIcon->InitSprite(0, 0, 150, 100, 150, 100, false);
+						Healthy* icon = new Healthy(2);
+						icon->setModel(modelIcon);
+						icon->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
+						icon->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(BOSS_ICON));
+						icon->SetPosition(m_boss->GetPosition());
+						icon->SetOriginScale(1, 1, 1);
+						icon->SetRotation(m_boss->GetRotation());
+						icon->InitWVP();
 
-				m_boss->SetIcon(icon);
+						m_boss->SetIcon(icon);
+						m_boss->SetTarget(m_MainCharacter->getBody());
+					}
+				}
 			}
 		}
 	}

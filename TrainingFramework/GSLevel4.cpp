@@ -18,11 +18,11 @@ void GSLevel4::Init() {
 
 	//Init SM
 	m_SM = std::make_shared<SceneManager>(4);
-	char* SM = "../Resources/Managers/SM1.txt";
-	char* MAP = "../Resources/Map/maplv1.txt";
+	char* SM = "../Resources/Managers/SM4.txt";
+	char* MAP = "../Resources/Map/maplv4.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 }
 
 void GSLevel4::Draw() {

@@ -70,7 +70,7 @@ void Camera::Update(float deltaTime, float posX, float posY,int direction) {
 	if (m_Position.x - 1200 < limitX.x) m_Position.x = limitX.x + 1200;
 	if (m_Position.x + 1200 > limitX.y) m_Position.x = limitX.y-1200;
 	if (m_Position.y - 600 < limitY.x) m_Position.y = limitY.x + 600;
-	if (m_Position.y + 1000 > limitY.y) m_Position.y = limitY.y - 1000;
+	if (m_Position.y + 800 > limitY.y) m_Position.y = limitY.y - 800;
 	updateView(m_Position.x, m_Position.y);
 	past_dir = direction;
 }
