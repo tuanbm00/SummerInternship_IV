@@ -52,21 +52,21 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 void ButtonManager::Update(float deltaTime)
 {
-	/*for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	/*for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Update(deltaTime);
 	}*/
 }
 
 void ButtonManager::CleanUp()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->CleanUp();
 	}
 }
 
 void ButtonManager::Draw()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); i++) {
+	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Draw();
 	}
 }
@@ -76,6 +76,14 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
+			}
+		});
+	}
+	else if (strcmp(type, "OPTIONS") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				if (GameStateMachine::GetInstance()->GetIsCanPop())
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_OPTIONS);
 			}
 		});
 	}
@@ -201,6 +209,11 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			}
 		});
 	}
+	else if (strcmp(type, "SWITCHSOUND") == 0) {
+		button->SetOnClick([]() {
+			ResourceManager::GetInstance()->SwitchSound();
+		});
+	}
 	else if (strcmp(type, "EXIT") == 0) {
 		button->SetOnClick([]() {
 			exit(0);
@@ -213,7 +226,7 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	switch (Button) {
 	case LMB:
 	{
-		for (register int i = 0; i < (int)m_listButton.size(); i++) {
+		for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 			m_listButton[i]->OnMouseButtonUp(X, Y);
 		}
 	}

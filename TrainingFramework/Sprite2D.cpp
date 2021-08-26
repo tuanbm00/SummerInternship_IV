@@ -25,9 +25,12 @@ void Sprite2D::SetTexture(Texture* texture) {
 	m_isTexture = true;
 }
 
+void Sprite2D::SetNewTexture(Texture* texture) {
+	m_Texture[0] = texture;
+}
+
 Texture* Sprite2D::getTexture() {
 	return m_Texture[0];
-
 }
 
 

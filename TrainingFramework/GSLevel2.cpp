@@ -19,9 +19,7 @@ void GSLevel2::Init() {
 	char* MAP = "../Resources/Map/maplv2.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
-
-
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel2::Draw() {
@@ -40,7 +38,7 @@ void GSLevel2::CleanUp() {
 
 void GSLevel2::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_Play_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel2::Pause() {
@@ -56,17 +54,12 @@ void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 		case KEY_NEW_STATE:
 		case KEY_NEW_STATE + 32:
 		{
-			if (GameStateMachine::GetInstance()->HasInstance()) {
-				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
-			}
+
 		}
 		break;
 		case KEY_BACK_STATE:
 		case KEY_BACK_STATE + 32:
 		{
-			if (GameStateMachine::GetInstance()->GetIsCanPop()) {
-				GameStateMachine::GetInstance()->PopState();
-			}
 			
 		}
 		break;

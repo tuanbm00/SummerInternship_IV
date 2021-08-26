@@ -9,6 +9,7 @@ ResourceManager* ResourceManager::s_Instance = NULL;
 
 ResourceManager::ResourceManager(void)
 {
+	m_fGlobalVolume = 1;
 	m_Soloud = SoLoud::Soloud();
 	m_Soloud.init();
 }
@@ -39,7 +40,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	//Animations
 	int numAnimations;
 	fscanf_s(f_RM, "#Animations: %d\n", &numAnimations);
-	for (register int i = 0; i < numAnimations; i++) {
+	for (register int i = 0; i < numAnimations; ++i) {
 		int ID;
 		char File[250]; float speed; int fire;
 		fscanf_s(f_RM, "ID %d\n", &ID);
@@ -55,7 +56,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	//Textures
 	int numOfTextures;
 	fscanf_s(f_RM, "#2D Textures: %d\n", &numOfTextures);
-	for (register int i = 0; i < numOfTextures; i++) {
+	for (register int i = 0; i < numOfTextures; ++i) {
 		int ID;
 		char File[250];
 		fscanf_s(f_RM, "ID %d\n", &ID);
@@ -69,21 +70,20 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	//Background
 	int numOfBackground;
 	fscanf_s(f_RM, "#Background: %d\n", &numOfBackground);
-	for (register int i = 0; i < numOfBackground; i++) {
+	for (register int i = 0; i < numOfBackground; ++i) {
 		int ID;
 		char File[250];
 		fscanf_s(f_RM, "ID %d\n", &ID);
 		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
 
 		Texture* texture = new Texture(ID, File);
-		texture->Init();
 		m_BackgroundTextures.push_back(texture);
 	}
 
 	//Tile
 	int numOfTile;
 	fscanf_s(f_RM, "#Tile: %d\n", &numOfTile);
-	for (register int i = 0; i < numOfTile; i++) {
+	for (register int i = 0; i < numOfTile; ++i) {
 		int ID;
 		char File[250];
 		fscanf_s(f_RM, "ID %d\n", &ID);
@@ -97,7 +97,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	//Shaders
 	int numOfShaders;
 	fscanf_s(f_RM, "#Shaders: %d\n", &numOfShaders);
-	for (register int i = 0; i < numOfShaders; i++) {
+	for (register int i = 0; i < numOfShaders; ++i) {
 		int ID, states, depth_test = 0, cull_face = 0, blend = 0;
 		char FileVS[250], FileFS[250];
 		fscanf_s(f_RM, "ID %d\n", &ID);
@@ -127,7 +127,7 @@ void ResourceManager::ReadFile(FILE* f_RM)
 }
 
 Model* ResourceManager::GetModelAtID(int ID) {
-	for (register int i = 0; i < (int)m_Models.size(); i++) {
+	for (register int i = 0; i < (int)m_Models.size(); ++i) {
 		if (m_Models[i]->GetID() == ID) {
 			return m_Models[i];
 		}
@@ -137,7 +137,7 @@ Model* ResourceManager::GetModelAtID(int ID) {
 
 Animation* ResourceManager::GetAnimationAtID(int ID)
 {
-	for (int i = 0; i < (int)m_Animations.size(); i++) {
+	for (int i = 0; i < (int)m_Animations.size(); ++i) {
 		if (m_Animations[i]->GetID() == ID) {
 			return m_Animations[i];
 		}
@@ -146,7 +146,7 @@ Animation* ResourceManager::GetAnimationAtID(int ID)
 }
 
 Shaders* ResourceManager::GetShaderAtID(int ID) {
-	for (register int i = 0; i < (int)m_Shaders.size(); i++) {
+	for (register int i = 0; i < (int)m_Shaders.size(); ++i) {
 		if (m_Shaders[i]->GetID() == ID) {
 			return m_Shaders[i];
 		}
@@ -155,7 +155,7 @@ Shaders* ResourceManager::GetShaderAtID(int ID) {
 }
 
 Texture* ResourceManager::GetTextureAtID(int ID) {
-	for (register int i = 0; i < (int)m_Textures.size(); i++) {
+	for (register int i = 0; i < (int)m_Textures.size(); ++i) {
 		if (m_Textures[i]->GetID() == ID) {
 			return m_Textures[i];
 		}
@@ -164,7 +164,7 @@ Texture* ResourceManager::GetTextureAtID(int ID) {
 }
 
 Texture* ResourceManager::GetBackgroundAtID(int ID) {
-	for (register int i = 0; i < (int)m_BackgroundTextures.size(); i++) {
+	for (register int i = 0; i < (int)m_BackgroundTextures.size(); ++i) {
 		if (m_BackgroundTextures[i]->GetID() == ID) {
 			return m_BackgroundTextures[i];
 		}
@@ -173,7 +173,7 @@ Texture* ResourceManager::GetBackgroundAtID(int ID) {
 }
 
 Texture* ResourceManager::GetTerrainAtID(int ID) {
-	for (register int i = 0; i < (int)m_TerrainTextures.size(); i++) {
+	for (register int i = 0; i < (int)m_TerrainTextures.size(); ++i) {
 		if (m_TerrainTextures[i]->GetID() == ID) {
 			return m_TerrainTextures[i];
 		}
@@ -243,30 +243,40 @@ void ResourceManager::StopAllSound()
 	m_Soloud.stopAll();
 }
 
+//Stop All Sound
+void ResourceManager::SwitchSound()
+{
+	if (m_fGlobalVolume > 0) {
+		m_fGlobalVolume = 0;
+	}
+	else m_fGlobalVolume = 1;
+	m_Soloud.setGlobalVolume(m_fGlobalVolume);
+}
+
 void ResourceManager::CleanUp() {
-	for (int i = 0; i < (int)m_Models.size(); i++) {
+	for (int i = 0; i < (int)m_Models.size(); ++i) {
 		delete m_Models[i];
 	}
-	for (int i = 0; i < (int)m_Textures.size(); i++) {
+	for (int i = 0; i < (int)m_Textures.size(); ++i) {
 		delete m_Textures[i];
 	}
-	for (int i = 0; i < (int)m_Shaders.size(); i++) {
+	for (int i = 0; i < (int)m_Shaders.size(); ++i) {
 		delete m_Shaders[i];
 	}
-	for (int i = 0; i < (int)m_BackgroundTextures.size(); i++) {
+	for (int i = 0; i < (int)m_BackgroundTextures.size(); ++i) {
 		delete m_BackgroundTextures[i];
 	}
-	for (int i = 0; i < (int)m_TerrainTextures.size(); i++) {
+	for (int i = 0; i < (int)m_TerrainTextures.size(); ++i) {
 		delete m_TerrainTextures[i];
 	}
-	for (int i = 0; i < (int)m_Animations.size(); i++) {
+	for (int i = 0; i < (int)m_Animations.size(); ++i) {
 		delete m_Animations[i];
 	}
 }
 
 void ResourceManager::CleanDump()
 {
-	for (int i = 0; i < (int)m_DumpAnim.size(); i++) {
+	for (int i = 0; i < (int)m_DumpAnim.size(); ++i) {
 		delete m_DumpAnim[i];
 	}
 }

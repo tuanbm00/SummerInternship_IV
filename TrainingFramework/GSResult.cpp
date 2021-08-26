@@ -26,7 +26,7 @@ void GSResult::Init() {
 	m_BM = std::make_shared<ButtonManager>(BM, m_currentLevel);
 	if(m_bIsVictory){
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
-		for (register int i = 0; i < m_BM->m_listButton.size(); i++) {
+		for (register int i = 0; i < m_BM->m_listButton.size(); ++i) {
 			if (m_BM->m_listButton[i]->GetID() == 1) m_BM->m_listButton[i]->SetActive(true);
 			else if(m_BM->m_listButton[i]->GetID() == 0) m_BM->m_listButton[i]->SetActive(false);
 		}
