@@ -54,17 +54,12 @@ void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 		case KEY_NEW_STATE:
 		case KEY_NEW_STATE + 32:
 		{
-			if (GameStateMachine::GetInstance()->HasInstance()) {
-				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
-			}
+
 		}
 		break;
 		case KEY_BACK_STATE:
 		case KEY_BACK_STATE + 32:
 		{
-			if (GameStateMachine::GetInstance()->GetIsCanPop()) {
-				GameStateMachine::GetInstance()->PopState();
-			}
 			
 		}
 		break;
