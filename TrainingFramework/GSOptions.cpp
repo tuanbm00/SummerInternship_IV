@@ -15,10 +15,12 @@ GSOptions::~GSOptions() {
 
 void GSOptions::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT2.mp3", true);
 	
 	char* BM = "../Resources/Managers/BM_Options.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
+
+	//Set Texture for Audio Button
 	for (register int i = 0; i < m_BM->m_listButton.size(); i++) {
 		if (m_BM->m_listButton[i]->GetID() == 0) {
 			if (ResourceManager::GetInstance()->GetGlobalVolume() > 0) {
@@ -94,7 +96,7 @@ void GSOptions::CleanUp() {
 
 void GSOptions::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT2.mp3", true);
 }
 
 void GSOptions::Pause() {

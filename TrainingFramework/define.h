@@ -77,4 +77,4 @@
 #define GSLOADLEVEL 5
 #define GSRESULT 6
 #define GSOPTIONS 7
-#define GSABOUT 8
+#define GSABOUTUS 8

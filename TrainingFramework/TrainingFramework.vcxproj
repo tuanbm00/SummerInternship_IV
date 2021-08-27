@@ -107,6 +107,7 @@
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="GSAboutUs.cpp" />
     <ClCompile Include="GSIntro.cpp" />
     <ClCompile Include="GSLevel1.cpp" />
     <ClCompile Include="GSLevel2.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="GSAboutUs.h" />
     <ClInclude Include="GSIntro.h" />
     <ClInclude Include="GSLevel1.h" />
     <ClInclude Include="GSLevel2.h" />

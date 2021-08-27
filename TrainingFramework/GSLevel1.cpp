@@ -22,7 +22,7 @@ void GSLevel1::Init() {
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
 
-	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
 
 	//Set Current State
 	m_currentState = GSLEVEL1;

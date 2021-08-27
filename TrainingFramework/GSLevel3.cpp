@@ -23,7 +23,7 @@ void GSLevel3::Init() {
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
 
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/LoveIsBeautifulPain.mp3", true); // day, mp3 cung doc dc
 
 	//Set Current State
 	m_currentState = GSLEVEL3;
@@ -45,9 +45,8 @@ void GSLevel3::CleanUp() {
 }
 
 void GSLevel3::Resume() {
-	//Init();
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_MainMenu_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/LoveIsBeautifulPain.mp3", true);
 }
 
 void GSLevel3::Pause() {

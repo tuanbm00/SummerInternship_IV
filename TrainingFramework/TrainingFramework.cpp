@@ -77,7 +77,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	esInitContext(&esContext);
 
-	esCreateWindow(&esContext, "Four", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+	esCreateWindow(&esContext, "Four - Angel of Deaths", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
 
 	if (Init(&esContext) != 0)
 		return 0;
@@ -95,7 +95,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//releasing OpenGL resources
 	CleanUp();
-
 	//identifying memory leaks
 	//MemoryDump();
 	return 0;

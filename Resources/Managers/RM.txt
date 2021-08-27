@@ -87,7 +87,7 @@ ID 28
 FILE ../Resources/Animation/mainicon.txt
 SPEED 0.1 -1
 
-#2D Textures: 44
+#2D Textures: 48
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -176,6 +176,14 @@ ID 42
 FILE ../Resources/Textures/Buttons/button_ok.tga
 ID 43
 FILE ../Resources/Textures/Buttons/frame_BG.tga
+ID 44
+FILE ../Resources/Textures/logo2.tga
+ID 45
+FILE ../Resources/Textures/logo_game.tga
+ID 46
+FILE ../Resources/Textures/logo_game2.tga
+ID 47
+FILE ../Resources/Textures/Buttons/button_info.tga
 
 #Background: 15
 ID 0
