@@ -9,6 +9,7 @@ Camera* Camera::s_Instance = NULL;
 
 Camera::Camera(void)
 {
+	is_exit = false;
 	i_state = 0;
 	is_shoot = false;
 	is_wound = false;

@@ -422,8 +422,8 @@ void SceneManager::LoadDecor()
 	}
 	if (m_currentLevel == 4) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor4.tga");
-		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
-		imageH = 1000.0f; imageW = 3200.0f;
+		strcpy_s(decorFile, "../Resources/Map/decor4.txt");
+		imageH = 400.0f; imageW = 1000.0f;
 	}
 	m_Decor = new Ground;
 	Texture * tex = new Texture(1, texFile);
@@ -568,7 +568,6 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 
 
 void SceneManager::CleanUp() {
-	Camera::GetInstance()->CleanUp();
 	Singleton<GameplayUI>::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); ++i) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); ++j) {

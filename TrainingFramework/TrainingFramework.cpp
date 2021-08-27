@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "Application.h"
 #include "Globals.h"
+#include "Camera.h"
+#include "vld.h"
 
 
 int Init(ESContext* esContext){	
@@ -22,8 +24,21 @@ void Draw(ESContext* esContext)
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 }
 
+void CleanUp()
+{
+	if (Application::GetInstance()->HasInstance()) {
+		Application::GetInstance()->Exit();
+	}
+	Camera::GetInstance()->CleanUp();
+
+	exit(0);
+}
+
 void Update(ESContext* esContext, float deltaTime)
 {
+	if (Camera::GetInstance()->is_exit) {
+		CleanUp();
+	}
 	if (Application::GetInstance()->HasInstance()) {
 		Application::GetInstance()->Update(deltaTime);
 	}
@@ -61,13 +76,6 @@ void OnMouseButtonMove(ESContext* esContext, int X, int Y, char Button)
 {
 	if (Application::GetInstance()->HasInstance()) {
 		Application::GetInstance()->OnMouseButtonMove(X, Y, Button);
-	}
-}
-
-void CleanUp()
-{
-	if (Application::GetInstance()->HasInstance()) {
-		Application::GetInstance()->Exit();
 	}
 }
 

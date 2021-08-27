@@ -10,7 +10,6 @@ public:
 	~ButtonManager();
 
 
-
 	std::vector<std::shared_ptr<GameButton>> m_listButton;
 
 	int ReadFile(char* srcButton);

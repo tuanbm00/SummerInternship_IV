@@ -9,7 +9,6 @@ GSIntro::GSIntro() {
 }
 
 GSIntro::~GSIntro() {
-
 }
 
 void GSIntro::Init() {

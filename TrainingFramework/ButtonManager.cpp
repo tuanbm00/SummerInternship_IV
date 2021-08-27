@@ -4,6 +4,7 @@
 #include "GameStateMachine.h"
 #include "define.h"
 #include "ComfirmBox.h"
+#include "Camera.h"
 
 ButtonManager::ButtonManager(char* srcButton, int currentLevel) {
 	m_currentLevel = currentLevel;
@@ -135,6 +136,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		});
 	}
 	else if (strcmp(type, "RETRY") == 0) {
+		//GameStateMachine::GetInstance()->PopState();
 		switch (m_currentLevel) {
 			case 1:
 				button->SetOnClick([]() {
@@ -171,6 +173,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		
 	}
 	else if (strcmp(type, "NEXTLEVEL") == 0) {
+		//GameStateMachine::GetInstance()->PopState();
 		switch (m_currentLevel+1) {
 		case 1:
 			button->SetOnClick([]() {
@@ -227,7 +230,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "EXIT") == 0) {
 		button->SetOnClick([]() {
-			exit(0);
+			//exit(0);
+			Camera::GetInstance()->is_exit = true;
 		});
 	}
 }

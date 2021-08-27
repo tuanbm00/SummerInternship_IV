@@ -74,4 +74,5 @@ void Application::Exit()
 	delete ResourceManager::GetInstance();
 	GameStateMachine::GetInstance()->Cleanup();
 	Singleton<TextManager>::GetInstance()->FreeInstance();
+
 }

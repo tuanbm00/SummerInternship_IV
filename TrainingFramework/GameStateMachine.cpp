@@ -82,11 +82,11 @@ void GameStateMachine::PopState()
 		m_StatesStack.pop_back();	
 	}
 
-	// resume previous state
-	if (!m_StatesStack.empty()) {
-		m_pActiveState = m_StatesStack.back();
-		m_StatesStack.back()->Resume();
-	}
+	//// resume previous state
+	//if (!m_StatesStack.empty()) {
+	//	m_pActiveState = m_StatesStack.back();
+	//	m_StatesStack.back()->Resume();
+	//}
 }
 
 void  GameStateMachine::PerformStateChange()

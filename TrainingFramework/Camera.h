@@ -35,6 +35,7 @@ public:
 	bool is_shoot;
 	bool is_wound;
 	bool is_dead;
+	bool is_exit;
 
 	void setLimitX(float min, float max);
 	void setLimitY(float min, float max);
