@@ -30,6 +30,9 @@ void GSMainmenu::Init() {
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
 	
 	m_Background->CalculateWVP();
+
+	//Set Current State
+	m_currentState = GSMAINMENU;
 }
 
 void GSMainmenu::Draw() {

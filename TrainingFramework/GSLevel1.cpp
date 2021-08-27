@@ -23,6 +23,9 @@ void GSLevel1::Init() {
 	m_SM->Init();
 
 	//ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/FutariNoKimochi.mp3", true); // day, mp3 cung doc dc
+
+	//Set Current State
+	m_currentState = GSLEVEL1;
 }
 
 void GSLevel1::Draw() {

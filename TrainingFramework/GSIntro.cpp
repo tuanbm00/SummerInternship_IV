@@ -39,6 +39,9 @@ void GSIntro::Init() {
 	bg->SetSize(Globals::screenWidth, Globals::screenHeight);
 	bg->CalculateWVP();
 	m_listSprite2D.push_back(bg);
+
+	//Set Current State
+	m_currentState = GSINTRO;
 }
 
 void GSIntro::Draw() {

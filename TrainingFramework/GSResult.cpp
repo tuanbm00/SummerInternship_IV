@@ -58,6 +58,9 @@ void GSResult::Init() {
 	m_Frame->SetSize(Globals::screenWidth / 2, Globals::screenHeight / 2 - 50);
 
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_PlayAgain_Sound.wav", true);
+
+	//Set Current State
+	m_currentState = GSRESULT;
 }
 
 void GSResult::Draw() {
