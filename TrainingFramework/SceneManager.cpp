@@ -34,6 +34,7 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_shoot = 0.0f;
 	m_time = 50.0f;
 	m_timeChangeGun = 50.0f;
+	m_timeHurt = 0.5f;
 	keyPressed = 0;
 	m_time_roll = 0;
 	is_roll = false;
@@ -191,7 +192,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 
 			// set HP texture
 			Model* modelHP = new Model();
-			modelHP->InitSprite(0, 0, 500, 30, 500, 30, false);
+			modelHP->InitSprite(0, 0, 300, 30, 300, 30, false);
 			ResourceManager::GetInstance()->addModel(modelHP);
 			Healthy* whiteHp = new Healthy(0);
 			whiteHp->setModel(modelHP);
@@ -719,6 +720,8 @@ void SceneManager::BossAttack() {
 	b2Vec2 posBoss = m_boss->getBody()->GetPosition();
 	float dir = posMainCharacter.x > posBoss.x ? 1.0f : -1.0f;
 	if (m_boss->GetBullet()->GetID() == CATEGORY_BOSS_GUN) {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hasaki2.mp3", false);
+		
 		Bullet* bullet = new Bullet(m_boss->GetBullet()->GetID());
 		Vector3 posBullet = Vector3(posBoss.x, posBoss.y, 0);
 		float scale = (posBoss.y - posMainCharacter.y) / (posBoss.x - posMainCharacter.x);
@@ -743,6 +746,7 @@ void SceneManager::BossAttack() {
 		AddBullet(bullet);
 	}
 	else {
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hasaki1.mp3", false);
 		for (int i = 0; i < m_boss->GetNumOfBullet(); ++i) {
 			Bullet* bullet = new Bullet(m_boss->GetBullet()->GetID());
 			Vector3 posBullet;
@@ -797,6 +801,8 @@ void SceneManager::ChangeGun(bool isEmptyBullet) {
 
 void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 	float v = hellBullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hellgun.wav", false);
+
 	for (int i = 0; i < 3; ++i) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
@@ -955,6 +961,7 @@ void SceneManager::Update(float deltaTime) {
 	m_time += deltaTime;
 	m_timeChangeGun += deltaTime;
 	m_time_roll += deltaTime;
+	m_timeHurt += deltaTime;
 	CheckMovement();
 
 	for (int i = 0; i < m_listEnemyInWorld.size(); ++i) {
@@ -1062,11 +1069,19 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 2);
 					Camera::GetInstance()->is_wound = true;
+					if (m_timeHurt >= 0.5) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						m_timeHurt = 0;
+					}
 //					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 2);
 					Camera::GetInstance()->is_wound = true;
+					if (m_timeHurt >= 0.5) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						m_timeHurt = 0;
+					}
 //					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
@@ -1095,11 +1110,19 @@ void SceneManager::Update(float deltaTime) {
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 0.2);
 					Camera::GetInstance()->is_wound = true;
+					if (m_timeHurt >= 0.5) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						m_timeHurt = 0;
+					}
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 0.2);
 					Camera::GetInstance()->is_wound = true;
+					if (m_timeHurt >= 0.5) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						m_timeHurt = 0;
+					}
 					break;
 				}
 				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
@@ -1114,6 +1137,7 @@ void SceneManager::Update(float deltaTime) {
 			}
 			if (m_listEnemyInWorld[i]->isDie()) {
 				if (m_listEnemyInWorld[i]->GetID() == 4) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/tower.wav", false);
 					m_IsTowerDefend = true;
 				}
 				if (m_listEnemyInWorld[i]->GetID() == 0) {
@@ -1162,6 +1186,8 @@ void SceneManager::Update(float deltaTime) {
 							}
 						}
 						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+
 							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
 							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
 							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
@@ -1194,6 +1220,8 @@ void SceneManager::Update(float deltaTime) {
 							}
 						}
 						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+
 							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
 							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
 							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
@@ -1248,6 +1276,7 @@ void SceneManager::Update(float deltaTime) {
 				else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
 					if (m_listBulletInWorld[i]->GetCurrLength() * 2 > m_listBulletInWorld[i]->GetMaxOfLength()) {
 						if (m_listBulletInWorld[i]->IsChange()) {
+							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 							m_listBulletInWorld[i]->ReverseV();
 						}
 					}
@@ -1263,6 +1292,9 @@ void SceneManager::Update(float deltaTime) {
 				if (m_boss) {
 					if (!m_boss->isDie()) {
 						m_IsBossAppear = true;
+
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boss.mp3", false);
+
 						m_boss->SetBodyObject(m_boss->GetPosition().x, m_boss->GetPosition().y, m_world);
 
 						// set HP texture
@@ -1358,7 +1390,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				m_MainCharacter->resetAnimation(Run);
 				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
-				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump.mp3", false);
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump2.wav", false);
 			}
 			break;
 		case KEY_CHANGE_GUN:
