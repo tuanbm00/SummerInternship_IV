@@ -407,7 +407,7 @@ void SceneManager::LoadDecor()
 	if (m_currentLevel == 1) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor1.tga");
 		strcpy_s(decorFile, "../Resources/Map/decor1.txt");
-		imageH = 1000.0f; imageW = 3200.0f;
+		imageH = 1400.0f; imageW = 3200.0f;
 	}
 	if (m_currentLevel == 2) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor2.tga");
@@ -416,12 +416,12 @@ void SceneManager::LoadDecor()
 	}
 	if (m_currentLevel == 3) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor3.tga");
-		strcpy_s(decorFile, "../Resources/Map/decor3.txt");
+		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
 		imageH = 1000.0f; imageW = 3200.0f;
 	}
 	if (m_currentLevel == 4) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor4.tga");
-		strcpy_s(decorFile, "../Resources/Map/decor4.txt");
+		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
 		imageH = 1000.0f; imageW = 3200.0f;
 	}
 	m_Decor = new Ground;
@@ -434,6 +434,7 @@ void SceneManager::LoadDecor()
 	int num;
 	int row, col, sizex, sizey, x, y, w, h;
 	fscanf_s(fp, "%d\n", &num);
+	if (num == 0) return;
 	fscanf_s(fp, "%d %d\n", &row, &col);
 	for (int i = 0; i < num; ++i) {
 		fscanf_s(fp, "%d %d %d %d %d %d\n", &sizex, &sizey, &x, &y, &w, &h);
@@ -1354,6 +1355,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
 				m_MainCharacter->resetAnimation(Falling);
+				m_MainCharacter->resetAnimation(Run);
 				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
 				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump.mp3", false);
@@ -1429,7 +1431,9 @@ void SceneManager::CheckMovement() {
 			m_MainCharacter->resetAnimation(Falling);
 			m_MainCharacter->m_current_anim = Idle * m_direction;
 		}
-		else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
+		else if (jumpstep <= 0) {
+			m_MainCharacter->m_current_anim = Falling * m_direction;
+		}
 		if (keyPressed & MOVE_RIGHT) {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;

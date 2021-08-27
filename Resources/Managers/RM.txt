@@ -173,7 +173,7 @@ FILE ../Resources/Textures/Buttons/button_audio_on.tga
 ID 41
 FILE ../Resources/Textures/Levels/map_lv4.tga
 
-#Background: 7
+#Background: 15
 ID 0
 FILE ../Resources/Tile/bg1.tga
 ID 1
@@ -188,6 +188,22 @@ ID 5
 FILE ../Resources/Tile/bg6.tga
 ID 6
 FILE ../Resources/Tile/bg7.tga
+ID 7
+FILE ../Resources/Tile/forest1.tga
+ID 8
+FILE ../Resources/Tile/forest2.tga
+ID 9
+FILE ../Resources/Tile/forest3.tga
+ID 10
+FILE ../Resources/Tile/forest4.tga
+ID 11
+FILE ../Resources/Tile/forest5.tga
+ID 12
+FILE ../Resources/Tile/forest6.tga
+ID 13
+FILE ../Resources/Tile/forest7.tga
+ID 14
+FILE ../Resources/Tile/forest8.tga
 
 #Tile: 0
 

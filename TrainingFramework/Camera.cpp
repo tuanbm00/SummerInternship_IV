@@ -52,7 +52,7 @@ void Camera::Update(float deltaTime, float posX, float posY,int direction) {
 		flagX = false;
 		lerpX = 0;
 	}
-	if (posY < m_Position.y - 500 || posY > m_Position.y + 500) {
+	if (posY < m_Position.y - 400 || posY > m_Position.y + 400) {
 		flagY = true;
 	}
 	else if (posY >= m_Position.y - 10 && posY <= m_Position.y + 10) {
