@@ -100,6 +100,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ButtonManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ComfirmBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameButton.cpp" />
     <ClCompile Include="GameplayUI.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="ButtonManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ComfirmBox.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameButton.h" />
     <ClInclude Include="GameplayUI.h" />
