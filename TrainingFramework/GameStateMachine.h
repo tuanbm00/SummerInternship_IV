@@ -16,7 +16,7 @@ enum StateTypes {
 	GS_LEVEL4,
 	GS_RESULT,
 	GS_OPTIONS,
-	GS_CREDIT
+	GS_ABOUTUS
 };
 
 class GameStateMachine : public Singleton<GameStateMachine>

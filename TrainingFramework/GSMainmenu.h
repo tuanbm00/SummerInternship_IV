@@ -4,7 +4,7 @@ class GSMainmenu :
 	public GameStateBase
 {
 	std::shared_ptr<ButtonManager> m_BM;
-	std::shared_ptr<Sprite2D> m_Background;
+	std::vector<std::shared_ptr<Sprite2D>> m_listSprite;
 public:
 	GSMainmenu(void);
 	~GSMainmenu(void);
