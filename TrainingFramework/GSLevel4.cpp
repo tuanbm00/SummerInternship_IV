@@ -23,6 +23,9 @@ void GSLevel4::Init() {
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
+
+	//Set Current State
+	m_currentState = GSLEVEL4;
 }
 
 void GSLevel4::Draw() {

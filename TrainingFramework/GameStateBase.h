@@ -7,7 +7,10 @@
 
 class GameStateBase
 {
+private:
+	
 public:
+	int m_currentState = 0;
 	GameStateBase(void) {}
 	virtual ~GameStateBase(void) {}
 
@@ -25,7 +28,7 @@ public:
 	virtual void OnMouseMoving(int X, int Y) = 0;
 
 	virtual void Draw() = 0;
-
+	inline int GetCurrentState() { return m_currentState; }
 
 	static std::shared_ptr<GameStateBase> CreateState(StateTypes stt);
 	static std::shared_ptr<GameStateBase> CreateState(StateTypes stt, bool bIsVictory, int currentLevel);

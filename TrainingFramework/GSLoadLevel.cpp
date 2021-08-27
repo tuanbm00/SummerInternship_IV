@@ -38,6 +38,9 @@ void GSLoadLevel::Init() {
 	m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(26));
 	m_Frame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Frame->SetSize(Globals::screenWidth/2, Globals::screenHeight/2);
+
+	//Set Current State
+	m_currentState = GSLOADLEVEL;
 }
 
 void GSLoadLevel::Draw() {

@@ -21,6 +21,9 @@ void GSLevel2::Init() {
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
+
+	//Set Current State
+	m_currentState = GSLEVEL2;
 }
 
 void GSLevel2::Draw() {
