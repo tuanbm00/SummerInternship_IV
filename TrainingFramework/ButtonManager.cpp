@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "GameStateMachine.h"
 #include "define.h"
+#include "ComfirmBox.h"
 
 ButtonManager::ButtonManager(char* srcButton, int currentLevel) {
 	m_currentLevel = currentLevel;
@@ -13,6 +14,7 @@ ButtonManager::~ButtonManager() {
 }
 
 int ButtonManager::ReadFile(char* srcButton) {
+	Singleton<ComfirmBox>::GetInstance()->Init();
 	FILE* f_M;
 	fopen_s(&f_M,srcButton, "r");
 	if (f_M == NULL) {
@@ -25,7 +27,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		return false;
 	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
 	ResourceManager::GetInstance()->addModels(pModel);
-	int id, shader, texture, X, Y, W, H, active;
+	int id, shader, texture, X, Y, W, H, active, comfirm;
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)
 	{
@@ -34,6 +36,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		fscanf_s(f_M, "TEXTURE %d\n", &texture);
 		fscanf_s(f_M, "COORD %d %d %d %d\n", &X, &Y, &W, &H);
 		fscanf_s(f_M, "ACTIVE %d\n", &active);
+		fscanf_s(f_M, "COMFIRM %d\n", &comfirm);
 		fscanf_s(f_M, "FUNC %s\n", type, _countof(type));
 
 		auto button = std::make_shared<GameButton>(id++);
@@ -43,6 +46,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		button->Set2DPosition(X, Y);
 		button->SetSize(W, H);
 		button->SetActive(active);
+		button->SetNeedComfirm(comfirm);
 		AddFunction(type, button);		
 		button->CalculateWVP();
 		m_listButton.push_back(button);
@@ -53,9 +57,12 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 void ButtonManager::Update(float deltaTime)
 {
-	/*for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Update(deltaTime);
-	}*/
+	}
+	//for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+	
+	//}
 }
 
 void ButtonManager::CleanUp()
@@ -63,6 +70,7 @@ void ButtonManager::CleanUp()
 	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->CleanUp();
 	}
+	Singleton<ComfirmBox>::GetInstance()->CleanUp();
 }
 
 void ButtonManager::Draw()
@@ -70,6 +78,7 @@ void ButtonManager::Draw()
 	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
 		m_listButton[i]->Draw();
 	}
+	Singleton<ComfirmBox>::GetInstance()->Draw();
 }
 
 void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) {
@@ -129,6 +138,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		switch (m_currentLevel) {
 			case 1:
 				button->SetOnClick([]() {
+					
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 					}
@@ -237,6 +247,7 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	}
 	break;
 	}
+	Singleton<ComfirmBox>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void ButtonManager::SetCurrentLevel(int currentLevel)

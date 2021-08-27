@@ -10,9 +10,10 @@ public:
 	void	OnMouseButtonUp(GLint x, GLint y);
 	bool	IsHandle();
 	void	SetIsHandle(bool isHandle);
+	inline void	SetNeedComfirm(bool needComfirm) { m_isNeedComfirm = needComfirm; }
 
 private:
 	void(*m_pBtClick)();
 	bool	m_isHandle;
-
+	bool	m_isNeedComfirm;
 };
