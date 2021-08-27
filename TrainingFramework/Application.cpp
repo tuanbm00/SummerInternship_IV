@@ -6,7 +6,6 @@
 
 Application::Application()
 {
-	
 }
 
 
@@ -42,7 +41,6 @@ void Application::Render()
 {
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Draw();
-	
 }
 
 

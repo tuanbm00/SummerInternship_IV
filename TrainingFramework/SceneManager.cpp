@@ -402,20 +402,43 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 
 void SceneManager::LoadDecor()
 {
+	float imageW, imageH;
+	char texFile[128], decorFile[128];
+	if (m_currentLevel == 1) {
+		strcpy_s(texFile, "../Resources/Map/mapDecor1.tga");
+		strcpy_s(decorFile, "../Resources/Map/decor1.txt");
+		imageH = 1000.0f; imageW = 3200.0f;
+	}
+	if (m_currentLevel == 2) {
+		strcpy_s(texFile, "../Resources/Map/mapDecor2.tga");
+		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
+		imageH = 1000.0f; imageW = 3200.0f;
+	}
+	if (m_currentLevel == 3) {
+		strcpy_s(texFile, "../Resources/Map/mapDecor3.tga");
+		strcpy_s(decorFile, "../Resources/Map/decor3.txt");
+		imageH = 1000.0f; imageW = 3200.0f;
+	}
+	if (m_currentLevel == 4) {
+		strcpy_s(texFile, "../Resources/Map/mapDecor4.tga");
+		strcpy_s(decorFile, "../Resources/Map/decor4.txt");
+		imageH = 1000.0f; imageW = 3200.0f;
+	}
 	m_Decor = new Ground;
-	Texture * tex = new Texture(1, "../Resources/Map/mapT2.tga");
+	Texture * tex = new Texture(1, texFile);
 	tex->Init();
 	m_Decor->setTexture(tex);
 	m_Decor->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	FILE * fp;
-	fopen_s(&fp, "../Resources/Map/decor.txt", "r");
+	fopen_s(&fp, decorFile, "r");
 	int num;
 	int row, col, sizex, sizey, x, y, w, h;
 	fscanf_s(fp, "%d\n", &num);
+	fscanf_s(fp, "%d %d\n", &row, &col);
 	for (int i = 0; i < num; ++i) {
-		fscanf_s(fp, "%d %d %d %d %d %d %d %d\n", &row, &col, &sizex, &sizey, &x, &y, &w, &h);
+		fscanf_s(fp, "%d %d %d %d %d %d\n", &sizex, &sizey, &x, &y, &w, &h);
 		Vector2 origin = Vector2(-WIDTH * (sizey - col / 2), -WIDTH * (sizex - row / 2));
-		m_Decor->addVertex(x, y, w, h, 3200.0f, 1200.0f, origin);
+		m_Decor->addVertex(x, y, w, h, imageW, imageH, origin);
 	}
 	fclose(fp);
 	m_Decor->Init();
@@ -430,7 +453,7 @@ void SceneManager::Draw() {
 	for (int i = m_ListBackground.size() - 1; i >= 0; --i) m_ListBackground[i]->Draw();
 	
 	groundTest->Draw();
-	//m_Decor->Draw();
+	m_Decor->Draw();
 
 	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
 		m_listBulletInWorld[i]->Draw();
@@ -1402,20 +1425,21 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 
 void SceneManager::CheckMovement() {
 	if (!is_roll) {
-		if (is_in_ground) m_MainCharacter->m_current_anim = Idle * m_direction;
+		if (is_in_ground) {
+			m_MainCharacter->resetAnimation(Falling);
+			m_MainCharacter->m_current_anim = Idle * m_direction;
+		}
 		else if (jumpstep <= 0) m_MainCharacter->m_current_anim = Falling * m_direction;
 		if (keyPressed & MOVE_RIGHT) {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
 			m_MainCharacter->resetAnimation(Idle);
-			m_MainCharacter->resetAnimation(Falling);
 			m_Horizontal = 40.0f;
 		}
 		else if (keyPressed & MOVE_LEFT) {
 			m_direction = -1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
 			m_MainCharacter->resetAnimation(Idle);
-			m_MainCharacter->resetAnimation(Falling);
 			m_Horizontal = -40.0f;
 		}
 
