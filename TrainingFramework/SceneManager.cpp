@@ -1020,7 +1020,7 @@ void SceneManager::Update(float deltaTime) {
 	static int32 positionIterations = 2;
 	float lop = deltaTime / 0.003f;
 
-	for(float i = 0;i < lop;++i){
+	for(float ilop = 0;ilop < lop;++ilop){
 		m_world->Step(0.07f, velocityIterations, positionIterations);
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
@@ -1079,7 +1079,7 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture * a = edge->contact->GetFixtureA();
 				b2Fixture * b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 2);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
 					Camera::GetInstance()->is_wound = true;
 					if (m_timeHurt >= 0.5) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
@@ -1088,7 +1088,7 @@ void SceneManager::Update(float deltaTime) {
 //					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 2);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
 					Camera::GetInstance()->is_wound = true;
 					if (m_timeHurt >= 0.5) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
@@ -1120,7 +1120,7 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 0.2);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 					Camera::GetInstance()->is_wound = true;
 					if (m_timeHurt >= 0.5) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
@@ -1129,7 +1129,7 @@ void SceneManager::Update(float deltaTime) {
 					break;
 				}
 				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 0.2);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 					Camera::GetInstance()->is_wound = true;
 					if (m_timeHurt >= 0.5) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
@@ -1185,12 +1185,31 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
 				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-					RemoveBullet(i);
-					isContact = true;
-					i--;
-					break;
+					if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+						if (m_listBulletInWorld[i]->IsChange()) {
+							m_boomerang = m_listBulletInWorld[i]->getBody()->GetPosition().x;
+							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+							m_listBulletInWorld[i]->ReverseV();
+							m_listBulletInWorld[i]->SetCurrLength(m_listBulletInWorld[i]->GetMaxOfLength() - m_listBulletInWorld[i]->GetCurrLength());
+							break;
+						}
+						else {
+							if (m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x > 400 || m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x < -400) {
+								RemoveBullet(i);
+								isContact = true;
+								i--;
+								break;
+							}
+						}
+					}
+					else {
+						RemoveBullet(i);
+						isContact = true;
+						i--;
+						break;
+					}
 				}
-				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
 							if (m_listBulletInWorld[i]->IsChange()) {
@@ -1263,7 +1282,7 @@ void SceneManager::Update(float deltaTime) {
 					i--;
 					break;
 				}
-				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
 					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
 						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
