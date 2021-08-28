@@ -17,7 +17,8 @@ void GSLevel4::Init() {
 	Camera::GetInstance()->i_state = 4;
 
 	//Init SM
-	m_SM = std::make_shared<SceneManager>(4);
+	m_SM = new SceneManager(4);
+
 	char* SM = "../Resources/Managers/SM4.txt";
 	char* MAP = "../Resources/Map/maplv4.txt";
 	m_SM->SetFileManager(SM, MAP);
@@ -41,7 +42,7 @@ void GSLevel4::Update(float deltaTime) {
 void GSLevel4::CleanUp() {
 	printf("gs 4\n");
 	m_SM->CleanUp();
-	m_SM->FreeInstance();
+	delete m_SM;
 }
 
 void GSLevel4::Resume() {

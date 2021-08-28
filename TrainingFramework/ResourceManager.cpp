@@ -292,4 +292,5 @@ void ResourceManager::CleanDump()
 	for (int i = 0; i < (int)m_DumpAnim.size(); ++i) {
 		delete m_DumpAnim[i];
 	}
+	m_DumpAnim.resize(0);
 }

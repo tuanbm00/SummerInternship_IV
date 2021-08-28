@@ -55,14 +55,14 @@ int Models::LoadModel(char * srcModel)
 	glGenBuffers(1, &m_iVboID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_iVboID);
 	glBufferData(GL_ARRAY_BUFFER, numberOfVertices * sizeof(Vertex), verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 
 	//if(m_iIboID == 0)
 	{
 		glGenBuffers(1, &m_iIboID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iIboID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_iNumIndices * sizeof(GLuint), indices, GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		
 	}
 	fclose(f_M);
 	delete[] verticesData;

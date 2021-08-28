@@ -15,7 +15,8 @@ void GSLevel2::Init() {
 	Camera::GetInstance()->i_state = 2;
 
 	//Init SM
-	m_SM = std::make_shared<SceneManager>(2);
+	m_SM = new SceneManager(2);
+
 	char* SM = "../Resources/Managers/SM2.txt";
 	char* MAP = "../Resources/Map/maplv2.txt";
 	m_SM->SetFileManager(SM, MAP);
@@ -37,7 +38,8 @@ void GSLevel2::Update(float deltaTime) {
 void GSLevel2::CleanUp() {
 	printf("gs 2\n");
 	m_SM->CleanUp();
-	m_SM->FreeInstance();
+	delete m_SM;
+
 }
 
 void GSLevel2::Resume() {

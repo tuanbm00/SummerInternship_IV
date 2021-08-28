@@ -85,6 +85,7 @@ void ButtonManager::Draw()
 void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) {
 	if (strcmp(type, "MAINMENU") == 0) {
 		button->SetOnClick([]() {
+			//GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
 			}

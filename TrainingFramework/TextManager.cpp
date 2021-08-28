@@ -25,7 +25,7 @@ void TextManager::Initialize() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	
 
 	m_TextShader.SetFileVS("../Resources/Shaders/TextShaderVS.vs");
 	m_TextShader.SetFileFS("../Resources/Shaders/TextShaderFS.fs");
@@ -80,8 +80,8 @@ void TextManager::RenderString(const char* text, Vector4 color, float x, float y
 		x += (m_glyphSlot->advance.x >> 6) * sx;
 		y += (m_glyphSlot->advance.y >> 6) * sy;
 	}
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	
 }
 
 TextManager::TextManager()

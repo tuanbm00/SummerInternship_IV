@@ -116,7 +116,7 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 
 	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 }
 
 void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime)
@@ -158,5 +158,5 @@ void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float delt
 
 	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4, verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 }

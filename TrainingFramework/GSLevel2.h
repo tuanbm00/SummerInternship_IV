@@ -5,7 +5,7 @@
 class GSLevel2 :
 	public GameStateBase
 {
-	std::shared_ptr<SceneManager> m_SM;
+	SceneManager * m_SM;
 	std::vector<std::shared_ptr<Bullet>> m_ListBullet;
 
 public:

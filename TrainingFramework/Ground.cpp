@@ -14,12 +14,12 @@ void Ground::Init()
 	glGenBuffers(1, &vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
 	glBufferData(GL_ARRAY_BUFFER, m_numberOfVertex * sizeof(Vertex), verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 
 	glGenBuffers(1, &iboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_numberOfIndices * sizeof(int), indic, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
 	delete[] verticesData;
 	delete[] indic;
 	vertices.clear();
@@ -61,9 +61,7 @@ void Ground::Draw()
 	glDrawElements(GL_TRIANGLES, m_numberOfIndices, GL_UNSIGNED_INT, 0);
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	
 }
 
 void Ground::InitWVP()

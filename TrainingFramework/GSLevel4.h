@@ -3,7 +3,7 @@
 class GSLevel4 :
     public GameStateBase
 {
-	std::shared_ptr<SceneManager> m_SM;
+	SceneManager * m_SM;
 public:
 	GSLevel4(void);
 	~GSLevel4(void);

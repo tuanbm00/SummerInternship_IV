@@ -17,7 +17,7 @@
 #include "Singleton.h"
 #include "Boss.h"
 
-class SceneManager : public Singleton<SceneManager> 
+class SceneManager
 {
 private:
 	int wlow, whigh, hlow, hhigh;
@@ -39,6 +39,8 @@ private:
 	std::vector<Enemy*> m_listEnemyInWorld;
 	Object * mainIcon;
 	Object * background;
+	std::vector<Object *> m_ObjectDump;
+	std::vector<Model*> m_ModelDump;
 
 	b2Filter filterMain, filterRoll;
 	int m_direction;

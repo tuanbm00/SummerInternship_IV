@@ -60,7 +60,7 @@ void SceneManager::Init() {
 	glGenBuffers(1, &Camera::GetInstance()->iboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
 
 	delete[] indices;
 	//Box2D
@@ -193,7 +193,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			// set HP texture
 			Model* modelHP = new Model();
 			modelHP->InitSprite(0, 0, 300, 30, 300, 30, false);
-			ResourceManager::GetInstance()->addModel(modelHP);
+			m_ModelDump.push_back(modelHP);
 			Healthy* whiteHp = new Healthy(0);
 			whiteHp->setModel(modelHP);
 			whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -211,6 +211,8 @@ void SceneManager::ReadFile(FILE* f_SM)
 			redHp->SetRotation(m_MainCharacter->GetRotation());
 			redHp->InitWVP();
 
+			m_ObjectDump.push_back(redHp);
+			m_ObjectDump.push_back(whiteHp);
 			m_MainCharacter->SetHPTexture(whiteHp);
 			m_MainCharacter->SetHPTexture(redHp, false);
 		}
@@ -568,6 +570,7 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 
 
 void SceneManager::CleanUp() {
+	ResourceManager::GetInstance()->CleanDump();
 	Singleton<GameplayUI>::GetInstance()->CleanUp();
 	for (int i = 0; i < (int)m_listTerrain.size(); ++i) {
 		for (int j = 0; j < (int)m_listTerrain[i].size(); ++j) {
@@ -578,7 +581,6 @@ void SceneManager::CleanUp() {
 		delete m_ListBackground[i]->getModel();
 		delete m_ListBackground[i];
 	}
-	m_MainCharacter->cleanHP();
 	delete m_MainCharacter->getModel();
 	delete m_MainCharacter;
 
@@ -587,7 +589,6 @@ void SceneManager::CleanUp() {
 		delete m_boss;
 	}
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
-		m_listEnemyInWorld[i]->cleanHP();
 		delete m_listEnemyInWorld[i]->getModel();
 		delete m_listEnemyInWorld[i];
 	}
@@ -605,11 +606,19 @@ void SceneManager::CleanUp() {
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
+	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
+		delete m_listBulletInWorld[i];
+	}
+	for (int i = 0; i < m_ObjectDump.size(); ++i) delete m_ObjectDump[i];
+	for (int i = 0; i < m_ModelDump.size(); ++i) delete m_ModelDump[i];
 	delete mainIcon->getModel();
 	delete mainIcon;
 	delete groundTest;
 	delete m_Decor;
 	delete m_world;
+	
+	
+	
 }
 
 void SceneManager::Shoot() {
@@ -906,7 +915,7 @@ void SceneManager::Update(float deltaTime) {
 				// set HP texture
 				Model* modelHP = new Model();
 				modelHP->InitSprite(0, 0, 180, 18, 180, 18, false);
-				ResourceManager::GetInstance()->addModel(modelHP);
+				m_ModelDump.push_back(modelHP);
 				Healthy* whiteHp = new Healthy(0);
 				whiteHp->setModel(modelHP);
 				whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -924,6 +933,8 @@ void SceneManager::Update(float deltaTime) {
 				redHp->SetRotation(enemy->GetRotation());
 				redHp->InitWVP();
 
+				m_ObjectDump.push_back(redHp);
+				m_ObjectDump.push_back(whiteHp);
 				enemy->SetHPTexture(whiteHp);
 				enemy->SetHPTexture(redHp, false);
 				enemy->SetBodyObject(m_world);
@@ -1299,7 +1310,7 @@ void SceneManager::Update(float deltaTime) {
 						// set HP texture
 						Model* modelHP = new Model();
 						modelHP->InitSprite(0, 0, 1000, 50, 1000, 50, false);
-						ResourceManager::GetInstance()->addModel(modelHP);
+						m_ModelDump.push_back(modelHP);
 						Healthy* whiteHp = new Healthy(0);
 						whiteHp->setModel(modelHP);
 						whiteHp->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
@@ -1317,14 +1328,17 @@ void SceneManager::Update(float deltaTime) {
 						redHp->SetRotation(m_boss->GetRotation());
 						redHp->InitWVP();
 
+						m_ObjectDump.push_back(redHp);
+						m_ObjectDump.push_back(whiteHp);
 						m_boss->SetHPTexture(whiteHp);
 						m_boss->SetHPTexture(redHp, false);
 
 						// set icon boss
 						Model* modelIcon = new Model();
 						modelIcon->InitSprite(0, 0, 150, 100, 150, 100, false);
-						ResourceManager::GetInstance()->addModel(modelIcon);
+						m_ModelDump.push_back(modelIcon);
 						Healthy* icon = new Healthy(2);
+						m_ObjectDump.push_back(icon);
 						icon->setModel(modelIcon);
 						icon->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 						icon->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(BOSS_ICON));

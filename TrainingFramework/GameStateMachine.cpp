@@ -56,6 +56,10 @@ void GameStateMachine::PushState(StateTypes stt)
 	// pause current state
 	if (!m_StatesStack.empty()) {
 		m_StatesStack.back()->Pause();
+		if (m_pActiveState->m_currentState >= GSLEVEL1 && m_pActiveState->m_currentState <= GSLEVEL4) {
+			m_pActiveState->CleanUp();
+			m_StatesStack.pop_back();
+		}
 	}
 
 	// store and init the new state
@@ -68,6 +72,10 @@ void GameStateMachine::PushState(StateTypes stt, bool bIsVictory, int currentLev
 	// pause current state
 	if (!m_StatesStack.empty()) {
 		m_StatesStack.back()->Pause();
+		if (m_pActiveState->m_currentState >= GSLEVEL1 && m_pActiveState->m_currentState <= GSLEVEL4) {
+			m_pActiveState->CleanUp();
+			m_StatesStack.pop_back();
+		}
 	}
 
 	// store and init the new state
@@ -82,11 +90,11 @@ void GameStateMachine::PopState()
 		m_StatesStack.pop_back();	
 	}
 
-	//// resume previous state
-	//if (!m_StatesStack.empty()) {
-	//	m_pActiveState = m_StatesStack.back();
-	//	m_StatesStack.back()->Resume();
-	//}
+	// resume previous state
+	if (!m_StatesStack.empty()) {
+		m_pActiveState = m_StatesStack.back();
+		m_StatesStack.back()->Resume();
+	}
 }
 
 void  GameStateMachine::PerformStateChange()
@@ -97,6 +105,6 @@ void  GameStateMachine::PerformStateChange()
 		m_StatesStack.push_back(m_pNextState);
 		m_StatesStack.back()->Init();
 		m_pActiveState = m_pNextState;
+		m_pNextState = 0;
 	}
-	m_pNextState = 0;
 }
