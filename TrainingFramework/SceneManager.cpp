@@ -1362,15 +1362,18 @@ void SceneManager::Update(float deltaTime) {
 		if (Camera::GetInstance()->i_state < 4) {
 			m_bIsVictory = true;
 			m_bChangeScreen = true;
+			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+			}
 		}
 		else {
 			if (m_boss->isDie()) {
 				m_bIsVictory = true;
 				m_bChangeScreen = true;
+				for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+				}
 			}
-		}
-		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
-			m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 		}
 	}
 

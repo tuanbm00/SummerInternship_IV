@@ -6,7 +6,6 @@
 #include "Application.h"
 #include "Globals.h"
 #include "Camera.h"
-//#include "vld.h"
 
 
 int Init(ESContext* esContext){	
