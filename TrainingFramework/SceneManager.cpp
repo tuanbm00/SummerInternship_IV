@@ -569,6 +569,7 @@ void SceneManager::CleanUp() {
 		}
 	}
 	for (int i = 0; i < (int)m_ListBackground.size(); ++i) {
+		m_ListBackground[i]->deleteTex();
 		delete m_ListBackground[i]->getModel();
 		delete m_ListBackground[i];
 	}

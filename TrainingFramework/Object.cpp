@@ -26,8 +26,6 @@ Vector2 Object::GetBox() {
 
 void Object::SetTexture(Texture* texture) {
 	m_Texture.push_back(texture);
-	GLuint i;
-	textureId.push_back(i);
 	m_isTexture = true;
 }
 
@@ -206,4 +204,9 @@ void Object::start(float para, float len)
 	startPos = m_Position.x;
 	parallaxEffect = para;
 	length = len*m_Scale.y;
+}
+
+void Object::deleteTex()
+{
+	glDeleteTextures(1, &m_Texture[0]->mTextureId);
 }
