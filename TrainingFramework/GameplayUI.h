@@ -30,6 +30,7 @@ public:
 
 	void Draw();
 	void DrawGameOver();
+	void DrawVictory();
 
 	void SetCurrentLevel(int currentLevel);
 	void SetMainCharacter(MainCharacter* mainCharacter);

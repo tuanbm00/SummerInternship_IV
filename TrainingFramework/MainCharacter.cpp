@@ -52,6 +52,7 @@ void MainCharacter::Update(float deltaTime)
 
 bool MainCharacter::isDie() {
 	if (m_HP <= 0) {
+		m_HP = 0;
 		return true;
 	}
 	return false;

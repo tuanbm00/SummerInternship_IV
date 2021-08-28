@@ -70,7 +70,6 @@ void GSResult::Draw() {
 }
 
 void GSResult::Update(float deltaTime) {
-
 }
 
 void GSResult::CleanUp() {

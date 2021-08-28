@@ -47,6 +47,7 @@ void SceneManager::ChangeToResultScreen(bool bIsVictory)
 }
 
 void SceneManager::Init() {
+	timeCount = 0.0f;
 	numJump = 0;
 	jumpstep = 0;
 	is_in_ground = false;
@@ -215,6 +216,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			m_ObjectDump.push_back(whiteHp);
 			m_MainCharacter->SetHPTexture(whiteHp);
 			m_MainCharacter->SetHPTexture(redHp, false);
+			m_MainCharacter->resetAnimation(dead);
 		}
 		else if (strcmp(type, "ENEMY") == 0) {
 			Enemy* enemy = new Enemy(ID);
@@ -495,6 +497,7 @@ void SceneManager::Draw() {
 	if (Camera::GetInstance()->is_dead) {
 		Singleton<GameplayUI>::GetInstance()->DrawGameOver();
 	}
+	if (m_bIsVictory) Singleton<GameplayUI>::GetInstance()->DrawVictory();
 }
 
 
@@ -832,8 +835,11 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
 	if (m_bChangeScreen) { //Check if Change Screen
-		ChangeToResultScreen(m_bIsVictory);
-		return; // m_bIsVictory default = false;
+		timeCount += deltaTime;
+		if (timeCount > 2.5f) {
+			ChangeToResultScreen(m_bIsVictory);
+			return; // m_bIsVictory default = false;
+		}
 	}
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
@@ -850,12 +856,8 @@ void SceneManager::Update(float deltaTime) {
 			m_MainCharacter->Update(deltaTime);
 		}
 		if (Camera::GetInstance()->is_dead) {
-			static float timeCount = 0;
-			timeCount += deltaTime;
-			if (timeCount > 2.0f) {
-				m_bChangeScreen = true;
-				m_bIsVictory = false;
-			}
+			m_bChangeScreen = true;
+			m_bIsVictory = false;
 		}
 		return;
 	}
@@ -1366,6 +1368,9 @@ void SceneManager::Update(float deltaTime) {
 				m_bIsVictory = true;
 				m_bChangeScreen = true;
 			}
+		}
+		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+			m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 		}
 	}
 

@@ -24,7 +24,9 @@ void GameplayUI::Init() {
 void GameplayUI::DrawGameOver() {
 	Singleton<TextManager>::GetInstance()->RenderString("GAME OVER!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 }
-
+void GameplayUI::DrawVictory() {
+	Singleton<TextManager>::GetInstance()->RenderString("VICTORY!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+}
 
 void GameplayUI::Draw() {
 	m_BM->Draw();

@@ -80,6 +80,7 @@ void GameStateMachine::PushState(StateTypes stt, bool bIsVictory, int currentLev
 
 	// store and init the new state
 	m_pNextState = state;
+	PerformStateChange();
 }
 
 void GameStateMachine::PopState()

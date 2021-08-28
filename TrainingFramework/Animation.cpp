@@ -130,12 +130,9 @@ void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float delt
 				Camera::GetInstance()->is_dead = true;
 			}
 			d_anim_cursor = 0;
-			if (i_current_frame_index >= i_frame_count - 1) {
-				i_current_frame_index = 0;
-			}
 		}
 	}
-	if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;
+	//if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;
 	Vector4 frame = m_animation[i_current_frame_index];
 	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
 	Vertex verticesData[4];

@@ -57,6 +57,7 @@ private:
 	int keyPressed;
 	bool m_IsBossAppear;
 	bool m_IsTowerDefend;
+	float timeCount;
 
 	bool m_bIsFighting = false;
 	bool is_in_ground;
