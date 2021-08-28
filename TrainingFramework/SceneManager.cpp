@@ -1297,7 +1297,7 @@ void SceneManager::Update(float deltaTime) {
 	}
 
 	if (Camera::GetInstance()->i_state == 4){
-		if(pos.x > 1800 && pos.x < 2200 && pos.y > -1200 && pos.y < -800){
+		if(pos.x > 2400 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
 			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
 				if (m_boss) {
 					if (!m_boss->isDie()) {
