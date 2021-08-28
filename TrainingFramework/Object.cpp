@@ -53,7 +53,6 @@ void Object::Draw() {
 	UpdateWVP();
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{

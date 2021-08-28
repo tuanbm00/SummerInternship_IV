@@ -73,7 +73,6 @@ private:
 
 	int m_currentLevel = 0;
 public:
-	int * indices;
 	SceneManager(int currentLevel);
 	~SceneManager();
 

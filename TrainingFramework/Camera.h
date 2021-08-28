@@ -25,6 +25,7 @@ public:
 	~Camera();
 	static Camera* GetInstance();
 	int i_state;
+	int m_iOption;
 	Vector2 limitX, limitY;
 	Matrix GetOrthographic();
 	Matrix GetViewMatrix();

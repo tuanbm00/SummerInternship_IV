@@ -7,9 +7,6 @@ void NPC::Update(float deltaTime)
 	if (m_Model->b_IsAnimation == true) {
 		m_Model->updateAnimation(deltaTime, typ);
 	}
-	if (m_bIsTarget) {
-		SetPosition(Camera::GetInstance()->GetTarget());
-	}
 	Matrix translationMatrix, scaleMatrix;
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);

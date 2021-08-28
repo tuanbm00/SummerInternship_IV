@@ -11,6 +11,7 @@ public:
 	~Texture();
 	GLuint mTextureId;
 	void Init();
+	void InitA();
 	int GetID() { return m_Id; }
 	char* GetSource();
 };

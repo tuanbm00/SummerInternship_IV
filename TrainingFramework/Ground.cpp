@@ -61,7 +61,7 @@ void Ground::Draw()
 	glDrawElements(GL_TRIANGLES, m_numberOfIndices, GL_UNSIGNED_INT, 0);
 
 
-	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
 }
 
 void Ground::InitWVP()
@@ -83,15 +83,15 @@ void Ground::addVertex(float spriteX, float spriteY, float spriteW, float sprite
 	origin.x = origin.x + 100.0f;
 	origin.y = origin.y + 100.0f;
 
-	Vector3 delta = Vector3(origin.x - spriteW / 2, origin.y - spriteH / 2, 0.0);
-	verticesData[0].pos = Vector3(-(float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
-	verticesData[1].pos = Vector3((float)spriteW / 2, -(float)spriteH / 2, 0.0f) - delta;
-	verticesData[2].pos = Vector3(-(float)spriteW / 2, (float)spriteH / 2, 0.0f) - delta;
-	verticesData[3].pos = Vector3((float)spriteW / 2, (float)spriteH / 2, 0.0f) - delta;
-	verticesData[0].uv = Vector2((float)spriteX / textureW, (float)(spriteY + spriteH) / textureH);
-	verticesData[1].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)(spriteY + spriteH) / textureH);
-	verticesData[2].uv = Vector2((float)spriteX / textureW, (float)spriteY / textureH);
-	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
+	Vector3 delta = Vector3(origin.x - spriteW / 2.0f, origin.y - spriteH / 2.0f, 0.0);
+	verticesData[0].pos = Vector3(-spriteW / 2.0f, -spriteH / 2.0f, 0.0f) - delta;
+	verticesData[1].pos = Vector3(spriteW / 2.0f, -spriteH / 2.0f, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-spriteW / 2.0f, spriteH / 2.0f, 0.0f) - delta;
+	verticesData[3].pos = Vector3(spriteW / 2.0f, spriteH / 2.0f, 0.0f) - delta;
+	verticesData[0].uv = Vector2(spriteX / textureW, (spriteY + spriteH) / textureH);
+	verticesData[1].uv = Vector2((spriteX + spriteW) / textureW, (spriteY + spriteH) / textureH);
+	verticesData[2].uv = Vector2(spriteX / textureW, spriteY / textureH);
+	verticesData[3].uv = Vector2((spriteX + spriteW) / textureW, spriteY / textureH);
 
 	int a = addNewV(verticesData[0]);
 	int b = addNewV(verticesData[1]);

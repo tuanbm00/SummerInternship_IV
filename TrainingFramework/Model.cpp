@@ -12,7 +12,6 @@ Model::Model()
 }
 
 Model::Model(Model * model) {
-	InitSprite(model->m_posX, model->m_posY, model->m_spriteW, model->m_spriteH, model->m_textureW, model->m_textureH);
 	std::vector<Animation*> v = model->getAnim();
 	for (int i = 0; i < (int)v.size(); ++i) {
 		Animation* anim = new Animation(v[i]);
@@ -20,9 +19,11 @@ Model::Model(Model * model) {
 		ResourceManager::GetInstance()->addDumpAnim(anim);
 	}
 	if(v.size() > 0) b_IsAnimation = true;
+	InitSprite(model->m_posX, model->m_posY, model->m_spriteW, model->m_spriteH, model->m_textureW, model->m_textureH);
 }
 
 Model::~Model() {
+	glDeleteBuffers(1, &vboId);
 }
 
 void Model::InitSprite(float spriteX, float spriteY, float spriteW, float spriteH, float textureW, float textureH, bool isNotHP)
@@ -50,8 +51,8 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	m_NumberOfIndices = 6;
 	glGenBuffers(1, &vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
-	
+	if(b_IsAnimation) glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STREAM_DRAW);
+	else glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
 }
 
 void Model::setOrigin(Vector2 ori)

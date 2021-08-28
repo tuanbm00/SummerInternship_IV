@@ -12,6 +12,19 @@ int Init(ESContext* esContext){
 	if (Application::GetInstance()->HasInstance()) {
 		Application::GetInstance()->Init();
 	}
+	int *indices = new int[6];
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 3;
+	indices[3] = 0;
+	indices[4] = 2;
+	indices[5] = 3;
+	glGenBuffers(1, &Camera::GetInstance()->iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
+
+
+	delete[] indices;
 	return 0;
 }
 
@@ -28,6 +41,7 @@ void CleanUp()
 	if (Application::GetInstance()->HasInstance()) {
 		Application::GetInstance()->Exit();
 	}
+	glDeleteBuffers(1, &Camera::GetInstance()->iboId);
 	Camera::GetInstance()->CleanUp();
 
 	exit(0);

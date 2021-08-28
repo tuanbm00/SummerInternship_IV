@@ -18,6 +18,7 @@ Camera::Camera(void)
 	lerpY = 0.5f;
 	flagY = false;
 	past_dir = 0;
+	m_iOption = 1;
 }
 
 Camera* Camera::GetInstance()
@@ -41,25 +42,48 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 }
 
 void Camera::Update(float deltaTime, float posX, float posY,int direction) {
-	if ((fabs(posX - m_Position.x) <= 5 && !flagX )|| past_dir != direction) {
-		flagX = false;
-		lerpX = 0;
+	if (lerpX > 1.0f) lerpX = 1.0f;
+	if (m_iOption == 1) {
+		if ((fabs(posX - m_Position.x) <= 5 && !flagX) || past_dir != direction) {
+			flagX = false;
+			lerpX = 0;
+		}
+		else if (posX < m_Position.x - 500 || posX > m_Position.x + 500) {
+			flagX = true;
+		}
+		posX += 300 * direction;
+		if (fabs(posX - m_Position.x) <= 5) {
+			flagX = false;
+			lerpX = 0;
+		}
+		if (posY < m_Position.y - 400 || posY > m_Position.y + 400) {
+			flagY = true;
+		}
+		else if (posY >= m_Position.y - 10 && posY <= m_Position.y + 10) {
+			flagY = false;
+			lerpY = 0;
+		}
 	}
-	else if (posX < m_Position.x - 500 || posX > m_Position.x + 500) {
+	else if (m_iOption == 2) {
 		flagX = true;
+		posX += 300 * direction;
+		lerpX = 1.0f;
+		if (posY < m_Position.y - 400 || posY > m_Position.y + 400) {
+			flagY = true;
+		}
+		else if (posY >= m_Position.y - 10 && posY <= m_Position.y + 10) {
+			flagY = false;
+			lerpY = 0;
+		}
 	}
-	posX += 300 * direction;
-	if (fabs(posX - m_Position.x) <= 5) {
-		flagX = false;
-		lerpX = 0;
+	else if (m_iOption == 3) {
+		flagX = true; flagY = true;
+		posX += 300 * direction;
+		posY -= 400.0f;
+		lerpX = 1.0f; lerpY = 1.0f;
 	}
-	if (posY < m_Position.y - 400 || posY > m_Position.y + 400) {
-		flagY = true;
-	}
-	else if (posY >= m_Position.y - 10 && posY <= m_Position.y + 10) {
-		flagY = false;
-		lerpY = 0;
-	}
+
+	
 	if (flagX) {
 		m_Position.x += (posX - m_Position.x)*lerpX*deltaTime;
 		lerpX += deltaTime;

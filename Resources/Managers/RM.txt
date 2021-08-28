@@ -185,7 +185,7 @@ FILE ../Resources/Textures/logo_game2.tga
 ID 47
 FILE ../Resources/Textures/Buttons/button_info.tga
 
-#Background: 15
+#Background: 22
 ID 0
 FILE ../Resources/Tile/bg1.tga
 ID 1
@@ -216,6 +216,20 @@ ID 13
 FILE ../Resources/Tile/forest7.tga
 ID 14
 FILE ../Resources/Tile/forest8.tga
+ID 15
+FILE ../Resources/Tile/dawn1.tga
+ID 16
+FILE ../Resources/Tile/dawn2.tga
+ID 17
+FILE ../Resources/Tile/dawn3.tga
+ID 18
+FILE ../Resources/Tile/dawn4.tga
+ID 19
+FILE ../Resources/Tile/dawn5.tga
+ID 20
+FILE ../Resources/Tile/dawn6.tga
+ID 21
+FILE ../Resources/Tile/dawn7.tga
 
 #Tile: 0
 

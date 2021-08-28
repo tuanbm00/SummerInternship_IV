@@ -55,7 +55,7 @@ void Sprite2D::Draw() {
 	glUseProgram(m_Shader->program);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Model->GetVertexObject());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->GetIndiceObject());
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Model->GetIndiceObject());
 	//Set Position
 	if (m_Shader->m_aPosition != -1)
 	{
@@ -79,12 +79,12 @@ void Sprite2D::Draw() {
 
 	//Setting Texture Uniform
 	if (m_Shader->m_uTextures[0] != -1) {
-		glActiveTexture(GL_TEXTURE0);
+		//glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_Texture[0]->mTextureId);
-		glUniform1i(m_Shader->m_uTextures[0], 0);
+		//glUniform1i(m_Shader->m_uTextures[0], 0);
 	}
 
-	glDrawElements(GL_TRIANGLES, m_Model->GetNumIndiceObject(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 	/*
@@ -97,7 +97,7 @@ void Sprite2D::Update(float deltaTime) {
 	translationMatrix.SetTranslation(m_Position);
 	scaleMatrix.SetScale(m_Scale);
 	m_WorldMatrix = scaleMatrix * translationMatrix;*/
-	CalculateWVP();
+	//CalculateWVP();
 }
 
 void Sprite2D::CleanUp() {

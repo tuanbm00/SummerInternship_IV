@@ -51,19 +51,7 @@ void SceneManager::Init() {
 	numJump = 0;
 	jumpstep = 0;
 	is_in_ground = false;
-	indices = new int[6];
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 3;
-	indices[3] = 0;
-	indices[4] = 2;
-	indices[5] = 3;
-	glGenBuffers(1, &Camera::GetInstance()->iboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Camera::GetInstance()->iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), indices, GL_STATIC_DRAW);
 	
-
-	delete[] indices;
 	//Box2D
 	b2Vec2 gravity = b2Vec2(0.0, 0.0);
 	m_world = new b2World(gravity);
@@ -86,8 +74,8 @@ void SceneManager::Init() {
 	//
 	mainIcon = new Object(101);
 	Model * ppmodel = new Model();
-	ppmodel->InitSprite(0, 0, 50, 50, 200, 100);
 	ppmodel->b_IsAnimation = true;
+	ppmodel->InitSprite(0, 0, 50, 50, 200, 100);
 	ppmodel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(28));
 	mainIcon->setModel(ppmodel);
 	mainIcon->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(31));
@@ -144,7 +132,6 @@ void SceneManager::ReadFile(FILE* f_SM)
 		float dame, attack, speedx, speedy, dis, hp;
 		fscanf_s(f_SM, "COORD %f %f %f %f %f %f\n", &x, &y, &w, &h, &tw, &th);
 		pModel = new Model();
-		pModel->InitSprite(x, y, w, h, tw, th);
 		int num_anim;
 		fscanf_s(f_SM, "ANIMATIONS %d\n", &num_anim);
 		if (num_anim > 0) {
@@ -154,6 +141,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 				pModel->addAnimation(ResourceManager::GetInstance()->GetAnimationAtID(anim));
 			}
 		}
+		pModel->InitSprite(x, y, w, h, tw, th);
 		fscanf_s(f_SM, "SHADER %d\n", &shader);
 		fscanf_s(f_SM, "TEXTURE %d\n", &texture);
 
@@ -319,7 +307,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		th = 400.0f;
 	}
 	Texture * texx = new Texture(99, filetex);
-	texx->Init();
+	texx->InitA();
 	groundTest->setTexture(texx);
 	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	//
@@ -431,7 +419,7 @@ void SceneManager::LoadDecor()
 	}
 	m_Decor = new Ground;
 	Texture * tex = new Texture(1, texFile);
-	tex->Init();
+	tex->InitA();
 	m_Decor->setTexture(tex);
 	m_Decor->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	FILE * fp;
@@ -619,9 +607,6 @@ void SceneManager::CleanUp() {
 	delete groundTest;
 	delete m_Decor;
 	delete m_world;
-	
-	
-	
 }
 
 void SceneManager::Shoot() {
@@ -1407,8 +1392,6 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 				jumpstep = 30;
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
-				m_MainCharacter->resetAnimation(Falling);
-				m_MainCharacter->resetAnimation(Run);
 				++numJump;
 				keyPressed = keyPressed | MOVE_JUMP;
 				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/jump2.wav", false);
@@ -1435,6 +1418,9 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		}
 	}
 	else {
+		m_MainCharacter->resetAnimation(Run);
+		m_MainCharacter->resetAnimation(Idle);
+		m_MainCharacter->resetAnimation(Falling);
 		switch (key)
 		{
 		case KEY_LEFT:
@@ -1465,14 +1451,14 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case VK_SHIFT:
 			keyPressed = keyPressed ^ ROLL;
 			break;
-		case 'n':
-		case 'N':
-			m_bIsVictory = true;
-			m_bChangeScreen = true;
+		case '1':
+			Camera::GetInstance()->m_iOption = 1;
 			break;
-		case 'M':
-		case 'm':
-			m_bChangeScreen = true;
+		case '2':
+			Camera::GetInstance()->m_iOption = 2;
+			break;
+		case '3':
+			Camera::GetInstance()->m_iOption = 3;
 			break;
 		}
 	}
@@ -1481,7 +1467,6 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 void SceneManager::CheckMovement() {
 	if (!is_roll) {
 		if (is_in_ground) {
-			m_MainCharacter->resetAnimation(Falling);
 			m_MainCharacter->m_current_anim = Idle * m_direction;
 		}
 		else if (jumpstep <= 0) {
@@ -1490,13 +1475,11 @@ void SceneManager::CheckMovement() {
 		if (keyPressed & MOVE_RIGHT) {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
-			m_MainCharacter->resetAnimation(Idle);
 			m_Horizontal = 40.0f;
 		}
 		else if (keyPressed & MOVE_LEFT) {
 			m_direction = -1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
-			m_MainCharacter->resetAnimation(Idle);
 			m_Horizontal = -40.0f;
 		}
 
