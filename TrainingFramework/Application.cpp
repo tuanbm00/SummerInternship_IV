@@ -69,10 +69,10 @@ void Application::OnMouseMoving(GLint X, GLint Y) {
 
 void Application::Exit()
 {
+	GameStateMachine::GetInstance()->Cleanup();
 	ResourceManager::GetInstance()->CleanDump();
 	ResourceManager::GetInstance()->CleanUp();
 	delete ResourceManager::GetInstance();
-	GameStateMachine::GetInstance()->Cleanup();
 	Singleton<TextManager>::GetInstance()->FreeInstance();
 
 }

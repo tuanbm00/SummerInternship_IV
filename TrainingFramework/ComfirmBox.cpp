@@ -55,8 +55,9 @@ void ComfirmBox::Init() {
 
 
 void ComfirmBox::Draw() {
-	if (!m_bIsActive)
+	if (!m_bIsActive) {
 		return;
+	}
 	m_Frame->Draw();
 	for (register int i = 0; i < m_listButton.size(); i++) {
 		m_listButton[i]->Draw();

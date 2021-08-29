@@ -67,7 +67,7 @@ private:
 	char* m_fileSM;
 	char* m_fileMAP;
 	b2World * m_world;
-	int jumpstep;
+	float jumpstep;
 	int numJump;
 
 	//ChangeToScreenRESULT

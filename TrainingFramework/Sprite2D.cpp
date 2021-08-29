@@ -101,6 +101,8 @@ void Sprite2D::Update(float deltaTime) {
 }
 
 void Sprite2D::CleanUp() {
+	//m_Model->deleteBuffer();
+	//glDeleteTextures(1, &m_Texture[0]->mTextureId);
 	/*glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);*/

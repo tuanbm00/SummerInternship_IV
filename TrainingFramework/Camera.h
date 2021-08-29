@@ -37,6 +37,7 @@ public:
 	bool is_wound;
 	bool is_dead;
 	bool is_exit;
+	int m_iUpdateFase;
 
 	void setLimitX(float min, float max);
 	void setLimitY(float min, float max);

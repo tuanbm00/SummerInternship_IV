@@ -1,5 +1,6 @@
 ﻿#include "Bullet.h"
 #include "define.h"
+#include "Camera.h"
 
 
 void Bullet::InitA(float attackDame ,float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength) {
@@ -53,6 +54,14 @@ void Bullet::SetCurrLength(float curr) {
 
 float Bullet::GetCurrLength() {
 	return m_CurrentLength;
+}
+
+void Bullet::UpdateAnimation(float deltaTime)
+{
+	if (m_Model->m_iUpdateFase != Camera::GetInstance()->m_iUpdateFase) {
+		m_Model->m_iUpdateFase = Camera::GetInstance()->m_iUpdateFase;
+		Object::UpdateAnimation(deltaTime);
+	}
 }
 
 float Bullet::GetMaxOfLength() {

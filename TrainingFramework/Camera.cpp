@@ -11,14 +11,7 @@ Camera::Camera(void)
 {
 	is_exit = false;
 	i_state = 0;
-	is_shoot = false;
-	is_wound = false;
 	
-	lerpX = 0.5f;
-	lerpY = 0.5f;
-	flagY = false;
-	past_dir = 0;
-	m_iOption = 1;
 }
 
 Camera* Camera::GetInstance()
@@ -34,10 +27,19 @@ Camera::~Camera() {
 }
 
 void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rotate_Speed) {
+	is_shoot = false;
+	is_wound = false;
+	m_iUpdateFase = 0;
+	lerpX = 0.5f;
+	lerpY = 0.5f;
+	flagY = false;
+	past_dir = 0;
+	m_iOption = 1; 
 	is_dead = false;
 	m_FOV = FOV;
 	m_Near = Near;
 	m_Far = Far;
+
 	initOrtho();
 }
 

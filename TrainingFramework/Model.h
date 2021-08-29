@@ -16,6 +16,7 @@ private:
 	Vector2 origin;
 	
 public:
+	int m_iUpdateFase;
 	float m_textureW, m_textureH, m_posX, m_posY, m_spriteW, m_spriteH;
 	GLuint vboId;
 	bool b_IsAnimation;

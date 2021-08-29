@@ -38,6 +38,7 @@ public:
 	float GetAttackSpeed();
 	float GetCurrLength();
 	int GetNumberOfBullet() { return m_NumberOfBullet; }
+	void UpdateAnimation(float deltaTime);
 
 	Vector2 GetSpeedOfBullet();
 	b2Body* GetTarget();

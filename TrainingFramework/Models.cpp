@@ -11,7 +11,7 @@ Models::Models(int ID, char* srcModel) {
 }
 
 Models::~Models() {
-	
+	glDeleteBuffers(1, &m_iVboID);
 }
 
 
@@ -81,4 +81,9 @@ GLuint Models::GetIndiceObject()
 GLuint Models::GetNumIndiceObject()
 {
 	return m_iNumIndices;
+}
+
+void Models::deleteBuffer()
+{
+	glDeleteBuffers(1, &m_iVboID);
 }

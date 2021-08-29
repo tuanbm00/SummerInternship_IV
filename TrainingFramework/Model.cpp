@@ -9,6 +9,7 @@
 Model::Model()
 {
 	b_IsAnimation = false;
+	m_iUpdateFase = 0;
 }
 
 Model::Model(Model * model) {
@@ -51,7 +52,7 @@ void Model::InitSprite(float spriteX, float spriteY, float spriteW, float sprite
 	m_NumberOfIndices = 6;
 	glGenBuffers(1, &vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	if(b_IsAnimation) glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_DYNAMIC_DRAW);
+	if(b_IsAnimation) glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STREAM_DRAW);
 	else glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumberOfVertices, verticesData, GL_STATIC_DRAW);
 }
 

@@ -12,6 +12,8 @@ public:
 		m_numberOfVertex = 0;
 	}
 	~Ground() {
+		glDeleteBuffers(1, &vboID);
+		glDeleteBuffers(1, &iboID);
 		delete m_texture;
 	}
 	void Init();

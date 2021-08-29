@@ -827,6 +827,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 }
 float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	++Camera::GetInstance()->m_iUpdateFase;
 	if (m_bChangeScreen) { //Check if Change Screen
 		timeCount += deltaTime;
 		if (timeCount > 2.5f) {
@@ -1002,6 +1003,7 @@ void SceneManager::Update(float deltaTime) {
 	float impulseX = m_Horizontal * 900;
 
 	if (jumpstep > 0) {
+		if (m_MainCharacter->m_current_anim == RunJump * m_direction) impulseX = 40.0f*m_direction*900.0f;
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, -impulse), true);
 		--jumpstep;
 	}
@@ -1456,7 +1458,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
-			if (numJump < 2) {
+			if (numJump < 2 && !(keyPressed & MOVE_JUMP)) {
 				jumpstep = 30;
 				m_MainCharacter->resetAnimation(RunJump);
 				m_MainCharacter->resetAnimation(Jump);
@@ -1474,6 +1476,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			keyPressed = keyPressed | SHOOT;
 			break;
 		case VK_SHIFT:
+			if (keyPressed & ROLL) break;
 			if (!is_roll && m_time_roll > 0.5f) {
 				roll_step = 30;
 				m_MainCharacter->resetAnimation(RunJump);
@@ -1527,6 +1530,9 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case '3':
 			Camera::GetInstance()->m_iOption = 3;
+			break;
+		case 'N':
+			m_MainCharacter->getBody()->SetTransform(b2Vec2(0, 0), 0);
 			break;
 		}
 	}
