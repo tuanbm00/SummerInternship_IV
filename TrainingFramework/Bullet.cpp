@@ -59,6 +59,22 @@ float Bullet::GetMaxOfLength() {
 	return m_MaxOfLength;
 }
 
+void Bullet::SetOldPos(float oldpos) {
+	m_OldPos = oldpos;
+}
+
+float Bullet::GetOldPos() {
+	return m_OldPos;
+}
+
+void Bullet::SetLengthBoomerang(float length) {
+	m_lengthBoomerang = length;
+}
+
+float Bullet::GetLengthBoomerang() {
+	return m_lengthBoomerang;
+}
+
 void Bullet::SetIsChange() {
 	m_isChange = 1;
 }

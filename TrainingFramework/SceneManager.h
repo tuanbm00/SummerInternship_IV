@@ -43,6 +43,7 @@ private:
 	std::vector<Model*> m_ModelDump;
 
 	b2Filter filterMain, filterRoll;
+	b2Filter filterBoomerang1, filterBoomerang2;
 	int m_direction;
 	float m_Horizontal;
 	float m_Vertical;

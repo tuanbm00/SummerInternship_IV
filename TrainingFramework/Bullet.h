@@ -14,6 +14,8 @@ private:
 	float m_SpeedOfBulletY;
 	float m_MaxOfLength;
 	float m_CurrentLength;
+	float m_OldPos;
+	float m_lengthBoomerang;
 	b2Body* m_target;
 public:
     Bullet(int ID) : Object(ID) {}
@@ -26,7 +28,11 @@ public:
 	bool IsEmptyBullet();
 	bool IsOverLength();
 	void SetIsChange();
+	void SetOldPos(float oldposs);
+	void SetLengthBoomerang(float length);
 
+	float GetOldPos();
+	float GetLengthBoomerang();
 	bool IsChange();
 	float GetAttackDame();
 	float GetAttackSpeed();
