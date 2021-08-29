@@ -34,6 +34,7 @@ public:
 	float GetHP();
 	void SetSpeed(float speedx, float speedy);
 	Vector2 GetSpeed();
+	Vector2 GetLimit();
 	bool isDie();
 	bool isAttack();
 
