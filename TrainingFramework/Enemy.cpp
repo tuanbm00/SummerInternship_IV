@@ -65,7 +65,9 @@ void Enemy::Update(float deltaTime)
 	m_redHp->SetPosition(m_Position.x - scalew, m_Position.y - m_spriteH - scaleh, m_Position.z);
 
 	if (m_Position.x <= m_left || m_Position.x >= m_right) {
-		m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
+		if (m_body->GetLinearVelocity().x != 0 && m_ObjectID != 1) {
+			m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
+		}
 	}
 	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
 	
@@ -75,6 +77,10 @@ void Enemy::Update(float deltaTime)
 void Enemy::SetLimit(float left, float right) {
 	m_left = left;
 	m_right = right;
+}
+
+Vector2 Enemy::GetLimit() {
+	return Vector2(m_left, m_right);
 }
 
 bool Enemy::isDie() {

@@ -1110,6 +1110,24 @@ void SceneManager::Update(float deltaTime) {
 		prev = now;
 
 		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+			if (m_listEnemyInWorld[i]->GetBulletID() < 0) {
+				float d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1 : -1;
+				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
+				if (enemySeen(m_listEnemyInWorld[i])) {
+					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					if (pos.x <= m_listEnemyInWorld[i]->GetLimit().x || pos.x >= m_listEnemyInWorld[i]->GetLimit().y) {
+						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
+					}
+				}
+				else {
+					if (pos.x <= m_listEnemyInWorld[i]->GetLimit().x) {
+						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					}
+					else if (pos.x >= m_listEnemyInWorld[i]->GetLimit().y) {
+						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(-m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					}
+				}
+			}
 			m_listEnemyInWorld[i]->Update(deltaTime);
 			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
@@ -1237,29 +1255,6 @@ void SceneManager::Update(float deltaTime) {
 							m_listBulletInWorld[i]->SetLengthBoomerang(length);
 							m_listBulletInWorld[i]->SetOldPos(m_listBulletInWorld[i]->GetPosition().x);
 							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
-
-
-							//b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
-							//Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
-							//bullet->InitA(m_listBulletInWorld[i]->GetAttackDame(), m_listBulletInWorld[i]->GetAttackSpeed(), m_listBulletInWorld[i]->GetSpeedOfBullet().x, 0, m_listBulletInWorld[i]->GetMaxOfLength());
-							//bullet->SetCurrLength(m_listBulletInWorld[i]->GetCurrLength() + a->GetAABB(0).GetExtents().x);
-
-							//if (m_listBulletInWorld[i]->IsChange()) {
-							//	bullet->SetIsChange();
-							//}
-
-							//Vector3 posBullet = Vector3(posHellBullet.x + v * (m_listBulletInWorld[i]->GetBox().x * 3 + a->GetAABB(0).GetExtents().x * 2), posHellBullet.y, 0);
-							//bullet->setModel(m_listBulletInWorld[i]->getModel());
-							//bullet->setShader(m_listBulletInWorld[i]->getShaders());
-							//bullet->SetTexture(m_listBulletInWorld[i]->getTexture());
-							//bullet->SetPosition(posBullet);
-							//bullet->SetScale(m_listBulletInWorld[i]->GetScale());
-							//bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
-							//bullet->InitWVP();
-							//bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-							//bullet->m_current_anim = m_direction;
-
-							//AddBullet(bullet);
 						}
 					}
 					if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
@@ -1286,28 +1281,6 @@ void SceneManager::Update(float deltaTime) {
 							m_listBulletInWorld[i]->SetLengthBoomerang(length);
 							m_listBulletInWorld[i]->SetOldPos(m_listBulletInWorld[i]->GetPosition().x);
 							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
-
-							/*float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
-							b2Vec2 posHellBullet = m_listBulletInWorld[i]->getBody()->GetPosition();
-							Bullet* bullet = new Bullet(m_listBulletInWorld[i]->GetID());
-							bullet->InitA(m_listBulletInWorld[i]->GetAttackDame(), m_listBulletInWorld[i]->GetAttackSpeed(), m_listBulletInWorld[i]->GetSpeedOfBullet().x, 0, m_listBulletInWorld[i]->GetMaxOfLength());
-							bullet->SetCurrLength(m_listBulletInWorld[i]->GetCurrLength() + b->GetAABB(0).GetExtents().x);
-
-							Vector3 posBullet = Vector3(posHellBullet.x + v * (m_listBulletInWorld[i]->GetBox().x * 3 + b->GetAABB(0).GetExtents().x * 2), posHellBullet.y, 0);
-							if (m_listBulletInWorld[i]->IsChange()) {
-								bullet->SetIsChange();
-							}
-							bullet->setModel(m_listBulletInWorld[i]->getModel());
-							bullet->setShader(m_listBulletInWorld[i]->getShaders());
-							bullet->SetTexture(m_listBulletInWorld[i]->getTexture());
-							bullet->SetPosition(posBullet);
-							bullet->SetScale(m_listBulletInWorld[i]->GetScale());
-							bullet->SetRotation(m_listBulletInWorld[i]->GetRotation());
-							bullet->InitWVP();
-							bullet->SetBodyObject(posBullet.x, posBullet.y, m_world);
-							bullet->m_current_anim = -m_listBulletInWorld[i]->m_current_anim;
-
-							AddBullet(bullet);*/
 						}
 					}
 					if (m_listBulletInWorld[i]->GetID() != CATEGORY_BOOMERANG) {
@@ -1610,7 +1583,13 @@ void SceneManager::CheckMovement() {
 bool SceneManager::enemySeen(Enemy * enemy) {
 	Vector3 mpos = m_MainCharacter->GetPosition();
 	Vector3 epos = enemy->GetPosition();
-	if (epos.x < mpos.x - 1280 || epos.x >(mpos.x + 1280)) return false;
-	if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;
+	if (enemy->GetBulletID() >= 0) {
+		if (epos.x < mpos.x - 1280 || epos.x >(mpos.x + 1280)) return false;
+		if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;
+	}
+	else {
+		if (epos.x < mpos.x - 800 || epos.x > mpos.x + 800) return false;
+		if (epos.y < mpos.y - 50 || epos.y > mpos.y + 50) return false;
+	}
 	return true;
 }
