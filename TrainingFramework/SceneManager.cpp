@@ -1221,7 +1221,7 @@ void SceneManager::Update(float deltaTime) {
 						}
 						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
 							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
-
+							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
 							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
 							float vBullet = m_listBulletInWorld[i]->GetSpeedOfBullet().x;
 							float vMoster = a->GetBody()->GetLinearVelocity().x;
