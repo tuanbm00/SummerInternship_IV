@@ -26,7 +26,7 @@ public:
 	~Animation();
 
 	void play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool revert = false);
-	void playDead(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime);
+	void playDead(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool * flag, bool revert = false);
 
 	void setAnimationSpeed(float newSpeed);
 	void setID(int id);

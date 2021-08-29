@@ -8,11 +8,13 @@
 
 Model::Model()
 {
+	m_isDead = false;
 	b_IsAnimation = false;
 	m_iUpdateFase = 0;
 }
 
 Model::Model(Model * model) {
+	m_isDead = false;
 	std::vector<Animation*> v = model->getAnim();
 	for (int i = 0; i < (int)v.size(); ++i) {
 		Animation* anim = new Animation(v[i]);
@@ -77,9 +79,9 @@ void Model::updateAnimation(float deltaTime, int type)
 	m_anim[type - 1]->play(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, revert);
 }
 
-void Model::updateDead(float deltaTime)
+void Model::updateDead(float deltaTime, bool revert)
 {
-	m_anim[dead - 1]->playDead(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime);
+	m_anim[m_anim.size() - 1]->playDead(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, &m_isDead, revert);
 }
 
 void Model::resetGun() {

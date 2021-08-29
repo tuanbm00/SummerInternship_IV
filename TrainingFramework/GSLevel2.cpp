@@ -36,7 +36,6 @@ void GSLevel2::Update(float deltaTime) {
 }
 
 void GSLevel2::CleanUp() {
-	printf("gs 2\n");
 	m_SM->CleanUp();
 	delete m_SM;
 }

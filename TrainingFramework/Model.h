@@ -17,6 +17,7 @@ private:
 	
 public:
 	int m_iUpdateFase;
+	bool m_isDead;
 	float m_textureW, m_textureH, m_posX, m_posY, m_spriteW, m_spriteH;
 	GLuint vboId;
 	bool b_IsAnimation;
@@ -27,7 +28,7 @@ public:
 	void setOrigin(Vector2 ori);
 	void addAnimation(Animation* anm);
 	void updateAnimation(float deltaTime, int type);
-	void updateDead(float deltaTime);
+	void updateDead(float deltaTime, bool revert = false);
 	int GetNumberofIndices() {
 		return m_NumberOfIndices;
 	}

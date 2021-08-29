@@ -1,4 +1,4 @@
-#Animations: 29
+#Animations: 31
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -85,6 +85,12 @@ FILE ../Resources/Animation/turret.txt
 SPEED 0.1 -1
 ID 28
 FILE ../Resources/Animation/mainicon.txt
+SPEED 0.1 -1
+ID 29
+FILE ../Resources/Animation/enemy2Die.txt
+SPEED 0.1 -1
+ID 30
+FILE ../Resources/Animation/enemy3Die.txt
 SPEED 0.1 -1
 
 #2D Textures: 48
@@ -185,7 +191,7 @@ FILE ../Resources/Textures/logo_game2.tga
 ID 47
 FILE ../Resources/Textures/Buttons/button_info.tga
 
-#Background: 22
+#Background: 26
 ID 0
 FILE ../Resources/Tile/bg1.tga
 ID 1
@@ -230,6 +236,14 @@ ID 20
 FILE ../Resources/Tile/dawn6.tga
 ID 21
 FILE ../Resources/Tile/dawn7.tga
+ID 22
+FILE ../Resources/Tile/demon1.tga
+ID 23
+FILE ../Resources/Tile/demon2.tga
+ID 24
+FILE ../Resources/Tile/demon3.tga
+ID 25
+FILE ../Resources/Tile/demon4.tga
 
 #Tile: 0
 

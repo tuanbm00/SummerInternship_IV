@@ -104,6 +104,12 @@ void Enemy::cleanHP()
 	delete m_redHp;
 }
 
+void Enemy::playDead(float deltaTime)
+{
+	bool revert = (m_direction == 1) ? false : true;
+	m_Model->updateDead(deltaTime, revert);
+}
+
 void Enemy::SetBullet(Bullet* bullet) {
 	m_time = 0;
 	m_bullet = bullet;

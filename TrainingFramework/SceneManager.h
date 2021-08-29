@@ -37,6 +37,7 @@ private:
 	std::vector<Bullet*> m_listBulletInWorld;
 	std::vector<Enemy*> m_listEnemy;
 	std::vector<Enemy*> m_listEnemyInWorld;
+	std::vector<Enemy*> m_listEnemyDead;
 	Object * mainIcon;
 	Object * background;
 	std::vector<Object *> m_ObjectDump;

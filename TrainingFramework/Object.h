@@ -50,7 +50,7 @@ public:
 	void UpdateAnimation(float deltaTime);
 	void start(float para, float len);
 	void deleteTex();
-
+	bool getDead();
 	void SetTexture(Texture* Texture);
 	void SetPosition(float X, float Y, float Z);
 	void SetPosition(Vector3 Position);

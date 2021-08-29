@@ -334,7 +334,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		ResourceManager::GetInstance()->GetBackgroundAtID(xi)->Init();
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(xi));
 		background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-		background->SetPosition(Camera::GetInstance()->GetPosition().x + 1000, Camera::GetInstance()->GetPosition().y - 500, 0);
+		background->SetPosition(Camera::GetInstance()->GetPosition().x + len, Camera::GetInstance()->GetPosition().y - 500, 0);
 		background->SetScale(2, 2, 1);
 		background->start(para, len);
 		background->InitWVP();
@@ -469,6 +469,9 @@ void SceneManager::Draw() {
 			m_listEnemyInWorld[i]->DrawHP();
 		}
 	}
+	for (int i = 0; i < m_listEnemyDead.size(); ++i) {
+		m_listEnemyDead[i]->Draw();
+	}
 //	m_listEnemy[0]->Draw();
 	if (m_IsBossAppear == true && m_boss != NULL) {
 		m_boss->Draw();
@@ -489,10 +492,8 @@ void SceneManager::Draw() {
 	m_MainCharacter->DrawHP();
 
 	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
-	if (Camera::GetInstance()->is_dead) {
-		Singleton<GameplayUI>::GetInstance()->DrawGameOver();
-	}
 	if (m_bIsVictory) Singleton<GameplayUI>::GetInstance()->DrawVictory();
+	if(m_MainCharacter->getDead()) Singleton<GameplayUI>::GetInstance()->DrawGameOver();
 }
 
 
@@ -837,11 +838,6 @@ void SceneManager::Update(float deltaTime) {
 	}
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
-		if (Camera::GetInstance()->is_dead == false) {
-			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
-				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-			}
-		}
 		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 		int lop = deltaTime / 0.003;
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
@@ -849,7 +845,7 @@ void SceneManager::Update(float deltaTime) {
 			m_world->Step(0.07f, 6, 2);
 			m_MainCharacter->Update(deltaTime);
 		}
-		if (Camera::GetInstance()->is_dead) {
+		if (m_MainCharacter->getDead()) {
 			m_bChangeScreen = true;
 			m_bIsVictory = false;
 		}
@@ -991,6 +987,15 @@ void SceneManager::Update(float deltaTime) {
 		else m_listEnemyInWorld[i]->m_current_anim = 1;
 	}
 
+	for (int i = 0; i < m_listEnemyDead.size(); ++i) {
+		m_listEnemyDead[i]->playDead(deltaTime);
+		if (m_listEnemyDead[i]->getDead()) {
+			delete m_listEnemyDead[i]->getModel();
+			delete m_listEnemyDead[i];
+			m_listEnemyDead.erase(m_listEnemyDead.begin() + i);
+		}
+	}
+
 	// set update
 	mainIcon->UpdateAnimation(deltaTime);
 	m_MainCharacter->getBody()->SetFixedRotation(true);
@@ -1013,10 +1018,11 @@ void SceneManager::Update(float deltaTime) {
 
 	static int32 velocityIterations = 6;
 	static int32 positionIterations = 2;
-	float lop = deltaTime / 0.003f;
+	int lop = deltaTime / 0.003f;
+	float st = 0.35f / (float) lop;
 
-	for(float ilop = 0;ilop < lop;++ilop){
-		m_world->Step(0.07f, velocityIterations, positionIterations);
+	for(int ilop = 0;ilop < lop;++ilop){
+		m_world->Step(st, velocityIterations, positionIterations);
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
 
@@ -1184,8 +1190,7 @@ void SceneManager::Update(float deltaTime) {
 					}
 				}
 				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
-				delete m_listEnemyInWorld[i]->getModel();
-				delete m_listEnemyInWorld[i];
+				m_listEnemyDead.push_back(m_listEnemyInWorld[i]);
 				m_listEnemyInWorld.erase(m_listEnemyInWorld.begin() + i);
 				i--;
 			}
@@ -1404,15 +1409,6 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
-
-
-	// lose
-
-
-	//Change To Result Screen
-
-
-
 }
 
 void SceneManager::Key(unsigned char key, bool isPressed) {
@@ -1514,6 +1510,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 void SceneManager::CheckMovement() {
 	if (!is_roll) {
 		if (is_in_ground) {
+			m_MainCharacter->resetAnimation(Falling);
 			m_MainCharacter->m_current_anim = Idle * m_direction;
 		}
 		else if (jumpstep <= 0) {

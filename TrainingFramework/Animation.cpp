@@ -118,18 +118,22 @@ void Animation::play(GLuint* vbo, Vector2 Tsize, Vector2 origin, float deltaTime
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4, verticesData);
 }
 
-void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime)
+void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime, bool * flag, bool revert)
 {
-	if (Camera::GetInstance()->is_dead) i_current_frame_index = i_frame_count - 1;
+	if (i_current_frame_index >= i_frame_count) i_current_frame_index -= i_frame_count;
+	if (*flag == true) return;
 	else {
 		d_anim_cursor += deltaTime;
 		if (d_anim_cursor > f_speed) {
 			++i_current_frame_index;
 			if (i_current_frame_index == i_frame_count - 1) {
-				Camera::GetInstance()->is_dead = true;
+				(*flag) = true;
 			}
 			d_anim_cursor = 0;
 		}
+	}
+	if (revert) {
+		if (i_current_frame_index < i_frame_count) i_current_frame_index += i_frame_count;
 	}
 	//if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;
 	Vector4 frame = m_animation[i_current_frame_index];

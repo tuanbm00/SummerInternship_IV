@@ -39,7 +39,7 @@ public:
 	bool isAttack();
 
 	void cleanHP();
-
+	void playDead(float deltaTime);
 	void UpdateAttack(float deltaTime);
 	void Update(float deltaTime);
 	void SetLimit(float left, float right);

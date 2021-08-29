@@ -89,7 +89,7 @@ void Object::Update(float deltaTime) {
 	float temp = (camPos.x * (1 - parallaxEffect));
 	float dist = camPos.x * parallaxEffect;
 	m_Position.x = startPos+dist;
-	m_Position.y = camPos.y;
+	m_Position.y = camPos.y-100.0f;
 	if (temp > startPos + length) startPos += length;
 	else if (temp < startPos - length) startPos -= length;
 	UpdateWorld();
@@ -209,4 +209,9 @@ void Object::start(float para, float len)
 void Object::deleteTex()
 {
 	glDeleteTextures(1, &m_Texture[0]->mTextureId);
+}
+
+bool Object::getDead()
+{
+	return m_Model->m_isDead;
 }
