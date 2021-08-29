@@ -461,11 +461,7 @@ void SceneManager::Draw() {
 	m_ListGunOfPlayer[1]->SetPosition(pos.x - 1090, pos.y - 700, 0);
 	mainIcon->SetPosition(pos.x - 1200, pos.y - 750, 0);
 	mainIcon->Draw();
-	for (int i = 0; i < 2; ++i) {
-		m_ListGunOfPlayer[i]->m_current_anim = 0;
-		m_ListGunOfPlayer[i]->getModel()->resetTexture();
-		m_ListGunOfPlayer[i]->Draw();
-	}
+	
 
 	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 		if (m_listEnemyInWorld[i]->checkDraw()) {
@@ -483,6 +479,12 @@ void SceneManager::Draw() {
 		m_listBulletInWorld[i]->Draw();
 	}
 
+	for (int i = 0; i < 2; ++i) {
+		m_ListGunOfPlayer[i]->m_current_anim = 0;
+		m_ListGunOfPlayer[i]->getModel()->resetTexture();
+		m_ListGunOfPlayer[i]->Draw();
+	}
+	
 	m_MainCharacter->Draw();
 	m_MainCharacter->DrawHP();
 
@@ -1190,6 +1192,7 @@ void SceneManager::Update(float deltaTime) {
 							m_boomerang = m_listBulletInWorld[i]->getBody()->GetPosition().x;
 							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 							m_listBulletInWorld[i]->ReverseV();
+							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
 							m_listBulletInWorld[i]->SetCurrLength(m_listBulletInWorld[i]->GetMaxOfLength() - m_listBulletInWorld[i]->GetCurrLength());
 							break;
 						}
