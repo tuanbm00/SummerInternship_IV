@@ -94,8 +94,14 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "OPTIONS") == 0) {
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
-				if (GameStateMachine::GetInstance()->GetIsCanPop())
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_OPTIONS);
+			}
+		});
+	}
+	else if (strcmp(type, "ABOUTUS") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_ABOUTUS);
 			}
 		});
 	}
