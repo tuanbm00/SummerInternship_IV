@@ -1,4 +1,4 @@
-#Animations: 31
+#Animations: 33
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -91,6 +91,12 @@ FILE ../Resources/Animation/enemy2Die.txt
 SPEED 0.1 -1
 ID 30
 FILE ../Resources/Animation/enemy3Die.txt
+SPEED 0.1 -1
+ID 31
+FILE ../Resources/Animation/enemy1Die.txt
+SPEED 0.1 -1
+ID 32
+FILE ../Resources/Animation/enemy4Die.txt
 SPEED 0.1 -1
 
 #2D Textures: 48
