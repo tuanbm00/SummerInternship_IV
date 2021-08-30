@@ -622,7 +622,8 @@ void SceneManager::Shoot() {
 	// set bullet
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGunOfPlayer[0]->GetID());
-	bullet->InitA(m_ListGunOfPlayer[0]->GetAttackDame(), m_ListGunOfPlayer[0]->GetAttackSpeed(), m_direction*m_ListGunOfPlayer[0]->GetSpeedOfBullet().x, m_ListGunOfPlayer[0]->GetSpeedOfBullet().y, m_ListGunOfPlayer[0]->GetMaxOfLength());
+	float dame = m_ListGunOfPlayer[0]->GetNumberOfBullet() == 1 ? m_ListGunOfPlayer[0]->GetAttackDame() * 2 : m_ListGunOfPlayer[0]->GetAttackDame();
+	bullet->InitA(dame, m_ListGunOfPlayer[0]->GetAttackSpeed(), m_direction*m_ListGunOfPlayer[0]->GetSpeedOfBullet().x, m_ListGunOfPlayer[0]->GetSpeedOfBullet().y, m_ListGunOfPlayer[0]->GetMaxOfLength());
 	Vector3 posBullet = Vector3(posMainCharacter.x + m_direction * (m_MainCharacter->GetBox().x + m_ListGunOfPlayer[0]->GetBox().x / 2), posMainCharacter.y, 0);
 
 	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_QUICK_PISTOL) {
