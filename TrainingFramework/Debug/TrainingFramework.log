@@ -1,33 +1,8 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  SceneManager.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(332): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(329): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(345): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(321): warning C4101: 'num': unreferenced local variable
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(442): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(472): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(612): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(613): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(750): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(787): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(843): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(866): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(869): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(870): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(871): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(872): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(970): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(991): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1022): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1058): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1071): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1121): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1204): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1251): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1257): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1275): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1282): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1571): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameplayUI.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(74): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(75): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(82): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(86): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(90): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   TrainingFramework.vcxproj -> D:\20202\20203\SummerInternship_IV\\BIN\TrainingFramework.exe

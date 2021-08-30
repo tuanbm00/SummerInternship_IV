@@ -23,7 +23,7 @@ void GSLevel4::Init() {
 	char* MAP = "../Resources/Map/maplv4.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/fatima.mp3", true); // day, mp3 cung doc dc
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 
 	//Set Current State
 	m_currentState = GSLEVEL4;
