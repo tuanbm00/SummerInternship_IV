@@ -55,10 +55,10 @@ public:
 		return m_StatesStack.size() > 1;
 	}
 
+	std::shared_ptr<GameStateBase>	m_pActiveState;
 private:
 
 	std::list<std::shared_ptr<GameStateBase>> m_StatesStack;
-	std::shared_ptr<GameStateBase>	m_pActiveState;
 	std::shared_ptr<GameStateBase>	m_pNextState;
 	bool m_running;
 	bool m_fullscreen;

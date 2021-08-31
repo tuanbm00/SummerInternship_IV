@@ -33,7 +33,7 @@ public:
 	void CleanUp();
 	void CleanDump();
 	void ReadFile(FILE* f_RM);
-	Model* GetModelAtID(int ID);
+	Models* GetModelAtID(int ID);
 	Animation* GetAnimationAtID(int ID);
 	Texture* GetTextureAtID(int ID);
 	Shaders* GetShaderAtID(int ID);

@@ -24,6 +24,7 @@ public:
 	GLuint		GetIndiceObject();
 	GLuint		GetNumIndiceObject();
 	void		SetModelId(GLuint id);
+	int getID();
 	GLuint		GetModelId();
 	void deleteBuffer();
 };

@@ -24,7 +24,6 @@ public:
 	Camera();
 	~Camera();
 	static Camera* GetInstance();
-	int i_state;
 	int m_iOption;
 	Vector2 limitX, limitY;
 	Matrix GetOrthographic();
@@ -35,7 +34,6 @@ public:
 	void CleanUp();
 	bool is_shoot;
 	bool is_wound;
-	bool is_dead;
 	bool is_exit;
 	int m_iUpdateFase;
 

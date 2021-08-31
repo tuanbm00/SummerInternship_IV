@@ -96,9 +96,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="NPC.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>

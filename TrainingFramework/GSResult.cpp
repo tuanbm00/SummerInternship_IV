@@ -35,8 +35,7 @@ void GSResult::Init() {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/game_over.wav", false);
 	}
 
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(model);
+	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
@@ -73,6 +72,7 @@ void GSResult::Update(float deltaTime) {
 }
 
 void GSResult::CleanUp() {
+	printf("result\n");
 	m_Frame->CleanUp();
 	m_BM->CleanUp();
 

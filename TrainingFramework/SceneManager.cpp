@@ -298,21 +298,21 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	fclose(fp);
 	char filetex[128];
 	float tw = 0, th = 0;
-	if (Camera::GetInstance()->i_state == 1) {
+	if (m_currentLevel == 1) {
 		strcpy_s(filetex, "../Resources/Map/mapT1.tga");
 		tw = 3200.0f; th = 400.0f;
 	}
-	if (Camera::GetInstance()->i_state == 2) {
+	if (m_currentLevel == 2) {
 		strcpy_s(filetex, "../Resources/Map/mapT2.tga");
 		tw = 3200.0f;
 		th = 400.0f;
 	}
-	if (Camera::GetInstance()->i_state == 3) {
+	if (m_currentLevel == 3) {
 		strcpy_s(filetex, "../Resources/Map/mapT3.tga");
 		tw = 3200.0f;
 		th = 400.0f;
 	}
-	if (Camera::GetInstance()->i_state == 4) {
+	if (m_currentLevel == 4) {
 		strcpy_s(filetex, "../Resources/Map/mapT4.tga");
 		tw = 3200.0f;
 		th = 400.0f;
@@ -360,12 +360,12 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 			Terrain* terrain = NULL;
 			if (xi >= 0) {
 				terrain = new Terrain(xi);
-				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2), 0);
+				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2));
 				if (xi <= 15) {
-					//terrain->SetBodyObject(WIDTH, WIDTH, m_world);
+					terrain->m_bIsTerrain = true;
 				}
 				else if(xi <= 19){
-					//terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
+					terrain->m_bIsTerrain = false;
 				}
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
 				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, tw, th, origin);
@@ -853,6 +853,7 @@ void SceneManager::Update(float deltaTime) {
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
 		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
+		for (int i = 0; i < m_listEnemyInWorld.size(); ++i) m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 		int lop = deltaTime / 0.003;
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
 		for (int i = 0; i < lop; ++i) {
@@ -891,7 +892,7 @@ void SceneManager::Update(float deltaTime) {
 
 	for (int i = hlow; i < hhigh; ++i) {
 		for (int j = wlow; j < whigh; ++j) {
-			if(m_listTerrain[i][j] != NULL && !m_listTerrain[i][j]->isDef) m_listTerrain[i][j]->SetBodyObject(WIDTH, WIDTH ,m_world);
+			if(m_listTerrain[i][j] != NULL) m_listTerrain[i][j]->SetBodyObject(WIDTH, WIDTH ,m_world);
 			if (mapEnemy[{i, j}] > 0) {
 				int id = mapEnemy[{i, j}] - 1;
 				int left = mapLimit[{i, j}].first;
@@ -1326,7 +1327,7 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	if (Camera::GetInstance()->i_state == 4){
+	if (m_currentLevel == 4){
 		if(pos.x > 2400 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
 			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
 				if (m_boss) {
@@ -1387,7 +1388,7 @@ void SceneManager::Update(float deltaTime) {
 
 	// victory
 	if (m_IsTowerDefend == true) {
-		if (Camera::GetInstance()->i_state < 4) {
+		if (m_currentLevel < 4) {
 			m_bIsVictory = true;
 			m_bChangeScreen = true;
 			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
@@ -1404,11 +1405,11 @@ void SceneManager::Update(float deltaTime) {
 			}
 		}
 	}
+	if (m_MainCharacter->isDie()) return;
 	for (int i = hlow; i < hhigh; ++i) {
 		for (int j = wlow; j < whigh; ++j) {
-			if (m_listTerrain[i][j] != NULL && m_listTerrain[i][j]->isDef) {
+			if (m_listTerrain[i][j] != NULL) {
 				m_world->DestroyBody(m_listTerrain[i][j]->getBody());
-				m_listTerrain[i][j]->isDef = false;
 			}
 		}
 	}
@@ -1504,7 +1505,9 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			Camera::GetInstance()->m_iOption = 3;
 			break;
 		case 'N':
-			m_MainCharacter->getBody()->SetTransform(b2Vec2(0, 0), 0);
+			m_bChangeScreen = true;
+			m_bIsVictory = true;
+			//m_MainCharacter->getBody()->SetTransform(b2Vec2(0, 0), 0);
 			break;
 		}
 	}

@@ -14,7 +14,6 @@ GSLevel4::~GSLevel4() {
 }
 
 void GSLevel4::Init() {
-	Camera::GetInstance()->i_state = 4;
 
 	//Init SM
 	m_SM = new SceneManager(4);
@@ -57,7 +56,7 @@ void GSLevel4::Pause() {
 //Events
 void GSLevel4::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
+	/*if (!bIsPressed) {
 		switch (key) {
 		case KEY_NEW_STATE:
 		case KEY_NEW_STATE + 32:
@@ -72,7 +71,7 @@ void GSLevel4::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 		}
 		break;
 		}
-	}
+	}*/
 }
 
 void GSLevel4::OnMouseMoving(int X, int Y) {

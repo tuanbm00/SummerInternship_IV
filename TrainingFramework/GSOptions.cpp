@@ -31,8 +31,7 @@ void GSOptions::Init() {
 	}
 
 	//Background Initialize
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(model);
+	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
 
 	auto obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);

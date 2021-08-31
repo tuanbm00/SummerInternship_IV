@@ -1,11 +1,22 @@
 #include "Terrain.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
+void Terrain::SetPosition(float x, float y)
+{
+	m_Position.x = x;
+	m_Position.y = y;
+}
+
+b2Body * Terrain::getBody()
+{
+	return m_body;
+}
+
 void Terrain::InitTerrain(char * filename)
 {
 }
 
-void Terrain::SetBodyObject(float spriteW, float spriteH, b2World* world, bool isTerrain) {
+void Terrain::SetBodyObject(float spriteW, float spriteH, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(m_Position.x, m_Position.y);
@@ -14,7 +25,7 @@ void Terrain::SetBodyObject(float spriteW, float spriteH, b2World* world, bool i
 	staticBox.SetAsBox(spriteW / 2, spriteH / 2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticBox;
-	if (isTerrain) {
+	if (m_bIsTerrain) {
 		fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;
 		fixtureDef.filter.maskBits = MASK_TERRAIN;
 	}

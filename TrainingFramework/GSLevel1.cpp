@@ -13,7 +13,6 @@ GSLevel1::~GSLevel1() {
 }
 
 void GSLevel1::Init() {
-	Camera::GetInstance()->i_state = 1;
 	
 	//Init SM
 	m_SM = new SceneManager(1);

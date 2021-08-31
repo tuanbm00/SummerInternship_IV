@@ -15,14 +15,13 @@ GSAboutUs::~GSAboutUs() {
 
 void GSAboutUs::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT4.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT2.mp3", true);
 
 	char* BM = "../Resources/Managers/BM_AboutUs.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
 	//Background Initialize
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(model);
+	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
 
 	auto obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
@@ -49,7 +48,7 @@ void GSAboutUs::Init() {
 	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(46));
 	logo->Set2DPosition(Globals::screenWidth / 4 + 50, Globals::screenHeight / 2 - 100);
-	logo->SetSize(Globals::screenWidth / 2, Globals::screenHeight / 5);
+	logo->SetSize(829 / 3, 291 / 3);
 	logo->CalculateWVP();
 	m_listSprite.push_back(logo);
 

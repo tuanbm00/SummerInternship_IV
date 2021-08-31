@@ -20,8 +20,7 @@ void GSLoadLevel::Init() {
 	char* BM = "../Resources/Managers/BM_LOADLEVEL.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(model);
+	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
 
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);

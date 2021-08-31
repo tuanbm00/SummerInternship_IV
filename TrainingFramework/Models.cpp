@@ -83,7 +83,13 @@ GLuint Models::GetNumIndiceObject()
 	return m_iNumIndices;
 }
 
+int Models::getID()
+{
+	return m_Id;
+}
+
 void Models::deleteBuffer()
 {
 	glDeleteBuffers(1, &m_iVboID);
 }
+
