@@ -21,7 +21,7 @@ void GSLevel2::Init() {
 	char* MAP = "../Resources/Map/maplv2.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/NextToYou.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SotsugyouMemories.mp3", true);
 
 	//Set Current State
 	m_currentState = GSLEVEL2;

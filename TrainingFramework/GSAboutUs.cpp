@@ -73,8 +73,8 @@ void GSAboutUs::Draw() {
 	}
 	m_BM->Draw();
 
-	Singleton<TextManager>::GetInstance()->RenderString("-- THANH VIEN NHOM --", Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 550.0f, 1.0f, 1.0f);
-	Singleton<TextManager>::GetInstance()->RenderString("Nguyen Van Truong (LEADER)", Vector4(1.0f, 0.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 500.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString("-- DEVELOPED BY --", Vector4(0.0f, 1.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 550.0f, 1.0f, 1.0f);
+	Singleton<TextManager>::GetInstance()->RenderString("Nguyen Van Truong", Vector4(1.0f, 0.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 500.0f, 1.0f, 1.0f);
 	Singleton<TextManager>::GetInstance()->RenderString("Bui Minh Tuan", Vector4(1.0f, 0.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 450.0f, 1.0f, 1.0f);
 	Singleton<TextManager>::GetInstance()->RenderString("Phung Huu Phuoc Toai", Vector4(1.0f, 0.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 400.0f, 1.0f, 1.0f);
 	Singleton<TextManager>::GetInstance()->RenderString("Ngo Quoc Khanh", Vector4(1.0f, 0.0f, 0.0f), Globals::screenWidth / 2 + 10.0f, 350.0f, 1.0f, 1.0f);

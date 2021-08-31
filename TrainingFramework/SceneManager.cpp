@@ -632,7 +632,7 @@ void SceneManager::Shoot() {
 		dame *= 2;
 	}
 	else {
-		if (rand() % 10 == 8) {
+		if (rand() % 25 == 8) {
 			dame *= 1.5;
 		}
 	}
@@ -1183,7 +1183,7 @@ void SceneManager::Update(float deltaTime) {
 					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 						b->SetFilterData(filterBoomerang1);
-						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2);
 						float vBullet = bullet->GetSpeedOfBullet().x;
 						float vMoster = a->GetBody()->GetLinearVelocity().x;
 						float pBullet = bullet->GetPosition().x;

@@ -109,7 +109,7 @@ FILE ../Resources/TexturesAnimation/bazokabullet.tga
 ID 3
 FILE ../Resources/TexturesAnimation/hellgunbullet.tga
 ID 4
-FILE ../Resources/TexturesAnimation/defendbullet.tga
+FILE ../Resources/TexturesAnimation/defendbullet2.tga
 ID 5
 FILE ../Resources/Textures/enemy1.tga
 ID 6
