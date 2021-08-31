@@ -1,4 +1,5 @@
 #include "GSLevel4.h"
+#include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -14,6 +15,7 @@ GSLevel4::~GSLevel4() {
 }
 
 void GSLevel4::Init() {
+	Singleton<LoadingScreen>::GetInstance()->Init();
 
 	//Init SM
 	m_SM = new SceneManager(4);
@@ -29,12 +31,15 @@ void GSLevel4::Init() {
 }
 
 void GSLevel4::Draw() {
-
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Draw();
 
 }
 
 void GSLevel4::Update(float deltaTime) {
+	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Update(deltaTime);
 }
 
@@ -56,22 +61,9 @@ void GSLevel4::Pause() {
 //Events
 void GSLevel4::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	m_SM->Key(key, bIsPressed);
-	/*if (!bIsPressed) {
-		switch (key) {
-		case KEY_NEW_STATE:
-		case KEY_NEW_STATE + 32:
-		{
-
-		}
-		break;
-		case KEY_BACK_STATE:
-		case KEY_BACK_STATE + 32:
-		{
-
-		}
-		break;
-		}
-	}*/
+	if (!bIsPressed) {
+		switch (key) {}
+	}
 }
 
 void GSLevel4::OnMouseMoving(int X, int Y) {

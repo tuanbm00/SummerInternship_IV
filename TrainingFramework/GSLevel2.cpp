@@ -1,4 +1,5 @@
 #include "GSLevel2.h"
+#include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -12,6 +13,7 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
+	Singleton<LoadingScreen>::GetInstance()->Init();
 
 	//Init SM
 	m_SM = new SceneManager(2);
@@ -27,10 +29,14 @@ void GSLevel2::Init() {
 }
 
 void GSLevel2::Draw() {
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Draw();
 }
 
 void GSLevel2::Update(float deltaTime) {
+	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Update(deltaTime);
 }
 
@@ -54,18 +60,6 @@ void GSLevel2::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 	m_SM->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
-		case KEY_NEW_STATE:
-		case KEY_NEW_STATE + 32:
-		{
-
-		}
-		break;
-		case KEY_BACK_STATE:
-		case KEY_BACK_STATE + 32:
-		{
-			
-		}
-		break;
 		}
 	}
 }

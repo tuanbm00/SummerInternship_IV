@@ -19,12 +19,11 @@
 
 //key value
 #define KEY_JUMP 'W'
+#define KEY_JUMP2 32
 #define KEY_LEFT 'A'
 #define KEY_RIGHT 'D'
 #define KEY_CHANGE_GUN 'I'
 #define KEY_SHOOT 'O'
-#define KEY_NEW_STATE 'Z'
-#define KEY_BACK_STATE 'X'
 
 // key
 #define MOVE_JUMP 1
