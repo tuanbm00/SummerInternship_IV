@@ -84,6 +84,11 @@ void Model::updateDead(float deltaTime, bool revert)
 	m_anim[m_anim.size() - 1]->playDead(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, &m_isDead, revert);
 }
 
+void Model::updateAttack(float deltaTime, short * flag, bool revert)
+{
+	m_anim[1]->playAttack(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, flag, revert);
+}
+
 void Model::resetGun() {
 	for (int i = 0; i < (int)m_anim.size(); ++i) {
 		if (m_anim[i]->isGun) m_anim[i]->resetAnimation();

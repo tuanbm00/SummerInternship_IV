@@ -61,7 +61,7 @@ FILE ../Resources/Animation/enemy2Walk.txt
 SPEED 0.1 -1
 ID 20
 FILE ../Resources/Animation/enemy2Fire.txt
-SPEED 0.12 -1
+SPEED 0.17 -1
 ID 21
 FILE ../Resources/Animation/enemy3Walk.txt
 SPEED 0.1 -1
@@ -99,17 +99,25 @@ ID 32
 FILE ../Resources/Animation/enemy4Die.txt
 SPEED 0.1 -1
 
-#2D Textures: 50
+#2D Textures: 54
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
 FILE ../Resources/TexturesAnimation/shortgunbullet.tga
+ID 50
+FILE ../Resources/TexturesAnimation/shortgunbullet2.tga
 ID 2
 FILE ../Resources/TexturesAnimation/bazokabullet.tga
+ID 51
+FILE ../Resources/TexturesAnimation/bazokabullet2.tga
 ID 3
 FILE ../Resources/TexturesAnimation/hellgunbullet.tga
+ID 52
+FILE ../Resources/TexturesAnimation/hellgunbullet2.tga
 ID 4
 FILE ../Resources/TexturesAnimation/defendbullet2.tga
+ID 53
+FILE ../Resources/TexturesAnimation/defendbullet3.tga
 ID 5
 FILE ../Resources/Textures/enemy1.tga
 ID 6

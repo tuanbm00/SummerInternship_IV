@@ -21,6 +21,7 @@ private:
 	Healthy* m_whiteHp;
 	Healthy* m_redHp;
 public:
+	short m_bIsAttack;
 	bool m_bFollowing;
 	float m_time;
 	int cnt;
@@ -30,6 +31,7 @@ public:
 		m_direction = 1;
 		cnt = 0;
 		m_bFollowing = false;
+		m_bIsAttack = 0;
 	}
 	void SetMaxHP(float hp);
 	void SetHP(float hp);

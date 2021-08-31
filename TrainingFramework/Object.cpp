@@ -33,6 +33,10 @@ Texture* Object::getTexture() {
 	return m_Texture[0];
 }
 
+Texture* Object::getTexture(int id) {
+	return m_Texture[id];
+}
+
 
 Object::~Object() {
 

@@ -72,10 +72,8 @@ void GSResult::Update(float deltaTime) {
 }
 
 void GSResult::CleanUp() {
-	printf("result\n");
 	m_Frame->CleanUp();
 	m_BM->CleanUp();
-
 }
 
 void GSResult::Resume() {
