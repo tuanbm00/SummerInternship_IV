@@ -9,8 +9,8 @@ void TextManager::Initialize() {
 		printf("Could not init freetype library\n");
 		return;
 	}
-	if (FT_New_Face(m_ft, "../Resources/Fonts/arial.ttf", 0, &m_face)) {
-		printf("Could not open font arial.ttf\n");
+	if (FT_New_Face(m_ft, "../Resources/Fonts/COMIC.TTF", 0, &m_face)) {
+		printf("Could not open font\n");
 		return;
 	}
 	FT_Set_Pixel_Sizes(m_face, 0, 48);
