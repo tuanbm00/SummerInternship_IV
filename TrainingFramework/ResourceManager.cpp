@@ -1,6 +1,7 @@
 //#include "stdafx.h"
 #include <soloud.h>
 #include "ResourceManager.h"
+#include "LoadingScreen.h"
 #include <iostream>
 
 
@@ -285,6 +286,8 @@ void ResourceManager::CleanUp() {
 	for (int i = 0; i < (int)m_Animations.size(); ++i) {
 		delete m_Animations[i];
 	}
+
+	Singleton<LoadingScreen>::GetInstance()->CleanUp();
 }
 
 void ResourceManager::CleanDump()
@@ -293,4 +296,6 @@ void ResourceManager::CleanDump()
 		delete m_DumpAnim[i];
 	}
 	m_DumpAnim.resize(0);
+
+	
 }

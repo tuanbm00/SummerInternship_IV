@@ -1,4 +1,5 @@
 #include "GSLevel3.h"
+#include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -14,6 +15,7 @@ GSLevel3::~GSLevel3() {
 }
 
 void GSLevel3::Init() {
+	Singleton<LoadingScreen>::GetInstance()->Init();
 	Camera::GetInstance()->i_state = 3;
 
 	//Init SM
@@ -31,12 +33,15 @@ void GSLevel3::Init() {
 }
 
 void GSLevel3::Draw() {
-
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Draw();
 
 }
 
 void GSLevel3::Update(float deltaTime) {
+	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Update(deltaTime);
 }
 

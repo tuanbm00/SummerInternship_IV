@@ -121,6 +121,7 @@
     <ClCompile Include="GSOptions.cpp" />
     <ClCompile Include="GSResult.cpp" />
     <ClCompile Include="Healthy.cpp" />
+    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Models.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="GSOptions.h" />
     <ClInclude Include="GSResult.h" />
     <ClInclude Include="Healthy.h" />
+    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="MainCharacter.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Models.h" />

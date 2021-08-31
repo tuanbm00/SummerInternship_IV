@@ -1,4 +1,5 @@
 #include "GSLevel2.h"
+#include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -12,6 +13,7 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
+	Singleton<LoadingScreen>::GetInstance()->Init();
 	Camera::GetInstance()->i_state = 2;
 
 	//Init SM
@@ -28,10 +30,14 @@ void GSLevel2::Init() {
 }
 
 void GSLevel2::Draw() {
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Draw();
 }
 
 void GSLevel2::Update(float deltaTime) {
+	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Update(deltaTime);
 }
 

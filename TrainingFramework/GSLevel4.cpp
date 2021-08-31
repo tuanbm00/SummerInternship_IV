@@ -1,4 +1,5 @@
 #include "GSLevel4.h"
+#include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -14,6 +15,7 @@ GSLevel4::~GSLevel4() {
 }
 
 void GSLevel4::Init() {
+	Singleton<LoadingScreen>::GetInstance()->Init();
 	Camera::GetInstance()->i_state = 4;
 
 	//Init SM
@@ -30,12 +32,15 @@ void GSLevel4::Init() {
 }
 
 void GSLevel4::Draw() {
-
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Draw();
 
 }
 
 void GSLevel4::Update(float deltaTime) {
+	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	m_SM->Update(deltaTime);
 }
 

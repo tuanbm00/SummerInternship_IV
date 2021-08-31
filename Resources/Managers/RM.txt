@@ -99,7 +99,7 @@ ID 32
 FILE ../Resources/Animation/enemy4Die.txt
 SPEED 0.1 -1
 
-#2D Textures: 48
+#2D Textures: 50
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -196,6 +196,10 @@ ID 46
 FILE ../Resources/Textures/logo_game2.tga
 ID 47
 FILE ../Resources/Textures/Buttons/button_info.tga
+ID 48
+FILE ../Resources/Textures/Levels/loading_screen.tga
+ID 49
+FILE ../Resources/Textures/Levels/loading_icon.tga
 
 #Background: 26
 ID 0
