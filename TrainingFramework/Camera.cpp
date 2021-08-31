@@ -10,7 +10,6 @@ Camera* Camera::s_Instance = NULL;
 Camera::Camera(void)
 {
 	is_exit = false;
-	i_state = 0;
 	
 }
 
@@ -35,7 +34,6 @@ void Camera::Init(float FOV, float Near, float Far, float Move_Speed, float Rota
 	flagY = false;
 	past_dir = 0;
 	m_iOption = 1; 
-	is_dead = false;
 	m_FOV = FOV;
 	m_Near = Near;
 	m_Far = Far;

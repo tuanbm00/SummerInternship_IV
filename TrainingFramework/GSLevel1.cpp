@@ -16,7 +16,6 @@ GSLevel1::~GSLevel1() {
 void GSLevel1::Init() {
 	Singleton<LoadingScreen>::GetInstance()->Init();
 
-	Camera::GetInstance()->i_state = 1;	
 	//Init SM
 	m_SM = new SceneManager(1);
 	char* SM = "../Resources/Managers/SM1.txt";

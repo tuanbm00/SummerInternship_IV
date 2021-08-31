@@ -255,7 +255,9 @@ FILE ../Resources/Tile/demon3.tga
 ID 25
 FILE ../Resources/Tile/demon4.tga
 
-#Tile: 0
+#Model: 1
+ID 0
+FILE ../Resources/Models/Sprite2D.nfg
 
 #Shaders: 2
 ID 0

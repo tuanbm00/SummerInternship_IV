@@ -82,17 +82,16 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	}
 
 	//Tile
-	int numOfTile;
-	fscanf_s(f_RM, "#Tile: %d\n", &numOfTile);
-	for (register int i = 0; i < numOfTile; ++i) {
+	int numOfModel;
+	fscanf_s(f_RM, "#Model: %d\n", &numOfModel);
+	for (register int i = 0; i < numOfModel; ++i) {
 		int ID;
 		char File[250];
 		fscanf_s(f_RM, "ID %d\n", &ID);
 		fscanf_s(f_RM, "FILE %s\n", File, _countof(File));
 
-		Texture* texture = new Texture(ID, File);
-		texture->Init();
-		m_TerrainTextures.push_back(texture);
+		Models * mmodel = new Models(ID, File);
+		m_DumpModels.push_back(mmodel);
 	}
 
 	//Shaders
@@ -127,10 +126,10 @@ void ResourceManager::ReadFile(FILE* f_RM)
 	
 }
 
-Model* ResourceManager::GetModelAtID(int ID) {
-	for (register int i = 0; i < (int)m_Models.size(); ++i) {
-		if (m_Models[i]->GetID() == ID) {
-			return m_Models[i];
+Models* ResourceManager::GetModelAtID(int ID) {
+	for (register int i = 0; i < (int)m_DumpModels.size(); ++i) {
+		if (m_DumpModels[i]->getID() == ID) {
+			return m_DumpModels[i];
 		}
 	}
 	return NULL;

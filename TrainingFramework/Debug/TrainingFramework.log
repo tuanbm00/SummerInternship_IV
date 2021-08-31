@@ -1,6 +1,1 @@
-﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  GSAboutUs.cpp
-d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(71): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(84): warning C4018: '<': signed/unsigned mismatch
-d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(90): warning C4018: '<': signed/unsigned mismatch
-  TrainingFramework.vcxproj -> D:\20202\20203\SummerInternship_IV\\BIN\TrainingFramework.exe
+﻿

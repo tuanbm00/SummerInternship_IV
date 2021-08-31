@@ -19,8 +19,7 @@ void GSMainmenu::Init() {
 	char* BM = "../Resources/Managers/BM_Mainmenu.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
-	auto model = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(model);
+	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
 
 	//Background Initialize
 	auto bg = std::make_shared<Sprite2D>(0);
@@ -69,6 +68,7 @@ void GSMainmenu::Update(float deltaTime) {
 }
 
 void GSMainmenu::CleanUp() {
+	printf("menu\n");
 	m_BM->CleanUp();
 	for (register int i = 0; i < m_listSprite.size(); i++) {
 		m_listSprite[i]->CleanUp();

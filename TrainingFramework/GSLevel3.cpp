@@ -16,7 +16,6 @@ GSLevel3::~GSLevel3() {
 
 void GSLevel3::Init() {
 	Singleton<LoadingScreen>::GetInstance()->Init();
-	Camera::GetInstance()->i_state = 3;
 
 	//Init SM
 	m_SM = new SceneManager(3);

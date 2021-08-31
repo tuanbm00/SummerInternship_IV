@@ -16,7 +16,6 @@ GSLevel4::~GSLevel4() {
 
 void GSLevel4::Init() {
 	Singleton<LoadingScreen>::GetInstance()->Init();
-	Camera::GetInstance()->i_state = 4;
 
 	//Init SM
 	m_SM = new SceneManager(4);

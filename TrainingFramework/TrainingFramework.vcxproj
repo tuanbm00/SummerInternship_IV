@@ -125,7 +125,6 @@
     <ClCompile Include="MainCharacter.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Models.cpp" />
-    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />

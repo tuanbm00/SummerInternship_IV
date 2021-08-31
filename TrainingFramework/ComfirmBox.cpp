@@ -17,9 +17,8 @@ void ComfirmBox::Init() {
 	//Manager Initialize
 	Singleton<TextManager>::GetInstance()->Initialize();
 
-	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
+	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
 	auto button = std::make_shared<GameButton>(555);
-	ResourceManager::GetInstance()->addModels(pModel);
 	button->setModel(pModel);
 	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
 	button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(42));

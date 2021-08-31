@@ -26,8 +26,9 @@ int ButtonManager::ReadFile(char* srcButton) {
 	fscanf_s(f_M, "#Buttons: %d\n", &numberOfButtons);
 	if (numberOfButtons <= 0)
 		return false;
-	auto pModel = new Models(1, "../Resources/Models/Sprite2D.nfg");
-	ResourceManager::GetInstance()->addModels(pModel);
+
+	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
+
 	int id, shader, texture, X, Y, W, H, active, comfirm;
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)
@@ -85,7 +86,7 @@ void ButtonManager::Draw()
 void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) {
 	if (strcmp(type, "MAINMENU") == 0) {
 		button->SetOnClick([]() {
-			//GameStateMachine::GetInstance()->PopState();
+			GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
 			}
@@ -115,6 +116,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL1") == 0) {
 		button->SetOnClick([]() {
 			GameStateMachine::GetInstance()->PopState();
+			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 			}
@@ -123,6 +125,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL2") == 0) {
 		button->SetOnClick([]() {
 			GameStateMachine::GetInstance()->PopState();
+			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
@@ -132,6 +135,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL3") == 0) {
 		button->SetOnClick([]() {
 			GameStateMachine::GetInstance()->PopState();
+			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
@@ -141,6 +145,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	else if (strcmp(type, "LEVEL4") == 0) {
 		button->SetOnClick([]() {
 			GameStateMachine::GetInstance()->PopState();
+			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 			}
@@ -151,7 +156,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		switch (m_currentLevel) {
 			case 1:
 				button->SetOnClick([]() {
-					
+					GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 					}
@@ -159,6 +164,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 2:
 				button->SetOnClick([]() {
+					GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 					}
@@ -166,6 +172,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 3:
 				button->SetOnClick([]() {
+					GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 					}
@@ -173,6 +180,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 4:
 				button->SetOnClick([]() {
+					GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 					}
@@ -188,6 +196,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		switch (m_currentLevel+1) {
 		case 1:
 			button->SetOnClick([]() {
+				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 				}
@@ -195,6 +204,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 2:
 			button->SetOnClick([]() {
+				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 				}
@@ -202,6 +212,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 3:
 			button->SetOnClick([]() {
+				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 				}
@@ -209,6 +220,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 4:
 			button->SetOnClick([]() {
+				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 				}
@@ -216,6 +228,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 5:
 			button->SetOnClick([]() {
+				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
 				}
