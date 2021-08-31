@@ -3,6 +3,7 @@
 #include "GameStatebase.h"
 #include "TextManager.h"
 #include "ResourceManager.h"
+#include "LoadingScreen.h"
 
 Application::Application()
 {
@@ -26,19 +27,24 @@ void Application::Init()
 	Singleton<TextManager>::GetInstance()->Initialize();
 	ResourceManager::GetInstance()->Init();
 	GameStateMachine::GetInstance()->ChangeState(StateTypes::GS_INTRO);
+	Singleton<LoadingScreen>::GetInstance()->Init();
 }
 
 void Application::Update(GLfloat deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	if (Singleton<LoadingScreen>::GetInstance()->isDraw == false) return;
 	GameStateMachine::GetInstance()->PerformStateChange();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Update(deltaTime);
 }
 
 void Application::Render()
 {
+	Singleton<LoadingScreen>::GetInstance()->Draw();
+	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
 	if (GameStateMachine::GetInstance()->HasState())
 		GameStateMachine::GetInstance()->CurrentState()->Draw();
 }

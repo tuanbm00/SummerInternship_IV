@@ -15,7 +15,7 @@ GSMainmenu::~GSMainmenu() {
 
 void GSMainmenu::Init() {
 	//Manager Initialize
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT7.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT7.mp3", false);
 	char* BM = "../Resources/Managers/BM_Mainmenu.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
@@ -68,7 +68,6 @@ void GSMainmenu::Update(float deltaTime) {
 }
 
 void GSMainmenu::CleanUp() {
-	printf("menu\n");
 	m_BM->CleanUp();
 	for (register int i = 0; i < m_listSprite.size(); i++) {
 		m_listSprite[i]->CleanUp();

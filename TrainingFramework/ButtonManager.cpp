@@ -5,6 +5,7 @@
 #include "define.h"
 #include "ComfirmBox.h"
 #include "Camera.h"
+#include "LoadingScreen.h"
 
 ButtonManager::ButtonManager(char* srcButton, int currentLevel) {
 	m_currentLevel = currentLevel;
@@ -108,6 +109,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "LOADLEVEL") == 0) {
 		button->SetOnClick([]() {
+			if(GameStateMachine::GetInstance()->m_pActiveState->m_currentState != GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LOADLEVEL);
 			}
@@ -115,8 +117,9 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "LEVEL1") == 0) {
 		button->SetOnClick([]() {
+			Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+			Singleton<LoadingScreen>::GetInstance()->isDraw = false;
 			GameStateMachine::GetInstance()->PopState();
-			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 			}
@@ -124,8 +127,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "LEVEL2") == 0) {
 		button->SetOnClick([]() {
-			GameStateMachine::GetInstance()->PopState();
-			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
+			Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+			Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
@@ -134,8 +137,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "LEVEL3") == 0) {
 		button->SetOnClick([]() {
-			GameStateMachine::GetInstance()->PopState();
-			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
+			Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+			Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
@@ -144,8 +147,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 	}
 	else if (strcmp(type, "LEVEL4") == 0) {
 		button->SetOnClick([]() {
-			GameStateMachine::GetInstance()->PopState();
-			if (GameStateMachine::GetInstance()->m_pActiveState->m_currentState == GSMAINMENU) GameStateMachine::GetInstance()->PopState();
+			Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+			Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 				GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 			}
@@ -156,7 +159,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		switch (m_currentLevel) {
 			case 1:
 				button->SetOnClick([]() {
-					GameStateMachine::GetInstance()->PopState();
+					Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+					Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 					}
@@ -164,7 +168,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 2:
 				button->SetOnClick([]() {
-					GameStateMachine::GetInstance()->PopState();
+					Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+					Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 					}
@@ -172,7 +177,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 3:
 				button->SetOnClick([]() {
-					GameStateMachine::GetInstance()->PopState();
+					Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+					Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 					}
@@ -180,7 +186,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 				break;
 			case 4:
 				button->SetOnClick([]() {
-					GameStateMachine::GetInstance()->PopState();
+					Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+					Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 					if (GameStateMachine::GetInstance()->HasInstance()) {
 						GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 					}
@@ -196,7 +203,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		switch (m_currentLevel+1) {
 		case 1:
 			button->SetOnClick([]() {
-				GameStateMachine::GetInstance()->PopState();
+				Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+				Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL1);
 				}
@@ -204,7 +212,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 2:
 			button->SetOnClick([]() {
-				GameStateMachine::GetInstance()->PopState();
+				Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+				Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL2);
 				}
@@ -212,7 +221,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 3:
 			button->SetOnClick([]() {
-				GameStateMachine::GetInstance()->PopState();
+				Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+				Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL3);
 				}
@@ -220,7 +230,8 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			break;
 		case 4:
 			button->SetOnClick([]() {
-				GameStateMachine::GetInstance()->PopState();
+				Singleton<LoadingScreen>::GetInstance()->SetIsLoading(true);
+				Singleton<LoadingScreen>::GetInstance()->isDraw = false; GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_LEVEL4);
 				}

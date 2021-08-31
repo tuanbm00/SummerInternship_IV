@@ -16,7 +16,7 @@ GSLoadLevel::~GSLoadLevel() {
 void GSLoadLevel::Init() {
 	//Manager Initialize
 
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_LoadLevel_Sound.wav", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bg_LoadLevel_Sound.wav", false);
 	char* BM = "../Resources/Managers/BM_LOADLEVEL.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 

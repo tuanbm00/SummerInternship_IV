@@ -13,7 +13,6 @@ GSLevel2::~GSLevel2() {
 }
 
 void GSLevel2::Init() {
-	Singleton<LoadingScreen>::GetInstance()->Init();
 
 	//Init SM
 	m_SM = new SceneManager(2);
@@ -26,17 +25,16 @@ void GSLevel2::Init() {
 
 	//Set Current State
 	m_currentState = GSLEVEL2;
+	Singleton<LoadingScreen>::GetInstance()->SetIsLoading(false);
 }
 
 void GSLevel2::Draw() {
-	Singleton<LoadingScreen>::GetInstance()->Draw();
-	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
+	
 	m_SM->Draw();
 }
 
 void GSLevel2::Update(float deltaTime) {
-	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
-	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
+	
 	m_SM->Update(deltaTime);
 }
 

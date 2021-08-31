@@ -1113,14 +1113,26 @@ void SceneManager::Update(float deltaTime) {
 			} // end check boss
 
 			// check enemy collision
-			else if (a->GetFilterData().categoryBits == CATEGORY_ENEMY || b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+			else if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+				Enemy * enemy = reinterpret_cast<Enemy*> (b->GetUserData().pointer);
+				if (enemy->GetBulletID() < 0) enemy->m_current_anim = 2;
 				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 				Camera::GetInstance()->is_wound = true;
 				if (m_timeHurt >= 0.5) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 					m_timeHurt = 0;
 				}
-			} // end check enemy
+			}
+			else if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+				Enemy * enemy = reinterpret_cast<Enemy*> (a->GetUserData().pointer);
+				if (enemy->GetBulletID() < 0) enemy->m_current_anim = 2;
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
+				Camera::GetInstance()->is_wound = true;
+				if (m_timeHurt >= 0.5) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+					m_timeHurt = 0;
+				}
+			}// end check enemy
 
 		}
 		prev = now;
@@ -1150,18 +1162,15 @@ void SceneManager::Update(float deltaTime) {
 		// end Boss
 
 		// Enemy's collision
-		float dist, d;
+		float d;
 		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 			if (m_listEnemyInWorld[i]->GetBulletID() < 0) {
-				dist = m_MainCharacter->GetPosition().x - m_listEnemyInWorld[i]->GetPosition().x;
-				d = (dist > 0) ? 1 : -1;
+				d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1 : -1;
 				
 				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
 				if (enemySeen(m_listEnemyInWorld[i])) {
-					if (fabs(dist) <= 200.0f) m_listEnemyInWorld[i]->m_current_anim = 2;
-					else m_listEnemyInWorld[i]->m_current_anim = 1;
-					if (m_listEnemyInWorld[i]->checkRect(m_MainCharacter->GetPosition().x)) {
-						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(2*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					if(m_listEnemyInWorld[i]->m_bFollowing) m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(2*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					else if (m_listEnemyInWorld[i]->checkRect(m_MainCharacter->GetPosition().x)) {
 						m_listEnemyInWorld[i]->m_bFollowing = true;
 					}
 				}
@@ -1593,8 +1602,8 @@ bool SceneManager::enemySeen(Enemy * enemy) {
 		if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;
 	}
 	else {
-		if (epos.x < mpos.x - 800 || epos.x > mpos.x + 800) return false;
-		if (epos.y < mpos.y - 50 || epos.y > mpos.y + 50) return false;
+		if (epos.x < mpos.x - 1000 || epos.x > mpos.x + 1000) return false;
+		if (epos.y < mpos.y - 30 || epos.y > mpos.y + 30) return false;
 	}
 	return true;
 }

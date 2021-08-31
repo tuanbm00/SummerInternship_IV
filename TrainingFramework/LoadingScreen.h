@@ -25,6 +25,7 @@ public:
 
 	void Draw();
 
+	bool isDraw;
 	inline void SetIsLoading(bool isLoading) { m_isLoading = isLoading; }
 	inline bool GetIsLoading() { return m_isLoading; }
 };

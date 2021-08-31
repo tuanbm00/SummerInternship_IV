@@ -29,18 +29,17 @@ void GSLevel3::Init() {
 
 	//Set Current State
 	m_currentState = GSLEVEL3;
+	Singleton<LoadingScreen>::GetInstance()->SetIsLoading(false);
 }
 
 void GSLevel3::Draw() {
-	Singleton<LoadingScreen>::GetInstance()->Draw();
-	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
+	
 	m_SM->Draw();
 
 }
 
 void GSLevel3::Update(float deltaTime) {
-	Singleton<LoadingScreen>::GetInstance()->Update(deltaTime);
-	if (Singleton<LoadingScreen>::GetInstance()->GetIsLoading()) return;
+	
 	m_SM->Update(deltaTime);
 }
 
