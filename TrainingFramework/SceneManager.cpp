@@ -416,12 +416,12 @@ void SceneManager::LoadDecor()
 	if (m_currentLevel == 2) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor2.tga");
 		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
-		imageH = 1000.0f; imageW = 3200.0f;
+		imageH = 1800.0f; imageW = 3200.0f;
 	}
 	if (m_currentLevel == 3) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor3.tga");
-		strcpy_s(decorFile, "../Resources/Map/decor2.txt");
-		imageH = 1000.0f; imageW = 3200.0f;
+		strcpy_s(decorFile, "../Resources/Map/decor3.txt");
+		imageH = 1800.0f; imageW = 3200.0f;
 	}
 	if (m_currentLevel == 4) {
 		strcpy_s(texFile, "../Resources/Map/mapDecor4.tga");
