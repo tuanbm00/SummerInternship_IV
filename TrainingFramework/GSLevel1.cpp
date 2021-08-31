@@ -64,16 +64,6 @@ void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed)
 	m_SM->Key(key, bIsPressed);
 	if (!bIsPressed) {
 		switch (key) {
-		case KEY_NEW_STATE:
-		case KEY_NEW_STATE + 32:
-		{
-		}
-		break;
-		case KEY_BACK_STATE:
-		case KEY_BACK_STATE+32:
-		{
-		}
-		break;
 		}
 	}
 }

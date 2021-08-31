@@ -1430,6 +1430,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
+		case KEY_JUMP2:
 			if (numJump < 2 && !(keyPressed & MOVE_JUMP)) {
 				jumpstep = 30;
 				m_MainCharacter->resetAnimation(RunJump);
@@ -1478,6 +1479,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			break;
 		case KEY_JUMP:
 		case KEY_JUMP + 32:
+		case KEY_JUMP2:
 			keyPressed = keyPressed ^ MOVE_JUMP;
 			break;
 		case KEY_CHANGE_GUN:
