@@ -61,7 +61,7 @@ FILE ../Resources/Animation/enemy2Walk.txt
 SPEED 0.1 -1
 ID 20
 FILE ../Resources/Animation/enemy2Fire.txt
-SPEED 0.1 -1
+SPEED 0.12 -1
 ID 21
 FILE ../Resources/Animation/enemy3Walk.txt
 SPEED 0.1 -1

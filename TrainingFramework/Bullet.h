@@ -18,8 +18,10 @@ private:
 	float m_lengthBoomerang;
 	b2Body* m_target;
 public:
-    Bullet(int ID) : Object(ID) {}
-
+    Bullet(int ID) : Object(ID) {
+		m_bRemoveAble = false;
+	}
+	bool m_bRemoveAble;
 	void InitA(float attackDame, float attackSpeed, float speedOfBulletX, float speedOfBulletY, float maxOfLength);
 	void ResetBullet();
 	void SetCurrLength(float curr);

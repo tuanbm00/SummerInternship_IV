@@ -6,6 +6,7 @@ Animation::Animation(const char* filePath)
 {
 	isGun = false;
 	isJump = false;
+	m_fire_pos = -1;
 	f_speed = 0;
 	d_anim_cursor = 0;
 	i_current_frame_index = 0;
@@ -26,6 +27,7 @@ Animation::Animation(const char* filePath)
 Animation::Animation(Animation* anim) {
 	isGun = false;
 	isJump = false;
+	m_fire_pos = -1;
 	f_speed = anim->f_speed;
 	d_anim_cursor = 0;
 	i_current_frame_index = 0;

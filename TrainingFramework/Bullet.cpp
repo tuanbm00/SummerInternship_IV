@@ -176,6 +176,7 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 		}
 		fixtureDef.filter.groupIndex = -2;
 	}
+	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 }

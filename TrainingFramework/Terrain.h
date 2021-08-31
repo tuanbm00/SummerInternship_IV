@@ -8,8 +8,10 @@ class Terrain :
 private:
 
 public:
-	Terrain(int ID) : Object(ID) {}
-
+	Terrain(int ID) : Object(ID) {
+		isDef = false;
+	}
+	bool isDef;
 	void InitTerrain(char *filename);
 	void SetBodyObject(float spriteW, float spriteH, b2World* world, bool isTerrain = true);
 };

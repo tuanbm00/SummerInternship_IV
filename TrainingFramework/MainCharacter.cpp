@@ -77,6 +77,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	fixtureDef.filter.maskBits = MASK_PLAYER;
 	fixtureDef.filter.groupIndex = -1;
 	fixtureDef.density = 6000.0f / area;
+	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
 }
 void MainCharacter::resetAnimation(int type) {

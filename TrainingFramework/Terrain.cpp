@@ -23,4 +23,5 @@ void Terrain::SetBodyObject(float spriteW, float spriteH, b2World* world, bool i
 		fixtureDef.filter.maskBits = MASK_SLOW_TRAP;
 	}
 	m_body->CreateFixture(&fixtureDef);
+	isDef = true;
 }

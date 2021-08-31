@@ -50,12 +50,12 @@ void Enemy::UpdateAttack(float deltaTime) {
 
 void Enemy::Update(float deltaTime)
 {
-	
+	if (m_Position.x < m_left - 500.0f || m_Position.x > m_right + 500.0f) m_bFollowing = false;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
 
-	float scalew =  90;
-	float scaleh = 40;
+	static float scalew = 90;
+	static float scaleh = 40;
 	if (m_ObjectID == 0) {
 		if (m_body->GetLinearVelocity().x < 0) {
 			scalew = 130;
@@ -64,13 +64,16 @@ void Enemy::Update(float deltaTime)
 	m_whiteHp->SetPosition(m_Position.x - scalew, m_Position.y - m_spriteH - scaleh, m_Position.z);
 	m_redHp->SetPosition(m_Position.x - scalew, m_Position.y - m_spriteH - scaleh, m_Position.z);
 
+	if (m_Position.x <= m_left) m_iMoveVector = 1;
+	else if (m_Position.x >= m_right) m_iMoveVector = -1;
+
 	if (m_Position.x <= m_left || m_Position.x >= m_right) {
-		if (m_body->GetLinearVelocity().x != 0 && m_ObjectID != 1) {
-			m_body->SetLinearVelocity(b2Vec2(-m_body->GetLinearVelocity().x, m_body->GetLinearVelocity().y));
+		if (!m_bFollowing) {
+			m_body->SetLinearVelocity(b2Vec2(m_iMoveVector*m_speedx, m_speedy));
 		}
 	}
 	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
-	
+
 	UpdateWorld();
 }
 
@@ -98,6 +101,13 @@ bool Enemy::isAttack() {
 	return false;
 }
 
+bool Enemy::checkRect(float x)
+{
+	if (x < m_left) return false;
+	if (x > m_right) return false;
+	return true;
+}
+
 void Enemy::cleanHP()
 {
 	delete m_whiteHp;
@@ -118,17 +128,18 @@ void Enemy::SetBullet(Bullet* bullet) {
 void Enemy::SetBodyObject(b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(m_Position.x + transPosBox.x, m_Position.y+transPosBox.y);
+	bodyDef.position.Set(m_Position.x + transPosBox.x, m_Position.y + transPosBox.y);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW/(2.0f), m_spriteH/(2.0f));
+	dynamicBox.SetAsBox(m_spriteW / (2.0f), m_spriteH / (2.0f));
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
-//	fixtureDef.density = 1;
+	//	fixtureDef.density = 1;
 	fixtureDef.filter.categoryBits = CATEGORY_ENEMY;
 	fixtureDef.filter.maskBits = MASK_ENEMY;
 	fixtureDef.filter.groupIndex = -2;
+	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }

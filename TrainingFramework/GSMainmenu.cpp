@@ -38,7 +38,7 @@ void GSMainmenu::Init() {
 	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(45));
 	logo->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 4);
-	logo->SetSize(Globals::screenWidth/3 * 2, Globals::screenHeight/ 4);
+	logo->SetSize(829/3 * 2, 291/3*2);
 	logo->CalculateWVP();
 	m_listSprite.push_back(logo);
 

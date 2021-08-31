@@ -358,10 +358,10 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 				terrain = new Terrain(xi);
 				terrain->SetPosition(WIDTH *(j - col / 2), WIDTH*(i - row / 2), 0);
 				if (xi <= 15) {
-					terrain->SetBodyObject(WIDTH, WIDTH, m_world);
+					//terrain->SetBodyObject(WIDTH, WIDTH, m_world);
 				}
 				else if(xi <= 19){
-					terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
+					//terrain->SetBodyObject(WIDTH, WIDTH, m_world, false);
 				}
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
 				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, tw, th, origin);
@@ -878,6 +878,7 @@ void SceneManager::Update(float deltaTime) {
 
 	for (int i = hlow; i < hhigh; ++i) {
 		for (int j = wlow; j < whigh; ++j) {
+			if(m_listTerrain[i][j] != NULL && !m_listTerrain[i][j]->isDef) m_listTerrain[i][j]->SetBodyObject(WIDTH, WIDTH ,m_world);
 			if (mapEnemy[{i, j}] > 0) {
 				int id = mapEnemy[{i, j}] - 1;
 				int left = mapLimit[{i, j}].first;
@@ -1027,144 +1028,191 @@ void SceneManager::Update(float deltaTime) {
 		m_MainCharacter->Update(deltaTime);
 		now = m_MainCharacter->GetPosition().y;
 
+		// Main's collision
 		is_in_ground = false;
-		for (b2ContactEdge* edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+		for (b2ContactEdge * edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 			b2Fixture * a = edge->contact->GetFixtureA();
 			b2Fixture * b = edge->contact->GetFixtureB();
-			if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
-					if (now == prev) {
-						is_in_ground = true;
-						numJump = 0;
-					}
-				}
-			}
+
+			// check terrain collision
 			if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
 				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
 					if (now == prev) {
 						is_in_ground = true;
-						numJump = 0;
 					}
 				}
 			}
-			if (a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+			else if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
 				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
 					if (now == prev) {
 						is_in_ground = true;
-						numJump = 0;
+					}
+				}
+			}
+			else if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+					}
+					if (a->GetFilterData().groupIndex == -1) {
+						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+					}
+				}
+			}
+			else if (a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
 					}
 					if (b->GetFilterData().groupIndex == -1) {
 						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
 						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
 					}
 				}
-			}
-			if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
-					if (now == prev) {
-						is_in_ground = true;
-						numJump = 0;
-					}
+			} // end terrain
+
+			// check bullet collision
+			else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
+				Bullet * bullet;
+				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					bullet = reinterpret_cast<Bullet*>(b->GetUserData().pointer);
 				}
-				if (a->GetFilterData().groupIndex == -1) {
-					b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
-					m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+				else {
+					bullet = reinterpret_cast<Bullet*>(b->GetUserData().pointer);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
 				}
-			}
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+				Camera::GetInstance()->is_wound = true;
+				bullet->m_bRemoveAble = true;
+			} // end bullet
+
+			// check boss collision
+			else if (a->GetFilterData().categoryBits == CATEGORY_BOSS || b->GetFilterData().categoryBits == CATEGORY_BOSS) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
+				Camera::GetInstance()->is_wound = true;
+				if (m_timeHurt >= 0.5) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+					m_timeHurt = 0;
+				}
+			} // end check boss
+
+			// check enemy collision
+			else if (a->GetFilterData().categoryBits == CATEGORY_ENEMY || b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
+				Camera::GetInstance()->is_wound = true;
+				if (m_timeHurt >= 0.5) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+					m_timeHurt = 0;
+				}
+			} // end check enemy
+
 		}
+		prev = now;
+		if (is_in_ground) numJump = 0;
+		// end Main
 
 
-		if (m_IsBossAppear == true && m_boss != NULL) {
-//			Singleton<GameplayUI>::GetInstance()->SetBoss(m_boss); //Set Boss to get info's Boss
+		// Boss's collision
+		if (m_IsBossAppear && m_boss != NULL) {
 			m_boss->Update(deltaTime);
 			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 				b2Fixture * a = edge->contact->GetFixtureA();
 				b2Fixture * b = edge->contact->GetFixtureB();
-				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
-					}
-//					break;
-				}
-				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
-					}
-//					break;
-				}
-				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
-				}
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
+				}
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
 				}
 			}
 			if (m_boss->isDie()) {
 				m_IsBossAppear = false;
-//				Singleton<GameplayUI>::GetInstance()->SetBossAppear(m_bossAppear);
 				m_world->DestroyBody(m_boss->getBody());
-	//			m_boss = NULL;
 				break;
 			}
 		}
+		// end Boss
 
-		prev = now;
-
+		// Enemy's collision
+		float dist, d;
 		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 			if (m_listEnemyInWorld[i]->GetBulletID() < 0) {
-				float d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1 : -1;
+				dist = m_MainCharacter->GetPosition().x - m_listEnemyInWorld[i]->GetPosition().x;
+				d = (dist > 0) ? 1 : -1;
+				
 				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
 				if (enemySeen(m_listEnemyInWorld[i])) {
-					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
-					if (pos.x <= m_listEnemyInWorld[i]->GetLimit().x || pos.x >= m_listEnemyInWorld[i]->GetLimit().y) {
-						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
+					if (fabs(dist) <= 200.0f) m_listEnemyInWorld[i]->m_current_anim = 2;
+					else m_listEnemyInWorld[i]->m_current_anim = 1;
+					if (m_listEnemyInWorld[i]->checkRect(m_MainCharacter->GetPosition().x)) {
+						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(2*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+						m_listEnemyInWorld[i]->m_bFollowing = true;
 					}
 				}
-				else {
-					if (pos.x <= m_listEnemyInWorld[i]->GetLimit().x) {
-						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
-					}
-					else if (pos.x >= m_listEnemyInWorld[i]->GetLimit().y) {
-						m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(-m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
-					}
-				}
+				else m_listEnemyInWorld[i]->m_bFollowing = false;
 			}
 			m_listEnemyInWorld[i]->Update(deltaTime);
 			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
 				b2Fixture* a = edge->contact->GetFixtureA();
 				b2Fixture* b = edge->contact->GetFixtureB();
-				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
-					}
-					break;
-				}
-				if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
-					}
-					break;
-				}
-				if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
-				}
+				Bullet * bullet;
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
+					bullet = reinterpret_cast<Bullet*> (b->GetUserData().pointer);
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, a->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						b->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.1);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = a->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = a->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float length = a->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
 				}
-				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-					m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(0, 0));
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
+					bullet = reinterpret_cast<Bullet*> (a->GetUserData().pointer);
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, b->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						a->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.1);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = b->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = b->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float length = b->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
 				}
 			}
 			if (m_listEnemyInWorld[i]->isDie()) {
@@ -1172,163 +1220,96 @@ void SceneManager::Update(float deltaTime) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/tower.wav", false);
 					m_IsTowerDefend = true;
 				}
-				if (m_listEnemyInWorld[i]->GetID() == 0) {
+				else if (m_listEnemyInWorld[i]->GetID() == 0) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bigdragon.wav", false);
 				}
-				if (m_listEnemyInWorld[i]->GetID() == 1) {
+				else if (m_listEnemyInWorld[i]->GetID() == 1) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/moster.wav", false);
 				}
-				if (m_listEnemyInWorld[i]->GetID() == 2) {
+				else if (m_listEnemyInWorld[i]->GetID() == 2) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/medusa.wav", false);
 				}
-				if (m_listEnemyInWorld[i]->GetID() == 3) {
+				else if (m_listEnemyInWorld[i]->GetID() == 3) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/smalldragon.wav", false);
 				}
 
-				for (int j = 0; j < (int)m_listBulletInWorld.size(); ++j) {
+				/*for (int j = 0; j < (int)m_listBulletInWorld.size(); ++j) {
 					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
 						m_listBulletInWorld[j]->SetTarget(NULL);
 					}
-				}
+				}*/
 				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
 				m_listEnemyDead.push_back(m_listEnemyInWorld[i]);
 				m_listEnemyInWorld.erase(m_listEnemyInWorld.begin() + i);
 				i--;
 			}
 		}
+		// end Enemy
 
+		// Bullet's collision
 		for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
-			m_listBulletInWorld[i]->Update(deltaTime);
-			if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
-				if (m_listBulletInWorld[i]->getBody()->GetFixtureList()->GetFilterData().groupIndex == -2) {
-					float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
-					float length = m_listBulletInWorld[i]->GetPosition().x - m_listBulletInWorld[i]->GetOldPos();
-					if (length * v > m_listBulletInWorld[i]->GetLengthBoomerang()) {
-						m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
+			if (m_listBulletInWorld[i]->m_bRemoveAble) {
+				RemoveBullet(i);
+				i--;
+			}
+			else {
+				m_listBulletInWorld[i]->Update(deltaTime);
+				if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+					if (m_listBulletInWorld[i]->getBody()->GetFixtureList()->GetFilterData().groupIndex == -2) {
+						float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float length = m_listBulletInWorld[i]->GetPosition().x - m_listBulletInWorld[i]->GetOldPos();
+						if (length * v > m_listBulletInWorld[i]->GetLengthBoomerang()) {
+							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
+						}
 					}
 				}
-			}
-			bool isContact = false;
-			for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
-				b2Fixture* a = edge->contact->GetFixtureA();
-				b2Fixture* b = edge->contact->GetFixtureB();
-				if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-					if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
-						if (m_listBulletInWorld[i]->IsChange()) {
-							m_boomerang = m_listBulletInWorld[i]->getBody()->GetPosition().x;
-							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
-							m_listBulletInWorld[i]->ReverseV();
-							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
-							m_listBulletInWorld[i]->SetCurrLength(m_listBulletInWorld[i]->GetMaxOfLength() - m_listBulletInWorld[i]->GetCurrLength());
-							break;
-						}
-						else {
-							if (m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x > 400 || m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x < -400) {
-								RemoveBullet(i);
-								isContact = true;
-								i--;
+				bool isContact = false;
+				for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+					b2Fixture* a = edge->contact->GetFixtureA();
+					b2Fixture* b = edge->contact->GetFixtureB();
+					if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+						if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+							if (m_listBulletInWorld[i]->IsChange()) {
+								m_boomerang = m_listBulletInWorld[i]->getBody()->GetPosition().x;
+								ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+								m_listBulletInWorld[i]->ReverseV();
+								m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
+								m_listBulletInWorld[i]->SetCurrLength(m_listBulletInWorld[i]->GetMaxOfLength() - m_listBulletInWorld[i]->GetCurrLength());
 								break;
 							}
-						}
-					}
-					else {
-						RemoveBullet(i);
-						isContact = true;
-						i--;
-						break;
-					}
-				}
-				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER || b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
-						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
-							if (m_listBulletInWorld[i]->IsChange()) {
-								SetStateHellGun(m_listBulletInWorld[i], a->GetAABB(0).GetExtents().x);
+							else {
+								if (m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x > 400 || m_boomerang - m_listBulletInWorld[i]->getBody()->GetPosition().x < -400) {
+									RemoveBullet(i);
+									isContact = true;
+									i--;
+									break;
+								}
 							}
 						}
-						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
-							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
-							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
-							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
-							float vBullet = m_listBulletInWorld[i]->GetSpeedOfBullet().x;
-							float vMoster = a->GetBody()->GetLinearVelocity().x;
-							float pBullet = m_listBulletInWorld[i]->GetPosition().x;
-							float pMoster = a->GetBody()->GetPosition().x;
-							float plength = pMoster - pBullet;
-							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
-							float length = a->GetAABB(0).GetExtents().x + v * plength + m_listBulletInWorld[i]->GetBox().x;
-							length = vBullet * length / (vBullet - vMoster);
-							length = length > 0 ? length : -length;
-							m_listBulletInWorld[i]->SetLengthBoomerang(length);
-							m_listBulletInWorld[i]->SetOldPos(m_listBulletInWorld[i]->GetPosition().x);
-							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+						else {
+							RemoveBullet(i);
+							isContact = true;
+							i--;
+							break;
 						}
 					}
-					if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
-						if (m_listBulletInWorld[i]->GetID() == CATEGORY_HELL_GUN) {
-							if (m_listBulletInWorld[i]->IsChange()) {
-								SetStateHellGun(m_listBulletInWorld[i], b->GetAABB(0).GetExtents().x);
-							}
-						}
-						else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
-							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
-
-							m_MainCharacter->SetHP(m_MainCharacter->GetHP() + m_listBulletInWorld[i]->GetAttackDame() * 0.1);
-
-							float vBullet = m_listBulletInWorld[i]->GetSpeedOfBullet().x;
-							float vMoster = b->GetBody()->GetLinearVelocity().x;
-							float pBullet = m_listBulletInWorld[i]->GetPosition().x;
-							float pMoster = b->GetBody()->GetPosition().x;
-							float plength = pMoster - pBullet;
-							float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
-							float length = b->GetAABB(0).GetExtents().x + v * plength + m_listBulletInWorld[i]->GetBox().x;
-							length = vBullet * length / (vBullet - vMoster);
-							length = length > 0 ? length : -length;
-
-							m_listBulletInWorld[i]->SetLengthBoomerang(length);
-							m_listBulletInWorld[i]->SetOldPos(m_listBulletInWorld[i]->GetPosition().x);
-							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
-						}
-					}
-					if (m_listBulletInWorld[i]->GetID() != CATEGORY_BOOMERANG) {
-						isContact = true;
+				}
+				if (!isContact) {
+					if (m_listBulletInWorld[i]->IsOverLength()) {
 						RemoveBullet(i);
 						i--;
-						break;
 					}
-				}
-				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
-					if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						Camera::GetInstance()->is_wound = true;
-					}
-					if (b->GetFilterData().categoryBits == CATEGORY_PLAYER) {
-						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						Camera::GetInstance()->is_wound = true;
-					}
-					isContact = true;
-					RemoveBullet(i);
-					i--;
-					break;
-				}
-			}
-			if (!isContact) {
-				if (m_listBulletInWorld[i]->IsOverLength()) {
-					RemoveBullet(i);
-					i--;
-				}
-				else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
-					if (m_listBulletInWorld[i]->GetCurrLength() * 2 > m_listBulletInWorld[i]->GetMaxOfLength()) {
-						if (m_listBulletInWorld[i]->IsChange()) {
-							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
-							m_listBulletInWorld[i]->ReverseV();
-							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
+					else if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
+						if (m_listBulletInWorld[i]->GetCurrLength() * 2 > m_listBulletInWorld[i]->GetMaxOfLength()) {
+							if (m_listBulletInWorld[i]->IsChange()) {
+								ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+								m_listBulletInWorld[i]->ReverseV();
+								m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
+							}
 						}
 					}
 				}
 			}
-
 		}
 	}
 
@@ -1407,6 +1388,14 @@ void SceneManager::Update(float deltaTime) {
 				for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 				}
+			}
+		}
+	}
+	for (int i = hlow; i < hhigh; ++i) {
+		for (int j = wlow; j < whigh; ++j) {
+			if (m_listTerrain[i][j] != NULL && m_listTerrain[i][j]->isDef) {
+				m_world->DestroyBody(m_listTerrain[i][j]->getBody());
+				m_listTerrain[i][j]->isDef = false;
 			}
 		}
 	}
@@ -1579,8 +1568,8 @@ void SceneManager::CheckMovement() {
 }
 
 bool SceneManager::enemySeen(Enemy * enemy) {
-	Vector3 mpos = m_MainCharacter->GetPosition();
-	Vector3 epos = enemy->GetPosition();
+	b2Vec2 mpos = m_MainCharacter->getBody()->GetPosition();
+	b2Vec2 epos = enemy->getBody()->GetPosition();
 	if (enemy->GetBulletID() >= 0) {
 		if (epos.x < mpos.x - 1280 || epos.x >(mpos.x + 1280)) return false;
 		if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;

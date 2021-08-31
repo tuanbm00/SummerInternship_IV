@@ -146,6 +146,7 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	//	fixtureDef.density = 1;
 	fixtureDef.filter.categoryBits = CATEGORY_BOSS;
 	fixtureDef.filter.maskBits = MASK_BOSS;
+	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(m_speedx, m_speedy));
 }
