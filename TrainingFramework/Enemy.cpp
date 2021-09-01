@@ -94,7 +94,7 @@ bool Enemy::isDie() {
 }
 
 bool Enemy::isAttack() {
-	float scale = m_ObjectID == 4 ? 0.3f : 1.0f;
+	float scale = m_ObjectID == 4 ? 0.4f : 1.0f;
 	if (m_time >= m_bullet->GetAttackSpeed() * scale) {
 		return true;
 	}

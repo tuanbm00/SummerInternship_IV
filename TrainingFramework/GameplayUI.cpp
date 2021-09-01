@@ -22,20 +22,20 @@ void GameplayUI::Init() {
 }
 
 void GameplayUI::DrawGameOver() {
-	Singleton<TextManager>::GetInstance()->RenderString("GAME OVER!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+	Singleton<TextManager>::GetInstance()->RenderString("DEFEATED", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 }
 void GameplayUI::DrawVictory() {
 	if (m_currentLevel == 1) {
-		Singleton<TextManager>::GetInstance()->RenderString("CLEAR LEVEL 1!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+		Singleton<TextManager>::GetInstance()->RenderString("ACE", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 	}
 	else if (m_currentLevel == 2) {
-		Singleton<TextManager>::GetInstance()->RenderString("CLEAR LEVEL 2!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+		Singleton<TextManager>::GetInstance()->RenderString("ACE", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 	}
 	else if (m_currentLevel == 3) {
-		Singleton<TextManager>::GetInstance()->RenderString("CLEAR LEVEL 3!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+		Singleton<TextManager>::GetInstance()->RenderString("ACE", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 	}
 	else {
-		Singleton<TextManager>::GetInstance()->RenderString("VICTORY!", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
+		Singleton<TextManager>::GetInstance()->RenderString("VICTORY", Vector4(1.0f, 0.0f, 0.0f), 360.0f, 600.0f, 2.0f, 2.0f);
 	}
 }
 
