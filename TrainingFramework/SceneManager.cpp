@@ -1344,7 +1344,11 @@ void SceneManager::Update(float deltaTime) {
 	}
 
 	if (m_currentLevel == 4){
-		if(pos.x > 2400 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
+		if (pos.x > 13750 && pos.x < 13850 && pos.y > 13150 && pos.y < 13250) {
+			m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
+		}
+
+		if(pos.x > 2000 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
 			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
 				if (m_boss) {
 					if (!m_boss->isDie()) {

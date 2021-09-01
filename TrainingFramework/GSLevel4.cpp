@@ -48,7 +48,7 @@ void GSLevel4::CleanUp() {
 
 void GSLevel4::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/fatima.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
 }
 
 void GSLevel4::Pause() {
