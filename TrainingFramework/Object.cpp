@@ -193,8 +193,8 @@ void Object::SetBodyObject(b2World* world) {
 	staticBox.SetAsBox(m_spriteW/2, m_spriteH/2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticBox;
-	fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;
-	fixtureDef.filter.maskBits = MASK_TERRAIN;
+	fixtureDef.filter.categoryBits = CATEGORY_GATE;
+	fixtureDef.filter.maskBits = MASK_GATE;
 	m_body->CreateFixture(&fixtureDef);
 }
 void Object::UpdateAnimation(float deltaTime) {

@@ -40,6 +40,7 @@ private:
 	std::vector<Enemy*> m_listEnemyDead;
 	Object * mainIcon;
 	Object * background;
+	Object * m_TeleGate;
 	std::vector<Object *> m_ObjectDump;
 	std::vector<Model*> m_ModelDump;
 

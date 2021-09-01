@@ -278,8 +278,16 @@ void SceneManager::ReadFile(FILE* f_SM)
 			bullet->InitWVP();
 			m_ListGunOfEnemy.push_back(bullet);
 		}
-		else {
-			// do something
+		else if(strcmp(type, "GATE") == 0) {
+			m_TeleGate = new Object(ID);
+			m_TeleGate->setModel(pModel);
+			m_TeleGate->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
+			m_TeleGate->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
+			m_TeleGate->SetPosition(Position);
+			m_TeleGate->SetScale(Scale);
+			m_TeleGate->SetRotation(Rotation);
+			m_TeleGate->InitWVP();
+			m_TeleGate->SetBodyObject(m_world);
 		}
 	}
 
@@ -496,8 +504,12 @@ void SceneManager::Draw() {
 		m_ListGunOfPlayer[i]->Draw();
 	}
 	
-	m_MainCharacter->Draw();
-	m_MainCharacter->DrawHP();
+	if(m_IsTowerDefend) m_TeleGate->Draw();
+
+	if (!m_bIsVictory) {
+		m_MainCharacter->Draw();
+		m_MainCharacter->DrawHP();
+	}
 
 	Singleton<GameplayUI>::GetInstance()->Draw(); //Draw GameplayUI
 	if (m_bIsVictory) Singleton<GameplayUI>::GetInstance()->DrawVictory();
@@ -619,6 +631,8 @@ void SceneManager::CleanUp() {
 	}
 	for (int i = 0; i < m_ObjectDump.size(); ++i) delete m_ObjectDump[i];
 	for (int i = 0; i < m_ModelDump.size(); ++i) delete m_ModelDump[i];
+	delete m_TeleGate->getModel();
+	delete m_TeleGate;
 	delete mainIcon->getModel();
 	delete mainIcon;
 	delete groundTest;
@@ -877,6 +891,7 @@ void SceneManager::Update(float deltaTime) {
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 
+
 	if (Camera::GetInstance()->is_wound) ++cnt;
 	if (cnt > 31) {
 		cnt = 0;
@@ -886,6 +901,7 @@ void SceneManager::Update(float deltaTime) {
 	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
 	 for (int i = 0; i < m_ListBackground.size(); ++i) m_ListBackground[i]->Update(deltaTime);
 
+	 if(m_IsTowerDefend) m_TeleGate->UpdateAnimation(deltaTime);
 
 	 int col = Globals::screenWidth / WIDTH * 2 + 1;
 	 int row = Globals::screenHeight / WIDTH * 2 + 1;
@@ -1013,6 +1029,7 @@ void SceneManager::Update(float deltaTime) {
 	for (int i = 0; i < m_listEnemyDead.size(); ++i) {
 		m_listEnemyDead[i]->playDead(deltaTime);
 		if (m_listEnemyDead[i]->getDead()) {
+			if (m_listEnemyDead[i]->GetID() == 4) m_IsTowerDefend = true;
 			delete m_listEnemyDead[i]->getModel();
 			delete m_listEnemyDead[i];
 			m_listEnemyDead.erase(m_listEnemyDead.begin() + i);
@@ -1141,6 +1158,17 @@ void SceneManager::Update(float deltaTime) {
 				}
 			}// end check enemy
 
+			// check teleport gate
+			else if (a->GetFilterData().categoryBits == CATEGORY_GATE || b->GetFilterData().categoryBits == CATEGORY_GATE) {
+				if (m_currentLevel < 4) {
+					m_bIsVictory = true;
+					m_bChangeScreen = true;
+				}
+				else {
+					m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
+				}
+			}
+			// end gate
 		}
 		prev = now;
 		if (is_in_ground) numJump = 0;
@@ -1155,9 +1183,13 @@ void SceneManager::Update(float deltaTime) {
 				b2Fixture * b = edge->contact->GetFixtureB();
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
+					Bullet * bullet = reinterpret_cast<Bullet *> (b->GetUserData().pointer);
+					bullet->m_bRemoveAble = true;
 				}
 				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
+					Bullet * bullet = reinterpret_cast<Bullet *> (a->GetUserData().pointer);
+					bullet->m_bRemoveAble = true;
 				}
 			}
 			if (m_boss->isDie()) {
@@ -1248,7 +1280,7 @@ void SceneManager::Update(float deltaTime) {
 			if (m_listEnemyInWorld[i]->isDie()) {
 				if (m_listEnemyInWorld[i]->GetID() == 4) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/tower.wav", false);
-					m_IsTowerDefend = true;
+					//m_IsTowerDefend = true;
 				}
 				else if (m_listEnemyInWorld[i]->GetID() == 0) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bigdragon.wav", false);
@@ -1344,9 +1376,6 @@ void SceneManager::Update(float deltaTime) {
 	}
 
 	if (m_currentLevel == 4){
-		if (pos.x > 13750 && pos.x < 13850 && pos.y > 13150 && pos.y < 13250) {
-			m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
-		}
 
 		if(pos.x > 2000 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
 			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
@@ -1408,9 +1437,8 @@ void SceneManager::Update(float deltaTime) {
 
 	// victory
 	if (m_IsTowerDefend == true) {
+		if (m_TeleGate->getBody()->IsEnabled() == false) m_TeleGate->getBody()->SetEnabled(true);
 		if (m_currentLevel < 4) {
-			m_bIsVictory = true;
-			m_bChangeScreen = true;
 			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
 				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 			}
@@ -1527,9 +1555,6 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			Camera::GetInstance()->m_iOption = 3;
 			break;
 		case 'N':
-			m_bChangeScreen = true;
-			m_bIsVictory = true;
-			//m_MainCharacter->getBody()->SetTransform(b2Vec2(0, 0), 0);
 			break;
 		}
 	}
