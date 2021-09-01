@@ -69,6 +69,7 @@ public:
 	b2Body* getBody();
 
 	Texture* getTexture();
+	Texture * getTexture(int id);
 	Shaders* getShaders();
 	Model* getModel();
 

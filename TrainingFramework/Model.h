@@ -29,6 +29,7 @@ public:
 	void addAnimation(Animation* anm);
 	void updateAnimation(float deltaTime, int type);
 	void updateDead(float deltaTime, bool revert = false);
+	void updateAttack(float deltaTime,short * flag, bool revert);
 	int GetNumberofIndices() {
 		return m_NumberOfIndices;
 	}

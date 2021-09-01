@@ -149,12 +149,18 @@ Bullet* Enemy::GetBullet() {
 }
 
 void Enemy::UpdateAnimation(float deltaTime) {
-	if (m_current_anim == 2 || m_left == m_right) m_current_anim = abs(m_current_anim)*m_direction;
-	else {
-		m_current_anim = abs(m_current_anim) * ((m_body->GetLinearVelocity().x > 0) ? 1 : -1);
+	if (m_bIsAttack) {
+		bool revert = m_bIsAttack > 0 ? 0 : 1;
+		m_Model->updateAttack(deltaTime, &m_bIsAttack, revert);
 	}
-	if (m_Model->b_IsAnimation == true) {
-		m_Model->updateAnimation(deltaTime, m_current_anim);
+	else {
+		if (m_current_anim == 2 || m_left == m_right) m_current_anim = abs(m_current_anim)*m_direction;
+		else {
+			m_current_anim = abs(m_current_anim) * ((m_body->GetLinearVelocity().x > 0) ? 1 : -1);
+		}
+		if (m_Model->b_IsAnimation == true) {
+			m_Model->updateAnimation(deltaTime, m_current_anim);
+		}
 	}
 }
 

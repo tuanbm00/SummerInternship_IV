@@ -15,7 +15,7 @@ void ComfirmBox::Init() {
 	m_bIsActive = false;
 	m_listButton.clear();
 	//Manager Initialize
-	Singleton<TextManager>::GetInstance()->Initialize();
+	//Singleton<TextManager>::GetInstance()->Initialize();
 
 	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
 	auto button = std::make_shared<GameButton>(555);

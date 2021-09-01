@@ -45,7 +45,7 @@ void GSLevel2::CleanUp() {
 
 void GSLevel2::Resume() {
 	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true);
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/SotsugyouMemories.mp3", true);
 }
 
 void GSLevel2::Pause() {

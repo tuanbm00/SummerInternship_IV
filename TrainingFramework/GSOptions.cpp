@@ -50,10 +50,9 @@ void GSOptions::Init() {
 	}
 	else obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(37));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 - 100);
-	obj->SetSize(Globals::screenWidth / 5*4, Globals::screenHeight / 3*2);
+	obj->SetSize(600, 500);
 	obj->CalculateWVP();
 	m_listSprite.push_back(obj);
-
 
 	//Set Current State
 	m_currentState = GSOPTIONS;

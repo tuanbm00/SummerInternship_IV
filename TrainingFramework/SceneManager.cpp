@@ -251,10 +251,14 @@ void SceneManager::ReadFile(FILE* f_SM)
 			m_IsBossAppear = false;
 		}
 		else if (strcmp(type, "GUN_PLAYER") == 0) {
+			int tex2id;
+			fscanf_s(f_SM, "TEXTURE %d\n\n", &tex2id);
+			Texture * tex2 = ResourceManager::GetInstance()->GetTextureAtID(tex2id);
 			Bullet* bullet = new Bullet(ID);
 			bullet->setModel(pModel);
 			bullet->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
 			bullet->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
+			bullet->SetTexture(tex2);
 			bullet->SetPosition(Position);
 			bullet->SetScale(Scale);
 			bullet->SetRotation(Rotation);
@@ -624,16 +628,19 @@ void SceneManager::CleanUp() {
 
 void SceneManager::Shoot() {
 	// set bullet
+	int bulletID = 0;
 	m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGunOfPlayer[0]->GetID());
 	float dame = m_ListGunOfPlayer[0]->GetAttackDame();
 	if (m_ListGunOfPlayer[0]->GetNumberOfBullet() == 1) {
 		dame *= 2;
+		bulletID = 1;
 	}
 	else {
 		if (rand() % 25 == 8) {
 			dame *= 1.5;
+			bulletID = 1;
 		}
 	}
 	bullet->InitA(dame, m_ListGunOfPlayer[0]->GetAttackSpeed(), m_direction*m_ListGunOfPlayer[0]->GetSpeedOfBullet().x, m_ListGunOfPlayer[0]->GetSpeedOfBullet().y, m_ListGunOfPlayer[0]->GetMaxOfLength());
@@ -671,7 +678,7 @@ void SceneManager::Shoot() {
 	bullet->SetIsChange();
 	bullet->setModel(m_ListGunOfPlayer[0]->getModel());
 	bullet->setShader(m_ListGunOfPlayer[0]->getShaders());
-	bullet->SetTexture(m_ListGunOfPlayer[0]->getTexture());
+	bullet->SetTexture(m_ListGunOfPlayer[0]->getTexture(bulletID));
 	bullet->SetPosition(posBullet);
 	bullet->SetScale(m_ListGunOfPlayer[0]->GetScale());
 	bullet->SetRotation(m_ListGunOfPlayer[0]->GetRotation());
@@ -1115,7 +1122,7 @@ void SceneManager::Update(float deltaTime) {
 			// check enemy collision
 			else if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 				Enemy * enemy = reinterpret_cast<Enemy*> (b->GetUserData().pointer);
-				if (enemy->GetBulletID() < 0) enemy->m_current_anim = 2;
+				if (enemy->m_bIsAttack == 0) enemy->m_bIsAttack = enemy->m_direction;
 				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 				Camera::GetInstance()->is_wound = true;
 				if (m_timeHurt >= 0.5) {
@@ -1125,7 +1132,7 @@ void SceneManager::Update(float deltaTime) {
 			}
 			else if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 				Enemy * enemy = reinterpret_cast<Enemy*> (a->GetUserData().pointer);
-				if (enemy->GetBulletID() < 0) enemy->m_current_anim = 2;
+				if (enemy->m_bIsAttack == 0) enemy->m_bIsAttack = enemy->m_direction;
 				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
 				Camera::GetInstance()->is_wound = true;
 				if (m_timeHurt >= 0.5) {
@@ -1337,7 +1344,11 @@ void SceneManager::Update(float deltaTime) {
 	}
 
 	if (m_currentLevel == 4){
-		if(pos.x > 2400 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
+		if (pos.x > 13750 && pos.x < 13850 && pos.y > 13150 && pos.y < 13250) {
+			m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
+		}
+
+		if(pos.x > 2000 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
 			if (m_IsBossAppear == false && m_IsTowerDefend == true) {
 				if (m_boss) {
 					if (!m_boss->isDie()) {

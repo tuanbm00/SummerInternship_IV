@@ -57,7 +57,6 @@ void GSLoadLevel::Update(float deltaTime) {
 void GSLoadLevel::CleanUp() {
 	m_Frame->CleanUp();
 	m_BM->CleanUp();
-
 }
 
 void GSLoadLevel::Resume() {

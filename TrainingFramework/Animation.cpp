@@ -162,3 +162,50 @@ void Animation::playDead(GLuint * vbo, Vector2 Tsize, Vector2 origin, float delt
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4, verticesData);
 	
 }
+
+void Animation::playAttack(GLuint * vbo, Vector2 Tsize, Vector2 origin, float deltaTime, short * flag, bool revert)
+{
+	if (i_current_frame_index >= i_frame_count) i_current_frame_index -= i_frame_count;
+	if (*flag == 0) return;
+	else {
+		d_anim_cursor += deltaTime;
+		if (d_anim_cursor > f_speed) {
+			++i_current_frame_index;
+			if (i_current_frame_index == i_frame_count - 1) {
+				(*flag) = 0;
+				resetAnimation();
+			}
+			d_anim_cursor = 0;
+		}
+	}
+	if (revert) {
+		if (i_current_frame_index < i_frame_count) i_current_frame_index += i_frame_count;
+	}
+	//if (i_current_frame_index < 0 || i_current_frame_index >= i_total_frame) i_current_frame_index = 0;
+	Vector4 frame = m_animation[i_current_frame_index];
+	float x = frame.x, y = frame.y, w = frame.z, h = frame.w;
+	if (h == 150) {
+		origin.y += 40;
+		if (revert) origin.x += 10;
+	}
+	Vertex verticesData[4];
+	Vector3 delta = Vector3(origin.x - w / 2, origin.y - h / 2, 0.0);
+	verticesData[0].pos = Vector3(-(float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[1].pos = Vector3((float)w / 2, -(float)h / 2, 0.0f) - delta;
+	verticesData[2].pos = Vector3(-(float)w / 2, (float)h / 2, 0.0f) - delta;
+	verticesData[3].pos = Vector3((float)w / 2, (float)h / 2, 0.0f) - delta;
+
+	x /= Tsize.x;
+	y /= Tsize.y;
+	w /= Tsize.x;
+	h /= Tsize.y;
+
+	verticesData[0].uv = Vector2(x, y + h);
+	verticesData[1].uv = Vector2(x + w, y + h);
+	verticesData[2].uv = Vector2(x, y);
+	verticesData[3].uv = Vector2(x + w, y);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4, verticesData);
+}
