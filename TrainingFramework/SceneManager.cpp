@@ -288,6 +288,7 @@ void SceneManager::ReadFile(FILE* f_SM)
 			m_TeleGate->SetRotation(Rotation);
 			m_TeleGate->InitWVP();
 			m_TeleGate->SetBodyObject(m_world);
+			m_TeleGate->getBody()->SetEnabled(false);
 		}
 	}
 
@@ -891,6 +892,7 @@ void SceneManager::Update(float deltaTime) {
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 
+	if (m_bIsVictory) m_MainCharacter->getBody()->SetEnabled(false);
 
 	if (Camera::GetInstance()->is_wound) ++cnt;
 	if (cnt > 31) {
@@ -1165,7 +1167,11 @@ void SceneManager::Update(float deltaTime) {
 					m_bChangeScreen = true;
 				}
 				else {
-					m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
+					if (m_boss->isDie()) {
+						m_bIsVictory = true;
+						m_bChangeScreen = true;
+					}
+					else m_MainCharacter->getBody()->SetTransform(b2Vec2(-10200, -8200), 0);
 				}
 			}
 			// end gate
@@ -1194,7 +1200,13 @@ void SceneManager::Update(float deltaTime) {
 			}
 			if (m_boss->isDie()) {
 				m_IsBossAppear = false;
+				m_world->DestroyBody(m_TeleGate->getBody());
+				m_TeleGate->SetPosition(m_boss->GetPosition());
+				m_TeleGate->SetScale(2, 2, 1);
+				m_TeleGate->UpdateWorld();
+				m_TeleGate->SetBodyObject(m_world);
 				m_world->DestroyBody(m_boss->getBody());
+
 				break;
 			}
 		}
@@ -1208,7 +1220,7 @@ void SceneManager::Update(float deltaTime) {
 				
 				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
 				if (enemySeen(m_listEnemyInWorld[i])) {
-					if(m_listEnemyInWorld[i]->m_bFollowing) m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(2*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					if(m_listEnemyInWorld[i]->m_bFollowing) m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(1.7f*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
 					else if (m_listEnemyInWorld[i]->checkRect(m_MainCharacter->GetPosition().x)) {
 						m_listEnemyInWorld[i]->m_bFollowing = true;
 					}
@@ -1443,15 +1455,6 @@ void SceneManager::Update(float deltaTime) {
 				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 			}
 		}
-		else {
-			if (m_boss->isDie()) {
-				m_bIsVictory = true;
-				m_bChangeScreen = true;
-				for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
-					m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-				}
-			}
-		}
 	}
 	if (m_MainCharacter->isDie()) return;
 	for (int i = hlow; i < hhigh; ++i) {
@@ -1555,6 +1558,10 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 			Camera::GetInstance()->m_iOption = 3;
 			break;
 		case 'N':
+			if (m_IsTowerDefend) {
+				m_MainCharacter->getBody()->SetTransform(b2Vec2(0, 0), 0);
+			}
+			else m_MainCharacter->getBody()->SetTransform(b2Vec2(13500, 12900), 0);
 			break;
 		}
 	}

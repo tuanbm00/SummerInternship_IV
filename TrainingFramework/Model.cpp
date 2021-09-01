@@ -86,6 +86,7 @@ void Model::updateDead(float deltaTime, bool revert)
 
 void Model::updateAttack(float deltaTime, short * flag, bool revert)
 {
+	if (m_anim.size() == 1) return;
 	m_anim[1]->playAttack(&vboId, Vector2(m_textureW, m_textureH), origin, deltaTime, flag, revert);
 }
 
