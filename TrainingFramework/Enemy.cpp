@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Enemy.h"
 #include "Camera.h"
 #include "define.h"

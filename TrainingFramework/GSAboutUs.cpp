@@ -1,7 +1,7 @@
-﻿#include "GSAboutUs.h"
+﻿#include "stdafx.h"
+#include "GSAboutUs.h"
 #include "Globals.h"
 #include "ResourceManager.h"
-#include <iostream>
 #include "TextManager.h"
 #include "GameplayUI.h"
 
@@ -25,7 +25,7 @@ void GSAboutUs::Init() {
 
 	auto obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(36));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	obj->SetSize(Globals::screenWidth, Globals::screenHeight);
@@ -35,7 +35,7 @@ void GSAboutUs::Init() {
 	//Frame
 	obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(43));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 - 50);
 	obj->SetSize(Globals::screenWidth / 4 * 3, Globals::screenHeight / 4 * 3);
@@ -45,7 +45,7 @@ void GSAboutUs::Init() {
 	//Logo Game
 	auto logo = std::make_shared<Sprite2D>(0);
 	logo->setModel(model);
-	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(46));
 	logo->Set2DPosition(Globals::screenWidth / 4 + 50, Globals::screenHeight / 2 - 100);
 	logo->SetSize(829 / 3, 291 / 3);
@@ -55,7 +55,7 @@ void GSAboutUs::Init() {
 	//Logo Studio
 	auto logo2 = std::make_shared<Sprite2D>(0);
 	logo2->setModel(model);
-	logo2->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	logo2->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	logo2->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(44));
 	logo2->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight - 250);
 	logo2->SetSize(150, 150);
@@ -67,7 +67,7 @@ void GSAboutUs::Init() {
 }
 
 void GSAboutUs::Draw() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Draw();
 	}
 	m_BM->Draw();
@@ -80,13 +80,13 @@ void GSAboutUs::Draw() {
 }
 
 void GSAboutUs::Update(float deltaTime) {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Update(deltaTime);
 	}
 }
 
 void GSAboutUs::CleanUp() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->CleanUp();
 	}
 	m_BM->CleanUp();
@@ -105,11 +105,7 @@ void GSAboutUs::Pause() {
 //Events
 void GSAboutUs::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void GSAboutUs::OnMouseMoving(int X, int Y) {

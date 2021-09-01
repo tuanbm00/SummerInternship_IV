@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GSIntro.h"
 #include "Globals.h"
 #include "ResourceManager.h"
@@ -21,7 +22,7 @@ void GSIntro::Init() {
 	//Logo
 	auto logo = std::make_shared<Sprite2D>(1);
 	logo->setModel(model);
-	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(12));
 	logo->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	logo->SetSize(400, 400);
@@ -31,7 +32,7 @@ void GSIntro::Init() {
 	//Background
 	auto bg = std::make_shared<Sprite2D>(0);
 	bg->setModel(model);
-	bg->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	bg->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	bg->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(11));
 	bg->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	bg->SetSize(Globals::screenWidth, Globals::screenHeight);

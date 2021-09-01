@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Ground.h"
 #include "Camera.h"
 

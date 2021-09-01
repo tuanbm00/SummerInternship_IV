@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameButton.h"
 #include <iostream>
 #include "ComfirmBox.h"

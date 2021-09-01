@@ -1,5 +1,5 @@
-#include "Animation.h"
 #include "stdafx.h"
+#include "Animation.h"
 #include "Camera.h"
 
 Animation::Animation(const char* filePath)
@@ -18,8 +18,8 @@ Animation::Animation(const char* filePath)
 	i_total_frame = total;
 	m_animation.resize(total);
 	for (int i = 0; i < total; ++i) {
-		int x, y, w, h;
-		fscanf_s(fp, "%d,%d,%d,%d\n", &x, &y, &w, &h);
+		float x, y, w, h;
+		fscanf_s(fp, "%f,%f,%f,%f\n", &x, &y, &w, &h);
 		m_animation[i] = Vector4(x, y, w, h);
 	}
 	fclose(fp);

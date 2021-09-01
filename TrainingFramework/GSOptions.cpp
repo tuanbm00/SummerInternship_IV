@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "GSOptions.h"
 #include "Globals.h"
 #include "ResourceManager.h"
-#include <iostream>
 #include "TextManager.h"
 #include "GameplayUI.h"
 
@@ -21,7 +21,7 @@ void GSOptions::Init() {
 	m_BM = std::make_shared<ButtonManager>(BM, 0);
 
 	//Set Texture for Audio Button
-	for (register int i = 0; i < m_BM->m_listButton.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_BM->m_listButton); i++) {
 		if (m_BM->m_listButton[i]->GetID() == 0) {
 			if (ResourceManager::GetInstance()->GetGlobalVolume() > 0) {
 				m_BM->m_listButton[i]->SetNewTexture(ResourceManager::GetInstance()->GetTextureAtID(40));
@@ -35,7 +35,7 @@ void GSOptions::Init() {
 
 	auto obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(36));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	obj->SetSize(Globals::screenWidth, Globals::screenHeight);
@@ -44,7 +44,7 @@ void GSOptions::Init() {
 
 	obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL4) {
 		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(41)); // MAP LEVEL4
 	}
@@ -59,17 +59,17 @@ void GSOptions::Init() {
 }
 
 void GSOptions::Draw() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Draw();
 	}
 	m_BM->Draw();
 }
 
 void GSOptions::Update(float deltaTime) {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Update(deltaTime);
 	}
-	for (register int i = 0; i < m_BM->m_listButton.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_BM->m_listButton); i++) {
 		if ((m_BM->m_listButton[i]->GetID() == 0) && m_BM->m_listButton[i]->IsHandle()) {
 			static bool isA = true;
 			if (isA) {
@@ -86,7 +86,7 @@ void GSOptions::Update(float deltaTime) {
 }
 
 void GSOptions::CleanUp() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->CleanUp();
 	}
 	m_BM->CleanUp();
@@ -105,11 +105,7 @@ void GSOptions::Pause() {
 //Events
 void GSOptions::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void GSOptions::OnMouseMoving(int X, int Y) {

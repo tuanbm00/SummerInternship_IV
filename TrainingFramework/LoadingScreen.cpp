@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "LoadingScreen.h"
 #include "Globals.h"
 #include "ResourceManager.h"
-#include <iostream>
 #include "TextManager.h"
 
 LoadingScreen::LoadingScreen() {
@@ -23,7 +23,7 @@ void LoadingScreen::Init() {
 	//Background Initialize
 	auto obj = std::make_shared<Sprite2D>(222);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(48));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	obj->SetSize(Globals::screenWidth, Globals::screenHeight);
@@ -31,7 +31,7 @@ void LoadingScreen::Init() {
 
 	obj = std::make_shared<Sprite2D>(222);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(49));
 	obj->Set2DPosition(Globals::screenWidth - Globals::screenWidth/5, Globals::screenHeight - Globals::screenHeight/10);
 	obj->SetSize(200, 48);
@@ -39,17 +39,17 @@ void LoadingScreen::Init() {
 
 	obj = std::make_shared<Sprite2D>(222);
 	obj->setModel(model);
-	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(46));
 	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
-	obj->SetSize(829 / 1.5f, 291 / 1.5f);
+	obj->SetSize(829 *2/3, 291 *2/3);
 	m_listSprite.push_back(obj);
 
 }
 
 void LoadingScreen::Draw() {
 	if (!m_isLoading) return;
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Draw();
 	}
 	isDraw = true;
@@ -62,7 +62,7 @@ void LoadingScreen::Update(float deltaTime) {
 }
 
 void LoadingScreen::CleanUp() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->CleanUp();
 	}
 }
@@ -79,11 +79,7 @@ void LoadingScreen::Pause() {
 //Events
 void LoadingScreen::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void LoadingScreen::OnMouseMoving(int X, int Y) {

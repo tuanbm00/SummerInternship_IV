@@ -1,11 +1,10 @@
-#include "Sprite2D.h"
-#include <iostream>
 #include "stdafx.h"
+#include "Sprite2D.h"
 #include "Vertex.h"
 #include "Camera.h"
 #include "define.h"
-#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Globals.h"
+#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
 Sprite2D::Sprite2D(int ID) {
 	m_SpriteID = ID;
@@ -175,7 +174,6 @@ Vector2 Sprite2D::Get2DPosition()
 {
 	float xx = (2 * m_Vec2DPos.x) / Globals::screenWidth - 1.0f;
 	float yy = 1.0f - (2.0f * m_Vec2DPos.y) / Globals::screenHeight;
-	std::cout << xx << " - " << yy << std::endl;
 	return m_Vec2DPos;
 }
 

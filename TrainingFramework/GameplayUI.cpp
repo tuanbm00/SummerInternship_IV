@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameplayUI.h"
 #include "Globals.h"
 #include "ResourceManager.h"
@@ -90,7 +91,8 @@ void GameplayUI::Update(float deltaTime) {
 	char buffer[20];
 
 	//HP
-	_itoa_s(m_MainCharacter->GetHP(), buffer, 10);
+	int mHp = static_cast<int> (m_MainCharacter->GetHP());
+	_itoa_s(mHp, buffer, 10);
 	char text[20] = " ";
 	strcat_s(text, buffer);
 	strcpy_s(mainHP, sizeof mainHP, text);
@@ -121,11 +123,7 @@ void GameplayUI::Pause() {
 //Events
 void GameplayUI::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void GameplayUI::OnMouseMoving(int X, int Y) {

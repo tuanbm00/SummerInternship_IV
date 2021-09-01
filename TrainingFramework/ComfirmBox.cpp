@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ComfirmBox.h"
 #include "Globals.h"
 #include "ResourceManager.h"
@@ -20,7 +21,7 @@ void ComfirmBox::Init() {
 	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
 	auto button = std::make_shared<GameButton>(555);
 	button->setModel(pModel);
-	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(42));
 	button->Set2DPosition(Globals::screenWidth/2 - 100 , Globals::screenHeight/2 + 50);
 	button->SetSize(150, 80);
@@ -31,7 +32,7 @@ void ComfirmBox::Init() {
 
 	button = std::make_shared<GameButton>(666);
 	button->setModel(pModel);
-	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	button->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(38));
 	button->Set2DPosition(Globals::screenWidth / 2 + 100, Globals::screenHeight / 2 + 50);
 	button->SetSize(150, 80);
@@ -46,7 +47,7 @@ void ComfirmBox::Init() {
 	//Frame Initialize
 	m_Frame = std::make_shared<Sprite2D>(0);
 	m_Frame->setModel(pModel);
-	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(43));
 	m_Frame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Frame->SetSize(Globals::screenWidth / 2, Globals::screenHeight / 2 - 100);
@@ -58,7 +59,7 @@ void ComfirmBox::Draw() {
 		return;
 	}
 	m_Frame->Draw();
-	for (register int i = 0; i < m_listButton.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listButton); i++) {
 		m_listButton[i]->Draw();
 	}
 	
@@ -71,7 +72,7 @@ void ComfirmBox::Update(float deltaTime) {
 }
 
 void ComfirmBox::CleanUp() {
-	for (register int i = 0; i < m_listButton.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listButton); i++) {
 		m_listButton[i]->CleanUp();
 	}
 	m_Frame->CleanUp();
@@ -100,7 +101,7 @@ void ComfirmBox::OnMouseButtonUp(int X, int Y, char Button) {
 	switch (Button) {
 	case LMB:
 	{
-		for (register int i = 0; i < (int)m_listButton.size(); i++) {
+		for (register int i = 0; i < size_as_int(m_listButton); i++) {
 			m_listButton[i]->OnMouseButtonUp(X, Y);
 		}
 	}

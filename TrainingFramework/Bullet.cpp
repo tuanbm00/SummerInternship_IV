@@ -1,4 +1,5 @@
-﻿#include "Bullet.h"
+﻿#include "stdafx.h"
+#include "Bullet.h"
 #include "define.h"
 #include "Camera.h"
 
@@ -115,7 +116,7 @@ void Bullet::Update(float deltaTime)
 	if (m_ObjectID == CATEGORY_BAZOKA) {
 		b2Vec2 v = m_body->GetLinearVelocity();
 		if (!m_target) {
-			m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
+			m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8f*deltaTime*0.2f));
 		}
 		else {
 			float dir = m_target->GetPosition().x > m_body->GetPosition().x ? 1.0f : -1.0f;
@@ -131,12 +132,12 @@ void Bullet::Update(float deltaTime)
 	}
 	else if (m_ObjectID == CATEGORY_BAZOKA_ENEMY) {
 		b2Vec2 v = m_body->GetLinearVelocity();
-		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8*deltaTime*0.2));
+		m_body->SetLinearVelocity(b2Vec2(v.x, v.y + 9.8f*deltaTime*0.2f));
 	}
 	else {
 		m_body->SetLinearVelocity(b2Vec2(m_SpeedOfBulletX, m_SpeedOfBulletY));
 	}
-	float dir = m_SpeedOfBulletX > 0 ? 1 : -1;
+	float dir = m_SpeedOfBulletX > 0 ? 1.0f : -1.0f;
 	m_CurrentLength += (m_body->GetPosition().x  - m_Position.x) * dir;
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
@@ -152,7 +153,7 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	if (notBoss) {
-		dynamicBox.SetAsBox(m_spriteW*0.35, m_spriteH*0.35);
+		dynamicBox.SetAsBox(m_spriteW*0.35f, m_spriteH*0.35f);
 	}
 	else {
 		dynamicBox.SetAsBox(m_spriteW*5, m_spriteH*5);

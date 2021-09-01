@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Boss.h"
 #include "Camera.h"
 #include "define.h"

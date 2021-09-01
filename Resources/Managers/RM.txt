@@ -272,16 +272,10 @@ FILE ../Resources/Tile/demon4.tga
 ID 0
 FILE ../Resources/Models/Sprite2D.nfg
 
-#Shaders: 2
+#Shaders: 1
 ID 0
 VS ../Resources/Shaders/ModelShaderVS.vs
 FS ../Resources/Shaders/ModelShaderFS.fs
-STATES 2
-GL_DEPTH_TEST 1
-GL_CULL_FACE 0
-ID 1
-VS ../Resources/Shaders/Sprite2DShaderVS.vs
-FS ../Resources/Shaders/Sprite2DShaderFS.fs
 STATES 2
 GL_DEPTH_TEST 1
 GL_CULL_FACE 0

@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "ButtonManager.h"
-#include <iostream>
 #include "ResourceManager.h"
 #include "GameStateMachine.h"
 #include "define.h"
@@ -30,14 +30,15 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
 
-	int id, shader, texture, X, Y, W, H, active, comfirm;
+	int id, shader, texture, W, H, active, comfirm;
+	float X, Y;
 	char type[20];
 	for (int i = 0; i < numberOfButtons; ++i)
 	{
 		fscanf_s(f_M, "ID %d\n", &id);
 		fscanf_s(f_M, "SHADER %d\n", &shader);
 		fscanf_s(f_M, "TEXTURE %d\n", &texture);
-		fscanf_s(f_M, "COORD %d %d %d %d\n", &X, &Y, &W, &H);
+		fscanf_s(f_M, "COORD %f %f %d %d\n", &X, &Y, &W, &H);
 		fscanf_s(f_M, "ACTIVE %d\n", &active);
 		fscanf_s(f_M, "COMFIRM %d\n", &comfirm);
 		fscanf_s(f_M, "FUNC %s\n", type, _countof(type));
@@ -60,7 +61,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 
 void ButtonManager::Update(float deltaTime)
 {
-	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+	for (register int i = 0; i < size_as_int(m_listButton); ++i) {
 		m_listButton[i]->Update(deltaTime);
 	}
 	//for (register int i = 0; i < (int)m_listButton.size(); ++i) {
@@ -70,7 +71,7 @@ void ButtonManager::Update(float deltaTime)
 
 void ButtonManager::CleanUp()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+	for (register int i = 0; i < size_as_int(m_listButton); ++i) {
 		m_listButton[i]->CleanUp();
 	}
 	Singleton<ComfirmBox>::GetInstance()->CleanUp();
@@ -78,7 +79,7 @@ void ButtonManager::CleanUp()
 
 void ButtonManager::Draw()
 {
-	for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+	for (register int i = 0; i < size_as_int(m_listButton); ++i) {
 		m_listButton[i]->Draw();
 	}
 	Singleton<ComfirmBox>::GetInstance()->Draw();
@@ -241,7 +242,7 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 			button->SetOnClick([]() {
 				GameStateMachine::GetInstance()->PopState();
 				if (GameStateMachine::GetInstance()->HasInstance()) {
-					GameStateMachine::GetInstance()->PushState(StateTypes::GS_MAINMENU);
+					GameStateMachine::GetInstance()->PushState(StateTypes::GS_ABOUTUS);
 				}
 			});
 			break;
@@ -276,7 +277,7 @@ void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 	switch (Button) {
 	case LMB:
 	{
-		for (register int i = 0; i < (int)m_listButton.size(); ++i) {
+		for (register int i = 0; i < size_as_int(m_listButton); ++i) {
 			m_listButton[i]->OnMouseButtonUp(X, Y);
 		}
 	}

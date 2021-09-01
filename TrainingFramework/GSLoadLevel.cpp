@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "GSLoadLevel.h"
 #include "Globals.h"
 #include "ResourceManager.h"
-#include <iostream>
 #include "TextManager.h"
 #include "GameplayUI.h"
 
@@ -25,7 +25,7 @@ void GSLoadLevel::Init() {
 	//Background Initialize
 	m_Background = std::make_shared<Sprite2D>(0);
 	m_Background->setModel(model);
-	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	m_Background->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	m_Background->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
 	m_Background->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Background->SetSize(Globals::screenWidth, Globals::screenHeight);
@@ -33,7 +33,7 @@ void GSLoadLevel::Init() {
 	//Frame Initialize
 	m_Frame = std::make_shared<Sprite2D>(0);
 	m_Frame->setModel(model);
-	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	m_Frame->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	m_Frame->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(26));
 	m_Frame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_Frame->SetSize(Globals::screenWidth/2, Globals::screenHeight/2);
@@ -72,11 +72,7 @@ void GSLoadLevel::Pause() {
 //Events
 void GSLoadLevel::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void GSLoadLevel::OnMouseMoving(int X, int Y) {

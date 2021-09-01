@@ -3,7 +3,6 @@
 #include "ResourceManager.h"
 #include "Camera.h"
 #include "define.h"
-#include <iostream>
 #include "Globals.h"
 #include "GameplayUI.h"
 #include "Healthy.h"
@@ -56,7 +55,7 @@ void SceneManager::ChangeToResultScreen(bool bIsVictory)
 }
 
 void SceneManager::Init() {
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	timeCount = 0.0f;
 	numJump = 0;
@@ -335,18 +334,18 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	groundTest->setTexture(texx);
 	groundTest->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	//
-	int width, height, row, col, xi, num, index;
-	float len;
+	int row, col, xi, index;
+	float len, width, height;
 
-	fscanf_s(f_MAP, "%d %d\n", &width, &height);
+	fscanf_s(f_MAP, "%f %f\n", &width, &height);
 	fscanf_s(f_MAP, "%d %f\n", &index, &len);
 	// background
 	float para = 0.0f;
 	for (int i = 0; i < index; ++i) {
-		fscanf(f_MAP, "%d", &xi);
+		fscanf_s(f_MAP, "%d", &xi);
 		Object * background = new Object(123);
 		Model * backgroundModel = new Model();
-		backgroundModel->InitSprite(0, 0, width, height, width, height);
+		backgroundModel->InitSprite(0.0f, 0.0f, width, height, width, height);
 		background->setModel(backgroundModel);
 		ResourceManager::GetInstance()->GetBackgroundAtID(xi)->Init();
 		background->SetTexture(ResourceManager::GetInstance()->GetBackgroundAtID(xi));
@@ -359,7 +358,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		para += 0.2f;
 	}
 	//
-	fscanf(f_MAP, "\n");
+	fscanf_s(f_MAP, "\n");
 	fscanf_s(f_MAP, "%d %d\n", &row, &col);
 	Camera::GetInstance()->setLimitX(-WIDTH*col/2, WIDTH*(col/2-1));
 	Camera::GetInstance()->setLimitY(-WIDTH * row / 2, WIDTH*(row / 2 - 1));
@@ -403,7 +402,7 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 		mapLimit[{posRow, posCol}] = { left, right };
 	}
 	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < (int)m_ListGunOfEnemy.size(); ++j) {
+		for (int j = 0; j < size_as_int(m_ListGunOfEnemy); ++j) {
 			int id = m_boss->GetBulletID(i);
 			if (id == -1) {
 				continue;
@@ -449,12 +448,13 @@ void SceneManager::LoadDecor()
 	FILE * fp;
 	fopen_s(&fp, decorFile, "r");
 	int num;
-	int row, col, sizex, sizey, x, y, w, h;
+	int row, col, sizex, sizey; 
+	float x, y, w, h;
 	fscanf_s(fp, "%d\n", &num);
 	if (num == 0) return;
 	fscanf_s(fp, "%d %d\n", &row, &col);
 	for (int i = 0; i < num; ++i) {
-		fscanf_s(fp, "%d %d %d %d %d %d\n", &sizex, &sizey, &x, &y, &w, &h);
+		fscanf_s(fp, "%d %d %f %f %f %f\n", &sizex, &sizey, &x, &y, &w, &h);
 		Vector2 origin = Vector2(-WIDTH * (sizey - col / 2), -WIDTH * (sizex - row / 2));
 		m_Decor->addVertex(x, y, w, h, imageW, imageH, origin);
 	}
@@ -480,13 +480,13 @@ void SceneManager::Draw() {
 	mainIcon->Draw();
 	
 
-	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 		if (m_listEnemyInWorld[i]->checkDraw()) {
 			m_listEnemyInWorld[i]->Draw();
 			m_listEnemyInWorld[i]->DrawHP();
 		}
 	}
-	for (int i = 0; i < m_listEnemyDead.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemyDead); ++i) {
 		m_listEnemyDead[i]->Draw();
 	}
 //	m_listEnemy[0]->Draw();
@@ -495,7 +495,7 @@ void SceneManager::Draw() {
 		m_boss->DrawHP();
 	}
 
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listBulletInWorld); ++i) {
 		m_listBulletInWorld[i]->Draw();
 	}
 
@@ -592,12 +592,12 @@ void SceneManager::OnMouseButtonMove(int X, int Y, char Button) {
 void SceneManager::CleanUp() {
 	ResourceManager::GetInstance()->CleanDump();
 	Singleton<GameplayUI>::GetInstance()->CleanUp();
-	for (int i = 0; i < (int)m_listTerrain.size(); ++i) {
-		for (int j = 0; j < (int)m_listTerrain[i].size(); ++j) {
+	for (int i = 0; i < size_as_int(m_listTerrain); ++i) {
+		for (int j = 0; j < size_as_int(m_listTerrain[i]); ++j) {
 			delete m_listTerrain[i][j];
 		}
 	}
-	for (int i = 0; i < (int)m_ListBackground.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_ListBackground); ++i) {
 		m_ListBackground[i]->deleteTex();
 		delete m_ListBackground[i]->getModel();
 		delete m_ListBackground[i];
@@ -609,29 +609,29 @@ void SceneManager::CleanUp() {
 		delete m_boss->getModel();
 		delete m_boss;
 	}
-	for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 		delete m_listEnemyInWorld[i]->getModel();
 		delete m_listEnemyInWorld[i];
 	}
 
-	for (int i = 0; i < (int)m_listEnemy.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemy); ++i) {
 		delete m_listEnemy[i]->getModel();
 		delete m_listEnemy[i];
 	}
 
-	for (int i = 0; i < (int)m_ListGunOfPlayer.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_ListGunOfPlayer); ++i) {
 		delete m_ListGunOfPlayer[i]->getModel();
 		delete m_ListGunOfPlayer[i];
 	}
-	for (int i = 0; i < (int)m_ListGunOfEnemy.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_ListGunOfEnemy); ++i) {
 		delete m_ListGunOfEnemy[i]->getModel();
 		delete m_ListGunOfEnemy[i];
 	}
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listBulletInWorld); ++i) {
 		delete m_listBulletInWorld[i];
 	}
-	for (int i = 0; i < m_ObjectDump.size(); ++i) delete m_ObjectDump[i];
-	for (int i = 0; i < m_ModelDump.size(); ++i) delete m_ModelDump[i];
+	for (int i = 0; i < size_as_int(m_ObjectDump); ++i) delete m_ObjectDump[i];
+	for (int i = 0; i < size_as_int(m_ModelDump); ++i) delete m_ModelDump[i];
 	delete m_TeleGate->getModel();
 	delete m_TeleGate;
 	delete mainIcon->getModel();
@@ -676,7 +676,7 @@ void SceneManager::Shoot() {
 	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bazooka3.wav", false);
 		float minLength = 2000;
-		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 			if (m_direction * m_MainCharacter->GetPosition().x < m_direction * m_listEnemyInWorld[i]->GetPosition().x) {
 				if (m_MainCharacter->GetPosition().y + 800 > m_listEnemyInWorld[i]->GetPosition().y && m_MainCharacter->GetPosition().y - 400 < m_listEnemyInWorld[i]->GetPosition().y) {
 					float high = abs(m_MainCharacter->GetPosition().y - m_listEnemyInWorld[i]->GetPosition().y);
@@ -782,7 +782,7 @@ void SceneManager::BossAttack() {
 		bullet->SetRotation(m_boss->GetBullet()->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false, false);
-		bullet->m_current_anim = Idle * dir;
+		bullet->m_current_anim = Idle * static_cast<int> (dir);
 
 		AddBullet(bullet);
 	}
@@ -819,7 +819,7 @@ void SceneManager::BossAttack() {
 			bullet->SetRotation(m_boss->GetBullet()->GetRotation());
 			bullet->InitWVP();
 			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
-			bullet->m_current_anim = Idle * dir;
+			bullet->m_current_anim = Idle * static_cast<int>(dir);
 
 			AddBullet(bullet);
 		}
@@ -875,8 +875,8 @@ void SceneManager::Update(float deltaTime) {
 	if (m_MainCharacter->isDie()) {
 		m_MainCharacter->playDead(deltaTime);
 		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
-		for (int i = 0; i < m_listEnemyInWorld.size(); ++i) m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-		int lop = deltaTime / 0.003;
+		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
+		int lop = static_cast<int> (deltaTime / 0.003f);
 		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
 		for (int i = 0; i < lop; ++i) {
 			m_world->Step(0.07f, 6, 2);
@@ -901,19 +901,19 @@ void SceneManager::Update(float deltaTime) {
 	}
 	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
 	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
-	 for (int i = 0; i < m_ListBackground.size(); ++i) m_ListBackground[i]->Update(deltaTime);
+	 for (int i = 0; i < size_as_int(m_ListBackground); ++i) m_ListBackground[i]->Update(deltaTime);
 
 	 if(m_IsTowerDefend) m_TeleGate->UpdateAnimation(deltaTime);
 
-	 int col = Globals::screenWidth / WIDTH * 2 + 1;
-	 int row = Globals::screenHeight / WIDTH * 2 + 1;
-	 int w = pos.x / WIDTH + m_listTerrain[0].size() / 2;
-	 int h = pos.y / WIDTH + m_listTerrain.size() / 2;
+	 int col = static_cast<int> (Globals::screenWidth / WIDTH * 2 + 1);
+	 int row = static_cast<int> (Globals::screenHeight / WIDTH * 2 + 1);
+	 int w = static_cast<int> (pos.x / WIDTH + m_listTerrain[0].size() / 2);
+	 int h = static_cast<int> (pos.y / WIDTH + m_listTerrain.size() / 2);
 
 	wlow = w - col > 0 ? w - col : 0;
-	whigh = w + col < (int)m_listTerrain[0].size() ? w + col : (int)m_listTerrain[0].size();
+	whigh = w + col < size_as_int(m_listTerrain[0]) ? w + col : size_as_int(m_listTerrain[0]);
 	hlow = h - row > 0 ? h - row : 0;
-	hhigh = h + row < (int)m_listTerrain.size() ? h + row : (int)m_listTerrain.size();
+	hhigh = h + row < size_as_int(m_listTerrain) ? h + row : size_as_int(m_listTerrain);
 
 	for (int i = hlow; i < hhigh; ++i) {
 		for (int j = wlow; j < whigh; ++j) {
@@ -939,7 +939,7 @@ void SceneManager::Update(float deltaTime) {
 				Vector2 box = m_listEnemy[id]->getTransBox();
 				enemy->setTransBox(box.x, box.y);
 				enemy->InitWVP();
-				for (int k = 0; k < (int)m_ListGunOfEnemy.size(); k++) {
+				for (int k = 0; k < size_as_int(m_ListGunOfEnemy); k++) {
 					if (m_ListGunOfEnemy[k]->GetID() == m_listEnemy[id]->GetBulletID()) {
 						enemy->SetBullet(m_ListGunOfEnemy[k]);
 						break;
@@ -993,7 +993,7 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listBulletInWorld); ++i) {
 		if (m_listBulletInWorld[i]->checkDraw() == false) {
 			RemoveBullet(i);
 		}
@@ -1007,7 +1007,7 @@ void SceneManager::Update(float deltaTime) {
 	m_timeHurt += deltaTime;
 	CheckMovement();
 
-	for (int i = 0; i < m_listEnemyInWorld.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 		if (m_listEnemyInWorld[i]->checkDraw()) {
 			m_listEnemyInWorld[i]->m_direction = (m_listEnemyInWorld[i]->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
 			m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
@@ -1028,7 +1028,7 @@ void SceneManager::Update(float deltaTime) {
 		else m_listEnemyInWorld[i]->m_current_anim = 1;
 	}
 
-	for (int i = 0; i < m_listEnemyDead.size(); ++i) {
+	for (int i = 0; i < size_as_int(m_listEnemyDead); ++i) {
 		m_listEnemyDead[i]->playDead(deltaTime);
 		if (m_listEnemyDead[i]->getDead()) {
 			if (m_listEnemyDead[i]->GetID() == 4) m_IsTowerDefend = true;
@@ -1060,7 +1060,7 @@ void SceneManager::Update(float deltaTime) {
 
 	static int32 velocityIterations = 6;
 	static int32 positionIterations = 2;
-	int lop = deltaTime / 0.003f;
+	int lop = static_cast<int> (deltaTime / 0.003f);
 	float st = 0.35f / (float) lop;
 
 	for(int ilop = 0;ilop < lop;++ilop){
@@ -1096,7 +1096,7 @@ void SceneManager::Update(float deltaTime) {
 					}
 					if (a->GetFilterData().groupIndex == -1) {
 						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
-						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5f, vel.y));
 					}
 				}
 			}
@@ -1107,7 +1107,7 @@ void SceneManager::Update(float deltaTime) {
 					}
 					if (b->GetFilterData().groupIndex == -1) {
 						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
-						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5, vel.y));
+						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5f, vel.y));
 					}
 				}
 			} // end terrain
@@ -1214,9 +1214,9 @@ void SceneManager::Update(float deltaTime) {
 
 		// Enemy's collision
 		float d;
-		for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 			if (m_listEnemyInWorld[i]->GetBulletID() < 0) {
-				d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1 : -1;
+				d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1.0f : -1.0f;
 				
 				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
 				if (enemySeen(m_listEnemyInWorld[i])) {
@@ -1244,13 +1244,13 @@ void SceneManager::Update(float deltaTime) {
 					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 						b->SetFilterData(filterBoomerang1);
-						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
 						float vBullet = bullet->GetSpeedOfBullet().x;
 						float vMoster = a->GetBody()->GetLinearVelocity().x;
 						float pBullet = bullet->GetPosition().x;
 						float pMoster = a->GetBody()->GetPosition().x;
 						float plength = pMoster - pBullet;
-						float v = bullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
 						float length = a->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
 						length = vBullet * length / (vBullet - vMoster);
 						length = length > 0 ? length : -length;
@@ -1272,13 +1272,13 @@ void SceneManager::Update(float deltaTime) {
 					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 						a->SetFilterData(filterBoomerang1);
-						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
 						float vBullet = bullet->GetSpeedOfBullet().x;
 						float vMoster = b->GetBody()->GetLinearVelocity().x;
 						float pBullet = bullet->GetPosition().x;
 						float pMoster = b->GetBody()->GetPosition().x;
 						float plength = pMoster - pBullet;
-						float v = bullet->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
 						float length = b->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
 						length = vBullet * length / (vBullet - vMoster);
 						length = length > 0 ? length : -length;
@@ -1321,7 +1321,7 @@ void SceneManager::Update(float deltaTime) {
 		// end Enemy
 
 		// Bullet's collision
-		for (int i = 0; i < (int)m_listBulletInWorld.size(); ++i) {
+		for (int i = 0; i < size_as_int(m_listBulletInWorld); ++i) {
 			if (m_listBulletInWorld[i]->m_bRemoveAble) {
 				RemoveBullet(i);
 				i--;
@@ -1330,7 +1330,7 @@ void SceneManager::Update(float deltaTime) {
 				m_listBulletInWorld[i]->Update(deltaTime);
 				if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
 					if (m_listBulletInWorld[i]->getBody()->GetFixtureList()->GetFilterData().groupIndex == -2) {
-						float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1 : -1;
+						float v = m_listBulletInWorld[i]->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
 						float length = m_listBulletInWorld[i]->GetPosition().x - m_listBulletInWorld[i]->GetOldPos();
 						if (length * v > m_listBulletInWorld[i]->GetLengthBoomerang()) {
 							m_listBulletInWorld[i]->getBody()->GetFixtureList()->SetFilterData(filterBoomerang1);
@@ -1451,7 +1451,7 @@ void SceneManager::Update(float deltaTime) {
 	if (m_IsTowerDefend == true) {
 		if (m_TeleGate->getBody()->IsEnabled() == false) m_TeleGate->getBody()->SetEnabled(true);
 		if (m_currentLevel < 4) {
-			for (int i = 0; i < (int)m_listEnemyInWorld.size(); ++i) {
+			for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
 				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 			}
 		}
@@ -1627,7 +1627,7 @@ void SceneManager::CheckMovement() {
 			m_MainCharacter->m_current_anim = RunJump * m_direction;
 			m_MainCharacter->getBody()->GetFixtureList()->SetFilterData(filterRoll);
 			m_time_roll = 0;
-			m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(80000 * m_direction, 50000), m_MainCharacter->getBody()->GetWorldCenter(), true);
+			m_MainCharacter->getBody()->ApplyLinearImpulse(b2Vec2(80000.0f * m_direction, 50000.0f), m_MainCharacter->getBody()->GetWorldCenter(), true);
 			--roll_step;
 		}
 		else {
