@@ -730,6 +730,25 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 			AddBullet(bullet);
 		}
 	}
+	else if (enemy->GetBullet()->GetID() == CATEGORY_BAZOKA_ENEMY) {
+		for (int i = 0; i < 2; ++i) {
+			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
+			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x / (i + 1), enemy->GetBullet()->GetSpeedOfBullet().y / ((i + 1) * (i + 1)), enemy->GetBullet()->GetMaxOfLength());
+
+			bullet->SetIsChange();
+			bullet->setModel(enemy->GetBullet()->getModel());
+			bullet->setShader(enemy->GetBullet()->getShaders());
+			bullet->SetTexture(enemy->GetBullet()->getTexture());
+			bullet->SetPosition(posBullet);
+			bullet->SetScale(enemy->GetBullet()->GetScale());
+			bullet->SetRotation(enemy->GetBullet()->GetRotation());
+			bullet->InitWVP();
+			bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
+			bullet->m_current_anim = Idle * enemy->m_direction;
+
+			AddBullet(bullet);
+		}
+	}
 	else {
 		float scale = (posEnemy.y - posMainCharacter.y) / (posEnemy.x - posMainCharacter.x);
 		Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
@@ -750,6 +769,15 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		bullet->SetRotation(enemy->GetBullet()->GetRotation());
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
+		if (enemy->GetID() == 4 && enemy->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
+			float rate = rand() % 100;
+			if (rate < 10 * m_currentLevel) {
+				b2Filter filter;
+				filter.categoryBits = CATEGORY_BULLET_BOSS;
+				filter.maskBits = MASK_BULLET_BOSS;
+				bullet->getBody()->GetFixtureList()->SetFilterData(filter);
+			}
+		}
 		bullet->m_current_anim = Idle * enemy->m_direction;
 
 		AddBullet(bullet);
