@@ -1,1 +1,158 @@
-﻿
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Vertex.cpp
+  Shaders.cpp
+  TrainingFramework.cpp
+  Texture.cpp
+  TextManager.cpp
+  Terrain.cpp
+  Sprite2D.cpp
+  SceneManager.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(59): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(348): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(345): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(361): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1197): note: see declaration of 'fscanf'
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(337): warning C4101: 'num': unreferenced local variable
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(458): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(488): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(632): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(633): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(784): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(821): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(877): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(878): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(902): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(906): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(907): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(908): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(909): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1008): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1029): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1061): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1097): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1108): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1207): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1235): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1241): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1263): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1269): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1321): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\scenemanager.cpp(1623): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  ResourceManager.cpp
+  Object.cpp
+  Models.cpp
+  Model.cpp
+  MainCharacter.cpp
+  LoadingScreen.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\loadingscreen.cpp(45): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\loadingscreen.cpp(52): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\loadingscreen.cpp(65): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\loadingscreen.cpp(85): warning C4060: switch statement contains no 'case' or 'default' labels
+  Healthy.cpp
+  GSResult.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gsresult.cpp(29): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsresult.cpp(95): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSOptions.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(24): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(62): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(69): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(72): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(89): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsoptions.cpp(111): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSMainmenu.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gsmainmenu.cpp(60): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsmainmenu.cpp(72): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsmainmenu.cpp(93): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSLoadLevel.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gsloadlevel.cpp(78): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSLevel4.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gslevel4.cpp(63): warning C4060: switch statement contains no 'case' or 'default' labels
+  Generating Code...
+  Compiling...
+  GSLevel3.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gslevel3.cpp(68): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSLevel2.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gslevel2.cpp(61): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSLevel1.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gslevel1.cpp(62): warning C4060: switch statement contains no 'case' or 'default' labels
+  GSIntro.cpp
+  GSAboutUs.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(70): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(83): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(89): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\gsaboutus.cpp(111): warning C4060: switch statement contains no 'case' or 'default' labels
+  Ground.cpp
+  GameStateMachine.cpp
+  GameStateBase.cpp
+  GameplayUI.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(74): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(75): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(82): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(86): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(90): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\gameplayui.cpp(116): warning C4060: switch statement contains no 'case' or 'default' labels
+  GameButton.cpp
+  Enemy.cpp
+  ComfirmBox.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\comfirmbox.cpp(61): warning C4018: '<': signed/unsigned mismatch
+d:\20202\20203\summerinternship_iv\trainingframework\comfirmbox.cpp(74): warning C4018: '<': signed/unsigned mismatch
+  Camera.cpp
+  ButtonManager.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\buttonmanager.cpp(49): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  Bullet.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(118): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(134): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(139): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\20202\20203\summerinternship_iv\trainingframework\bullet.cpp(155): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Boss.cpp
+  Application.cpp
+  Animation.cpp
+d:\20202\20203\summerinternship_iv\trainingframework\animation.cpp(23): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  Generating Code...
+Animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+box2d.lib(b2_broad_phase.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_broad_phase.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_chain_shape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_chain_shape.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_collide_circle.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_collide_circle.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_collide_edge.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_collide_edge.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_collide_polygon.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_collide_polygon.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_collision.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_collision.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_distance.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_distance.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_dynamic_tree.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_dynamic_tree.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_edge_shape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_edge_shape.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_polygon_shape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_polygon_shape.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_time_of_impact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_time_of_impact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_block_allocator.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_block_allocator.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_draw.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_draw.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_math.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_math.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_settings.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_settings.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_stack_allocator.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_stack_allocator.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_timer.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_timer.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_body.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_body.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_chain_circle_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_chain_circle_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_chain_polygon_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_chain_polygon_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_circle_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_circle_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_contact_manager.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_contact_manager.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_contact_solver.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_contact_solver.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_distance_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_distance_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_edge_circle_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_edge_circle_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_edge_polygon_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_edge_polygon_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_fixture.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_fixture.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_friction_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_friction_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_gear_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_gear_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_island.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_island.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_motor_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_motor_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_mouse_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_mouse_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_polygon_circle_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_polygon_circle_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_polygon_contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_polygon_contact.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_prismatic_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_prismatic_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_pulley_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_pulley_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_revolute_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_revolute_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_weld_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_weld_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_wheel_joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_wheel_joint.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_world.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_world.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+box2d.lib(b2_world_callbacks.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'box2d.lib(b2_world_callbacks.obj)' or at 'D:\20202\20203\SummerInternship_IV\BIN\box2d.pdb'; linking object as if no debug info
+  TrainingFramework.vcxproj -> D:\20202\20203\SummerInternship_IV\\BIN\Four.exe
