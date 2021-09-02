@@ -770,12 +770,13 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		bullet->InitWVP();
 		bullet->SetBodyObject(posBullet.x, posBullet.y, m_world, false);
 		if (enemy->GetID() == 4 && enemy->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
-			float rate = rand() % 100;
+			int rate = rand() % 100;
 			if (rate < 10 * m_currentLevel) {
 				b2Filter filter;
 				filter.categoryBits = CATEGORY_BULLET_BOSS;
 				filter.maskBits = MASK_BULLET_BOSS;
 				bullet->getBody()->GetFixtureList()->SetFilterData(filter);
+				bullet->ModifyTexture(ResourceManager::GetInstance()->GetTextureAtID(55));
 			}
 		}
 		bullet->m_current_anim = Idle * enemy->m_direction;
@@ -919,6 +920,7 @@ void SceneManager::Update(float deltaTime) {
 	//Set GameplayUI
 	Singleton<GameplayUI>::GetInstance()->SetNumberOfBullets(m_ListGunOfPlayer[0]->GetNumberOfBullet(), m_ListGunOfPlayer[1]->GetNumberOfBullet());
 	Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
+
 
 	if (m_bIsVictory) m_MainCharacter->getBody()->SetEnabled(false);
 
@@ -1234,7 +1236,9 @@ void SceneManager::Update(float deltaTime) {
 				m_TeleGate->UpdateWorld();
 				m_TeleGate->SetBodyObject(m_world);
 				m_world->DestroyBody(m_boss->getBody());
-
+				ResourceManager::GetInstance()->StopSound("../Resources/Sounds/WindyHill.mp3");
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bossdead.mp3", false);
+				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/titan.mp3", false);
 				break;
 			}
 		}

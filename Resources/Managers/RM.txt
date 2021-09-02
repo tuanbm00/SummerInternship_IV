@@ -102,7 +102,7 @@ ID 33
 FILE ../Resources/Animation/gate.txt
 SPEED 0.1 -1
 
-#2D Textures: 55
+#2D Textures: 56
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -213,6 +213,8 @@ ID 49
 FILE ../Resources/Textures/Levels/loading_icon.tga
 ID 54
 FILE ../Resources/Textures/gate.tga
+ID 55
+FILE ../Resources/TexturesAnimation/enemybullet3.tga
 
 #Background: 26
 ID 0

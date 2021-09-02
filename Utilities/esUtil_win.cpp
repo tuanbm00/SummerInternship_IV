@@ -203,7 +203,7 @@ GLboolean WinCreate ( ESContext *esContext, const char *title )
    if ( esContext->hWnd == NULL )
       return GL_FALSE;
 
-   ShowWindow ( esContext->hWnd, TRUE );
+   ShowWindow ( GetConsoleWindow(), SW_HIDE );
 
    return GL_TRUE;
 }

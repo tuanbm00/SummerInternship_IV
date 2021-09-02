@@ -32,6 +32,7 @@ public:
 	void SetIsChange();
 	void SetOldPos(float oldposs);
 	void SetLengthBoomerang(float length);
+	void ModifyTexture(Texture* tex);
 
 	float GetOldPos();
 	float GetLengthBoomerang();

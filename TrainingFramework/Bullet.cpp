@@ -81,6 +81,11 @@ void Bullet::SetLengthBoomerang(float length) {
 	m_lengthBoomerang = length;
 }
 
+void Bullet::ModifyTexture(Texture * tex)
+{
+	if (m_Texture.size() > 0) m_Texture[0] = tex;
+}
+
 float Bullet::GetLengthBoomerang() {
 	return m_lengthBoomerang;
 }

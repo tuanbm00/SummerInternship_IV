@@ -25,14 +25,14 @@ void GSResult::Init() {
 	char* BM = "../Resources/Managers/BM_Result.txt";
 	m_BM = std::make_shared<ButtonManager>(BM, m_currentLevel);
 	if(m_bIsVictory){
-		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
+		if(m_currentLevel != 4) ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/victory.mp3", false);
 		for (register int i = 0; i < size_as_int(m_BM->m_listButton); ++i) {
 			if (m_BM->m_listButton[i]->GetID() == 1) m_BM->m_listButton[i]->SetActive(true);
 			else if(m_BM->m_listButton[i]->GetID() == 0) m_BM->m_listButton[i]->SetActive(false);
 		}
 	}
 	else {
-		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/game_over.wav", false);
+		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/lose.mp3", false);
 	}
 
 	Models * model = ResourceManager::GetInstance()->GetModelAtID(0);
