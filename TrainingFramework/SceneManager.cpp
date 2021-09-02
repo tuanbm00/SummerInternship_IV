@@ -757,7 +757,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		}
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
-			if(enemy->GetBullet()->GetID() == CATEGORY_ENEMY_GUN) posBullet = Vector3(posEnemy.x + dir*box.x*2, posEnemy.y + box.y, 0);
+			if(enemy->GetBullet()->GetID() == CATEGORY_ENEMY_GUN) posBullet = Vector3(posEnemy.x + dir*box.x*2, posEnemy.y + box.y + 3, 0);
 		}
 
 		bullet->SetIsChange();
@@ -1220,12 +1220,58 @@ void SceneManager::Update(float deltaTime) {
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
 					Bullet * bullet = reinterpret_cast<Bullet *> (b->GetUserData().pointer);
-					bullet->m_bRemoveAble = true;
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, a->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						b->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = a->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = a->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
+						float length = a->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
 				}
 				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
 					Bullet * bullet = reinterpret_cast<Bullet *> (a->GetUserData().pointer);
-					bullet->m_bRemoveAble = true;
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, b->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						a->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = b->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = b->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
+						float length = b->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
 				}
 			}
 			if (m_boss->isDie()) {
@@ -1611,12 +1657,12 @@ void SceneManager::CheckMovement() {
 		if (keyPressed & MOVE_RIGHT) {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
-			m_Horizontal = 40.0f;
+			m_Horizontal = 20.0f;
 		}
 		else if (keyPressed & MOVE_LEFT) {
 			m_direction = -1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
-			m_Horizontal = -40.0f;
+			m_Horizontal = -20.0f;
 		}
 
 		if (keyPressed & MOVE_JUMP) {

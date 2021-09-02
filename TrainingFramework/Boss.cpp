@@ -145,6 +145,7 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0;
 	//	fixtureDef.density = 1;
+	fixtureDef.filter.groupIndex = -2;
 	fixtureDef.filter.categoryBits = CATEGORY_BOSS;
 	fixtureDef.filter.maskBits = MASK_BOSS;
 	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
