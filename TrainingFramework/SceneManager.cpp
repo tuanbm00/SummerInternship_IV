@@ -710,7 +710,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	b2Vec2 posEnemy = enemy->getBody()->GetPosition();
 	float dir = posMainCharacter.x > posEnemy.x ? 1.0f : -1.0f;
-	Vector3 posBullet = Vector3(posEnemy.x, posEnemy.y, 0);
+	Vector3 posBullet = Vector3(posEnemy.x + dir*box.x, posEnemy.y, 0);
 	if (enemy->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
 		for (int i = 0; i < 3; ++i) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
@@ -757,7 +757,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 		}
 		else {
 			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x, enemy->GetBullet()->GetSpeedOfBullet().y, enemy->GetBullet()->GetMaxOfLength());
-			if(enemy->GetBullet()->GetID() == CATEGORY_ENEMY_GUN) posBullet = Vector3(posEnemy.x, posEnemy.y+ box.y, 0);
+			if(enemy->GetBullet()->GetID() == CATEGORY_ENEMY_GUN) posBullet = Vector3(posEnemy.x + dir*box.x*2, posEnemy.y + box.y, 0);
 		}
 
 		bullet->SetIsChange();
