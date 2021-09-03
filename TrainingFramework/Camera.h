@@ -33,6 +33,7 @@ public:
 	void Update(float deltaTime, float posX, float posY,int direction);
 	void CleanUp();
 	bool is_shoot;
+	bool is_wound;
 	bool is_exit;
 	int m_iUpdateFase;
 

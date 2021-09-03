@@ -155,7 +155,6 @@ void Bullet::SetBodyObject(float positionX, float positionY, b2World* world, boo
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
-	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	if (notBoss) {

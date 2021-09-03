@@ -57,11 +57,7 @@ void SceneManager::ChangeToResultScreen(bool bIsVictory)
 void SceneManager::Init() {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	is_wound = false;
-	fallSpeed = 0;
-	offsetLoop = 0.0025f;
 	timeCount = 0.0f;
-	m_timeFall = 0.0f;
 	numJump = 0;
 	jumpstep = 0;
 	is_in_ground = false;
@@ -484,14 +480,14 @@ void SceneManager::Draw() {
 	mainIcon->Draw();
 	
 
-	for (auto enemy : m_listEnemyInWorld) {
-		if (enemy->checkDraw()) {
-			enemy->Draw();
-			enemy->DrawHP();
+	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
+		if (m_listEnemyInWorld[i]->checkDraw()) {
+			m_listEnemyInWorld[i]->Draw();
+			m_listEnemyInWorld[i]->DrawHP();
 		}
 	}
-	for (auto enemy : m_listEnemyDead) {
-		enemy->Draw();
+	for (int i = 0; i < size_as_int(m_listEnemyDead); ++i) {
+		m_listEnemyDead[i]->Draw();
 	}
 //	m_listEnemy[0]->Draw();
 	if (m_IsBossAppear == true && m_boss != NULL) {
@@ -499,8 +495,8 @@ void SceneManager::Draw() {
 		m_boss->DrawHP();
 	}
 
-	for (auto bullet : m_listBulletInWorld) {
-		bullet->Draw();
+	for (int i = 0; i < size_as_int(m_listBulletInWorld); ++i) {
+		m_listBulletInWorld[i]->Draw();
 	}
 
 	for (int i = 0; i < 2; ++i) {
@@ -669,15 +665,15 @@ void SceneManager::Shoot() {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/pistol2.wav", false);
 	}
 
-	else if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BOOMERANG) {
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BOOMERANG) {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
 	}
 
-	else if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_HELL_GUN) {
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_HELL_GUN) {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hellgun.wav", false);
 	}
 	// set follow bazoka
-	else if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
+	if (m_ListGunOfPlayer[0]->GetID() == CATEGORY_BAZOKA) {
 		ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bazooka3.wav", false);
 		float minLength = 2000;
 		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
@@ -779,7 +775,6 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 				b2Filter filter;
 				filter.categoryBits = CATEGORY_BULLET_BOSS;
 				filter.maskBits = MASK_BULLET_BOSS;
-				filter.groupIndex = -2;
 				bullet->getBody()->GetFixtureList()->SetFilterData(filter);
 				bullet->ModifyTexture(ResourceManager::GetInstance()->GetTextureAtID(55));
 			}
@@ -929,20 +924,21 @@ void SceneManager::Update(float deltaTime) {
 
 	if (m_bIsVictory) m_MainCharacter->getBody()->SetEnabled(false);
 
-	if (is_wound) ++cnt;
+	if (Camera::GetInstance()->is_wound) ++cnt;
 	if (cnt > 31) {
 		cnt = 0;
-		is_wound = false;
+		Camera::GetInstance()->is_wound = false;
 	}
-	Vector3 pos = m_MainCharacter->GetPosition();
-	Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
-	for (int i = 0; i < size_as_int(m_ListBackground); ++i) m_ListBackground[i]->Update(deltaTime);
-	if(m_IsTowerDefend) m_TeleGate->UpdateAnimation(deltaTime);
+	 b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
+	 Camera::GetInstance()->Update(deltaTime, pos.x, pos.y, m_direction);
+	 for (int i = 0; i < size_as_int(m_ListBackground); ++i) m_ListBackground[i]->Update(deltaTime);
 
-	static int col = static_cast<int> (Globals::screenWidth / WIDTH * 2 + 1);
-	static int row = static_cast<int> (Globals::screenHeight / WIDTH * 2 + 1);
-	int w = static_cast<int> (pos.x / WIDTH + m_listTerrain[0].size() / 2);
-	int h = static_cast<int> (pos.y / WIDTH + m_listTerrain.size() / 2);
+	 if(m_IsTowerDefend) m_TeleGate->UpdateAnimation(deltaTime);
+
+	 int col = static_cast<int> (Globals::screenWidth / WIDTH * 2 + 1);
+	 int row = static_cast<int> (Globals::screenHeight / WIDTH * 2 + 1);
+	 int w = static_cast<int> (pos.x / WIDTH + m_listTerrain[0].size() / 2);
+	 int h = static_cast<int> (pos.y / WIDTH + m_listTerrain.size() / 2);
 
 	wlow = w - col > 0 ? w - col : 0;
 	whigh = w + col < size_as_int(m_listTerrain[0]) ? w + col : size_as_int(m_listTerrain[0]);
@@ -1034,87 +1030,67 @@ void SceneManager::Update(float deltaTime) {
 		else m_listBulletInWorld[i]->UpdateAnimation(deltaTime);
 	}
 
-	// check input
+	// set key
 	m_time += deltaTime;
 	m_timeChangeGun += deltaTime;
 	m_time_roll += deltaTime;
 	m_timeHurt += deltaTime;
 	CheckMovement();
 
-	for (auto& enemy : m_listEnemyInWorld) {
-		if (enemy->checkDraw()) {
-			enemy->m_direction = (enemy->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
-			enemy->UpdateAnimation(deltaTime);
+	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
+		if (m_listEnemyInWorld[i]->checkDraw()) {
+			m_listEnemyInWorld[i]->m_direction = (m_listEnemyInWorld[i]->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
+			m_listEnemyInWorld[i]->UpdateAnimation(deltaTime);
 		}
-		if ((enemy->GetBulletID() >= 0 && enemySeen(enemy)) || enemy->GetID() == 4) {
-			enemy->UpdateAttack(deltaTime);
-			if (enemy->isAttack()) {
-				enemy->cnt++;
-				enemy->m_current_anim = 2;
-				if (enemy->cnt > 25) {
-					EnemyAttack(enemy);
-					enemy->m_time = 0;
-					enemy->cnt = 0;
+		if ((m_listEnemyInWorld[i]->GetBulletID() >= 0 && enemySeen(m_listEnemyInWorld[i])) || m_listEnemyInWorld[i]->GetID() == 4) {
+			m_listEnemyInWorld[i]->UpdateAttack(deltaTime);
+			if (m_listEnemyInWorld[i]->isAttack()) {
+				m_listEnemyInWorld[i]->cnt++;
+				m_listEnemyInWorld[i]->m_current_anim = 2;
+				if (m_listEnemyInWorld[i]->cnt > 25) {
+					EnemyAttack(m_listEnemyInWorld[i]);
+					m_listEnemyInWorld[i]->m_time = 0;
+					m_listEnemyInWorld[i]->cnt = 0;
 				}
 			}
-			else enemy->m_current_anim = 1;
+			else m_listEnemyInWorld[i]->m_current_anim = 1;
 		}
-		else enemy->m_current_anim = 1;
+		else m_listEnemyInWorld[i]->m_current_anim = 1;
 	}
 
-	for (auto& enemy : m_listEnemyDead) {
-		enemy->playDead(deltaTime);
-		if (enemy->getDead()) {
-			if (enemy->GetID() == 4) m_IsTowerDefend = true;
-			delete enemy->getModel();
-			delete enemy;
-			m_listEnemyDead.begin();
-			auto iter = m_listEnemyDead.begin() + (&enemy - &m_listEnemyDead[0]);
-			m_listEnemyDead.erase(iter);
+	for (int i = 0; i < size_as_int(m_listEnemyDead); ++i) {
+		m_listEnemyDead[i]->playDead(deltaTime);
+		if (m_listEnemyDead[i]->getDead()) {
+			if (m_listEnemyDead[i]->GetID() == 4) m_IsTowerDefend = true;
+			delete m_listEnemyDead[i]->getModel();
+			delete m_listEnemyDead[i];
+			m_listEnemyDead.erase(m_listEnemyDead.begin() + i);
 		}
 	}
 
 	// set update
 	mainIcon->UpdateAnimation(deltaTime);
+	m_MainCharacter->getBody()->SetFixedRotation(true);
 	m_MainCharacter->UpdateAnimation(deltaTime);
 	m_boss->m_direction = (m_boss->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
 	m_boss->m_current_anim = Idle * m_boss->m_direction;
 	m_boss->UpdateAnimation(deltaTime);
 	// set v
-	static float impulse = m_MainCharacter->getBody()->GetMass() * 20;
-	float impulseX = m_Horizontal * 600;
+	static float impulse = m_MainCharacter->getBody()->GetMass() * 40;;
+	float impulseX = m_Horizontal * 900;
 
 	if (jumpstep > 0) {
-		offsetLoop = 0.0025f;
-		m_timeFall = 0;
-		if (m_MainCharacter->m_current_anim == RunJump * m_direction) impulseX = 40.0f*m_direction*600.0f;
-		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, -impulse), false);
+		if (m_MainCharacter->m_current_anim == RunJump * m_direction) impulseX = 40.0f*m_direction*900.0f;
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, -impulse), true);
 		--jumpstep;
 	}
 	else {
-		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, impulse), false);
-		if (!is_in_ground) {
-			fallSpeed += deltaTime;
-			if (offsetLoop > 0.0015f && fallSpeed >= 0.2f) {
-				offsetLoop -= 0.0001f;
-				m_timeFall += fallSpeed;
-				fallSpeed = 0;
-			}
-		}
-		else {
-			offsetLoop = 0.0025f;
-			if (m_timeFall >= 2.0f) {
-				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 200.0f);
-				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-				is_wound = true;
-			}
-			m_timeFall = 0;
-		}
+		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(impulseX, impulse), true);
 	}
 
 	static int32 velocityIterations = 6;
-	static int32 positionIterations = 6;
-	int lop = static_cast<int> (deltaTime / offsetLoop);
+	static int32 positionIterations = 2;
+	int lop = static_cast<int> (deltaTime / 0.003f);
 	float st = 0.35f / (float) lop;
 
 	for(int ilop = 0;ilop < lop;++ilop){
@@ -1125,12 +1101,19 @@ void SceneManager::Update(float deltaTime) {
 		// Main's collision
 		is_in_ground = false;
 		for (b2ContactEdge * edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
-			b2Fixture * a = m_MainCharacter->getBody()->GetFixtureList();
-			b2Fixture * b = edge->other->GetFixtureList();
+			b2Fixture * a = edge->contact->GetFixtureA();
+			b2Fixture * b = edge->contact->GetFixtureB();
 
 			// check terrain collision
 			if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
 				if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+					}
+				}
+			}
+			else if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
 					if (now == prev) {
 						is_in_ground = true;
 					}
@@ -1147,22 +1130,38 @@ void SceneManager::Update(float deltaTime) {
 					}
 				}
 			}
-			// end terrain
+			else if (a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+				if (m_MainCharacter->getBody()->GetPosition().y < a->GetBody()->GetPosition().y) {
+					if (now == prev) {
+						is_in_ground = true;
+					}
+					if (b->GetFilterData().groupIndex == -1) {
+						b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+						m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5f, vel.y));
+					}
+				}
+			} // end terrain
 
 			// check bullet collision
-			else if (b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
+			else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || b->GetFilterData().categoryBits == CATEGORY_BULLET_ENEMY || a->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS || b->GetFilterData().categoryBits == CATEGORY_BULLET_BOSS) {
 				Bullet * bullet;
-				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
-				bullet = reinterpret_cast<Bullet*>(b->GetUserData().pointer);
+				if (a->GetFilterData().categoryBits == CATEGORY_PLAYER) {
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - b->GetDensity());
+					bullet = reinterpret_cast<Bullet*>(b->GetUserData().pointer);
+				}
+				else {
+					bullet = reinterpret_cast<Bullet*>(b->GetUserData().pointer);
+					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - a->GetDensity());
+				}
 				ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-				is_wound = true;
+				Camera::GetInstance()->is_wound = true;
 				bullet->m_bRemoveAble = true;
 			} // end bullet
 
 			// check boss collision
-			else if (b->GetFilterData().categoryBits == CATEGORY_BOSS) {
+			else if (a->GetFilterData().categoryBits == CATEGORY_BOSS || b->GetFilterData().categoryBits == CATEGORY_BOSS) {
 				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
-				is_wound = true;
+				Camera::GetInstance()->is_wound = true;
 				if (m_timeHurt >= 0.5) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 					m_timeHurt = 0;
@@ -1174,16 +1173,25 @@ void SceneManager::Update(float deltaTime) {
 				Enemy * enemy = reinterpret_cast<Enemy*> (b->GetUserData().pointer);
 				if (enemy->m_bIsAttack == 0) enemy->m_bIsAttack = enemy->m_direction;
 				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
-				is_wound = true;
+				Camera::GetInstance()->is_wound = true;
 				if (m_timeHurt >= 0.5) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 					m_timeHurt = 0;
 				}
 			}
-			// end check enemy
+			else if (a->GetFilterData().categoryBits == CATEGORY_ENEMY) {
+				Enemy * enemy = reinterpret_cast<Enemy*> (a->GetUserData().pointer);
+				if (enemy->m_bIsAttack == 0) enemy->m_bIsAttack = enemy->m_direction;
+				m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
+				Camera::GetInstance()->is_wound = true;
+				if (m_timeHurt >= 0.5) {
+					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+					m_timeHurt = 0;
+				}
+			}// end check enemy
 
 			// check teleport gate
-			else if (b->GetFilterData().categoryBits == CATEGORY_GATE) {
+			else if (a->GetFilterData().categoryBits == CATEGORY_GATE || b->GetFilterData().categoryBits == CATEGORY_GATE) {
 				if (m_currentLevel < 4) {
 					m_bIsVictory = true;
 					m_bChangeScreen = true;
@@ -1207,8 +1215,8 @@ void SceneManager::Update(float deltaTime) {
 		if (m_IsBossAppear && m_boss != NULL) {
 			m_boss->Update(deltaTime);
 			for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
-				b2Fixture * a = m_boss->getBody()->GetFixtureList();
-				b2Fixture * b = edge->other->GetFixtureList();
+				b2Fixture * a = edge->contact->GetFixtureA();
+				b2Fixture * b = edge->contact->GetFixtureB();
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
 					m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
 					Bullet * bullet = reinterpret_cast<Bullet *> (b->GetUserData().pointer);
@@ -1237,6 +1245,34 @@ void SceneManager::Update(float deltaTime) {
 					}
 					else bullet->m_bRemoveAble = true;
 				}
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_boss->SetHP(m_boss->GetHP() - a->GetDensity());
+					Bullet * bullet = reinterpret_cast<Bullet *> (a->GetUserData().pointer);
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, b->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						a->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = b->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = b->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
+						float length = b->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
+				}
 			}
 			if (m_boss->isDie()) {
 				m_IsBossAppear = false;
@@ -1256,24 +1292,26 @@ void SceneManager::Update(float deltaTime) {
 
 		// Enemy's collision
 		float d;
-		for (auto& enemy : m_listEnemyInWorld) {
-			if (enemy->GetBulletID() < 0) {
-				if (enemySeen(enemy)) {
-					d = m_MainCharacter->GetPosition().x > enemy->GetPosition().x ? 1.0f : -1.0f;
-					if(enemy->m_bFollowing) enemy->getBody()->SetLinearVelocity(b2Vec2(2.0f*d* enemy->GetSpeed().x, enemy->GetSpeed().y));
-					else if (enemy->checkRect(m_MainCharacter->GetPosition().x)) {
-						enemy->m_bFollowing = true;
+		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
+			if (m_listEnemyInWorld[i]->GetBulletID() < 0) {
+				d = m_MainCharacter->GetPosition().x > m_listEnemyInWorld[i]->GetPosition().x ? 1.0f : -1.0f;
+				
+				b2Vec2 pos = m_listEnemyInWorld[i]->getBody()->GetPosition();
+				if (enemySeen(m_listEnemyInWorld[i])) {
+					if(m_listEnemyInWorld[i]->m_bFollowing) m_listEnemyInWorld[i]->getBody()->SetLinearVelocity(b2Vec2(1.7f*d* m_listEnemyInWorld[i]->GetSpeed().x, m_listEnemyInWorld[i]->GetSpeed().y));
+					else if (m_listEnemyInWorld[i]->checkRect(m_MainCharacter->GetPosition().x)) {
+						m_listEnemyInWorld[i]->m_bFollowing = true;
 					}
 				}
-				else enemy->m_bFollowing = false;
+				else m_listEnemyInWorld[i]->m_bFollowing = false;
 			}
-			enemy->Update(deltaTime);
-			b2Fixture* a = enemy->getBody()->GetFixtureList();
-			for (b2ContactEdge* edge = enemy->getBody()->GetContactList(); edge; edge = edge->next) {
-				b2Fixture* b = edge->other->GetFixtureList();
+			m_listEnemyInWorld[i]->Update(deltaTime);
+			for (b2ContactEdge* edge = m_listEnemyInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
+				b2Fixture* a = edge->contact->GetFixtureA();
+				b2Fixture* b = edge->contact->GetFixtureB();
 				Bullet * bullet;
 				if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-					enemy->SetHP(enemy->GetHP() - b->GetDensity());
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - b->GetDensity());
 					bullet = reinterpret_cast<Bullet*> (b->GetUserData().pointer);
 					if (bullet->GetID() == CATEGORY_HELL_GUN) {
 						if (bullet->IsChange()) {
@@ -1300,35 +1338,62 @@ void SceneManager::Update(float deltaTime) {
 					}
 					else bullet->m_bRemoveAble = true;
 				}
+				else if (a->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
+					m_listEnemyInWorld[i]->SetHP(m_listEnemyInWorld[i]->GetHP() - a->GetDensity());
+					bullet = reinterpret_cast<Bullet*> (a->GetUserData().pointer);
+					if (bullet->GetID() == CATEGORY_HELL_GUN) {
+						if (bullet->IsChange()) {
+							SetStateHellGun(bullet, b->GetAABB(0).GetExtents().x);
+						}
+						bullet->m_bRemoveAble = true;
+					}
+					else if (bullet->GetID() == CATEGORY_BOOMERANG) {
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boomerang.wav", false);
+						a->SetFilterData(filterBoomerang1);
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() + bullet->GetAttackDame() * 0.2f);
+						float vBullet = bullet->GetSpeedOfBullet().x;
+						float vMoster = b->GetBody()->GetLinearVelocity().x;
+						float pBullet = bullet->GetPosition().x;
+						float pMoster = b->GetBody()->GetPosition().x;
+						float plength = pMoster - pBullet;
+						float v = bullet->GetSpeedOfBullet().x > 0 ? 1.0f : -1.0f;
+						float length = b->GetAABB(0).GetExtents().x + v * plength + bullet->GetBox().x;
+						length = vBullet * length / (vBullet - vMoster);
+						length = length > 0 ? length : -length;
+						bullet->SetLengthBoomerang(length);
+						bullet->SetOldPos(bullet->GetPosition().x);
+						bullet->getBody()->GetFixtureList()->SetFilterData(filterBoomerang2);
+					}
+					else bullet->m_bRemoveAble = true;
+				}
 			}
-			if (enemy->isDie()) {
-				if (enemy->GetID() == 4) {
+			if (m_listEnemyInWorld[i]->isDie()) {
+				if (m_listEnemyInWorld[i]->GetID() == 4) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/tower.wav", false);
 					//m_IsTowerDefend = true;
 				}
-				else if (enemy->GetID() == 0) {
+				else if (m_listEnemyInWorld[i]->GetID() == 0) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bigdragon.wav", false);
 				}
-				else if (enemy->GetID() == 1) {
+				else if (m_listEnemyInWorld[i]->GetID() == 1) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/moster.wav", false);
 				}
-				else if (enemy->GetID() == 2) {
+				else if (m_listEnemyInWorld[i]->GetID() == 2) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/medusa.wav", false);
 				}
-				else if (enemy->GetID() == 3) {
+				else if (m_listEnemyInWorld[i]->GetID() == 3) {
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/smalldragon.wav", false);
 				}
 
 				/*for (int j = 0; j < (int)m_listBulletInWorld.size(); ++j) {
-					if (m_listBulletInWorld[j]->GetTarget() == enemy->getBody()) {
+					if (m_listBulletInWorld[j]->GetTarget() == m_listEnemyInWorld[i]->getBody()) {
 						m_listBulletInWorld[j]->SetTarget(NULL);
 					}
 				}*/
-				m_world->DestroyBody(enemy->getBody());
-				m_listEnemyDead.push_back(enemy);
-				auto iter = m_listEnemyInWorld.begin() + (&enemy - &m_listEnemyInWorld[0]);
-				m_listEnemyInWorld.erase(iter);
-				
+				m_world->DestroyBody(m_listEnemyInWorld[i]->getBody());
+				m_listEnemyDead.push_back(m_listEnemyInWorld[i]);
+				m_listEnemyInWorld.erase(m_listEnemyInWorld.begin() + i);
+				i--;
 			}
 		}
 		// end Enemy
@@ -1351,10 +1416,10 @@ void SceneManager::Update(float deltaTime) {
 					}
 				}
 				bool isContact = false;
-				b2Fixture* a = m_listBulletInWorld[i]->getBody()->GetFixtureList();
 				for (b2ContactEdge* edge = m_listBulletInWorld[i]->getBody()->GetContactList(); edge; edge = edge->next) {
-					b2Fixture* b = edge->other->GetFixtureList();
-					if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+					b2Fixture* a = edge->contact->GetFixtureA();
+					b2Fixture* b = edge->contact->GetFixtureB();
+					if (a->GetFilterData().categoryBits == CATEGORY_TERRAIN || b->GetFilterData().categoryBits == CATEGORY_TERRAIN || a->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP || b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
 						if (m_listBulletInWorld[i]->GetID() == CATEGORY_BOOMERANG) {
 							if (m_listBulletInWorld[i]->IsChange()) {
 								m_boomerang = m_listBulletInWorld[i]->getBody()->GetPosition().x;
@@ -1555,7 +1620,7 @@ void SceneManager::Key(unsigned char key, bool isPressed) {
 		case KEY_SHOOT:
 		case KEY_SHOOT + 32:
 			keyPressed = keyPressed ^ SHOOT;
-			Camera::GetInstance()->is_shoot = false;
+			m_shoot = 0;
 			m_MainCharacter->resetGun();
 			break;
 		case VK_SHIFT:
@@ -1592,12 +1657,12 @@ void SceneManager::CheckMovement() {
 		if (keyPressed & MOVE_RIGHT) {
 			m_direction = 1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = Run;
-			m_Horizontal = 40.0f;
+			m_Horizontal = 20.0f;
 		}
 		else if (keyPressed & MOVE_LEFT) {
 			m_direction = -1;
 			if (is_in_ground) m_MainCharacter->m_current_anim = -Run;
-			m_Horizontal = -40.0f;
+			m_Horizontal = -20.0f;
 		}
 
 		if (keyPressed & MOVE_JUMP) {
@@ -1630,7 +1695,7 @@ void SceneManager::CheckMovement() {
 				m_timeChangeGun = 0;
 			}
 		}
-		if (is_wound) {
+		if (Camera::GetInstance()->is_wound) {
 			m_MainCharacter->m_current_anim = Wound * m_direction;
 		}
 		else m_MainCharacter->resetAnimation(Wound);
@@ -1658,7 +1723,7 @@ bool SceneManager::enemySeen(Enemy * enemy) {
 		if (epos.y < mpos.y - 300 || epos.y > mpos.y + 300) return false;
 	}
 	else {
-		if (epos.x < mpos.x - 1280 || epos.x > mpos.x + 1280) return false;
+		if (epos.x < mpos.x - 1000 || epos.x > mpos.x + 1000) return false;
 		if (epos.y < mpos.y - 30 || epos.y > mpos.y + 30) return false;
 	}
 	return true;

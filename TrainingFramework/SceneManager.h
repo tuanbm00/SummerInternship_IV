@@ -55,16 +55,12 @@ private:
 	float m_timeChangeGun;
 	float m_time_roll;
 	float m_timeHurt;
-	float m_timeFall;
 	float m_boomerang;
-	float offsetLoop;
-	float fallSpeed;
 	bool is_roll;
 	int roll_step;
 	int keyPressed;
 	bool m_IsBossAppear;
 	bool m_IsTowerDefend;
-	bool is_wound;
 	float timeCount;
 
 	bool m_bIsFighting = false;

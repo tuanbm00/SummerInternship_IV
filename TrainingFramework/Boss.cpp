@@ -137,7 +137,6 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
-	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 //	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);
