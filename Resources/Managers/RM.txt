@@ -1,4 +1,4 @@
-#Animations: 34
+#Animations: 35
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -101,6 +101,9 @@ SPEED 0.1 -1
 ID 33
 FILE ../Resources/Animation/gate.txt
 SPEED 0.1 -1
+ID 34
+FILE ../Resources/Animation/bossdie.txt
+SPEED 0.3 -1
 
 #2D Textures: 56
 ID 0

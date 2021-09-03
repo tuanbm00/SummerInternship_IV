@@ -43,6 +43,8 @@ public:
 	bool isAttack();
 	int GetNumOfBullet();
 
+	void UpdateDead(float deltaTime);
+	bool getDead();
 	bool IsMove();
 	void UpdateAttack(float deltaTime);
 	void Update();

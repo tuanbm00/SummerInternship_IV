@@ -776,6 +776,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 				b2Filter filter;
 				filter.categoryBits = CATEGORY_BULLET_BOSS;
 				filter.maskBits = MASK_BULLET_BOSS;
+				filter.groupIndex = -2;
 				bullet->getBody()->GetFixtureList()->SetFilterData(filter);
 				bullet->ModifyTexture(ResourceManager::GetInstance()->GetTextureAtID(55));
 			}
@@ -1010,17 +1011,32 @@ void SceneManager::Update(float deltaTime) {
 	}
 
 	if (m_IsBossAppear == true && m_boss != NULL) {
-		if (m_boss->IsMove()) {
-			m_boss->UploadSpeed();
-			m_boss->Update();
+		m_boss->m_direction = (m_boss->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
+		if (m_boss->isDie()) {
+			m_boss->UpdateDead(deltaTime);
+			if (m_boss->getDead() && m_bIsFighting) {
+				m_IsBossAppear = false;
+				m_TeleGate->UpdateWorld();
+				m_TeleGate->SetBodyObject(m_world);
+				m_bIsFighting = false;
+			}
 		}
 		else {
-			m_boss->Update();
-			m_boss->UpdateAttack(deltaTime);
-			if (m_boss->isAttack()) {
-				BossAttack();
-				m_boss->UploadNum();
-				m_boss->SwapGun();
+			m_boss->m_current_anim = Idle * m_boss->m_direction;
+			m_boss->UpdateAnimation(deltaTime);
+
+			if (m_boss->IsMove()) {
+				m_boss->UploadSpeed();
+				m_boss->Update();
+			}
+			else {
+				m_boss->Update();
+				m_boss->UpdateAttack(deltaTime);
+				if (m_boss->isAttack()) {
+					BossAttack();
+					m_boss->UploadNum();
+					m_boss->SwapGun();
+				}
 			}
 		}
 	}
@@ -1074,9 +1090,7 @@ void SceneManager::Update(float deltaTime) {
 	mainIcon->UpdateAnimation(deltaTime);
 	m_MainCharacter->getBody()->SetFixedRotation(true);
 	m_MainCharacter->UpdateAnimation(deltaTime);
-	m_boss->m_direction = (m_boss->GetPosition().x < m_MainCharacter->GetPosition().x) ? 1 : -1;
-	m_boss->m_current_anim = Idle * m_boss->m_direction;
-	m_boss->UpdateAnimation(deltaTime);
+	
 	// set v
 	static float impulse = m_MainCharacter->getBody()->GetMass()*0.026f;
 	float impulseX = m_Horizontal * 20.0f;
@@ -1178,7 +1192,7 @@ void SceneManager::Update(float deltaTime) {
 						m_bChangeScreen = true;
 					}
 					else {
-						if (m_boss->isDie()) {
+						if (m_boss->getDead()) {
 							m_bIsVictory = true;
 							m_bChangeScreen = true;
 						}
@@ -1194,6 +1208,7 @@ void SceneManager::Update(float deltaTime) {
 
 			// Boss's collision
 			if (m_IsBossAppear && m_boss != NULL) {
+				if (m_boss->isDie()) break;
 				m_boss->Update();
 				for (b2ContactEdge* edge = m_boss->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
 					b2Fixture * a = m_boss->getBody()->GetFixtureList();
@@ -1228,12 +1243,9 @@ void SceneManager::Update(float deltaTime) {
 					}
 				}
 				if (m_boss->isDie()) {
-					m_IsBossAppear = false;
 					m_world->DestroyBody(m_TeleGate->getBody());
 					m_TeleGate->SetPosition(m_boss->GetPosition());
 					m_TeleGate->SetScale(2, 2, 1);
-					m_TeleGate->UpdateWorld();
-					m_TeleGate->SetBodyObject(m_world);
 					m_world->DestroyBody(m_boss->getBody());
 					ResourceManager::GetInstance()->StopSound("../Resources/Sounds/WindyHill.mp3");
 					ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/bossdead.mp3", false);
@@ -1390,6 +1402,8 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
+	
+
 	if (m_currentLevel == 4){
 
 		if(pos.x > 2000 && pos.x < 2800 && pos.y > -1400 && pos.y < -400){
@@ -1397,6 +1411,7 @@ void SceneManager::Update(float deltaTime) {
 				if (m_boss) {
 					if (!m_boss->isDie()) {
 						m_IsBossAppear = true;
+						m_bIsFighting = true;
 
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/boss.mp3", false);
 

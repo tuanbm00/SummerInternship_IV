@@ -91,6 +91,18 @@ void Boss::SetLimit(float left, float right) {
 	m_right = right;
 }
 
+void Boss::UpdateDead(float deltaTime)
+{
+	printf("1\n");
+	bool revert = (m_direction == 1) ? false : true;
+	m_Model->updateDead(deltaTime, revert);
+}
+
+bool Boss::getDead()
+{
+	return m_Model->m_isDead;
+}
+
 bool Boss::IsMove() {
 	if (m_body->GetPosition().y > (m_destiny - 10.0f) &&  m_body->GetPosition().y < (m_destiny + 10.0f)) {
 		m_body->SetLinearVelocity(b2Vec2(0, 0));

@@ -74,10 +74,10 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	b2Vec2 * vex = new b2Vec2[6];
 	vex[0] = b2Vec2(-w, -h);
 	vex[1] = b2Vec2(w, -h);
-	vex[2] = b2Vec2(w, h - 10);
+	vex[2] = b2Vec2(w, h - 1);
 	vex[3] = b2Vec2(w - 10, h);
 	vex[4] = b2Vec2(-w + 10, h);
-	vex[5] = b2Vec2(-w, h-10);
+	vex[5] = b2Vec2(-w, h-1);
 	dynamicBox.Set(vex, 6);
 
 	b2FixtureDef fixtureDef;

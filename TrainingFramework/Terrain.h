@@ -22,7 +22,7 @@ public:
 		isDef = false;
 		m_bIsTerrain = true;
 		bodyDef.type = b2_staticBody;
-		staticBox.SetAsBox(100, 100);
+		staticBox.SetAsBox(99, 99);
 		fixtureDef.shape = &staticBox;
 		fixtureDef.friction = 0;
 		bodyDef.fixedRotation = true;
