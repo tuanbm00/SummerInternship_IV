@@ -734,7 +734,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	else if (enemy->GetBullet()->GetID() == CATEGORY_BAZOKA_ENEMY) {
 		for (int i = 0; i < 2; ++i) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
-			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x / (i + 1), enemy->GetBullet()->GetSpeedOfBullet().y / ((i + 1) * (i + 1)), enemy->GetBullet()->GetMaxOfLength());
+			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x / (i*0.2 + 1), enemy->GetBullet()->GetSpeedOfBullet().y / ((i + 1) * (i*0.2 + 1)), enemy->GetBullet()->GetMaxOfLength());
 
 			bullet->SetIsChange();
 			bullet->setModel(enemy->GetBullet()->getModel());
@@ -1203,7 +1203,7 @@ void SceneManager::Update(float deltaTime) {
 						Bullet * bullet = reinterpret_cast<Bullet *> (b->GetUserData().pointer);
 						if (bullet->GetID() == CATEGORY_HELL_GUN) {
 							if (bullet->IsChange()) {
-								SetStateHellGun(bullet, a->GetAABB(0).GetExtents().x);
+								SetStateHellGun(bullet, a->GetAABB(0).GetExtents().x / 2);
 							}
 							bullet->m_bRemoveAble = true;
 						}
