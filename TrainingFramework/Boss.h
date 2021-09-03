@@ -45,7 +45,7 @@ public:
 
 	bool IsMove();
 	void UpdateAttack(float deltaTime);
-	void Update(float deltaTime);
+	void Update();
 	void SetLimit(float left, float right);
 	void AddBulletID(int id);
 	int GetBulletID(int id);

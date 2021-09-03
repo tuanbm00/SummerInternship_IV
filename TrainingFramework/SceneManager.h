@@ -56,6 +56,7 @@ private:
 	float m_time_roll;
 	float m_timeHurt;
 	float m_boomerang;
+	float offsetVelo;
 	bool is_roll;
 	int roll_step;
 	int keyPressed;

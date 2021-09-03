@@ -48,7 +48,7 @@ public:
 	void cleanHP();
 	void playDead(float deltaTime);
 	void UpdateAttack(float deltaTime);
-	void Update(float deltaTime);
+	void Update();
 	void SetLimit(float left, float right);
 	void SetBullet(Bullet* bullet);
 	void SetBodyObject(b2World* world);

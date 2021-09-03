@@ -22,7 +22,7 @@ public:
 	float GetHP();
 	bool isDie();
 	void playDead(float deltaTime);
-    void Update(float deltaTime);
+    void Update();
 	void SetBodyObject(float positionX, float positionY, b2World* world);
 	void resetAnimation(int type);
 	void resetGun();

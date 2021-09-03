@@ -49,7 +49,7 @@ void Enemy::UpdateAttack(float deltaTime) {
 	m_time += deltaTime;
 }
 
-void Enemy::Update(float deltaTime)
+void Enemy::Update()
 {
 	if (m_Position.x < m_left - 500.0f || m_Position.x > m_right + 500.0f) m_bFollowing = false;
 	m_Position.x = m_body->GetPosition().x;

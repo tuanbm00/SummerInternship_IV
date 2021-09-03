@@ -134,7 +134,7 @@ FILE ../Resources/Textures/Buttons/button_exit.tga
 ID 10
 FILE ../Resources/Tile/background.tga
 ID 11
-FILE ../Resources/Tile/background1.tga
+FILE ../Resources/Tile/background2.tga
 ID 12
 FILE ../Resources/Textures/logo.tga
 ID 13

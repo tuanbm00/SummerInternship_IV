@@ -34,7 +34,7 @@ float MainCharacter::GetHP() {
 	return m_HP;
 }
 
-void MainCharacter::Update(float deltaTime)
+void MainCharacter::Update()
 {
 	b2Vec2 pos = m_body->GetPosition();
 	
@@ -65,12 +65,21 @@ void MainCharacter::playDead(float deltaTime) {
 
 
 void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* world) {
+	float w = m_spriteW / 2.5f, h = m_spriteH / 2.0f;
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_spriteW / 2.5f, m_spriteH / 2.0f);
+	b2Vec2 * vex = new b2Vec2[6];
+	vex[0] = b2Vec2(-w, -h);
+	vex[1] = b2Vec2(w, -h);
+	vex[2] = b2Vec2(w, h - 10);
+	vex[3] = b2Vec2(w - 10, h);
+	vex[4] = b2Vec2(-w + 10, h);
+	vex[5] = b2Vec2(-w, h-10);
+	dynamicBox.Set(vex, 6);
+
 	b2FixtureDef fixtureDef;
 	float area = m_spriteW * m_spriteH * 4.0f;
 	fixtureDef.shape = &dynamicBox;
@@ -78,6 +87,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	fixtureDef.filter.maskBits = MASK_PLAYER;
 	fixtureDef.filter.groupIndex = -1;
 	fixtureDef.density = 6000.0f / area;
+	fixtureDef.friction = 0;
 	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
 }

@@ -70,7 +70,7 @@ void Boss::UpdateAttack(float deltaTime) {
 	m_time += deltaTime;
 }
 
-void Boss::Update(float deltaTime)
+void Boss::Update()
 {
 	m_Position.x = m_body->GetPosition().x;
 	m_Position.y = m_body->GetPosition().y;
