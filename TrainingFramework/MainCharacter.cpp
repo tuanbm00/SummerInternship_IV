@@ -68,6 +68,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
+	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_spriteW / 2.5f, m_spriteH / 2.0f);

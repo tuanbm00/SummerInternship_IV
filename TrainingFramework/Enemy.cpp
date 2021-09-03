@@ -68,12 +68,12 @@ void Enemy::Update(float deltaTime)
 	if (m_Position.x <= m_left) m_iMoveVector = 1;
 	else if (m_Position.x >= m_right) m_iMoveVector = -1;
 
-	if (m_Position.x <= m_left || m_Position.x >= m_right) {
+	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
+	else if (m_Position.x <= m_left || m_Position.x >= m_right) {
 		if (!m_bFollowing) {
 			m_body->SetLinearVelocity(b2Vec2(m_iMoveVector*m_speedx, m_speedy));
 		}
 	}
-	if (m_left == m_right) m_body->SetLinearVelocity(b2Vec2(0, 0));
 
 	UpdateWorld();
 }
@@ -130,6 +130,7 @@ void Enemy::SetBodyObject(b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(m_Position.x + transPosBox.x, m_Position.y + transPosBox.y);
+	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_spriteW / (2.0f), m_spriteH / (2.0f));
