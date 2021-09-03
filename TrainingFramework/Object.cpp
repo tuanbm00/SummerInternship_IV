@@ -1,4 +1,3 @@
-#include <iostream>
 #include "stdafx.h"
 #include "Object.h"
 #include "Vertex.h"
@@ -101,7 +100,6 @@ void Object::Update(float deltaTime) {
 
 void Object::UpdateWVP() {
 	Matrix ma = Camera::GetInstance()->GetViewMatrix();
-	m_WVP.m[0][0] = m_Scale.x * ma.m[0][0];
 	m_WVP.m[3][0] = m_WorldMatrix.m[3][0] * ma.m[0][0] + ma.m[3][0];
 	m_WVP.m[3][1] = m_WorldMatrix.m[3][1] * ma.m[1][1] + ma.m[3][1];
 }
@@ -151,11 +149,14 @@ Vector3 Object::GetPosition() {
 }
 void Object::SetScale(float X, float Y, float Z) {
 	m_Scale = Vector3(X, Y, Z);
+	m_WVP.m[0][0] = m_Scale.x * Camera::GetInstance()->GetViewMatrix().m[0][0];
+	m_WVP.m[1][1] = m_Scale.y * Camera::GetInstance()->GetViewMatrix().m[1][1];
 }
 
 void Object::SetScale(float X)
 {
 	m_Scale.x = X;
+	m_WVP.m[0][0] = m_Scale.x * Camera::GetInstance()->GetViewMatrix().m[0][0];
 }
 
 void Object::SetScale(Vector3 Scale) {
@@ -190,11 +191,11 @@ void Object::SetBodyObject(b2World* world) {
 	bodyDef.position.Set(m_Position.x, m_Position.y);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape staticBox;
-	staticBox.SetAsBox(m_spriteW/2, m_spriteH/2);
+	staticBox.SetAsBox(m_spriteW * m_Scale.x / 2, m_spriteH * m_Scale.y / 2);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticBox;
-	fixtureDef.filter.categoryBits = CATEGORY_TERRAIN;
-	fixtureDef.filter.maskBits = MASK_TERRAIN;
+	fixtureDef.filter.categoryBits = CATEGORY_GATE;
+	fixtureDef.filter.maskBits = MASK_GATE;
 	m_body->CreateFixture(&fixtureDef);
 }
 void Object::UpdateAnimation(float deltaTime) {

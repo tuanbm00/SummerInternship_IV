@@ -1,10 +1,9 @@
+#include "stdafx.h"
 #include "GSLevel1.h"
 #include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
-#include "stdlib.h"
-#include "string.h"
 
 GSLevel1::GSLevel1() {
 	
@@ -57,10 +56,7 @@ void GSLevel1::Pause() {
 //Events
 void GSLevel1::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-		}
-	}
+	
 }
 
 void GSLevel1::OnMouseMoving(int X, int Y) {

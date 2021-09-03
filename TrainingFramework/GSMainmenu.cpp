@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "GSMainmenu.h"
 #include "Globals.h"
 #include "ResourceManager.h"
-#include <iostream>
 #include "TextManager.h"
 #include "GameplayUI.h"
 
@@ -24,7 +24,7 @@ void GSMainmenu::Init() {
 	//Background Initialize
 	auto bg = std::make_shared<Sprite2D>(0);
 	bg->setModel(model);
-	bg->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	bg->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	bg->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(10));
 	bg->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/2);
 	bg->SetSize(Globals::screenWidth, Globals::screenHeight);
@@ -34,7 +34,7 @@ void GSMainmenu::Init() {
 	//Logo Game
 	auto logo = std::make_shared<Sprite2D>(0);
 	logo->setModel(model);
-	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	logo->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	logo->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(45));
 	logo->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 4);
 	logo->SetSize(829/3 * 2, 291/3*2);
@@ -44,7 +44,7 @@ void GSMainmenu::Init() {
 	//Logo Studio
 	auto logo2 = std::make_shared<Sprite2D>(0);
 	logo2->setModel(model);
-	logo2->setShader(ResourceManager::GetInstance()->GetShaderAtID(1));
+	logo2->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
 	logo2->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(44));
 	logo2->Set2DPosition(70, Globals::screenHeight - 70);
 	logo2->SetSize(100, 100);
@@ -57,7 +57,7 @@ void GSMainmenu::Init() {
 }
 
 void GSMainmenu::Draw() {
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->Draw();
 	}
 	m_BM->Draw();
@@ -69,7 +69,7 @@ void GSMainmenu::Update(float deltaTime) {
 
 void GSMainmenu::CleanUp() {
 	m_BM->CleanUp();
-	for (register int i = 0; i < m_listSprite.size(); i++) {
+	for (register int i = 0; i < size_as_int(m_listSprite); i++) {
 		m_listSprite[i]->CleanUp();
 	}
 }
@@ -87,11 +87,7 @@ void GSMainmenu::Pause() {
 //Events
 void GSMainmenu::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	//m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {
-
-		}
-	}
+	
 }
 
 void GSMainmenu::OnMouseMoving(int X, int Y) {

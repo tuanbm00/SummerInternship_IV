@@ -1,10 +1,9 @@
+#include "stdafx.h"
 #include "GSLevel4.h"
 #include "LoadingScreen.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Camera.h"
-#include "stdlib.h"
-#include "string.h"
 
 GSLevel4::GSLevel4() {
 	
@@ -23,6 +22,8 @@ void GSLevel4::Init() {
 	char* MAP = "../Resources/Map/maplv4.txt";
 	m_SM->SetFileManager(SM, MAP);
 	m_SM->Init();
+	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/titan.mp3", false);
+	ResourceManager::GetInstance()->StopAllSound();
 	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/WindyHill.mp3", true); // day, mp3 cung doc dc
 
 	//Set Current State
@@ -59,9 +60,7 @@ void GSLevel4::Pause() {
 //Events
 void GSLevel4::HandleKeyEvents(unsigned char key, int X, int Y, bool bIsPressed) {
 	m_SM->Key(key, bIsPressed);
-	if (!bIsPressed) {
-		switch (key) {}
-	}
+	
 }
 
 void GSLevel4::OnMouseMoving(int X, int Y) {

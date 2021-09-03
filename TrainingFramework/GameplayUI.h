@@ -6,8 +6,8 @@ class GameplayUI :
 	MainCharacter* m_MainCharacter;
 	Boss* m_Boss;
 	bool m_pBossAppear = false;
-	float m_NumberOfBullets1 = 0;
-	float m_NumberOfBullets2 = 0;
+	int m_NumberOfBullets1 = 0;
+	int m_NumberOfBullets2 = 0;
 	char mainHP[20], bullet1[20], bullet2[20];
 	int m_currentLevel = 0;
 	

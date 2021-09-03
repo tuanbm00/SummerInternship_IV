@@ -1,4 +1,4 @@
-#Animations: 33
+#Animations: 34
 ID 0
 FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
@@ -98,8 +98,11 @@ SPEED 0.1 -1
 ID 32
 FILE ../Resources/Animation/enemy4Die.txt
 SPEED 0.1 -1
+ID 33
+FILE ../Resources/Animation/gate.txt
+SPEED 0.1 -1
 
-#2D Textures: 54
+#2D Textures: 56
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -208,6 +211,10 @@ ID 48
 FILE ../Resources/Textures/Levels/loading_screen.tga
 ID 49
 FILE ../Resources/Textures/Levels/loading_icon.tga
+ID 54
+FILE ../Resources/Textures/gate.tga
+ID 55
+FILE ../Resources/TexturesAnimation/enemybullet3.tga
 
 #Background: 26
 ID 0
@@ -267,16 +274,10 @@ FILE ../Resources/Tile/demon4.tga
 ID 0
 FILE ../Resources/Models/Sprite2D.nfg
 
-#Shaders: 2
+#Shaders: 1
 ID 0
 VS ../Resources/Shaders/ModelShaderVS.vs
 FS ../Resources/Shaders/ModelShaderFS.fs
-STATES 2
-GL_DEPTH_TEST 1
-GL_CULL_FACE 0
-ID 1
-VS ../Resources/Shaders/Sprite2DShaderVS.vs
-FS ../Resources/Shaders/Sprite2DShaderFS.fs
 STATES 2
 GL_DEPTH_TEST 1
 GL_CULL_FACE 0

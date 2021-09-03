@@ -7,7 +7,7 @@
 
 GLfloat Vector2::Length()
 {
-	return sqrt(x*x + y*y);
+	return sqrtf(x*x + y*y);
 }
 
 Vector2 & Vector2::Normalize()
@@ -101,7 +101,7 @@ GLfloat Vector2::Dot(Vector2 & vector)
 
 GLfloat Vector3::Length()
 {
-	return sqrt(x*x + y*y + z*z);
+	return sqrtf(x*x + y*y + z*z);
 }
 
 Vector3 & Vector3::Normalize()
@@ -205,7 +205,7 @@ Vector3 Vector3::Cross(Vector3 & vector)
 
 GLfloat Vector4::Length()
 {
-	return sqrt(x*x + y*y + z*z + w*w);
+	return sqrtf(x*x + y*y + z*z + w*w);
 }
 
 Vector4 & Vector4::Normalize()

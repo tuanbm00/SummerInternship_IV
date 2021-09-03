@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Terrain.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 
