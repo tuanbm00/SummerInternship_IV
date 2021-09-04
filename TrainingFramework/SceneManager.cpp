@@ -833,7 +833,7 @@ void SceneManager::BossAttack() {
 			float scale = (posBullet.y - posMainCharacter.y) / (posBullet.x - posMainCharacter.x);
 
 			if (m_boss->GetBullet()->GetID() == CATEGORY_FOLLOW_GUN) {
-				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame() / 3, m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
 			}
 			else if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
 				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*m_boss->GetBullet()->GetSpeedOfBullet().x / m_boss->GetNumOfBullet() * (i - int(m_boss->GetNumOfBullet() / 2)), m_boss->GetBullet()->GetMaxOfLength());
