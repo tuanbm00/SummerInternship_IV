@@ -4,7 +4,7 @@ FILE ../Resources/Animation/Idle.txt
 SPEED 0.1 -1
 ID 1
 FILE ../Resources/Animation/Run.txt
-SPEED 0.1 -1
+SPEED 0.08 -1
 ID 2
 FILE ../Resources/Animation/jump.txt
 SPEED 0.1 -1

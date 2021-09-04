@@ -129,6 +129,7 @@ void Enemy::SetBullet(Bullet* bullet) {
 void Enemy::SetBodyObject(b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
+	bodyDef.fixedRotation = true;
 	bodyDef.position.Set(m_Position.x + transPosBox.x, m_Position.y + transPosBox.y);
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;

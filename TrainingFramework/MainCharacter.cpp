@@ -69,14 +69,15 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
+	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 	b2Vec2 * vex = new b2Vec2[6];
 	vex[0] = b2Vec2(-w, -h);
 	vex[1] = b2Vec2(w, -h);
 	vex[2] = b2Vec2(w, h - 1);
-	vex[3] = b2Vec2(w - 10, h);
-	vex[4] = b2Vec2(-w + 10, h);
+	vex[3] = b2Vec2(w - 1, h);
+	vex[4] = b2Vec2(-w + 1, h);
 	vex[5] = b2Vec2(-w, h-1);
 	dynamicBox.Set(vex, 6);
 
@@ -90,6 +91,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	fixtureDef.friction = 0;
 	fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	m_body->CreateFixture(&fixtureDef);
+	
 }
 void MainCharacter::resetAnimation(int type) {
 	m_Model->getAnimation(type - 1)->resetAnimation();

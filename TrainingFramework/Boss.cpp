@@ -93,7 +93,6 @@ void Boss::SetLimit(float left, float right) {
 
 void Boss::UpdateDead(float deltaTime)
 {
-	printf("1\n");
 	bool revert = (m_direction == 1) ? false : true;
 	m_Model->updateDead(deltaTime, revert);
 }
@@ -149,6 +148,7 @@ void Boss::SetBodyObject(float positionX, float positionY, b2World* world) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(positionX, positionY);
+	bodyDef.fixedRotation = true;
 	m_body = world->CreateBody(&bodyDef);
 	b2PolygonShape dynamicBox;
 //	dynamicBox.SetAsBox(m_spriteW / 2, m_spriteH / 2);

@@ -67,7 +67,7 @@ void GameStateMachine::PushState(StateTypes stt, bool bIsVictory, int currentLev
 	std::shared_ptr<GameStateBase> state = GameStateBase::CreateState(stt, bIsVictory, currentLevel);
 	// pause current state
 	if (!m_StatesStack.empty()) {
-		if(currentLevel != 4) m_StatesStack.back()->Pause();
+		if(currentLevel != 4 || !bIsVictory) m_StatesStack.back()->Pause();
 		
 		m_pActiveState->CleanUp();
 		m_StatesStack.pop_back();

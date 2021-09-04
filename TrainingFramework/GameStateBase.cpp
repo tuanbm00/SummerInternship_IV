@@ -64,6 +64,9 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt, bool b
 	case GS_RESULT:
 		gs = std::make_shared<GSResult>(bIsVictory, currentLevel);
 		break;
+	case GS_ABOUTUS:
+		gs = std::make_shared<GSAboutUs>();
+		break;
 	default:
 		break;
 	}

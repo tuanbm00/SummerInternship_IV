@@ -721,7 +721,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 			bullet->setModel(enemy->GetBullet()->getModel());
 			bullet->setShader(enemy->GetBullet()->getShaders());
 			bullet->SetTexture(enemy->GetBullet()->getTexture());
-			bullet->SetPosition(posBullet);
+			bullet->SetPosition(posBullet.x, posBullet.y-100, 0);
 			bullet->SetScale(enemy->GetBullet()->GetScale());
 			bullet->SetRotation(enemy->GetBullet()->GetRotation());
 			bullet->InitWVP();
@@ -734,7 +734,7 @@ void SceneManager::EnemyAttack(Enemy* enemy) {
 	else if (enemy->GetBullet()->GetID() == CATEGORY_BAZOKA_ENEMY) {
 		for (int i = 0; i < 2; ++i) {
 			Bullet* bullet = new Bullet(enemy->GetBullet()->GetID());
-			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x / (i*0.2 + 1), enemy->GetBullet()->GetSpeedOfBullet().y / ((i + 1) * (i*0.2 + 1)), enemy->GetBullet()->GetMaxOfLength());
+			bullet->InitA(enemy->GetBullet()->GetAttackDame(), enemy->GetBullet()->GetAttackSpeed(), dir*enemy->GetBullet()->GetSpeedOfBullet().x / (i*0.2f + 1), enemy->GetBullet()->GetSpeedOfBullet().y / ((i + 1) * (i*0.2f + 1)), enemy->GetBullet()->GetMaxOfLength());
 
 			bullet->SetIsChange();
 			bullet->setModel(enemy->GetBullet()->getModel());
@@ -879,7 +879,7 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
 		bullet->InitA(hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 1), hellBullet->GetMaxOfLength());
-		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x * 3 + 2 * enemyWidth), posHellBullet.y, 0);
+		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x * 2 + 2 * enemyWidth), posHellBullet.y, 0);
 		bullet->setModel(hellBullet->getModel());
 		bullet->setShader(hellBullet->getShaders());
 		bullet->SetTexture(hellBullet->getTexture());
@@ -893,8 +893,8 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 		AddBullet(bullet);
 	}
 }
-float prev = 0, now = 0;
 void SceneManager::Update(float deltaTime) {
+	deltaTime = max(0.002f, deltaTime);
 	deltaTime = min(deltaTime, 0.25f);
 	++Camera::GetInstance()->m_iUpdateFase;
 	if (m_bChangeScreen) { //Check if Change Screen
@@ -909,7 +909,7 @@ void SceneManager::Update(float deltaTime) {
 		Singleton<GameplayUI>::GetInstance()->Update(deltaTime);
 		for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
 		int lop = static_cast<int> (deltaTime / 0.003f);
-		m_MainCharacter->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0, 20000), true);
+		m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(0, 2000));
 		for (int i = 0; i < lop; ++i) {
 			m_world->Step(0.07f, 6, 2);
 			m_MainCharacter->Update();
@@ -1053,6 +1053,7 @@ void SceneManager::Update(float deltaTime) {
 	m_timeChangeGun += deltaTime;
 	m_time_roll += deltaTime;
 	m_timeHurt += deltaTime;
+	if (is_in_ground && jumpstep <= 0) numJump = 0;
 	CheckMovement();
 
 	for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
@@ -1088,7 +1089,6 @@ void SceneManager::Update(float deltaTime) {
 
 	// set update
 	mainIcon->UpdateAnimation(deltaTime);
-	m_MainCharacter->getBody()->SetFixedRotation(true);
 	m_MainCharacter->UpdateAnimation(deltaTime);
 	
 	// set v
@@ -1114,40 +1114,57 @@ void SceneManager::Update(float deltaTime) {
 
 	int lop = static_cast<int> (deltaTime / 0.002f);
 
+	is_in_ground = false;
+
 	for(int ilop = 0;ilop < lop;++ilop){
 		m_world->Step(0.04f, 1, 1);
 		if (ilop < lop - 1) {
 			for (auto& bullet : m_listBulletInWorld) bullet->Update(deltaTime);
-		}
-		else {
 			m_MainCharacter->Update();
-			now = m_MainCharacter->GetPosition().y;
+				for (b2ContactEdge * edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+					b2Fixture * a = m_MainCharacter->getBody()->GetFixtureList();
+					b2Fixture * b = edge->other->GetFixtureList();
+					b2Vec2 normal = edge->contact->GetManifold()->localNormal;
 
-			// Main's collision
-			is_in_ground = false;
-			for (b2ContactEdge * edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
-				b2Fixture * a = m_MainCharacter->getBody()->GetFixtureList();
-				b2Fixture * b = edge->other->GetFixtureList();
+					// check terrain collision
+					if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+						if (fabs(normal.x) <= normal.y) is_in_ground = true;
+					}
 
-				// check terrain collision
-				if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-					if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
-						if (now == prev) {
-							is_in_ground = true;
+					else if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
+						if (fabs(normal.x) <= normal.y) is_in_ground = true;
+
+						if (a->GetFilterData().groupIndex == -1) {
+							b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
+							m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.7f, vel.y));
 						}
 					}
 				}
 
+		}
+		else {
+			m_MainCharacter->Update();
+
+			// Main's collision
+			for (b2ContactEdge * edge = m_MainCharacter->getBody()->GetContactList(); edge != NULL; edge = edge->next) {
+				b2Fixture * a = m_MainCharacter->getBody()->GetFixtureList();
+				b2Fixture * b = edge->other->GetFixtureList();
+				b2Vec2 normal = edge->contact->GetManifold()->localNormal;
+				
+
+				// check terrain collision
+				if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
+					if (fabs(normal.x) <= normal.y) is_in_ground = true;
+
+				}
+
 				else if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-					if (m_MainCharacter->getBody()->GetPosition().y < b->GetBody()->GetPosition().y) {
-						if (now == prev) {
-							is_in_ground = true;
-						}
+					if (fabs(normal.x) <= normal.y) is_in_ground = true;
+
 						if (a->GetFilterData().groupIndex == -1) {
 							b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
 							m_MainCharacter->getBody()->SetLinearVelocity(b2Vec2(vel.x * 0.5f, vel.y));
 						}
-					}
 				}
 				// end terrain
 
@@ -1175,12 +1192,14 @@ void SceneManager::Update(float deltaTime) {
 				// check enemy collision
 				else if (b->GetFilterData().categoryBits == CATEGORY_ENEMY) {
 					Enemy * enemy = reinterpret_cast<Enemy*> (b->GetUserData().pointer);
-					if (enemy->m_bIsAttack == 0) enemy->m_bIsAttack = enemy->m_direction;
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 1);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
-						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
+					if (enemy->m_bIsAttack == 0 && Camera::GetInstance()->is_wound == false) {
+						enemy->m_bIsAttack = enemy->m_direction;
+						if(enemy->GetBulletID() < 0) m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 50);
+						else m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 10);
+						
+							Camera::GetInstance()->is_wound = true;
+							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						
 					}
 				}
 				// end check enemy
@@ -1201,8 +1220,6 @@ void SceneManager::Update(float deltaTime) {
 				}
 				// end gate
 			}
-			prev = now;
-			if (is_in_ground) numJump = 0;
 			// end Main
 
 
@@ -1402,7 +1419,6 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
-	
 
 	if (m_currentLevel == 4){
 
@@ -1468,11 +1484,6 @@ void SceneManager::Update(float deltaTime) {
 	// victory
 	if (m_IsTowerDefend == true) {
 		if (m_TeleGate->getBody()->IsEnabled() == false) m_TeleGate->getBody()->SetEnabled(true);
-		if (m_currentLevel < 4) {
-			for (int i = 0; i < size_as_int(m_listEnemyInWorld); ++i) {
-				m_listEnemyInWorld[i]->getBody()->SetEnabled(false);
-			}
-		}
 	}
 	if (m_MainCharacter->isDie()) return;
 	for (int i = hlow; i < hhigh; ++i) {

@@ -14,7 +14,6 @@ GSLevel3::~GSLevel3() {
 }
 
 void GSLevel3::Init() {
-	Singleton<LoadingScreen>::GetInstance()->Init();
 
 	//Init SM
 	m_SM = new SceneManager(3);
