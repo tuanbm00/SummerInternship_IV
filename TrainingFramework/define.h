@@ -79,3 +79,4 @@
 #define GSRESULT 6
 #define GSOPTIONS 7
 #define GSABOUTUS 8
+#define GSFOURPEDIA 9

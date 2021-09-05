@@ -10,6 +10,7 @@
 #include "GSLoadLevel.h"
 #include "GSResult.h"
 #include "GSAboutUs.h"
+#include "Fourpedia.h"
 
 
 std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
@@ -48,6 +49,9 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 		break;
 	case GS_ABOUTUS:
 		gs = std::make_shared<GSAboutUs>();
+		break;
+	case GS_FOURPEDIA:
+		gs = std::make_shared<Fourpedia>();
 		break;
 	default:
 		break;

@@ -105,7 +105,7 @@ ID 34
 FILE ../Resources/Animation/bossdie.txt
 SPEED 0.3 -1
 
-#2D Textures: 56
+#2D Textures: 61
 ID 0
 FILE ../Resources/Textures/MainCharacterFinal.tga
 ID 1
@@ -218,6 +218,16 @@ ID 54
 FILE ../Resources/Textures/gate.tga
 ID 55
 FILE ../Resources/TexturesAnimation/enemybullet3.tga
+ID 56
+FILE ../Resources/Textures/Levels/fourpedia.tga
+ID 57
+FILE ../Resources/Textures/Buttons/button_fourpedia.tga
+ID 58
+FILE ../Resources/Textures/Levels/map_lv1.tga
+ID 59
+FILE ../Resources/Textures/Levels/map_lv2.tga
+ID 60
+FILE ../Resources/Textures/Levels/map_lv3.tga
 
 #Background: 26
 ID 0

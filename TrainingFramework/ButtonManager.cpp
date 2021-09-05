@@ -28,8 +28,6 @@ int ButtonManager::ReadFile(char* srcButton) {
 	if (numberOfButtons <= 0)
 		return false;
 
-	Models * pModel = ResourceManager::GetInstance()->GetModelAtID(0);
-
 	int id, shader, texture, W, H, active, comfirm;
 	float X, Y;
 	char type[20];
@@ -44,7 +42,7 @@ int ButtonManager::ReadFile(char* srcButton) {
 		fscanf_s(f_M, "FUNC %s\n", type, _countof(type));
 
 		auto button = std::make_shared<GameButton>(id++);
-		button->setModel(pModel);
+		button->setModel(ResourceManager::GetInstance()->GetModelAtID(0));
 		button->setShader(ResourceManager::GetInstance()->GetShaderAtID(shader));
 		button->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(texture));
 		button->Set2DPosition(X, Y);
@@ -98,6 +96,13 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 		button->SetOnClick([]() {
 			if (GameStateMachine::GetInstance()->HasInstance()) {
 					GameStateMachine::GetInstance()->PushState(StateTypes::GS_OPTIONS);
+			}
+		});
+	}
+	else if (strcmp(type, "FOURPEDIA") == 0) {
+		button->SetOnClick([]() {
+			if (GameStateMachine::GetInstance()->HasInstance()) {
+				GameStateMachine::GetInstance()->PushState(StateTypes::GS_FOURPEDIA);
 			}
 		});
 	}

@@ -10,7 +10,6 @@ GSOptions::GSOptions() {
 }
 
 GSOptions::~GSOptions() {
-
 }
 
 void GSOptions::Init() {
@@ -45,12 +44,22 @@ void GSOptions::Init() {
 	obj = std::make_shared<Sprite2D>(999);
 	obj->setModel(model);
 	obj->setShader(ResourceManager::GetInstance()->GetShaderAtID(0));
-	if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL4) {
+	if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL1) {
+		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(58)); // MAP LEVEL1
+	}
+	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL2) {
+		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(59)); // MAP LEVEL2
+	}
+	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL3) {
+		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(60)); // MAP LEVEL3
+	}
+	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL4) {
 		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(41)); // MAP LEVEL4
 	}
+
 	else obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(37));
-	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 - 100);
-	obj->SetSize(600, 500);
+	obj->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 - 150);
+	obj->SetSize(600, 350);
 	obj->CalculateWVP();
 	m_listSprite.push_back(obj);
 
@@ -90,15 +99,14 @@ void GSOptions::CleanUp() {
 		m_listSprite[i]->CleanUp();
 	}
 	m_BM->CleanUp();
+	ResourceManager::GetInstance()->StopAllSound();
 }
 
 void GSOptions::Resume() {
-	ResourceManager::GetInstance()->StopAllSound();
-	ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/TKKHT2.mp3", true);
+
 }
 
 void GSOptions::Pause() {
-	ResourceManager::GetInstance()->StopAllSound();
 }
 
 

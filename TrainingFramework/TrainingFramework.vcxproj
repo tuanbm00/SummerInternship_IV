@@ -111,6 +111,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ComfirmBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Fourpedia.cpp" />
     <ClCompile Include="GameButton.cpp" />
     <ClCompile Include="GameplayUI.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ComfirmBox.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Fourpedia.h" />
     <ClInclude Include="GameButton.h" />
     <ClInclude Include="GameplayUI.h" />
     <ClInclude Include="GameStateBase.h" />
