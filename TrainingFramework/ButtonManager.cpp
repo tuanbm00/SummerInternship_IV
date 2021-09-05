@@ -279,20 +279,24 @@ void ButtonManager::AddFunction(char* type, std::shared_ptr<GameButton> button) 
 
 void ButtonManager::OnMouseButtonUp(int X, int Y, char Button)
 {
-	switch (Button) {
-	case LMB:
-	{
-		for (register int i = 0; i < size_as_int(m_listButton); ++i) {
-			m_listButton[i]->OnMouseButtonUp(X, Y);
+	if (Singleton<ComfirmBox>::GetInstance()->GetActive()) {
+		Singleton<ComfirmBox>::GetInstance()->OnMouseButtonUp(X, Y, Button);
+	}
+	else {
+		switch (Button) {
+		case LMB:
+		{
+			for (register int i = 0; i < size_as_int(m_listButton); ++i) {
+				m_listButton[i]->OnMouseButtonUp(X, Y);
+			}
+		}
+		break;
+		case RMB:
+		{
+		}
+		break;
 		}
 	}
-	break;
-	case RMB:
-	{
-	}
-	break;
-	}
-	Singleton<ComfirmBox>::GetInstance()->OnMouseButtonUp(X, Y, Button);
 }
 
 void ButtonManager::SetCurrentLevel(int currentLevel)

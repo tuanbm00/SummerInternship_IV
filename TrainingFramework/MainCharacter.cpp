@@ -80,6 +80,7 @@ void MainCharacter::SetBodyObject(float positionX, float positionY, b2World* wor
 	vex[4] = b2Vec2(-w + 1, h);
 	vex[5] = b2Vec2(-w, h-1);
 	dynamicBox.Set(vex, 6);
+	delete[] vex;
 
 	b2FixtureDef fixtureDef;
 	float area = m_spriteW * m_spriteH * 4.0f;

@@ -42,7 +42,6 @@ void SceneManager::SetFileManager(char* fileSM, char* fileMAP) {
 	m_shoot = 0.0f;
 	m_time = 50.0f;
 	m_timeChangeGun = 50.0f;
-	m_timeHurt = 0.5f;
 	keyPressed = 0;
 	m_time_roll = 0;
 	is_roll = false;
@@ -363,12 +362,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 	Camera::GetInstance()->setLimitX(-WIDTH*col/2, WIDTH*(col/2-1));
 	Camera::GetInstance()->setLimitY(-WIDTH * row / 2, WIDTH*(row / 2 - 1));
 	for (int i = 0; i < row; ++i) {
-		std::vector<int> line;
-		std::vector<int> isLine;
 		std::vector<Terrain*> lineMap;
 		for (int j = 0; j < col; ++j) {
 			fscanf_s(f_MAP, "%d ", &xi);
-			line.push_back(xi);
 			Terrain* terrain = NULL;
 			if (xi >= 0) {
 				terrain = new Terrain(xi);
@@ -383,12 +379,9 @@ void SceneManager::ReadMap(FILE *f_MAP) {
 				Vector2 origin = Vector2(-WIDTH *(j - col / 2), -WIDTH*(i - row / 2));
 				groundTest->addVertex(Omap[xi].x, Omap[xi].y, Omap[xi].z, Omap[xi].w, tw, th, origin);
 			}
-			isLine.push_back(0);
 			lineMap.push_back(terrain);
 		}
 		fscanf_s(f_MAP, "\n");
-		isInit.push_back(isLine);
-		map.push_back(line);
 		m_listTerrain.push_back(lineMap);
 	}
 	delete[] Omap;
@@ -857,6 +850,17 @@ void SceneManager::BossAttack() {
 	}
 }
 
+bool SceneManager::PreCalcGround(b2Vec2 vs)
+{
+	b2Vec2 pos = m_MainCharacter->getBody()->GetPosition();
+	Vector2 box = m_MainCharacter->GetBox();
+	float w = box.x / 2.5f, h = box.y / 2.0f;
+	
+		if (fabs(h + 100 - vs.y + pos.y) <= 1) return true;
+	
+	return false;
+}
+
 void SceneManager::ChangeGun(bool isEmptyBullet) {
 	m_time = 0;
 	Bullet *bullet = m_ListGunOfPlayer[0];
@@ -878,8 +882,8 @@ void SceneManager::SetStateHellGun(Bullet* hellBullet, float enemyWidth) {
 	for (int i = 0; i < 3; ++i) {
 		b2Vec2 posHellBullet = hellBullet->getBody()->GetPosition();
 		Bullet* bullet = new Bullet(hellBullet->GetID());
-		bullet->InitA(hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 2 * (i - 1), hellBullet->GetMaxOfLength());
-		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x * 2 + 2 * enemyWidth), posHellBullet.y, 0);
+		bullet->InitA(hellBullet->GetAttackDame(), hellBullet->GetAttackSpeed(), hellBullet->GetSpeedOfBullet().x, hellBullet->GetSpeedOfBullet().x / 3 * (i - 1), hellBullet->GetMaxOfLength());
+		Vector3 posBullet = Vector3(posHellBullet.x + v * (hellBullet->GetBox().x + 2 * enemyWidth), posHellBullet.y, 0);
 		bullet->setModel(hellBullet->getModel());
 		bullet->setShader(hellBullet->getShaders());
 		bullet->SetTexture(hellBullet->getTexture());
@@ -1052,7 +1056,6 @@ void SceneManager::Update(float deltaTime) {
 	m_time += deltaTime;
 	m_timeChangeGun += deltaTime;
 	m_time_roll += deltaTime;
-	m_timeHurt += deltaTime;
 	if (is_in_ground && jumpstep <= 0) numJump = 0;
 	CheckMovement();
 
@@ -1114,7 +1117,8 @@ void SceneManager::Update(float deltaTime) {
 
 	int lop = static_cast<int> (deltaTime / 0.002f);
 
-	is_in_ground = false;
+	is_in_ground = PreCalcGround(m_GroundPre);
+	bool is_terrain_collide = false;
 
 	for(int ilop = 0;ilop < lop;++ilop){
 		m_world->Step(0.04f, 1, 1);
@@ -1128,11 +1132,19 @@ void SceneManager::Update(float deltaTime) {
 
 					// check terrain collision
 					if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-						if (fabs(normal.x) <= normal.y) is_in_ground = true;
+						if (fabs(normal.x) <= normal.y && is_terrain_collide == false) {
+							is_in_ground = true;
+							is_terrain_collide = true;
+							m_GroundPre = b->GetBody()->GetPosition();
+						}
 					}
 
 					else if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-						if (fabs(normal.x) <= normal.y) is_in_ground = true;
+						if (fabs(normal.x) <= normal.y && is_terrain_collide == false) {
+							is_in_ground = true;
+							is_terrain_collide = true;
+							m_GroundPre = b->GetBody()->GetPosition();
+						}
 
 						if (a->GetFilterData().groupIndex == -1) {
 							b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
@@ -1154,12 +1166,20 @@ void SceneManager::Update(float deltaTime) {
 
 				// check terrain collision
 				if (b->GetFilterData().categoryBits == CATEGORY_TERRAIN) {
-					if (fabs(normal.x) <= normal.y) is_in_ground = true;
+					if (fabs(normal.x) <= normal.y && is_terrain_collide == false) {
+						is_in_ground = true;
+						is_terrain_collide = true;
+						m_GroundPre = b->GetBody()->GetPosition();
+					}
 
 				}
 
 				else if (b->GetFilterData().categoryBits == CATEGORY_SLOW_TRAP) {
-					if (fabs(normal.x) <= normal.y) is_in_ground = true;
+					if (fabs(normal.x) <= normal.y && is_terrain_collide == false) {
+						is_in_ground = true;
+						is_terrain_collide = true;
+						m_GroundPre = b->GetBody()->GetPosition();
+					}
 
 						if (a->GetFilterData().groupIndex == -1) {
 							b2Vec2 vel = m_MainCharacter->getBody()->GetLinearVelocity();
@@ -1181,11 +1201,10 @@ void SceneManager::Update(float deltaTime) {
 
 				// check boss collision
 				else if (b->GetFilterData().categoryBits == CATEGORY_BOSS) {
-					m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
-					Camera::GetInstance()->is_wound = true;
-					if (m_timeHurt >= 0.5) {
+					if (Camera::GetInstance()->is_wound == false) {
+						m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 100);
+						Camera::GetInstance()->is_wound = true;
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
-						m_timeHurt = 0;
 					}
 				} // end check boss
 
@@ -1197,8 +1216,8 @@ void SceneManager::Update(float deltaTime) {
 						if(enemy->GetBulletID() < 0) m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 50);
 						else m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 10);
 						
-							Camera::GetInstance()->is_wound = true;
-							ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
+						Camera::GetInstance()->is_wound = true;
+						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
 						
 					}
 				}
@@ -1419,6 +1438,8 @@ void SceneManager::Update(float deltaTime) {
 		}
 	}
 
+	if (!is_terrain_collide) is_in_ground = false;
+	
 
 	if (m_currentLevel == 4){
 

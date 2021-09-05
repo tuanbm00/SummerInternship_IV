@@ -26,10 +26,8 @@ private:
 	Ground * m_Decor;
 	std::vector<std::vector<Terrain*>> m_listTerrain;
 	std::vector<Object*> m_ListBackground;
-	std::vector<std::vector<int>> map;
 	std::map<std::pair<int, int>, int> mapEnemy;
 	std::map<std::pair<int, int>, std::pair<int, int>> mapLimit;
-	std::vector<std::vector<int>> isInit;
 	MainCharacter* m_MainCharacter;
 	Boss* m_boss;
 	std::vector<Bullet*> m_ListGunOfPlayer;
@@ -43,6 +41,7 @@ private:
 	Object * m_TeleGate;
 	std::vector<Object *> m_ObjectDump;
 	std::vector<Model*> m_ModelDump;
+	b2Vec2 m_GroundPre;
 
 	b2Filter filterMain, filterRoll;
 	b2Filter filterBoomerang1, filterBoomerang2;
@@ -54,7 +53,6 @@ private:
 	float m_time;
 	float m_timeChangeGun;
 	float m_time_roll;
-	float m_timeHurt;
 	float m_boomerang;
 	float offsetVelo;
 	bool is_roll;
@@ -102,6 +100,7 @@ public:
 	void SetStateHellGun(Bullet* hellBullet, float enemyWidth);
 	void EnemyAttack(Enemy* enemy);
 	void BossAttack();
+	bool PreCalcGround(b2Vec2 vs);
 
 	void CleanUp();
 	void ReadFile(FILE* f_SM);
