@@ -180,6 +180,7 @@
     <ClInclude Include="Models.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shaders.h" />
@@ -248,6 +249,7 @@
     <Image Include="..\Resources\Textures\Witch.tga" />
     <Image Include="..\Resources\Textures\Woman1.tga" />
     <Image Include="..\Resources\Textures\Woman2.tga" />
+    <Image Include="C:\Users\koGs\Downloads\mainicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\Resources\Sounds\area_clear.mp3" />
@@ -281,6 +283,9 @@
     <Text Include="..\Resources\Managers\SM2.txt" />
     <Text Include="..\Resources\Managers\SM3.txt" />
     <Text Include="..\Resources\Managers\SM4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Four.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

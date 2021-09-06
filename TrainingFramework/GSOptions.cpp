@@ -47,12 +47,12 @@ void GSOptions::Init() {
 	if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL1) {
 		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(58)); // MAP LEVEL1
 	}
-	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL2) {
-		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(59)); // MAP LEVEL2
-	}
-	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL3) {
-		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(60)); // MAP LEVEL3
-	}
+	//else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL2) {
+	//	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(59)); // MAP LEVEL2
+	//}
+	//else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL3) {
+	//	obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(60)); // MAP LEVEL3
+	//}
 	else if (GameStateMachine::GetInstance()->CurrentState()->GetCurrentState() == GSLEVEL4) {
 		obj->SetTexture(ResourceManager::GetInstance()->GetTextureAtID(41)); // MAP LEVEL4
 	}
