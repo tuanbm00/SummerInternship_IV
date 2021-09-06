@@ -163,16 +163,17 @@ GLboolean WinCreate ( ESContext *esContext, const char *title )
    HINSTANCE hInstance = GetModuleHandle(NULL);
 
 
-   wndclass.style         = CS_OWNDC;
+   wndclass.style         = CS_SAVEBITS | CS_NOCLOSE;
    wndclass.lpfnWndProc   = (WNDPROC)ESWindowProc; 
    wndclass.hInstance     = hInstance; 
-   wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); 
+   wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
    wndclass.lpszClassName = "opengles2.0"; 
+   wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 
    if (!RegisterClass (&wndclass) ) 
       return FALSE; 
 
-   wStyle = WS_VISIBLE | WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION;
+   wStyle = WS_VISIBLE | WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION ;
    
    // Adjust the window rectangle so that the client area has
    // the correct number of pixels
@@ -187,8 +188,8 @@ GLboolean WinCreate ( ESContext *esContext, const char *title )
                          "opengles2.0",
                          title,
                          wStyle,
-                         0,
-                         0,
+                         200,
+                         20,
                          windowRect.right - windowRect.left,
                          windowRect.bottom - windowRect.top,
                          NULL,
@@ -203,7 +204,7 @@ GLboolean WinCreate ( ESContext *esContext, const char *title )
    if ( esContext->hWnd == NULL )
       return GL_FALSE;
 
-   ShowWindow(GetConsoleWindow(), SW_RESTORE);
+   ShowWindow(GetConsoleWindow(), SW_HIDE);
 
    return GL_TRUE;
 }

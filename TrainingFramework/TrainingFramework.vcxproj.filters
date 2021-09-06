@@ -49,6 +49,24 @@
     <Filter Include="Resources\Icon">
       <UniqueIdentifier>{b89a603e-63b8-48b7-b0f1-f22bc4cb8412}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Textures\Levels">
+      <UniqueIdentifier>{bce5cb8f-afdb-4567-8789-5b9c26762dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures\Buttons">
+      <UniqueIdentifier>{81197309-0f58-4c8c-9422-fbe6275277c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Map">
+      <UniqueIdentifier>{36bfcf19-4910-4547-ab36-cc365d44ed91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Tile">
+      <UniqueIdentifier>{3fdd9929-7fe2-4305-8ef2-f3bb18de6a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\TexturesAnimation">
+      <UniqueIdentifier>{e5622361-1e06-4d1f-aede-2f45e8d6939c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Fonts">
+      <UniqueIdentifier>{b5387d08-b7e1-49cd-abc9-558960905001}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TrainingFramework.cpp">
@@ -311,70 +329,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Readme.doc" />
-    <None Include="..\Resources\Textures\heightmap.raw">
-      <Filter>Resources\Textures</Filter>
-    </None>
-    <None Include="..\Resources\Models\Bila.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\bus.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Croco.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\cube.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\fire.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Goliath.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\House.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Marine.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Radar.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\SCV.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\SkyBox.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Teran_Command_Center.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Terrain.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\train.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\witch.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Woman1.nfg">
-      <Filter>Resources\Models</Filter>
-    </None>
-    <None Include="..\Resources\Models\Woman2.nfg">
+    <None Include="..\Resources\Models\Sprite2D.nfg">
       <Filter>Resources\Models</Filter>
     </None>
     <None Include="..\Resources\Shaders\ModelShaderFS.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\ModelShaderVS.vs">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Sprite2DShaderFS.fs">
-      <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Sprite2DShaderVS.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\TextShaderFS.fs">
@@ -385,84 +346,544 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Resources\Textures\Bus.tga">
+    <Image Include="..\Resources\Textures\mainicon.ico">
+      <Filter>Win32Res</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\Background.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_audio_off.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_audio_on.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_back.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_continue.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_continue2.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_exit.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_fourpedia.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_info.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_menu.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_menu2.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_newgame.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_ok.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_options.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_options2.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_play.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_quit.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_reset.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_retry.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_X.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\button_X2.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\frame_BG.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\frame_failed.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Buttons\frame_victory.tga">
+      <Filter>Resources\Textures\Buttons</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\1.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\2.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\3.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\4.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\fourpedia.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\Frame.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\loading_icon.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\loading_screen.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\map_lv1.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\map_lv3.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\Levels\map_lv4.tga">
+      <Filter>Resources\Textures\Levels</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\boss.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Croco.tga">
+    <Image Include="..\Resources\Textures\bossicon.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Dirt.tga">
+    <Image Include="..\Resources\Textures\enemy1.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\DisplacementMap.tga">
+    <Image Include="..\Resources\Textures\enemy2.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\envMap.tga">
+    <Image Include="..\Resources\Textures\enemy3.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\fire_mask.tga">
+    <Image Include="..\Resources\Textures\enemy4.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\fire3.tga">
+    <Image Include="..\Resources\Textures\gate.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Golitah.tga">
+    <Image Include="..\Resources\Textures\key_mapping.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Grass.tga">
+    <Image Include="..\Resources\Textures\logo.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\heightmap.tga">
+    <Image Include="..\Resources\Textures\logo_game.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\House.tga">
+    <Image Include="..\Resources\Textures\logo_game2.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Marine.tga">
+    <Image Include="..\Resources\Textures\logo_game3.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\NormalMap.tga">
+    <Image Include="..\Resources\Textures\logo2.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\radar.tga">
+    <Image Include="..\Resources\Textures\logo3.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Rock.tga">
+    <Image Include="..\Resources\Textures\logo4.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\SCV.tga">
+    <Image Include="..\Resources\Textures\logont.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Terrain_blendmap_1.tga">
+    <Image Include="..\Resources\Textures\MainCharacterFinal.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Terrain_blendmap_2.tga">
+    <Image Include="..\Resources\Textures\mainicon.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Train.tga">
+    <Image Include="..\Resources\Textures\red.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Witch.tga">
+    <Image Include="..\Resources\Textures\Turret.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Woman1.tga">
+    <Image Include="..\Resources\Textures\white.tga">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="..\Resources\Textures\Woman2.tga">
-      <Filter>Resources\Textures</Filter>
+    <Image Include="..\Resources\Map\mapDecor1.tga">
+      <Filter>Resources\Map</Filter>
     </Image>
-    <Image Include="C:\Users\koGs\Downloads\mainicon.ico">
-      <Filter>Resources\Icon</Filter>
+    <Image Include="..\Resources\Map\mapDecor2.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapDecor3.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapDecor4.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapT1.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapT2.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapT3.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapT4.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Map\mapT6.tga">
+      <Filter>Resources\Map</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\background.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\background2.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg1.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg2.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg3.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg4.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg5.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg6.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg7.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\bg8.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn1.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn2.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn3.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn4.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn5.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn6.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\dawn7.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\demon1.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\demon2.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\demon3.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\demon4.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest1.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest2.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest3.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest4.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest5.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest6.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest7.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\Tile\forest8.tga">
+      <Filter>Resources\Tile</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\bazokabullet.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\bazokabullet2.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\defendbullet.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\defendbullet2.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\defendbullet3.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\enemybullet.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\enemybullet2.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\enemybullet3.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\hellgunbullet.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\hellgunbullet2.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\shortgunbullet.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\TexturesAnimation\shortgunbullet2.tga">
+      <Filter>Resources\TexturesAnimation</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\Resources\Sounds\area_clear.mp3">
+    <Text Include="..\Resources\Animation\background.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\bazoka.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\boss.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\bossdie.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\dead.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\defend.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy1Die.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy1Fire.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy1Walk.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy2Die.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy2Fire.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy2Walk.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy3Die.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy3Fire.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy3Walk.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy4Die.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy4Fire.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemy4Walk.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemybullet.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\enemybullet2.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\fall.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\gate.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Gun0.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Gun1.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Gun2.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Gun3.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\hellgun1.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\hellgun2.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Idle.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\jump.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\mainicon.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Run.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\RunJump.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\shortgun.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\turret.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Animation\Wounded.txt">
+      <Filter>Resources\Animation</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_AboutUs.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_Gameplay.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_LoadLevel.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_MainMenu.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_Options.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\BM_Result.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\RM.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM1.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM2.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM3.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Managers\SM4.txt">
+      <Filter>Resources\Managers</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\bossmap.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\decor1.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\decor2.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\decor3.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\decor4.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\map.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\maplv1.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\maplv2.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\maplv3.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\maplv4.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\tilemap.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\tilemap1.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\tilemap2.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Map\tilemap3.txt">
+      <Filter>Resources\Map</Filter>
+    </Text>
+    <Text Include="..\Resources\Tile\tile.txt">
+      <Filter>Resources\Tile</Filter>
+    </Text>
+    <Text Include="..\Resources\Tile\titlemap1.txt">
+      <Filter>Resources\Tile</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Four.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\Sounds\FutariNoKimochi.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\base_explosion.mp3">
+    <Media Include="..\Resources\Sounds\enemy_shot.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\bg_MainMenu_Sound.wav">
+    <Media Include="..\Resources\Sounds\fatima.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\bazooka.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\bazooka2.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\bazooka3.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\bg_LoadLevel_Sound.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
     <Media Include="..\Resources\Sounds\bg_Play_Sound.wav">
@@ -474,81 +895,112 @@
     <Media Include="..\Resources\Sounds\bg_PlayAgain_Sound.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\boss_Start.wav">
+    <Media Include="..\Resources\Sounds\bigdragon.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\bullet_Impact.wav">
+    <Media Include="..\Resources\Sounds\boomerang.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\bullet_Impact_main.wav">
+    <Media Include="..\Resources\Sounds\boss.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\enemy_shot.mp3">
+    <Media Include="..\Resources\Sounds\bossdead.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\explosion.wav">
+    <Media Include="..\Resources\Sounds\Bye.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\game_over.wav">
+    <Media Include="..\Resources\Sounds\hasaki.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\laser.mp3">
+    <Media Include="..\Resources\Sounds\hasaki1.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\laser2.mp3">
+    <Media Include="..\Resources\Sounds\hasaki2.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
-    <Media Include="..\Resources\Sounds\shoot.wav">
+    <Media Include="..\Resources\Sounds\hell.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\hellgun.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\hurt.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\hurt2.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\jump.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\jump.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\jump2.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\laser.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\lose.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\LoveIsBeautifulPain.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\medusa.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\moster.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\NextToYou.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\pistol.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\pistol2.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\smalldragon.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\SotsugyouMemories.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\titan.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\TKKHT2.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\TKKHT4.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\TKKHT7.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\TKKHT7.wav">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
+    <Media Include="..\Resources\Sounds\tower.wav">
       <Filter>Resources\Sounds</Filter>
     </Media>
     <Media Include="..\Resources\Sounds\victory.mp3">
       <Filter>Resources\Sounds</Filter>
     </Media>
+    <Media Include="..\Resources\Sounds\WindyHill.mp3">
+      <Filter>Resources\Sounds</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\Resources\Managers\RM.txt">
-      <Filter>Resources\Managers</Filter>
-    </Text>
-    <Text Include="..\Resources\Managers\SM1.txt">
-      <Filter>Resources\Managers</Filter>
-    </Text>
-    <Text Include="..\Resources\Managers\SM2.txt">
-      <Filter>Resources\Managers</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\bazoka.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\Idle.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\jump.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\miku.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\RunBW.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\RunFW.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\shot2.txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Animation\sprites (2).txt">
-      <Filter>Resources\Animation</Filter>
-    </Text>
-    <Text Include="..\Resources\Managers\SM3.txt">
-      <Filter>Resources\Managers</Filter>
-    </Text>
-    <Text Include="..\Resources\Managers\SM4.txt">
-      <Filter>Resources\Managers</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Four.rc">
-      <Filter>Resources</Filter>
-    </ResourceCompile>
+    <Font Include="..\Resources\Fonts\arial.ttf">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
+    <Font Include="..\Resources\Fonts\COMIC.TTF">
+      <Filter>Resources\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>
