@@ -1,4 +1,3 @@
-c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gsloadlevel.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gslevel4.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gslevel3.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gslevel2.obj
@@ -10,6 +9,7 @@ c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\ga
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gamestatebase.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gameplayui.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gamebutton.obj
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\fourpedia.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\enemy.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\comfirmbox.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\camera.obj
@@ -37,9 +37,11 @@ c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\he
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gsresult.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gsoptions.obj
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gsmainmenu.obj
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\gsloadlevel.obj
 c:\users\toais\documents\github\summerinternship_iv\bin-release\four.ipdb
 c:\users\toais\documents\github\summerinternship_iv\bin-release\four.iobj
 c:\users\toais\documents\github\summerinternship_iv\bin-release\four.exe
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.res
 c:\users\toais\documents\github\summerinternship_iv\\bin-release\four.exe
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\cl.command.1.tlog
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\cl.read.1.tlog
@@ -48,3 +50,6 @@ c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\fo
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\link.command.1.tlog
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\link.read.1.tlog
 c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\link.write.1.tlog
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\rc.command.1.tlog
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\rc.read.1.tlog
+c:\users\toais\documents\github\summerinternship_iv\trainingframework\release\four.tlog\rc.write.1.tlog
