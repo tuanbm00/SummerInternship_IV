@@ -346,9 +346,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Resources\Textures\mainicon.ico">
-      <Filter>Win32Res</Filter>
-    </Image>
     <Image Include="..\Resources\Textures\Buttons\Background.tga">
       <Filter>Resources\Textures\Buttons</Filter>
     </Image>
@@ -666,6 +663,9 @@
     </Image>
     <Image Include="..\Resources\TexturesAnimation\shortgunbullet2.tga">
       <Filter>Resources\TexturesAnimation</Filter>
+    </Image>
+    <Image Include="..\Resources\Textures\mainicon.ico">
+      <Filter>Resources\Icon</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
