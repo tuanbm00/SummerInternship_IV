@@ -638,10 +638,10 @@ void SceneManager::CleanUp() {
 void SceneManager::Shoot() {
 	// set bullet
 	int bulletID = 0;
-	m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 4);
 	b2Vec2 posMainCharacter = m_MainCharacter->getBody()->GetPosition();
 	Bullet* bullet = new Bullet(m_ListGunOfPlayer[0]->GetID());
 	float dame = m_ListGunOfPlayer[0]->GetAttackDame();
+	m_MainCharacter->SetHP(m_MainCharacter->GetHP() - dame/25);
 	if (m_ListGunOfPlayer[0]->GetNumberOfBullet() == 1) {
 		dame *= 2;
 		bulletID = 1;
@@ -829,10 +829,10 @@ void SceneManager::BossAttack() {
 				bullet->InitA(m_boss->GetBullet()->GetAttackDame() / 3, m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*scale*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetMaxOfLength());
 			}
 			else if (m_boss->GetBullet()->GetID() == CATEGORY_RADIATE_GUN) {
-				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*m_boss->GetBullet()->GetSpeedOfBullet().x / m_boss->GetNumOfBullet() * (i - int(m_boss->GetNumOfBullet() / 2)), m_boss->GetBullet()->GetMaxOfLength());
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame() / 3, m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, dir*m_boss->GetBullet()->GetSpeedOfBullet().x / m_boss->GetNumOfBullet() * (i - int(m_boss->GetNumOfBullet() / 2)), m_boss->GetBullet()->GetMaxOfLength());
 			}
 			else {
-				bullet->InitA(m_boss->GetBullet()->GetAttackDame(), m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetSpeedOfBullet().y, m_boss->GetBullet()->GetMaxOfLength());
+				bullet->InitA(m_boss->GetBullet()->GetAttackDame() / 3, m_boss->GetBullet()->GetAttackSpeed(), dir*m_boss->GetBullet()->GetSpeedOfBullet().x, m_boss->GetBullet()->GetSpeedOfBullet().y, m_boss->GetBullet()->GetMaxOfLength());
 			}
 			bullet->SetIsChange();
 			bullet->setModel(m_boss->GetBullet()->getModel());
@@ -1213,8 +1213,8 @@ void SceneManager::Update(float deltaTime) {
 					Enemy * enemy = reinterpret_cast<Enemy*> (b->GetUserData().pointer);
 					if (enemy->m_bIsAttack == 0 && Camera::GetInstance()->is_wound == false) {
 						enemy->m_bIsAttack = enemy->m_direction;
-						if(enemy->GetBulletID() < 0) m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 50);
-						else m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 10);
+						if(enemy->GetBulletID() < 0) m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 50*m_currentLevel);
+						else m_MainCharacter->SetHP(m_MainCharacter->GetHP() - 10*m_currentLevel);
 						
 						Camera::GetInstance()->is_wound = true;
 						ResourceManager::GetInstance()->PlaySound("../Resources/Sounds/hurt2.wav", false);
@@ -1250,7 +1250,7 @@ void SceneManager::Update(float deltaTime) {
 					b2Fixture * a = m_boss->getBody()->GetFixtureList();
 					b2Fixture * b = edge->other->GetFixtureList();
 					if (b->GetFilterData().categoryBits == CATEGORY_BULLET_PLAYER) {
-						m_boss->SetHP(m_boss->GetHP() - b->GetDensity());
+						m_boss->SetHP(m_boss->GetHP() - b->GetDensity()*4);
 						Bullet * bullet = reinterpret_cast<Bullet *> (b->GetUserData().pointer);
 						if (bullet->GetID() == CATEGORY_HELL_GUN) {
 							if (bullet->IsChange()) {
